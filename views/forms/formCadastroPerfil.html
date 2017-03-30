@@ -1,0 +1,293 @@
+<script src="controllers/controller.formCadastroPerfil.js"></script>    
+<!-- widget grid -->
+<section ng-controller='formCadastroPerfil' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cadastro de Atividade</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroAtividade-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-4">
+										<label class="label"><strong>Nome da atividade</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" type="text" placeholder="Nome da nova atividade" ng-model="perfil.nome"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe o nome da atividade">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome da nova atividade</b> 
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" type="text" placeholder="Descreva a atividade" ng-model="perfil.descricao"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe a descrição">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descreva a atividade</b> 
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>URL</strong></label>
+										<div class="form-control form-control-wrapper">
+										<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="url" id="url" type="text" placeholder="Caminho da atividade" 
+											ng-model="perfil.url">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Caminho da atividade</b> 
+										</div>
+									</section>
+
+								</div>
+
+								<div class="row">											
+									
+									
+									<section class="col col-3">
+										<label class="label"><strong>Tipo de Entidade</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" name="tipo" id="tipo" ng-model="perfil.id_tipo_entidade"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe o tipo de entidade">
+												<option value="" selected>Selecione</option>
+												<option value="{{entidade.id}}" data-ng-repeat="entidade in tipoentidade">{{entidade.descricao}}</option>	
+											</select> <i></i> 
+										</div>
+									</section>	
+
+									<section class="col col-3">
+										<label class="label"><strong>Atividade Principal</strong></label>
+										<label class="select">
+											<select class="form-control" name="parente" id="parente" ng-model="perfil.id_atividade_parent">
+												<option value="" selected>Selecione</option>
+												<option value="{{atividade.id}}" data-ng-repeat="atividade in atividades | filter:{id_atividade_parent: '!'}">{{atividade.nome}}</option>	
+											</select> <i></i> 
+										</label>
+									</section>	
+
+									<section class="col col-2">
+										<label class="label"><strong>Exibir no Menu</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="show_menu" checked="true" value="1" ng-model="perfil.show_menu">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="show_menu" value="0" ng-model="perfil.show_menu">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>	
+
+									<section class="col col-3">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="perfil.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="perfil.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarAtividade(perfil)" id="SalvarAtividade">
+									Salvar
+								</button>
+							</footer>
+						
+						</form>
+											
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-6 col-md-6 col-lg-6">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Perfil</h2> 
+
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<section>
+							<div name="id_papel" id="id_papel" ng-model="perfil.id_papel" style="height: 250px; overflow: auto;" class="custom-scroll">
+								<div style="overflow: hidden;">								
+									<ul class="list-group">
+										<div class="list-group-item open" data-ng-repeat="papel in papel | filter: {id_tipo_entidade: entidadeLogada}">
+											{{papel.nome}}
+											<ul class="list-group-submenu-button">
+												<li>												
+													<button ng-click="getTreeAtividade(papel.id_perfil)" class="btnmd btnmd-warning fa fa-check btnmd-sm"></button>
+													<button ng-click="modalAlterarPerfil(papel.id_perfil, papel.nome, papel.descricao)" class="btnmd btnmd-primary fa fa-edit btnmd-sm"></button>
+													<button ng-click="modalExcluirPerfil($index, papel.nome, papel.id_perfil)" class="btnmd btnmd-danger  fa fa-trash-o btnmd-sm"></button>
+												</li>
+											</ul>
+										</div>
+									</ul>									
+								</div>							
+							</div> 
+							<div class="smart-form">
+								<footer>
+									<button class="btnmd btnmd-success pull-right" ng-click="modalNovoPerfil()" id="smart-mod-eg5">
+										Novo
+									</button>
+								</footer>
+							</div>
+
+						</section>
+
+					</div>
+					<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- END COL -->
+			<article class="col-sm-6 col-md-6 col-lg-6">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Atividades</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<section class="custom-scroll" style="max-height: 315px; overflow-y: auto;">
+							<div
+							    data-angular-treeview="false"
+							    data-tree-id="perfil"
+							    data-tree-model="treeAtividade"
+							    data-node-id= "id_modulo"
+							    data-node-permissao= "permissao"
+							    data-node-label="nome"
+							    data-node-children="children">
+							</div>
+						</section>
+					</div>
+					<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- END COL -->
+
+		</div>
+		<!-- END ROW -->
+
+<!-- Modal -->
+	<div class="modal fade" id="myModalPerfil">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Perfil</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroPerfil-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+					   	   <label class="label"><strong>Nome</strong></label>
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  placeholder="Informe o nome"
+			                 			ng-model="addPerfil.nome"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a nome do perfil"><div class="floating-label"></div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Perfil</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 
+		              <section>
+						<label class="label"><strong>Descrição</strong></label>
+						<div class="form-control-wrapper">
+							<textarea rows="5" class="form-control" ng-model="addPerfil.descricao"></textarea>
+							<span class="material-input"></span>
+						</div>
+					  </section>			
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="cadastrarPerfil('','', '', '')">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+		/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

@@ -1,0 +1,900 @@
+<script src="controllers/controller.formCadastroFinanceiroAluno.js"></script>
+<style type="text/css">
+/*
+	.picker__table{
+		display: none;
+	}
+	.picker__day-display{
+		display: none;
+	}
+	.picker__close{
+		display: none;
+	}
+	.picker__footer{
+		text-align: center;
+	}
+*/
+	.state-error
+	{
+		display: block;
+    	margin-top: 6px;
+    	padding: 0 1px;
+    	font-style: normal;
+    	font-size: 11px;
+    	line-height: 15px;
+    	color: #D56161;
+   	}
+
+</style>
+<!-- widget grid -->
+<section ng-controller='formCadastroFinanceiroAluno' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Financeiro do Aluno</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+									<div class="row">
+										<section class="col col-lg-6">
+											<label class="label"><strong>Aluno</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<ui-select ng-model="aluno.selected"
+													theme="bootstrap"
+													ng-disabled="disabled"
+													reset-search-input="false"
+													ng-change="changeAluno(aluno.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices repeat="aluno in alunos | propsFilter: {nome: $select.search}">
+													<div ng-bind-html="aluno.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											</div>
+										</section>
+									</div>
+									<tabset ng-show="alunoSelecionado.id">
+										<tab active="tab.active">
+											<tab-heading>
+												<i class="fa fa-fw fa-lg fa-list-alt"></i>Dados Gerais
+											</tab-heading>
+											<div id="myTabContent1" class="tab-content">
+												<form id="cadastroDadosGerais-form" name="frm_dadosgerais" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+
+															<section class="col col-3">
+																<label class="label"><strong>Etapa</strong></label>
+																<div class="form-control-wrapper inputValidate">
+
+						                                            <select class="form-control" 
+						                                            		id='combo_etapa' 
+						                                            		name='combo_etapa' 						                                            		
+						                                                    ng-change="changeEtapa()"						                                                    
+						                                                    ng-model="dadosGerais.id_etapa"
+						                                                    ng-options="iteme.id as iteme.descricao for iteme in etapas"
+						                                                    required>
+						                                            </select>						                                            
+						                                            <em class="error smart-form state-error" ng-show="frm_dadosgerais.combo_etapa.$error.required">Aluno não está matriculado</em>
+																</div>
+															</section>
+
+
+															<section class="col col-3">
+																<label class="label"><strong>Curso</strong></label>
+																<div class="form-control-wrapper inputValidate">
+
+						                                            <select class="form-control" 
+						                                            		name='combo_curso'
+						                                                    ng-change="changeCurso()"						                                                    
+						                                                    ng-model="dadosGerais.id_curso" 						                                                    
+						                                                    ng-options="itemc.id as itemc.descricao for itemc in cursos"
+						                                                    required>
+						                                            </select>
+						                                            <em class="error smart-form state-error" ng-show="frm_dadosgerais.combo_curso.$error.required">Aluno não está matriculado</em>
+																</div>
+															</section>
+
+															<section class="col col-3">
+																<label class="label"><strong>Turma</strong></label>
+																<div class="form-control-wrapper inputValidate">
+
+						                                            <select class="form-control" 
+						                                            		id='dadosgerais_idturma' 
+						                                            		name='dadosgerais_idturma'
+						                                                    ng-change="changeTurma()"						                                                    
+						                                                    ng-model="dadosGerais.id_turma"
+						                                                    ng-options="itemt.id as itemt.descricao for itemt in turmas"
+						                                                    ng-selected="itemt.id==dadosgerais.id_turma"
+						                                                    required>
+						                                            </select>
+						                                            <em class="error smart-form state-error" ng-show="frm_dadosgerais.combo_turma.$error.required">Turma não existe</em>
+																</div>
+															</section>
+
+															<section class="col col-3">
+																<label class="label"><strong>Faixa</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select class="form-control"  id="id_faixa" name="id_faixa"
+																			ng-model="dadosGerais.id_faixa"
+																			data-validate-input
+						                                           		   	data-required 
+						                                            	   	data-message-required="Selecione a faixa">
+																		<option value="" selected>Selecione</option>
+																		<!--<option  ng-selected="matricula.id_faixa == item.id"value="{{item.id}}" data-ng-repeat="item in faixas">{{item.descricao}}</option>-->
+																		<option  ng-selected="item.id==dadosGerais.id_faixa" value="{{item.id}}" data-ng-repeat="item in faixas">{{item.descricao}}</option>
+																	</select>
+																	<i></i>
+																</div>				
+															</section>
+														</div>
+														<div class="row">
+
+						                                   <section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+						                                        <label class="label"><strong>Responsável Financeiro</strong></label>
+						                                        <div class="form-group form-control-wrapper inputValidate">
+						                                            <select class="form-control"
+						                                            		id="dados_responsavel"
+						                                            		name="dados_responsavel"
+						                                                    ng-model="dadosGerais.id_responsavel"
+						                                                    ng-options="itemrr.id_pessoa as itemrr.nome for itemrr in responsaveis" 
+						                                                    ng-selected="itemrr.id_pessoa==dadosGerais.id_responsavel" 
+						                                                    data-validate-input 
+						                                                    data-required 
+						                                                    data-message-required="Selecione o Responsável">						                                            
+						                                            </select>
+						                                        </div>
+						                                    </section>
+
+
+															<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">
+																<label class="label"><strong>Dia de Vencimento</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select class="form-control" id="selvenc" name="selvenc" ng-model="dadosGerais.dia_vencimento" ng-options="itemdv.dia_vencimento as itemdv.descricao for itemdv in diasMes" ng-selected="dadosGerais.dia_vencimento">
+																	<option value="" selected>Selecione</option>
+																	</select>
+																</div>
+															</section>
+
+															<section class="col col-4">
+																<label class="label"><strong>Observação</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<textarea rows="3" ng-model="dadosGerais.observacao" class="form-control ng-pristine ng-valid" id="observacao" name="observacao" maxlength="400" placeholder="Observação"></textarea>
+																</div>
+															</section>
+															<section class="col col-2">
+																<label class="label"><strong>Status</strong></label>
+																<div class="form-inline">
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="dadosGerais.ativo">
+																			<span>Ativo</span>  
+																		</label>
+																	</div>
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" value="0" ng-model="dadosGerais.ativo">
+																			<span>Inativo</span>  
+																		</label>	
+																	</div>
+																</div>
+															</section>
+														</div>
+
+													</fieldset>
+													<footer>
+														<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroDadosGerais()" id="NovoCadastro"> Novo <div class="ripple-wrapper"></div></a>
+														<button class="btnmd btnmd-info pull-right" ng-click="cadastrarDadosGerais()" id="SalvarDadosGerais"> Salvar </button>
+													</footer>
+												</form>
+											</div>
+												<div class="row" ng-show="alunoFinanceiros.length > 0">
+														<table class="table table-bordered">
+															<thead>
+																<tr>
+																	<th class="label-primary" style="color:white"><h6>Etapa</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Curso</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Responsável</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Faixa</h6></th>																
+																	<th class="label-primary" style="color:white"><h6>Dia Vencimento</h6></th>
+																	<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+																</tr>
+															</thead>
+															<tbody>										
+																<tr ng-repeat="item in alunoFinanceiros">
+																	<td>{{item.etapa}}</td>
+																	<td>{{item.curso}}</td>
+																	<td>{{item.responsavel}}</td>
+																	<td>{{item.faixa}}</td>																
+																	<td>{{item.dia_vencimento}}</td>
+																	<td align="center" width="30"><button type="button" ng-click='editCadastroDadosGerais(item)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+												                       <div class="ripple-wrapper"></div>
+												                    </button></td>																	
+																	
+																</tr>
+															</tbody>	
+														</table>
+													</div>
+										</tab>
+
+
+										
+										<tab>
+											<tab-heading>
+												<i class="fa fa-fw fa-lg fa-money"></i>Receitas Fixa
+											</tab-heading>
+											<div id="myTabContent2" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+												<form id="cadastroReceitaFixa-form" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+															<section class="col col-xm-3 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Tipo de Receita</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<ui-select ng-model="tipoReceita.selected"
+																		theme="bootstrap"
+																		ng-disabled="disabled"
+																		reset-search-input="false"
+																		ng-change="changeTipoReceita(tipoReceita.selected)">
+																		<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+																	</ui-select-match>
+																	<ui-select-choices repeat="tipoReceita in tiposReceitas | propsFilter: {descricao: $select.search}">
+																		<div ng-bind-html="tipoReceita.descricao | highlight: $select.search"></div>
+																	</ui-select-choices>
+																</ui-select>
+																<input name="id_tipo_receita" id="id_tipo_receita" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+																	ng-model="receitaFixa.id_tipo_receita"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Selecione o tipo de receita">
+																</div>
+															</section>
+
+
+															<section class="col col-xs-12 col-sm-8 col-md-3 col-lg-2">
+																<label class="label"><strong>Válido De:</strong></label>
+
+																<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="rf_data_inicio_validade" ng-model="receitaFixa.data_inicio_validade" type="text"
+																data-validate-input
+																mask="99/9999" 
+																data-required
+																data-message-required="Por favor, informe a data de nascimento"/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="xxx" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "mm/yyyy",
+																	formatSubmit: "yyyy-mm",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="rf_data_inicio_validade" id="rf_data_inicio_validade" type="text" 
+																ng-model="receitaFixa.data_inicio_validade1"
+																data-validate-input
+																data-required 
+																data-message-required="Por favor, informe a data Inicial de validade">
+																</label>
+															</section>
+
+															<section class="col col-xs-12 col-sm-8 col-md-3 col-lg-2">
+																<label class="label"><strong>Até:</strong></label>
+
+																<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="rf_data_final_validade" ng-model="receitaFixa.data_final_validade" type="text"
+																data-validate-input
+																mask="99/9999" 
+																data-required
+																data-message-required="Por favor, informe a data de nascimento"/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="xxx" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "mm/yyyy",
+																	formatSubmit: "yyyy-mm",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="rf_data_final_validade" id="rf_data_final_validade" type="text" 
+																ng-model="receitaFixa.data_final_validade1"
+																data-validate-input
+																data-required 
+																data-message-required="Por favor, informe a data Final de validade">
+																</label>
+															</section>
+
+															<section class="col col-xm-3 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Valor</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input ui-money-mask="2" ng-model="receitaFixa.valor" class="form-control empty" id="valor" name="valor" type="text"
+																	data-validate-input
+							                                        data-required 
+							                                        data-message-required="Por favor, informe o valor">
+																	<span class="material-input"></span>
+																	<i class="icon-append fa fa-money"></i>
+																</div>												
+															</section>
+														</div>
+													</fieldset>
+													<footer>
+														<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroReceitaFixa()" id="NovoCadastro"> Novo <div class="ripple-wrapper"></div></a>
+														<button class="btnmd btnmd-info pull-right" ng-click="cadastrarReceitaFixa()" id="SalvarReceitaFixa"> Salvar </button>
+													</footer>
+												</form>
+											</div>
+												<div class="row" ng-show="receitasFixas.length > 0">
+														<table class="table table-bordered">
+															<thead>
+																<tr>
+																	<th class="label-primary" style="color:white"><h6>Tipo de Receita</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Validade de</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Até</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Valor</h6></th>
+																	<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng-repeat="item in receitasFixas">
+																	<td>{{item.tipo_receita}}</td>
+																	<td>{{item.data_inicio_validade_formatada}}</td>
+																	<td>{{item.data_final_validade_formatada}}</td>
+																	<td>{{item.valor | currency}}</td>
+																	<td align="center" width="30"><button type="button" ng-click='editCadastroReceitaFixa(item)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+												                       <div class="ripple-wrapper"></div>
+												                    </button></td>
+																	<td align="center"  width="30"><button type="button" ng-click="delReceitaFixa($index, item)" popover="Excluir cadastro" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button></td>
+																	
+																</tr>
+															</tbody>	
+														</table>
+												</div>											
+										</tab>
+
+										<tab>
+											<tab-heading>
+												<i class="fa fa-fw fa-lg fa-graduation-cap"></i>Bolsa
+											</tab-heading>
+											<div id="myTabContent2" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+												<form id="cadastroBolsa-form" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+														<!-- ================================================================================================================================================================== -->
+
+															<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-6">
+																<label class="label"><strong>Etapa</strong></label>
+																<div class="form-control-wrapper inputValidate">
+
+						                                            <select class="form-control" 
+						                                            		id='bolsa_etapa' 
+						                                            		name='bolsa_etapa' 						                                            		
+						                                                    ng-change="changeEtapa()"						                                                    
+						                                                    ng-model="bolsa.id_etapa"
+						                                                    ng-options="iteme.id as iteme.descricao for iteme in etapas"
+						                                                    ng-selected="iteme.id==bolsa.id_etapa"
+						                                                    required>
+						                                            </select>						                                            
+						                                            <em class="error smart-form state-error" ng-show="frm_bolsa.combo_etapa.$error.required">Aluno não está matriculado</em>
+																</div>
+															</section>
+
+															<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-6">
+																<label class="label"><strong>Curso</strong></label>
+																<div class="form-control-wrapper inputValidate">
+
+						                                            <select class="form-control" 
+						                                            		id="bolsa_curso"
+						                                            		name='bolsa_curso'
+						                                                    ng-change="changeCurso()"						                                                    
+						                                                    ng-model="bolsa.id_curso"
+						                                                    ng-options="itemc.id as itemc.descricao for itemc in cursos"
+						                                                    ng-selected="itemc.id==bolsa.id_curso"
+						                                                    required>
+						                                            </select>
+						                                            <em class="error smart-form state-error" ng-show="frm_bolsa.combo_curso.$error.required">Aluno não está matriculado</em>
+																</div>
+															</section>
+
+														<div class="row">
+														</div>
+
+															<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Percentual de Bolsa</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+																	<input class="form-control" name="percentual_bolsa" id="percentual_bolsa" placeholder="Total de parcelas"
+																	ng-model="bolsa.percentual_bolsa"
+																	data-mask="9?99">
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i> 
+																		Percentual de Bolsa</b>
+																</div>
+															</section>
+															<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Valor Fixo</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input ui-money-mask="2" ng-model="bolsa.valor_fixo" class="form-control empty" id="valor_fixo" name="valor_fixo" type="text">
+																	<span class="material-input"></span>
+																	<i class="icon-append fa fa-money"></i>
+																</div>												
+															</section>									
+															<section class="col col-xm-12 col-sm-4 col-md-3 col-lg-4">
+																<label class="label"><strong>Valor de Desconto Fixo</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input ui-money-mask="2" ng-model="bolsa.valor_desconto_fixo" class="form-control empty" id="valor_desconto_fixo" name="valor_desconto_fixo" type="text">
+																	<span class="material-input"></span>
+																	<i class="icon-append fa fa-money"></i>
+																</div>												
+															</section>	
+
+
+														</div>
+														<div class="row">
+
+						                                   <section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+						                                        <label class="label"><strong>Grupo de motivo de bolsa</strong></label>
+						                                        <div class="form-group form-control-wrapper inputValidate">
+						                                            <select class="form-control"
+						                                            		id="bolsa_grupo"
+						                                            		name="bolsa_grupo"
+						                                                    ng-model="bolsa.id_grupo_motivo_bolsa"
+						                                                    ng-options="itemg.id as itemg.descricao for itemg in grupomotivobolsas" 
+						                                                    ng-selected="itemg.id==bolsa.id_grupo_motivo_bolsa" 
+						                                                    ng-change='changeGrupoMotivoBolsa(item.id)'
+						                                                    data-validate-input 
+						                                                    data-required 
+						                                                    data-message-required="Selecione o curso">
+						                                            <option value="" selected>Selecione o grupo</option>
+						                                            </select>
+						                                        </div>
+						                                    </section>
+
+						                                   <section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+						                                        <label class="label"><strong>Motivo de bolsa</strong></label>
+						                                        <div class="form-group form-control-wrapper inputValidate">
+						                                            <select class="form-control"
+						                                            		id="bolsa_motivo"
+						                                            		name="bolsa_motivo"
+						                                                    ng-model="bolsa.id_motivo_bolsa"
+						                                                    ng-options="itemm.id as itemm.descricao for itemm in motivobolsas" 
+						                                                    ng-selected="itemm.id==bolsa.id_motivo_bolsa" 
+						                                                    data-validate-input 
+						                                                    data-required 
+						                                                    data-message-required="Selecione o Motivo">
+						                                            <option value="" selected>Selecione o Motivo</option>
+						                                            </select>
+						                                        </div>
+						                                    </section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data Início de Validade</strong></label>
+
+																<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="data_inicio_validade" ng-model="bolsa.data_inicio_validade" type="text"
+																data-validate-input
+																mask="99/9999" 
+																data-required
+																data-message-required="Por favor, informe a data de nascimento"/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="xxx" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "mm/yyyy",
+																	formatSubmit: "yyyy-mm-dd",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio_validade" id="data_inicio_validade" type="text" 
+																ng-model="bolsa.data_inicio_validade1"
+																data-validate-input
+																data-required 
+																data-message-required="Por favor, informe a data Inicial de validade">
+																</label>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data Final de Validade</strong></label>
+
+																<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="data_final_validade" ng-model="bolsa.data_final_validade" type="text"
+																data-validate-input
+																mask="99/9999" 
+																data-required
+																data-message-required="Por favor, informe a data de nascimento"/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="xxx" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "mm/yyyy",
+																	formatSubmit: "yyyy-mm-dd",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_final_validade" id="data_final_validade" type="text" 
+																ng-model="bolsa.data_final_validade1"
+																data-validate-input
+																data-required 
+																data-message-required="Por favor, informe a data Final de validade">
+																</label>
+															</section>
+															
+														</div>
+														<div class="row">
+
+															<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-6">
+																<label class="label"><strong>Observações</strong></label>
+																<div class="form-control-wrapper">
+																	<textarea rows="5" class="form-control" ng-model="bolsa.observacao"></textarea>
+																	<span class="material-input"></span>
+																</div>
+															</section>																						
+														</div>
+													</fieldset>	
+													<footer>
+														<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroBolsa()" id="NovoCadastroBolsa">
+															Novo
+														</a>
+														<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBolsa()" id="SalvarBolsa">
+															Salvar
+															<div class="ripple-wrapper"></div>
+														</button>
+													</footer>
+												</form>
+												<div class="row">												 
+													<table class="table table-bordered" ng-show="bolsas.length > 0">
+														<thead>
+															<tr>
+																<th class="label-primary" style="color:white"><h6>Curso</h6></th>
+																<th class="label-primary" style="color:white"><h6>Motivo</h6></th>																
+																<th class="label-primary" style="color:white"><h6>Percentual</h6></th>
+																<th class="label-primary" style="color:white"><h6>Observações</h6></th>
+																<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="itemb in bolsas">
+																<td>{{itemb.curso}}</td>
+																<td>{{itemb.motivo_bolsa}}</td>
+																<td>{{itemb.percentual_bolsa}}</td>
+																<td>{{itemb.observacao}}</td>
+																<td align="center" width="30"><button type="button" ng-click='editCadastroBolsa(itemb)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+											                       <div class="ripple-wrapper"></div>
+											                    </button></td>
+																<td align="center"  width="30"><button type="button" ng-click="delBolsa($index, itemb)" popover="Excluir cadastro" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button></td>																	
+															</tr>
+														</tbody>
+													</table>
+												</div>	
+
+											<!-- ================================================================================================================================================================== -->
+											</div>												
+										</tab>
+										<tab>
+											<tab-heading>
+												<i class="fa fa-fw fa-lg fa-lock"></i>Bloqueios
+											</tab-heading>
+											<div id="myTabContent3" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+												<form id="cadastroBloqueio-form" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+														<!-- ================================================================================================================================================================== -->
+						                                   <section class="col col-xm-12 col-sm-2 col-md-2 col-lg-2">
+						                                        <label class="label"><strong>Tipo de bloqueio</strong></label>
+						                                        <div class="form-group form-control-wrapper inputValidate">
+						                                            <select class="form-control"
+						                                            		id="bloqueio_tipo"
+						                                            		name="bloqueio_tipo"
+						                                                    ng-model="bloqueio.id_tipo_bloqueio" 						                                                    
+						                                                    ng-options="itemb.id as itemb.descricao for itemb in bloqueios" 
+						                                                    ng-selected="itemb.id==bloqueio.id_tipo_bloqueio" 
+						                                                    data-validate-input 
+						                                                    data-required 
+						                                                    data-message-required="Selecione o curso">
+						                                            <option value="" selected>Selecione o curso</option>
+						                                            </select>
+						                                        </div>
+						                                    </section>
+						                                    
+															<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data Início de Validade</strong></label>
+																<label class="input-group form-control-wrapper inputValidate">
+																	<input 	class="form-control" 
+																			type="text" 
+																			pick-a-date="bloqueio.data_inicio_validade" 
+																			placeholder="Selecione uma data" 
+																			pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd",selectYears: 100,}' />														
+																	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+						                                            <input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+						                                            		name="blq_data_inicio_validade" 
+						                                            		id="blq_data_inicio_validade" 
+						                                            		type="text" 
+						                                            		ng-model="bloqueio.data_inicio_validade1"
+						                                            		data-validate-input
+							                                        		data-required 
+							                                        		data-message-required="Por favor, selecione a data início de validade">
+																</label>
+															</section>
+
+															
+															<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data Final de Validade</strong></label>
+																<label class="input-group form-control-wrapper inputValidate">
+																	<input 	class="form-control" 
+																			type="text" 
+																			pick-a-date="bloqueio.data_final_validade" 
+																			placeholder="Selecione uma data" 
+																			pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd",selectYears: 100,}' />														
+																	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+						                                            <input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+						                                            		name="blq_data_final_validade" 
+						                                            		id="blq_data_final_validade" 
+						                                            		type="text" 
+						                                            		ng-model="bloqueio.data_final_validade1"
+						                                            		data-validate-input
+							                                        		data-required 
+							                                        		data-message-required="Por favor, selecione a data final de validade">
+																</label>
+															</section>
+															
+
+
+															<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Complemento</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	
+																	<input 	class="form-control empty" 
+																			name="bloqueio_complemento" 
+																			id="bloqueio_complemento" 
+																			type="text"
+																			ng-model="bloqueio.complemento">
+																</div>
+															</section>
+														<!-- ================================================================================================================================================================== -->
+														</div>
+													</fieldset>	
+													<footer>
+														<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroBloqueioAluno()" id="NovoCadastroBloqueioAluno">
+															Novo
+														</a>
+														<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBloqueioAluno()" id="SalvarBloqueioAluno">
+															Salvar
+															<div class="ripple-wrapper"></div>
+														</button>
+													</footer>
+												</form>
+												<div class="row">												 
+													<table class="table table-bordered" ng-show="bloqueioaluno.length > 0">
+														<thead>
+															<tr>
+																<th class="label-primary" style="color:white"><h6>Tipo de bloqueio</h6></th>
+																<th class="label-primary" style="color:white"><h6>Data início</h6></th>
+																<th class="label-primary" style="color:white"><h6>Data Final</h6></th>
+																<th class="label-primary" style="color:white"><h6>Complemento</h6></th>																
+																<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="itemba in bloqueioaluno">
+																<td>{{itemba.descricao}}</td>
+																<td>{{itemba.data_inicio_validade_grid}}</td>
+																<td>{{itemba.data_final_validade_grid}}</td>
+																<td>{{itemba.complemento}}</td>
+																<td align="center" width="30"><button type="button" ng-click='editCadastroBloqueioAluno(itemba)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+											                       <div class="ripple-wrapper"></div>
+											                    </button></td>
+																<td align="center"  width="30"><button type="button" ng-click="delBloqueioAluno($index, itemba)" popover="Excluir cadastro" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button></td>																	
+															</tr>
+														</tbody>
+													</table>
+												</div>												
+											</div>												
+										</tab>
+									</tabset>
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<!-- MODALS -->
+
+	<!-- Modal Ciclo -->
+	<div class="modal fade" id="myModalCiclo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Ciclo</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroCiclo-form" class="smart-form" novalidate="novalidate" validate-form>
+						<fieldset>
+							<div class="row">
+								<section class="col col-8">
+									<label class="label"><strong>Descrição</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+										<input class="form-control" name="descricao" id="descricao" placeholder="Descrição" ng-model="addCiclo.descricao" 
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+										<span class="material-input"></span>
+										<b class="tooltip tooltip-top-right"> <i class="fa fa-warning txt-color-teal"></i> Descrição</b>
+									</div>
+								</section>
+								<section class="col col-4">
+									<label class="label"><strong>Duração</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-gear"></i>
+										<input data-mask="9?99" class="form-control" name="duracaoX" id="duracaoX" maxlength="3" placeholder="Duração"
+											ng-model="addCiclo.duracao"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a duração">
+										<span class="material-input"></span>
+										<b class="tooltip tooltip-top-right"> <i class="fa fa-gear txt-color-teal"></i> Duração</b>
+									</div>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-12">
+									<label class="label"><strong>Observação</strong></label>
+									<textarea rows="5" cols="90" class="form-control ng-pristine ng-valid" name="observacao" id="observacao" placeholder="Observação" ng-model="addCiclo.observacao"></textarea>
+								</section>
+							</div>
+						</fieldset>
+						<footer>
+							<button type="button" class="btnmd btnmd-primary" ng-click="addCicloSalvar(addCiclo)">Salvar</button>
+							<button type="button" class="btnmd btnmd-success" ng-click="addCicloNovo()">Novo</button>
+							<button type="button" class="btnmd btnmd-info" data-dismiss="modal">Fechar</button>
+						</footer>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Modal Ciclo -->
+
+	<!-- Modal TipoCurso -->
+	<div class="modal fade" id="myModalTipoCurso">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Tipo de Curso</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroTipoCurso-form" class="smart-form" novalidate="novalidate" validate-form>
+						<div class="row">
+							<section class="section">
+								<div class="form-group">
+									<div class="form-control-wrapper inputValidate">
+										<input class="form-control empty" name="descricao" id="descricao" type="text"
+											ng-model="addTipoCurso.descricao" 
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+										<div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right"> <i class="fa fa-warning txt-color-teal"></i> Descrição</b>
+				                 		<span class="material-input"></span>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-primary" ng-click="addTipoCursoSalvar(addTipoCurso)">Salvar</button>
+					<button type="button" class="btnmd btnmd-success" ng-click="addTipoCursoNovo()">Novo</button>
+					<button type="button" class="btnmd btnmd-info" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Modal TipoCurso -->
+
+	<!-- Modal ProximoPeriodo -->
+	<div class="modal fade" id="myModalProximoPeriodo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Período</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProximoPeriodo-form" class="smart-form" novalidate="novalidate" validate-form>
+						<div class="row">
+							<section class="section">
+								<div class="form-group">
+									<div class="form-control-wrapper inputValidate">
+										<input class="form-control empty" name="descricao" id="descricao" type="text"
+											ng-model="addProximoPeriodo.descricao" 
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+										<div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right"> <i class="fa fa-warning txt-color-teal"></i> Descrição</b>
+				                 		<span class="material-input"></span>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-primary" ng-click="addProximoPeriodoSalvar(addProximoPeriodo)">Salvar</button>
+					<button type="button" class="btnmd btnmd-success" ng-click="addProximoPeriodoNovo()">Novo</button>
+					<button type="button" class="btnmd btnmd-info" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Modal ProximoPeriodo -->
+
+	<!-- Modal TipoDisciplinaCurso -->
+	<div class="modal fade" id="myModalTipoDisciplinaCurso">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Tipo de Disciplina do Curso</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroTipoDisciplinaCurso-form" class="smart-form" novalidate="novalidate" validate-form>
+						<div class="row">
+							<section class="section">
+								<div class="form-group">
+									<div class="form-control-wrapper inputValidate">
+										<input class="form-control empty" name="descricao" id="descricao" type="text"
+											ng-model="addTipoDisciplinaCurso.descricao" 
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+										<div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right"> <i class="fa fa-warning txt-color-teal"></i> Descrição</b>
+										<span class="material-input"></span>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-primary" ng-click="addTipoDisciplinaCursoSalvar(addTipoDisciplinaCurso)">Salvar</button>
+					<button type="button" class="btnmd btnmd-success" ng-click="addTipoDisciplinaCursoNovo()">Novo</button>
+					<button type="button" class="btnmd btnmd-info" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Modal TipoDisciplinaCurso -->
+
+
+
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

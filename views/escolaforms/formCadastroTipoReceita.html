@@ -1,0 +1,253 @@
+<script src="controllers/controller.formCadastroTipoReceita.js"></script> 
+<!-- widget grid -->
+<section ng-controller='formCadastroTipoReceita' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Tipo de Receita</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroTipoReceita-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+
+									<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" maxlength="200" placeholder="Descricao"
+											ng-model="tiporeceita.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição do Tipo de Receita</b>
+										</div>										
+									</section>
+
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Abreviatura</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="abreviatura" id="abreviatura" maxlength="10" placeholder="Abreviatura"
+											ng-model="tiporeceita.abreviatura">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Abreviatura</b> 											
+										</div>										
+									</section>
+
+									 <!--
+				                     <section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				                        <label><strong>Centro de custo</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="id_centro_custo" name="id_centro_custo" ng-model="tiporeceita.id_centro_custo"
+				                           data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione um centro de custo">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option data-ng-repeat="centro in centros" ng-selected="centro.id == tiporeceita.id_centro_custo" value="{{centro.id}}">{{centro.descricao}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+				                    -->
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Centro de Custo</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="centro.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoCentroCusto(centro.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="centro in centros | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="centro.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="selbloqueiomatricula" id="selCentroCusto" type="text" 
+	                                          	ng-model="tiporeceita.id_centro_custo"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um Bloqueio de Matrícula">
+										</div>
+									</section>
+											
+								</div>
+								<div class="row">
+
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Compõe anuidade</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" checked="true" value="1" ng-model="tiporeceita.compoe_anuidade">
+													<span>Sim</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" value="0" ng-model="tiporeceita.compoe_anuidade">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+
+				                    <section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="tiporeceita.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="tiporeceita.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section> 
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button ng-click="cadastrarTipoReceita()" type="submit" class="btnmd btnmd-info pull-right" id="SalvarTipoReceita">
+									Salvar
+								</button>
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	<!-- Modal Centro de Custo-->
+	<div class="modal fade" id="myModalCentroCusto">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Centro de Custo</h4>
+	            </div>
+	            <div class="modal-body">
+
+			        <form id="cadastroCentroCusto-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<fieldset>
+							<div class="row">
+
+								<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<label class="label"><strong>Descrição do Centro de Custo</strong></label>
+								   <div class="form-group">
+								    <div class="form-control-wrapper inputValidate">
+								     <input class="form-control empty" name="nome" id="nome" type="text" placeholder="Centro de Custo"  ng-model="addCentroCusto.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a Descrição do Centro de Custo">
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição do Centro de Custo</b>
+								     <span class="material-input"></span>
+								    </div>       
+								   </div>       
+								</section>
+
+							</div>
+							<div class="row">
+
+								<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label class="label"><strong>Departamento do Funcionário</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<select class="form-control" id="tipo_lancamento" name="tipo_lancamento" ng-model="addCentroCusto.id_departamento_funcionario"
+												data-validate-input
+								       		   	data-required 
+								        	   	data-message-required="Selecione o departamento">
+											<option value="" selected>Selecione</option>
+											<option value="{{departamento.id}}" data-ng-repeat="departamento in departamentos">{{departamento.descricao}}</option>	
+										</select>
+										<i></i>
+									</div>
+								</section>
+
+								<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label class="label"><strong>Código Contábil</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+										<input class="form-control" name="codigo_contabil" id="codigo_contabil" placeholder="Código Contábil"
+										ng-model="addCentroCusto.codigo_contabil"
+										data-validate-input
+								        data-required 
+								        data-message-required="Informe o código">
+										<span class="material-input"></span>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Código</b>
+									</div>
+								</section>
+
+							</div>											
+						</fieldset>
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal" ng-click="centro.selected = ''">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCentroCusto()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal Centro de Custo-->
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

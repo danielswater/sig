@@ -1,0 +1,311 @@
+<script src="controllers/controller.formCadastroItens.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroItens' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Produtos e Serviços</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroItem-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-2">
+										<label class="label"><strong>Tipo</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" checked="true" value="P" 
+													ng-model="addItem.tipo_info"
+													ng-click="unidadeMedida(true)"
+													>
+													<span>Produto</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" value="S" 
+													ng-model="addItem.tipo_info"
+													ng-click="unidadeMedida(false)"
+													>
+													<span>Serviços</span>
+												</label>
+											</div>
+										</div>
+									</section>
+									<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-4">
+										<label class="label"><strong>Categoria</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="categoria.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoCategoria(categoria.selected)">
+												<ui-select-match placeholder="Selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="categoria in categorias | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="categoria.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="categoria" id="categoria" type="text" 
+	                                          	ng-model="addItem.categoria"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a categoria">
+										</div>
+									</section>										 
+									<section class="col col-xs-12 col-sm-12 col-md-6 col-lg-6">
+										<label class="label"><strong>Item</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" placeholder="Descrição"
+											ng-model="addItem.descricao"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição do Item</b>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+
+
+									<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<label class="label"><strong>Incluir Departamentos</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select multiple ng-model="departamentos.selecionados" 
+												on-remove="removed($item, $model)"
+												theme="select2" 
+												ng-disabled="disabled" 
+												style="width: 100%;"
+												ng-change="setarDepartamentosSelecionados(departamentos.selecionados, $select)">
+												<ui-select-match placeholder="Selecione o departamento...">{{$item.descricao}}</ui-select-match>
+												<ui-select-choices group-by="'tipo'"
+													refresh="refreshDepartamentos($select.search)"
+													refresh-delay="0"
+													repeat="departamento in departamentos | filter:{ativo: 1} | filter:$select.search">
+													{{departamento.descricao}}
+												</ui-select-choices>
+											</ui-select>
+										</div>
+									</section>
+
+
+									<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-show="unidadeMedidaObrigatorio == 1 && addItem.tipo_info != 'S'">
+										<label class="label"><strong>Unidade de medida</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="unidade_medida.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="changeUnidadeMedida(unidade_medida.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="unidade_medida in unidades_medida | propsFilter: {descricao: $select.search}">
+													<div ng-bind-html="unidade_medida.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_unidade_medida" id="id_unidade_medida" type="text" 
+												ng-model="addItem.id_unidade_medida"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione a unidade de medida">
+										</div>
+									</section>
+									<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="addItem.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="addItem.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>									
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarItem()">
+									Salvar
+								</button>															
+							</footer>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>	<!-- END ROW -->
+	<!-- START ROW -->
+	<div class="row" ng-show="item.id">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Fornecedores</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<!-- ng-show="movimentacaoDoacao.length > 0"-->
+						<form id="cadastroDoacao-form" class="smart-form">
+							<fieldset>
+								<div class="row">
+
+									<section class="col col-6">
+										<label class="label"><strong>Incluir Fornecedores</strong></label>
+										<div class="form-control-wrapper inputValidate">									
+											<ui-select ng-model="objeto.selected"
+												theme="select2"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												style="min-width: 600px;"
+												ng-change="cadastrarFornecedor(objeto.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione na lista abaixo ">{{$select.selected.nome}}</ui-select-match>
+												<ui-select-choices repeat="objeto in pessoa track by $index">
+													<div ng-bind-html="objeto.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+										</div>
+									</section>									
+								</div>
+							</fieldset>
+						</form>
+						<div class="row">
+							<table class="table table-bordered" ng-show="fornecedores.length > 0">
+								<thead>
+									<tr>
+										<th class="label-primary"></th>
+										<th class="label-primary" style="color:white"><h6>Nome</h6></th>
+										<th class="label-primary" style="color:white; width: 200px;"><h6>CPF/CNPJ</h6></th>
+										<th class="label-primary" style="color:white; width: 150px;"><h6>Tipo Fornecedor</h6></th>								
+									</tr>
+								</thead>
+								<tbody>																		
+									<tr ng-repeat="fornecedor in fornecedores">
+										<td style="width: 80px;">
+											<a class="btn btn-danger btn-sm" ng-click='delItem($index, fornecedores)'><i class="fa fa-minus-square"></i> Excluir</a>				
+										</td>
+										<td>{{fornecedor.pessoa_nome}}</td>
+										<td>{{fornecedor.pessoa_cpf_cnpj}}</td>
+										<td>{{fornecedor.tipo_fornecedor}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+
+	<div class="modal fade" id="myModalUnidadeMedida">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Nova Unidade de Medida</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroUnidadeMedida-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section"> 
+							<div class="form-group">
+								<div class="form-control-wrapper inputValidate">
+									<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="unidademedida.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da Unidade de Medida"><div class="floating-label">Nome da Unidade de Medida</div>
+									<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Unidade de Medida</b>
+									<span class="material-input"></span>
+								</div>
+							</div>
+						</section>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarUnidade()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="familiaItens">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Nova Família de Ítens</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroFamilia-form" class="smart-form" novalidate="novalidate" validate-form>
+						<section class="section"> 
+							<div class="form-group">
+								<div class="form-control-wrapper inputValidate">
+									<input class="form-control empty" name="nome" id="nome" type="text"  ng-model="descricaofamilia"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da Família de ítens"><div class="floating-label">Nome da Família de Ítens</div>
+									<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Família de Ítens</b>
+									<span class="material-input"></span>
+								</div>
+							</div>
+						</section>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarFamilia()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+*
+* pageSetUp() is needed whenever you load a page.
+* It initializes and checks for all basic elements of the page
+* and makes rendering easier.
+*
+*/
+pageSetUp();
+</script>

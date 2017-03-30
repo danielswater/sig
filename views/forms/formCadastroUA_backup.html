@@ -1,0 +1,795 @@
+<style type="text/css">
+
+    .pull-right>.dropdown-menu{
+        left: auto;
+        right: inherit;
+    }
+    .smart-form footer .btn{
+        height: 34px;
+        padding: 0 7px;
+    }
+</style>
+
+<script src="controllers/controller.formCadastroUA.js"></script>
+<script src="controllers/controller.formCadastroFalecidos.js"></script>
+
+<section ng-controller='formCadastroUA' id="widget-grid" widget-grid>
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget" style="position: relative; opacity: 1; left: 0px; top: 0px;">
+                <header role="heading">
+                    <div class="jarviswidget-ctrls" role="menu">
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="#" data-original-title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen">
+                            <i class="fa fa-expand"></i>                            
+                        </a>                       
+                    </div>
+                    <span class="widget-icon"><i class="fa fa-edit"></i></span>        
+                    <h2>Jazigo</h2>
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                </header>
+                <div role="content">
+                    <div class="widget-body no-padding">
+                        <form id="cadastroUA-form" class="smart-form ng-pristine ng-valid" novalidate="novalidate" validate-form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-md-3">
+                                        <label class="label"><strong>Planos</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select ng-change="getTipoPlano()" class="form-control" ng-model="ua.plano" name="planos" id="planos"
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um plano">
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="ua.plano == plano.id_planos" value="{{plano.id_planos}}" data-ng-repeat="plano in planos">{{plano.descricao_planos}}</option>
+                                            </select>
+                                            <i></i>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-3">
+                                        <label class="label"><strong>Tipos de Unidade</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="ua.unidade" name="tipo_unidade" id="tipo_unidade"
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um tipo de unidade">
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="ua.unidade == tipo.id_tipos_unidade" value="{{tipo.id_tipos_unidade}}" data-ng-repeat="tipo in unidade.tipos">{{tipo.descricao}}</option>
+                                            </select>
+                                            <i></i>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Tipo de Concessão</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="ua.concessao" name="tipo_concessao" id="tipo_concessao" 
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um tipo de concessão">
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="ua.concessao == tipo.id_concessao" value="{{tipo.id_concessao}}" data-ng-repeat="tipo in concessao.tipos">{{tipo.descricao}}</option>
+                                            </select>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Quadra</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="ua.quadra" ng-change="quadraLote('')" name="quadra" id="quadra" >
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="ua.quadra == quadra.id" value="{{quadra.id}}" data-ng-repeat="quadra in quadra.quadras">{{quadra.descricao}}</option>
+                                            </select>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Lote</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="ua.lote" name="lote" id="lote" 
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um lote">
+                                            <option value="">Selecione</option>
+                                            <option ng-selected="lote.id == ua.lote" value="{{lote.id}}" data-ng-repeat="lote in lote.lotes">{{lote.descricao}}</option>                                                
+                                            </select>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-md-3">
+                                        <label class="label"><strong>Cobrança</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="ua.periodicidade" name="cobranca" id="cobranca" 
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um modo de cobrança">
+                                            <option value="">Selecione</option>
+                                            <option ng-selected="ua.periodicidade == periodicidade.id_periodicidade" value="{{periodicidade.id_periodicidade}}" data-ng-repeat="periodicidade in periodicidade.tipos">{{periodicidade.descricao}}</option>                                                
+                                            </select>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-3">
+                                        <label class="label"><strong>Descrição</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <textarea class="form-control" ng-model="ua.descricao" name="descricao" id="descricao" rows="1" placeholder="Descrição"
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, informe a descrição" style="margin-top:15px">
+                                            </textarea>                                            
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Número do Túmulo</strong></label>
+                                        <div class="form-control form-control-wrapper inputValidate">
+                                            <input class="form-control" ng-model="ua.tumulo" placeholder="Número do Túmulo" type="text" name="numero_tumulo" id="numero_tumulo"
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, informe o número do túmulo">
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Status</strong></label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" ng-model="ua.status" name="ativo" id="ativo-nao" class="radiobox" value="0">
+                                                    <span>Inativo</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <a class="btnmd btnmd-success pull-right" ng-click="novoCadastro()" id="NovoCadastro">Novo</a>
+                                <button id="salva_unidade_armazenagem" class="btnmd btnmd-info pull-right" ng-click="salvaUnidadeArmazenagem()">Salvar</button>
+                                <button type="button" class="btnmd btnmd-danger btnmd-raised pull-right" ng-click="excluirGaveta()">Excluir</button>
+                            </footer>
+                        </form>                        
+                    </div>                    
+                </div>
+            </div>
+        </article>        
+    </div>
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget" style="position: relative; opacity: 1; left: 0px; top: 0px;">
+                <header role="heading">
+                    <div class="jarviswidget-ctrls" role="menu">
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="#" data-original-title="Collapse">
+                            <i class="fa fa-minus "></i>
+                        </a>
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen">
+                            <i class="fa fa-expand "></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                    <h2>Proprietário</h2>
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                </header>
+                <div class="content">
+                    <div class="widget-body no-padding">
+                        <form class="smart-form ng-pristine ng-valid" id="form_unidade_armazenagem_pessoa" name="form_unidade_armazenagem_pessoa" class="smart-form ng-pristine ng-valid" novalidate="novalidate" validate-form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="select inputValidate">
+                                            <ui-select ng-model="objeto.selected"
+                                                theme="bootstrap"
+                                                ng-disabled="disabled"
+                                                reset-search-input="false">
+                                                <ui-select-match placeholder="Selecione Proprietário">{{$select.selected.nome || $select.selected}}</ui-select-match>
+                                                    <ui-select-choices repeat="objeto in socios track by $index"
+                                                        ng-click="salvaPessoas(objeto.selected)"
+                                                        refresh="refreshSocios($select.search)"
+                                                        refresh-delay="0">
+                                                        <div ng-bind-html="objeto.nome | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-4" ng-hide="mostra_nome_responsavel==''">
+                                        <b>Responsável:</b> {{mostra_nome_responsavel}}
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Data de Concessão</strong></label>
+                                        <div class="input-group form-control-wrapper inputValidate">
+                                            <input class="form-control" type="text" pick-a-date="pessoa.data_concessao" placeholder="Selecione uma data" pick-a-date-options='{    
+                                            format: "dd/mm/yyyy",
+                                            formatSubmit: "yyyy-mm-dd",
+                                            selectYears: 100,                      
+                                            }' />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_concessao" id="data_concessao" type="text" 
+                                            ng-model="pessoa.data_concessao1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe a data final de armazenamento">
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Data de Contrato</strong></label>
+                                        <div class="input-group form-control-wrapper inputValidate">
+                                            <input class="form-control" type="text" pick-a-date="pessoa.data_contrato" placeholder="Selecione uma data" pick-a-date-options='{    
+                                            format: "dd/mm/yyyy",
+                                            formatSubmit: "yyyy-mm-dd",
+                                            selectYears: 100,                      
+                                            }' />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_contrato" id="data_contrato" type="text" 
+                                            ng-model="pessoa.data_contrato1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe a data de contrato">
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Tipo de Plano</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" ng-model="pessoa.id_tipo_plano_ua" name="id_tipo_plano_ua" id="id_tipo_plano_ua" 
+                                            data-validate-input
+                                            data-required
+                                            data-message-required="Por favor, selecione um tipo de plano">
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="tipo.id == pessoa.id_tipo_plano_ua" value="{{tipo.id}}" ng-repeat="tipo in tipo_plano_ua">{{tipo.descricao}}</option>
+                                            </select>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Isento</strong></label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" name="isento" ng-model="pessoa.isento" class="radiobox" value="1">
+                                                    <span>Sim</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="radio" name="isento" checked="true" ng-model="pessoa.isento" class="radiobox" value="0">
+                                                    <span>Não</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Situação</strong></label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" name="situacao" checked="true"  ng-model="pessoa.situacao" class="radiobox" value="1">
+                                                    <span>Ativo</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" name="situacao" ng-model="pessoa.situacao" class="radiobox" value="0">
+                                                    <span>Inativo</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <div class="col-lg-5 col-sm-5 col-md-5">
+                                    <p style="font-size: 13px; color: #7F7F7F; margin-top:20px;"><strong>{{pessoa.mensagem}}</strong></p>
+                                </div>
+                                <div class="btn-group dropup pull-right">
+                                    <button class="btnmd btnmd-info pull-right" style="margin-top:10px;" disabled="true" ng-click="salvaPessoa()" id="salvaPessoa">
+                                    Salvar
+                                    </button>
+                                </div>
+                                <div class="btn-group dropup pull-right">
+                                    <button ng-show="pessoa.show_buttom == true" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span ng-show="pessoa.show_buttom == true" class="caret"></span>
+                                    </button>
+                                    <button ng-show="pessoa.show_buttom == true" class="btn btn-default" >
+                                        Gerar Recibo
+                                    </button>
+                                    <ul ng-show="pessoa.show_buttom == true" class="dropdown-menu" >
+                                        <li ng-repeat="recibos in recibo" >
+                                            <a target="_blank" href="recibo_cem.php?template={{recibos.id}}&jazigo={{pessoa.id_jazigo}}&pessoa={{pessoa.id_pessoa}}">{{recibos.descricao}} </a>
+                                        </li>                                        
+                                    </ul>
+                                </div>
+                                <div class="btn-group dropup pull-right">
+                                    <button ng-show="pessoa.show_buttom == true" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span ng-show="pessoa.show_buttom == true" class="caret"></span>
+                                    </button>
+                                    <button ng-show="pessoa.show_buttom == true" class="btn btn-default" >
+                                        Gerar Contrato
+                                    </button>
+                                    <ul ng-show="pessoa.show_buttom == true" class="dropdown-menu" >
+                                        <li ng-repeat="contrato in lista_contrato" >
+                                            <a target="_blank" href="contrato.php?template={{contrato.id}}&pessoa={{pessoa.id_pessoa}}&jazigo={{pessoa.id_jazigo}}">{{contrato.descricao}} </a>
+                                        </li>                                        
+                                    </ul>
+                                </div>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget" style="position: relative; opacity: 1; left: 0px; top: 0px;">
+                <header role="heading">
+                    <div class="jarviswidget-ctrls" role="menu">
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="#" data-original-title="Collapse">
+                            <i class="fa fa-minus "></i>
+                        </a>
+                        <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen">
+                            <i class="fa fa-expand "></i>
+                        </a>
+                    </div>
+                    <span class="widget-icon"><i class="fa fa-edit"></i></span>
+                    <h2>Gavetas</h2>
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                </header>
+                <div class="content">
+                    <div class="widget-body no-padding">
+                        <form id="form_unidade_armazenagem_gavetas" class="smart-form" novalidate="novalidate" validate-form>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-md-4">
+                                        <label class="label"><strong>Descrição</strong></label>
+                                        <div class="form-control form-control-wrapper inputValidate">
+                                            <input class="form-control" name="descricao" id="descricao" type="text" 
+                                            placeholder="Descrição" 
+                                            ng-model="gaveta.descricao"
+                                            data-validate-input
+                                            data-required                                           
+                                            data-message-required="Por favor, informe uma descrição"/>
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-2">
+                                        <label class="label"><strong>Status</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" name="status-gaveta" id="status-gaveta" 
+                                            ng-model="gaveta.id_status_gaveta"
+                                            data-validate-input 
+                                            data-required
+                                            data-message-required="Por favor, selecione um status">
+                                                <option value="">Selecione</option>
+                                                <option ng-selected="estado.id_gaveta == gaveta.id_status_gaveta" value="{{estado.id_gaveta}}" data-ng-repeat="estado in ocupacao">{{estado.descricao}}</option>
+                                            </select>
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-lg-3">
+                                        <label class="label"><strong>Falecido</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" name="falecido-gaveta" id="falecido-gaveta" 
+                                            ng-model="gaveta.id_falecido">
+                                            <option value="">Selecione </option>
+                                            <option ng-selected="item.id == gaveta.id_falecido" value="{{item.id}}" data-ng-repeat="item in falecidos">{{item.nome}}</option>                                                
+                                            </select>
+                                            <span class="material-input"></span>
+                                        </div>
+                                    </section>
+                                    <section class="col col-3" ng-show="gaveta.id_falecido != null">
+                                        <label class="label"><strong>Data do Vencimento da Gaveta</strong></label>
+                                        <label class="input-group form-control-wrapper inputValidate">
+                                            <input class="form-control" type="text" pick-a-date="gaveta.data_vencimento_gaveta" placeholder="Selecione uma data" pick-a-date-options='{   
+                                            format: "dd/mm/yyyy",
+                                            formatSubmit: "yyyy-mm-dd",
+                                            selectYears: 300,                      
+                                            }'
+                                            data-validate-input 
+                                            data-required
+                                            data-message-required="por favor, entre com uma data de vencimento"/>
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_vencimento_gaveta" id="data_vencimento_gaveta" type="text" 
+                                            ng-model="gaveta.data_vencimento_gaveta1"/>
+                                        </label>
+                                    </section>
+                                    <section class="col col-md-3">
+                                        <label class="label"><strong>Situação</label>
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" ng-model="gaveta.ativo" name="situacao-gaveta" id="situacao_gaveta_sim" class="radiobox" value="1"/>
+                                                    <span>Ativo</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="radio radio-inline">
+                                                    <input type="radio" ng-model="gaveta.ativo" name="situacao-gaveta" id="situacao_gaveta_nao" class="radiobox" value="0"/>
+                                                    <span>Inativo</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <footer>
+                                <button id="novoFalecido"  class="btnmd btnmd-success pull-right" ng-click="incluiFalecido()"> Incluir Falecido </button>
+                                <button id="salvaGaveta" disabled="true" class="btnmd btnmd-info pull-right" ng-click="salvaGaveta()"> Salvar </button>
+                            </footer>
+                            <table class="table table-bordered" ng-show="gavetas.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th class="label-primary" style="color:white" ng-hide="donatario"><h6>Descrição</h6></th>
+                                        <th class="label-primary" style="color:white"><h6>Status</h6></th>
+                                        <th class="label-primary" style="color:white"><h6>Situação</h6></th>
+                                        <th class="label-primary" style="color:white"><h6>Ação</h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="gaveta in gavetas">
+                                        <td ng-hide="donatario">{{gaveta.descricao}}</td>
+                                        <td>{{gaveta.statusgaveta}}</td>
+                                        <td>{{gaveta.situacao}}</td>
+                                        <td>
+                                            <a ng-click="editarGaveta(gavetas[$index])" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"></a>
+                                            <a ng-click='delGaveta(gaveta.id)' class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>                
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- MODAL FALECIDO -->
+
+<div class="modal fade" id="myModalFalecido" ng-controller='formCadastroFalecidos'>
+    <div class="modal-dialog" style="width:1300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Cadastro de Falecido</h4>
+            </div>
+            <div class="modal-body">
+                <form id="cadastroFalecidos-form" class="smart-form" novalidate="novalidate" validate-form>
+                    <fieldset>
+                        <legend>
+                            <strong>Dados Gerais</strong>
+                            <hr class="simple" style="background: black;" />
+                        </legend>
+                        <div class="row">
+                            <section class="col col-3">
+                                 <label class="label"><strong>Nome</strong></label>
+                                 <div class="form-control form-control-wrapper inputValidate">
+                                     <input class="form-control" name="nomeCompleto" id="nomeCompleto" type="text" placeholder="Nome Completo do Falecido" ng-model="falecido.nome"
+                                    data-validate-input
+                                    data-required                                           
+                                    data-message-required="Por favor, informe o nome"/>
+                                    <span class="material-input"></span>
+                                    <i class="icon-append fa fa-question-circle"></i>
+                                 </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Nacionalidade</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="nacionalidade" id="nacionalidade" placeholder="Sua nacionalidade de origem" ng-model="falecido.nacionalidade"/>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Estado Civil</strong></label>
+                                <div class="form-group form-control-wrapper inputValidate">
+                                    <select class="form-control" name="estadocivil" id="estadocivil" 
+                                            ng-model="falecido.id_estado_civil"
+                                            data-validate-input 
+                                            data-required
+                                            data-message-required="Por favor, selecione um estado civil">
+                                            <option value="" selected>Selecione</option>
+                                            <option value="{{estado_civil.estado_civil_id}}" 
+                                            data-ng-repeat="estado_civil in estados_civil">{{estado_civil.estado_civil_descricao}}</option>                                        
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Cor</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="cor" id="cor" placeholder="Cor" ng-model="falecido.cor"/>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Data de nascimento</strong></label>
+                                <label class="input-group form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" pick-a-date="falecido.data_nascimento" placeholder="Selecione uma data" pick-a-date-options='{  
+                                    format: "dd/mm/yyyy",
+                                    formatSubmit: "yyyy-mm-dd",
+                                    selectYears: 400,
+                                    }' />
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="dataNascimento" id="dataNascimento" type="text" 
+                                    ng-model="falecido.data_nascimento1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Informe a data de nascimento">
+                                </label>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Sexo</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <select class="form-control" name="sexo" ng-model="falecido.sexo"
+                                    data-validate-input
+                                    data-required                                           
+                                    data-message-required="Por favor, selecione o sexo">
+                                        <option value="" selected>Selecione</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Nome do Pai</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="pai" id="pai" placeholder="Nome do Pai" ng-model="falecido.nome_pai"/>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Nome da Mãe</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="mae" id="mae" placeholder="Nome da Mãe" ng-model="falecido.nome_mae">
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>CPF</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="cpf" id="cpf" ui-br-cpf-mask placeholder="Número CPF" ng-model="falecido.cpf"
+                                    data-validate-input 
+                                    data-cpf
+                                    data-message-required="Por favor, informe um CPF"/>
+                                    <i class="icon-append fa fa-user"></i>
+                                    <span class="material-input"></span>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Arquivo CPF</strong></label>
+                                <div for="file" class="form-control form-control-wrapper input-file">
+                                    <div class="button">
+                                        <input  class="form-control" type="file" accept="image/*" name="arquivo_cpf" id="arquivo_cpf" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaArquivoCPF(this)" ng-model="falecido.arquivo_cpf"/>Procurar
+                                    </div>
+                                    <input onclick="$('#arquivo_cpf').trigger('click')" class="form-control" type="text" placeholder="Seu CPF" readonly="">
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Profissão</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="profissao" id="profissao" placeholder="Profissão" ng-model="falecido.profissao"/>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Certidão de Óbito</strong></label>
+                                <div for="file" class="form-control form-control-wrapper input-file">
+                                    <div class="button">
+                                        <input class="form-control" type="file" accept="image/*" name="certidao_de_obito" id="certidao_de_obito" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="falecido.certidao_obito"/>Procurar
+                                    </div>
+                                    <input onclick="$('#certidao_de_obito').trigger('click')" class="form-control" type="text" placeholder="Seu arquivo" readonly="">
+                                </div>
+                                <p style="margin-top:10px;" ng-if="falecido.certidao_obito != ''"><strong>Visualizar Arquivo:</strong> <a href="/sig/img/falecido/{{falecido.certidao_obito}}" target="_blank"> <i class="fa fa-file fa-2x"></i> </a></p>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Documento de Identificação</strong></label>
+                                <div class="form-group form-control-wrapper inputValidate">
+                                    <select class="form-control" name="id_tipo_documento" ng-model="falecido.id_tipo_documento">
+                                        <option value="" selected="" disabled="">Selecione</option>
+                                        <option value="1">RG</option>
+                                        <option value="3">RNE Modelo 19</option>
+                                        <option value="7">Identificação Internacional</option>
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Nº do Documento</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="numero_documento" id="numero_documento" placeholder="Número documento" ng-model="falecido.numero_documento"/>
+                                    <i class="icon-append fa fa-user"></i>
+                                    <span class="material-input"></span>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Arquivo Documento</strong></label>
+                                <div for="file" class="form-control form-control-wrapper input-file">
+                                    <div class="button">
+                                        <input class="form-control" type="file" accept="image/*" name="arquivo_documento" id="arquivo_documento" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaArquivoDocumento(this)" ng-model="falecido.arquivo_documento"/>Procurar
+                                    </div>
+                                    <input onclick="$('#arquivo_documento').trigger('click')" class="form-control" type="text" placeholder="Seu documento" readonly="">
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="label"><strong>Observações</strong></label>
+                                <div class="form-control-wrapper">
+                                    <textarea class="form-control" rows="6" name="observacao" id="observacao" placeholder="Observações" ng-model="falecido.observacao"></textarea>
+                                    <span class="material-input"></span>
+                                </div>
+                            </section>
+                        </div>
+                        <legend><strong>Endereço</strong></legend>
+                        <hr class="simple" style="background: black;" />
+                        <br />
+                        <div class="row">
+                            <section class="col col-4">
+                                <label class="label"><strong>CEP</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" ng-model="falecido.cep" type="text" name="cep" id="cep" ng-blur="getCep('cep')" ui-br-cep-mask placeholder="CEP">
+                                </div>
+                            </section>
+                            <section class="col col-8">
+                                <label class="label"><strong>Endereço</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" placeholder="Endereço" id="logradouro" name='logradouro' ng-model="falecido.logradouro">
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label class="label"><strong>Número</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="numero" id="numero" placeholder="Número" ng-model="falecido.numero">
+                                </div>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label"><strong>Complemento</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="complemento" id="complemento" placeholder="Ex: casa 1, bloco 2" ng-model="falecido.complemento"/>
+                                </div>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label"><strong>Bairro</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" placeholder="Bairro" id="bairro" name='bairro' ng-model="falecido.bairro"/>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label class="label"><strong>Estado</strong></label>
+                                <div class="form-group form-control-wrapper inputValidate">
+                                    <select ng-change="getCidade(falecido.estado)" class="form-control" name="estado" ng-model="falecido.estado">
+                                        <option value="" disabled="">Selecione</option>
+                                        <option data-ng-repeat="estado in estados" data-ng-selected="estado.uf == falecido.estado" ng-value="estado.uf">{{estado.nome}}</option>
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label"><strong>Cidade</strong></label>
+                                <div class="form-group form-control-wrapper inputValidate">
+                                    <select class="form-control" name="cidade" ng-model="falecido.cidade">
+                                        <option value="" disabled="">Selecione</option>
+                                        <option value="{{cidade.nome}}" data-ng-repeat="cidade in cidades" data-ng-selected="cidade.nome == falecido.cidade">{{cidade.nome}}</option>
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label"><strong>País</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <select class="form-control" name="pais" ng-model="falecido.id_pais">
+                                        <option value="" disabled="">Selecione</option>
+                                        <option data-ng-repeat="pais in paises" data-ng-selected="pais.id == falecido.id_pais" value="{{pais.id}}">{{pais.nome}}</option>                   
+                                    </select> <i></i>
+                                </div>
+                            </section>
+                        </div>
+                        <legend><strong>Falecimento</strong></legend>
+                        <hr class="simple" style="background: black;" />
+                        <br />
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Data do Óbito</strong></label>
+                                <label class="input-group form-control-wrapper inputValidate">
+                                     <input class="form-control" type="text" pick-a-date="falecido.data_obito" placeholder="Selecione uma data" pick-a-date-options='{   
+                                        format: "dd/mm/yyyy",
+                                        formatSubmit: "yyyy-mm-dd",
+                                        selectYears: 400,
+                                        }' />
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="dataObito" id="dataObito" type="text" 
+                                    ng-model="falecido.data_obito1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Informe a data de nascimento">
+                                </label>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Causa Mortis</strong></label>
+                                <div class="form-control-wrapper inputValidate">
+                                    <ui-select multiple ng-model="causamortis_uis.selecionados"
+                                        on-remove="removed($item, $model)"
+                                        theme="select2" 
+                                        ng-disabled="disabled" 
+                                        style="width: 300px;"
+                                        ng-change="setarCausaMortisSelecionado(causamortis_uis.selecionados, $select)">
+                                        <ui-select-match placeholder="Selecione a causa mortis">{{$item.descricao}}</ui-select-match>
+                                            <ui-select-choices  group-by="'tipo'"
+                                                refresh="refreshCausaMortis($select.search)"
+                                                refresh-delay="0"
+                                                repeat="causa_mortis in causamortis | filter:$select.search">
+                                                {{causa_mortis.descricao}}
+                                            </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Local de Falecimento</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="local_falecimento" id="local_falecimento" placeholder="Local de Falecimento" ng-model="falecido.local_falecimento"/>
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Número da Certidão de Óbito</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="numero_certidao" id="numero_certidao" placeholder="Número da certidão de óbito" ng-model="falecido.numero_certidao">
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Nome do Cartório</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="cartorio" id="cartorio" placeholder="Nome do cartório" ng-model="falecido.cartorio">
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Número do Livro do Cartórios</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="livro_cartorio" id="livro_cartorio" placeholder="Número do livro do cartório" ng-model="falecido.livro_cartorio">
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>Funerária</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <select class="form-control" name="funeraria" id="funeraria" ng-model="falecido.id_funeraria">
+                                        <option value="" selected>Selecione</option>
+                                        <option value="{{item.id}}" data-ng-repeat="item in funeraria" ng-selected="item.id == falecido.id_funeraria">{{item.nome}}</option> 
+                                    </select>
+                                    <i></i>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Nome do Médico Legista</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="nome_medico" id="nome_medico" placeholder="Nome do médico legista" ng-model="falecido.nome_medico">
+                                </div>
+                            </section>
+                            <section class="col col-3">
+                                <label class="label"><strong>CRM Médico</strong></label>
+                                <div class="form-control form-control-wrapper inputValidate">
+                                    <input class="form-control" type="text" name="crm_medico" id="crm_medico" placeholder="Número do CRM do médico legista" ng-model="falecido.crm_medico">
+                                </div>
+                            </section>
+                        </div>
+                        <legend><strong>Sepultamento</strong></legend>
+                        <hr class="simple" style="background: black;" />
+                        <br />
+                        <div class="row">
+                            <section class="col col-3">
+                                <label class="label"><strong>Data do Sepultamento</strong></label>
+                            </section>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FIM DA MODAL DO CADASTRO DE FALECIDOS -->

@@ -1,0 +1,349 @@
+<script src="controllers/controller.formCadastroPedidos.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroPedidos' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Gerar Pedidos</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroPedidos-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4 section">
+										<label class="label"><strong>Departamento do Funcionário</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="depto_funcionario" name="depto_funcionario" ng-model="addPedido.id_departamento_funcionario"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o departamento">
+												<option value="" selected>Selecione</option>
+												<option ng-selected="addPedido.id_departamento_funcionario == departamento.id" value="{{departamento.id}}" data-ng-repeat="departamento in departamentos_funcionarios">{{departamento.descricao}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>																									
+									<section class="col col-4">
+										<label class="label"><strong>Empresa para entrega</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="entidade" name="entidade" ng-model="addPedido.id_entidade"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione a empresa">
+												<option value="" selected>Selecione</option>
+												<option ng-selected="addPedido.id_entidade == entidade.id" value="{{entidade.id}}" data-ng-repeat="entidade in entidades">{{entidade.nome}}</option>	
+											</select>
+											<i></i>
+										</div>										
+									</section><!-- | filter:{funcionario: 1} -->
+									<section class="col col-4">
+										<label class="label"><strong>Responsável</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="responsavel.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeResponsavel(responsavel.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices repeat="responsavel in pessoa | filter:{funcionario: 1} | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="responsavel.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="responsavel" id="responsavel" type="text" 
+	                                          	ng-model="addPedido.id_pessoa_responsavel"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o responsável">
+										</div>
+									</section>			
+								</div>
+								<div class="row">									
+									<section class="col col-4">
+									<label class="label"><strong>Narrativa</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" name="narrativa" id="narrativa" placeholder="Considerações gerais" ng-model="addPedido.narrativa"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="descricao" id="descricao" placeholder="Descrição" ng-model="addPedido.descricao"
+											data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Entre com uma descrição">
+                                            <i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Aprovador</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="aprovador.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeAprovador(aprovador.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices repeat="aprovador in pessoa | filter:{funcionario: 1} | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="aprovador.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="aprovador" id="aprovador" type="text" 
+	                                          	ng-model="addPedido.id_pessoa_aprovador"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o aprovador">
+										</div>
+									</section>	
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarPedido(addPedido)" ng-disabled="pedido.id_situacao_pedido > 1 || pedido.itens.length > 0">
+									Salvar
+								</button>								
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL --> 
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Adicionar Produtos ou Serviços</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroItem-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-3 section">
+										<label class="label"><strong>Centro de Custo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="id_centro_custo" name="id_centro_custo" ng-model="addItem.id_centro_custo"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o centro de custo">
+												<option value="" selected>Selecione</option>
+												<option value="{{custo.id}}" data-ng-repeat="custo in centro_custo">{{custo.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Item</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="prod_serv.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeItem(prod_serv.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices repeat="prod_serv in produtos_servicos | filter:{ativo: 1} | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="prod_serv.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="prod_serv" id="prod_serv" type="text" 
+	                                          	ng-model="addItem.id_produtos_servicos"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um item">
+										</div>
+									</section>	
+									<section class="col col-3">
+										<label class="label"><strong>Quantidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="quantidade" id="quantidade" placeholder="Informe a quantidade"
+											ng-model="addItem.quantidade"
+											ui-number-mask="0"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a quantidade">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da quantidade</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<!-- <label class="label"><strong>Data da entrega</strong></label>
+										<label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="addItem.data_entrega" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />		
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_entrega" id="data_entrega" type="text" 
+                                            ng-model="addItem.data_entrega1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data de entrega">			                                            
+										</label> -->
+										<label class="label"><strong>Data da entrega</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+																	<input class="form-control data-picker" ng-model="addItem.data_entrega" type="text"
+																	data-validate-input
+						                                            mask="99/99/9999" 
+						                                            data-required
+						                                            data-message-required="Informe a data de entrega"
+																	/>
+																	<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="addItem.data_entr" placeholder="Selecione uma data" pick-a-date-options='{
+										                                format: "dd/mm/yyyy",
+										                                formatSubmit: "yyyy-mm-dd",
+										                                selectYears: 190,							                                
+										                            }' 
+																	></button></span>
+						                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_entrega" id="data_entrega" type="text" 
+						                                            ng-model="addItem.data_entrega1"
+						                                            data-validate-input
+						                                            data-required 
+						                                            data-message-required="Informe a data de entrega">
+																</label>
+									</section>								
+								</div>	
+								<!--
+								<div class="row">
+									<section class="col col-10">
+									<label class="label"><strong>Narrativa</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" name="narrativa" id="narrativa" placeholder="Considerações gerais" ng-model="addItem.narrativa"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+								</div>
+								-->
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarItem(addItem)" ng-disabled="!pedido.id || pedido.id_situacao_pedido > 1">
+									Salvar
+								</button>								
+							</footer>
+						</form>
+							<table class="table table-bordered" ng-show="pedido.itens.length > 0">
+								<thead>
+									<tr>
+										<th class="label-primary"></th>
+										<th class="label-primary" style="color:white"><h6>Centro de custo</h6></th>
+										<th class="label-primary" style="color:white"><h6>Unidade de medida</h6></th>
+										<th class="label-primary" style="color:white"><h6>Item</h6></th>								
+										<th class="label-primary" style="color:white"><h6>Tipo</h6></th>
+										<th class="label-primary" style="color:white"><h6>Quantidade</h6></th>
+										<th class="label-primary" style="color:white"><h6>Data de entrega</h6></th>
+										<th class="label-primary" style="color:white"><h6>Situação</h6></th>
+									</tr>
+								</thead>
+								<tbody>																		
+									<tr ng-repeat="item in pedido.itens">
+										<td style="width: 80px;">
+											<a class="btn btn-danger btn-sm" ng-click='delItem($index, item)' ng-disabled="pedido.id_situacao_pedido > 1"><i class="fa fa-minus-square"></i> Excluir</a>				
+										</td>
+										<td>{{item.centro_custo}}</td>
+										<td>{{item.unidade_medida}}</td>
+										<td>{{item.produtos_servicos_descricao}}</td>
+										<td>{{item.produtos_servicos_tipo_desc}}</td>
+										<td>{{item.quantidade}}</td>
+										<td>{{item.data_entrega_show | date : 'dd/MM/yyyy'}}</td>
+										<td>{{item.situacao}}</td>
+									</tr>
+								</tbody>								
+							</table>
+							<form id="cadastroAprovacao-form" class="smart-form">							
+								<footer>
+									<button id="enviar_aprova" class="btnmd btnmd-info  pull-right" ng-click="modalEnviar()" ng-show="pedido.itens.length > 0 && pedido.id_situacao_pedido <= 1">
+										Enviar p/ Aprovação
+									</button>
+								</footer>
+							</form>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+	</div>
+
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalUnidade">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Unidade de Medida</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="adicionarUnidade-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addUnidade.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição unidade de medida"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da Unidade de Medida</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 			
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarUnidade()">Salvar</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+</section>
+<!-- end widget grid -->
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+ *
+ * pageSetUp() is needed whenever you load a page.
+ * It initializes and checks for all basic elements of the page
+ * and makes rendering easier.
+ *
+ */
+pageSetUp();
+</script>

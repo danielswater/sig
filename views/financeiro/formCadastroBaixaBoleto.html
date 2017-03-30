@@ -1,0 +1,154 @@
+<script src="controllers/controller.formCadastroBaixaBoleto.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroBaixaBoleto' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Baixa de Boleto</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+				
+						<div class="smart-form">
+							<form id="cadastroBaixaBoleto-form" class="smart-form" novalidate="novalidate" validate-form>							
+								<fieldset>
+									<div class="row">
+										<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<label class="label"><strong>Arquivo</strong></label>
+											<div class="form-inline">
+												<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+												 	style="border: 1px #CCC dashed; ">
+													<div class="progress progress-sm" style="margin: 7px">
+														<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{__userFiles[0].percent}}%"></div>
+													</div>												
+												</div>
+												<!-- accept="image/*"-->
+												<div class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+													<file-upload class="btn btn-primary btn-rad btn-trans file-upload" name="userFile[]" multiple="false" uri="api/index.php/uploadcommumfile" style="padding: 5px;">
+									                    <i class="fa fa-upload"></i>
+									                    <span>Fotos</span>
+									                </file-upload>
+									            </div>
+											</div>
+										</select>
+									</div>		
+								</fieldset>
+								<footer>
+									<button class="btnmd btnmd-primary pull-right" ng-click="cadastrarBaixaBoleto()" >
+										Salvar
+									</button>								
+								</footer>
+							</form>
+							<div ng-show="boletos.length > 0">
+								<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th width="15%" class="label-primary" style="color:white"><h6>Nosso numero</h6></th>
+													<th width="55%" class="label-primary" style="color:white"><h6>Titular</h6></th>
+													<th width="15%" class="label-primary" style="color:white"><h6>Data vencimento</h6></th>
+													<th width="15%" class="label-primary" style="color:white" align="center"><h6>Valor</h6></th>
+													<th class="label-primary" style="color:white"><h6></h6></th>
+												</tr>
+											</thead>
+											<tbody>				
+												<tr ng-repeat="item_boleto in boletos">
+													<td>{{item_boleto.nosso_numero}}</td>
+													<td>{{item_boleto.titular}}</td>
+													<td>{{item_boleto.vencimento | date : 'dd/MM/yyyy'}}</td>
+													<td>{{item_boleto.valor_titulo}}</td>
+													</td>
+													<td align="center">
+														<i class="glyphicon glyphicon-chevron-down"
+														ng-show="item_boleto.status == true" style="color: #40AC2B"></i>
+														<i class="glyphicon glyphicon-remove"
+														ng-show="item_boleto.status == false" style="color: #FF0000"></i>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+							</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalBoleto">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Gerando Boletos</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<div class="row">
+							<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div>
+									<div class="progress progress-sm">
+										<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{processo}}%;"></div>
+									</div>
+									<div align="center">
+										<h1>
+											<strong>{{processo}}%</strong>
+										</h1>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>	
+				</div>
+			<!-- 	<div class="modal-footer">	                
+					<button type="button" class="btnmd btnmd-primary" ng-disabled="processo < 100" data-dismiss="modal">OK</button>		        
+				</div> -->
+			</div>
+		</div>
+	</div>	
+<!-- Modal -->
+
+
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

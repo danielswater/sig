@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+
+	<style type="text/css">
+		body {
+			font: Verdana, Arial, Helvetica, sans-serif;
+		}
+
+		.cabecalho{
+			background-color: #EDEDED;
+		}
+		.zebrado_par{
+			background: #FFFFFF;
+		}
+
+		.zebrado_impar{
+			background: #EFEFEF;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<table border="0">
+			<tr>
+				<td width="90" height="90">
+					<img src="{{logotipo}}" height="80">
+					<div></div>
+				</td>
+				<td colspan="{{n_coluna_titulo}}">
+					<h2>{{titulo}}</h2>
+					<small>Data: {{data}}</small>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					
+				</td>
+				<td colspan="{{n_coluna_titulo}}">
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		{{corpo}}
+	</div> <!-- Fim da div#principal -->
+</body>
+</html>

@@ -1,0 +1,132 @@
+<script src="controllers/controller.formCadastroCiclo.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroCiclo' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Ciclos</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroCiclo-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">													
+								<div class="col col-6">				
+										<section class="col col-8">
+											<label class="label"><strong>Descrição</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<i class="icon-append fa fa-question-circle"></i>
+
+												<input 	class 					="form-control" 
+														name 					="descricao" 
+														id 						="descricao" 
+														placeholder 			="Descrição"
+														ng-model 				="ciclo.descricao"
+	                                            		data-maxlength 			="200"
+	                                            		data-message-required 	="Informe a descrição"
+	                                            		data-message-maxlength	="Máximo de 200 Caracteres"
+	                                        			data-validate-input
+	                                            		data-required >
+
+												<span class="material-input"></span>
+												<b class="tooltip tooltip-top-right">
+													<i class="fa fa-warning txt-color-teal"></i> 
+													Descrição do ciclo</b> 											
+											</div>										
+										</section>
+										<section class="col col-4">
+											<label class="label"><strong>Duração (meses)</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<i class="icon-append fa fa-gear"></i>
+												<input data-mask="9?99" class="form-control" name="duracao" id="duracao" maxlength="3" placeholder="Duração"
+												ng-model="ciclo.duracao"
+												data-validate-input
+	                                            data-required 
+	                                            data-message-required="Informe a duração">
+												<span class="material-input"></span>
+												<b class="tooltip tooltip-top-right">
+													<i class="fa fa-gear txt-color-teal"></i> 
+													Duração do ciclo</b> 											
+											</div>	
+										</section>
+
+										<section class="col col-12">
+											<label class="label"><strong>Status</strong></label>
+											<div class="form-inline">
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="ciclo.ativo">
+														<span>Ativo</span>  
+													</label>
+												</div>
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="status" value="0" ng-model="ciclo.ativo">
+														<span>Inativo</span>  
+													</label>	
+												</div>
+											</div>
+										</section>											
+									</div>
+									<div class="col col-6">										
+										<section class="col col-lg-12">
+											<label class="label"><strong>Observação</strong></label>
+											<textarea rows="5" class="form-control ng-pristine ng-valid" name="observacao" id="observacao" placeholder="Observação" ng-model="ciclo.observacao"></textarea>
+										</section>
+									</div>
+								</div>							
+							</fieldset>
+							<footer>
+							<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								<div class="ripple-wrapper"></div></a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarCiclo(ciclo)" id="SalvarCiclo">
+									Salvar
+								</button>							
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

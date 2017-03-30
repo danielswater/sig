@@ -1,0 +1,166 @@
+<script src="controllers/controller.formCadastroFuncao.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroFuncao' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Função</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroFuncao-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<!--
+									<section class="col col-4">
+										<label class="label"><strong>Tipo de Funcionário</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">										
+											<select class="form-control" name="id_tipo_funcionario" id="id_tipo_funcionario" 
+												ng-model="funcao.id_tipo_funcionario"
+												data-validate-input
+												data-required
+												data-message-required="Por favor, selecione o tipo de funcionário">
+												<option value="" selected>Selecione</option>
+												<option value="{{tipofuncionario.id}}" ng-selected="funcao.id_tipo_funcionario == tipofuncionario.id" data-ng-repeat="tipofuncionario in tiposfuncionario">{{tipofuncionario.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+									-->
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Grupo de Tipo de Funcionário</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="tipo.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoTipoFuncionario(tipo.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="tipo in tipofuncionarios | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="tipo.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="seltipofuncionario" id="seltipofuncionario" type="text" 
+	                                          	ng-model="funcao.id_tipo_funcionario"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um Tipo de Funcionário">
+										</div>
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input  class 					="form-control" 
+													name 					="descricao" 
+													id 						="descricao" 
+													placeholder 			="Descrição"
+													ng-model 				="funcao.descricao"
+													data-validate-input
+													data-required 
+													data-message-required 	="Informe a descrição"
+													data-maxlength 			="200"
+                                            		data-message-maxlength	="Máximo de 200 Caracteres">
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Descrição do tipo de Funcionário</b>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="funcao.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="funcao.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>																										
+								</div>								
+							</fieldset>
+							<footer>
+							<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								<div class="ripple-wrapper"></div></a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarFuncao(Funcao)" id="SalvarFuncao">
+									Salvar
+								</button>
+							</footer>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal Tipo de Funcionário-->
+	<div class="modal fade" id="myModalTipoFuncionario">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Tipo de Funcionário</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroTipoFuncionario-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addTipoFuncionario.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe a descrição do Tipo de Funcionário"><div class="floating-label">Novo Tipo de Funcionário</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Tipo de Funcionário</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section>
+					</form>
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal" ng-click="tipo.selected = ''">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarTipoFuncionario()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal Tipo de Funcionário-->
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

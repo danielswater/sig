@@ -1,0 +1,198 @@
+<script src="controllers/controller.consultaFalecidos.js"></script>            
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+</style>
+<!-- widget grid -->
+<section ng-controller='consultaFalecidos' id="widget-grid" widget-grid>
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de Falecidos</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+             <div class="table-responsive"> 
+              <table show-filter="true" class="table table-striped table-bordered">
+                <thead>
+
+                  <tr>
+                    <th ng-click="changeSorting('nome')">NOME DO FALECIDO <i class="glyphicon" ng-class="getIcon('nome')"></i></th>                    
+                    <th ng-click="changeSorting('data_obito_show')">DATA DE ÓBITO <i class="glyphicon" ng-class="getIcon('data_obito_show')"></i></th>
+                    <th ng-click="changeSorting('quadra_descricao')">QUADRA <i class="glyphicon" ng-class="getIcon('quadra_descricao')"></i></th>
+                    <th ng-click="changeSorting('ua_descricao')">JAZIGO <i class="glyphicon" ng-class="getIcon('ua_descricao')"></i></th>
+                    <th ng-click="changeSorting('gaveta_descricao')">GAVETA <i class="glyphicon" ng-class="getIcon('gaveta_descricao')"></i></th>
+                    <th ng-click="changeSorting('data_vencimento_gaveta_show')">DATA DE VENCIMENTO <i class="glyphicon" ng-class="getIcon('data_vencimento_gaveta_show')"></th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    
+                    <td><input ng-model="search.nome" id="search" class="form-control" placeholder="Busque pelo nome"></td>
+                    <td></td>
+                    <td><input ng-model="search.quadra_descricao" id="search" class="form-control" placeholder="Busque pela Quadra"></td>
+                    <td><input ng-model="search.ua_descricao" id="search" class="form-control" placeholder="Busque pelo Jazigo"></td>
+                    <td><input ng-model="search.gaveta_descricao" id="search" class="form-control" placeholder="Busque pela Gaveta"></td>
+                    <td><input ng-model="search.data_vencimento_gaveta_show" id="search" class="form-control" placeholder="Data de Vencimento"></td>
+                    <td></td>
+                  </tr>
+                  <tr dir-paginate="falecido in data | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+                    
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.nome}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.data_obito_show}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.quadra_descricao}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.ua_descricao}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.gaveta_descricao}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{falecido.data_vencimento_gaveta_show}}</td>
+                    <td><button ng-click='editCadastro(falecido.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"><div class="ripple-wrapper"></div></button>
+                    <button ng-click='delCadastro(falecido.id, falecido.id_gaveta)' popover="Excluir Falecido" popover-trigger="mouseenter" class="btn btn-danger btn-sm fa fa-trash-o"><div class="ripple-wrapper"></div></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <!-- <table show-filter="true" ng-table="tableParams" class="table table-striped table-bordered">
+               
+                <tbody>
+                    <tr ng-repeat="falecido in $data">
+                        <td data-title="'Ações'">
+                          <button ng-click='editCadastro(falecido.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btn btn-default ng-scope"><i class="fa fa-pencil-square-o fa-4"></i></button>
+                        </td>
+                        <td data-title="'NOME DO FALECIDO'" sortable="'nome'" filter="{ 'nome': 'text' }">{{falecido.nome}}</td>
+                        <td data-title="'DATA DE NASCIMENTO'" sortable="'data_nascimento'" align="center">{{falecido.data_nascimento}}</td>
+                        <td data-title="'DATA DE ÓBITO'" sortable="'data_obito'" align="center">{{falecido.data_obito}}</td>
+                        <td data-title="'CIDADE'" sortable="'cidade'" filter="{ 'cidade': 'text' }" align="center">{{falecido.cidade}}</td>
+                        <td data-title="'ESTADO'" sortable="'estado'" filter="{ 'estado': 'text' }" align="center">{{falecido.estado}}</td>
+                    </tr>
+                </tbody>
+            </table> -->
+            </div>  
+            </div>     
+          <div>      
+        <div>
+            <div class="row" style="margin-top:0px; margin-bottom:0px;">
+              <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+                <form class="form-horizontal">
+                  <div class="form-group">
+
+                    <label style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Quantidade: {{data.length}}</strong></label>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:2px; margin-bottom:5px;">
+              <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 0px;">
+                <form class="form-horizontal">
+                  <div class="form-group">
+
+                    <label for="inputEmail3" style="padding-top:2px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Itens por página:</strong></label>
+                    <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                      <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+              <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+                <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+              </div>
+            </div>  
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+
+  
+  
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+   *
+   * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+   *
+   * // activate tooltips
+   * $("[rel=tooltip]").tooltip();
+   *
+   * // activate popovers
+   * $("[rel=popover]").popover();
+   *
+   * // activate popovers with hover states
+   * $("[rel=popover-hover]").popover({ trigger: "hover" });
+   *
+   * // activate inline charts
+   * runAllCharts();
+   *
+   * // setup widgets
+   * setup_widgets_desktop();
+   *
+   * // run form elements
+   * runAllForms();
+   *
+   ********************************
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+
+  pageSetUp();
+  
+  /*
+   * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+   * eg alert("my home function");
+   * 
+   * var pagefunction = function() {
+   *   ...
+   * }
+   * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+   * 
+   * TO LOAD A SCRIPT:
+   * var pagefunction = function (){ 
+   *  loadScript(".../plugin.js", run_after_loaded);  
+   * }
+   * 
+   * OR
+   * 
+   * loadScript(".../plugin.js", run_after_loaded);
+   */
+
+  // PAGE RELATED SCRIPTS
+  
+  // pagefunction
+  
+  var pagefunction = function() {
+    
+  };
+  
+  // end pagefunction
+  
+  // run pagefunction on load
+  pagefunction();
+        
+
+</script>

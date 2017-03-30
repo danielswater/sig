@@ -1,0 +1,87 @@
+<script src="controllers/controller.consultaRelatorioInadimplente.js"></script>
+
+<section ng-controller='consultaRelatorioInadimplente' id="widget-grid" widget-grid>
+  
+  <div class="row">   
+	
+	<article class="col-sm-12 col-md-12 col-lg-12">
+	  
+	  <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+		<header>
+		  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+		  <h2>Relatório de Inadimplentes</h2> 
+		</header>
+		
+		<div>
+		  
+		  <div class="widget-body no-padding">
+			<form id="consultaRelatorioInadimplente-form" class="smart-form" novalidate="novalidate" validate-form>
+			  <fieldset>
+				<div class="row">
+					<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+						<label class="label"><strong>Apresentar:</strong></label>
+						<div class="form-inline">
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="formato" value="0" ng-model="inadimplente.apresentar">
+									<span>Todos</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="formato" value="1" ng-model="inadimplente.apresentar">
+									<span>Por nome</span>  
+								</label>	
+							</div>
+						</div>
+					</section>
+					<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-6" ng-show="inadimplente.apresentar == 1">
+						<label class="label"><strong>Nome</strong></label>
+						<div class="form-control form-control-wrapper inputValidate">
+							<input class="form-control" name="nome" id="nome" placeholder="Selecione um responsavel" typeahead="pessoa as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="passaPessoa($item, $model, $label)"
+							ng-model="pessoa.nome">
+						    <i class="icon-append fa fa-user"></i>
+							<span class="material-input"></span>
+
+							<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="inadimplente_nome" id="inadimplente_nome" type="text" 
+			              	ng-model="inadimplente.nome"
+			              	data-validate-input
+			                data-required 
+			                data-message-required="Selecione o responsável pela conta">
+						</div>
+					</section>
+				</div>
+			  </fieldset>
+			  <footer>
+				<button class="btnmd btnmd-info pull-right" ng-click="gerarRelatorio()" id="bt_relatorioevento" name="bt_relatorioevento">
+				  Gerar Relatório
+				</button>
+			  </footer>
+			</form>
+		  </div>		  
+		</div>		
+	  </div>	  
+	</article>
+
+  </div>
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

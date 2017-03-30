@@ -1,0 +1,444 @@
+<script src="controllers/controller.formCadastroMotorista.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroMotorista' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cadastro de Motoristas</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+
+											
+												<form id="cadastroMotorista-form" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Nome</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="nome" 
+																			id 						="nome" 
+																			placeholder				="Nome do Motorista"
+																			ng-model				="motorista.nome"																			
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o nome do Motorista"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe Nome do Motorista
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>RG</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="rg" 
+																			id 						="rg" 
+																			placeholder				="RG do Motorista"
+																			ng-model				="motorista.rg"
+																			ui-br-rg-mask
+																			data-rg
+																			data-message-rg 		="Por favor, informe um RG válido"
+																			maxlength 				="20"
+						                                            		data-message-required 	="Por favor, informe o RG"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o RG
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>CPF</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="cpf" 
+																			id 						="cpf" 
+																			placeholder				="CPF do Motorista"
+																			ng-model				="motorista.cpf"
+																			ui-br-cpf-mask																			
+																			data-cpf
+																			data-message-cpf 		="Por favor, informe um CPF válido"
+																			maxlength 				="14"
+						                                            		data-message-required 	="Por favor, informe o CPF"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o CPF
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>CNH</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="cnh" 
+																			id 						="cnh" 
+																			placeholder				="CNH do Motorista"
+																			ng-model				="motorista.cnh"
+																			ui-br-cnh-mask
+																			data-cnh
+																			data-message-cnh 		="Por favor, informe uma CNH válida"
+																			maxlength 				="20"
+						                                            		data-message-required 	="Por favor, informe a CNH"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe a CNH
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Permissão</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="permissao" 
+																			id 						="permissao" 
+																			placeholder				="Permissão de transporte escolar"
+																			ng-model				="motorista.permissao"
+																			maxlength 				="20"
+						                                            		data-message-required 	="Por favor, informe a Permissão"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe a permissão de transporte escolar
+																	</b>
+																</div>
+															</section>
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+															<section class="col col-xs-3 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>E-mail</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="email" 
+																			id 						="email" 
+																			placeholder				="E-mail do Motorista"
+																			ng-model				="motorista.email"
+																			ui-br-email-mask
+																			data-email
+																			data-message-email 		="Por favor, informe um E-mail válido"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o E-mail"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o E-mail
+																	</b>
+																</div>
+															</section>
+															<section class="col col-xs-3 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Telefone Fixo</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="telefone_fixo" 
+																			id 						="telefone_fixo" 
+																			placeholder				="Telefone Fixo do Motorista"
+																			ng-model				="motorista.telefone_fixo"
+																			ui-br-phone-number
+  								 											data-telefone
+   																			data-message-telefone="Por favor, informe um telefone válido"
+																			maxlength 				="15"
+						                                            		data-message-required 	="Por favor, informe o Telefone Fixo"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Telefone Fixo
+																	</b>
+																</div>
+															</section>
+															<section class="col col-xs-3 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Telefone Celular</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="telefone_celular" 
+																			id 						="telefone_celular" 
+																			placeholder				="Telefone Celular do Motorista"
+																			ng-model				="motorista.telefone_celular"
+																			ui-br-phone-number
+																			data-mobile
+																			data-message-mobile="Por favor, informe um telefone celular válido"
+																			maxlength 				="16"
+						                                            		data-message-required 	="Por favor, informe o Telefone Celular"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Telefone Celular
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-3 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Foto</strong></label>
+																<div for="file" class="form-control form-control-wrapper input-file">
+																	<div class="button">
+																	<input 	class 	="form-control"
+																			ng-model="motorista.foto" 
+																			type 	="file" 
+																			accept 	="image/*" 
+																			name 	="foto" 
+																			id 		="foto" 
+																			onchange="this.parentNode.nextSibling.value = this.value; 
+																						angular.element(this).scope().setPathUpload(this)">
+																			Procurar
+																	</div>
+																	<input 	onclick 	="$('#foto').trigger('click')" 
+																			class 		="form-control" 
+																			type 		="text" 
+																			placeholder ="Sua foto" 
+																			name 		="foto1" 
+																			id 			="foto1"
+																			readonly>
+																</div>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Código Postal</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input class="form-control" ng-model="motorista.codigo_postal" type="text" name="cep" id="cep" ng-blur="getCep()" ui-br-cep-mask placeholder="CEP"
+																		data-validate-input
+																		data-required
+																		data-message-required="Por favor, informe o cep">
+																	<i class="icon-append fa fa-search"></i>
+																	<span class="material-input"></span>
+																</div>
+															</section>
+
+															<section class="col col-xs-6 col-s-6 col-md-6 col-lg-6">
+																<label class="label"><strong>Logradouro</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="logradouro" 
+																			id 						="logradouro" 
+																			placeholder				="Logradouro"
+																			ng-model				="motorista.logradouro"																			
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o Logradouro"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Logradouro
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Número</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="numero" 
+																			id 						="numero" 
+																			placeholder				="Número"
+																			ng-model				="motorista.numero"																			
+																			maxlength 				="10"
+						                                            		data-message-required 	="Por favor, informe o Número"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Número
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Complemento</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="complemento" 
+																			id 						="complemento" 
+																			placeholder				="Complemento"
+																			ng-model				="motorista.complemento"
+																			maxlength 				="100">
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Complemento
+																	</b>
+																</div>
+															</section>
+															
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Estado</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select ng-change="getCidade(motorista.estado)" class="form-control" name="estado" ng-model="motorista.estado"
+																		data-validate-input
+																		data-required
+																		data-message-required="Por favor, selecione o estado">
+																		<option value="" disabled="">Selecione</option>
+																		<option data-ng-repeat="estado in estados" data-ng-selected="estado.uf == motorista.estado" ng-value="estado.uf">{{estado.nome}}</option>
+																	</select>
+																	<i></i>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Cidade</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select class="form-control" name="cidade" ng-model="motorista.cidade"
+																		data-validate-input
+																		data-required
+																		data-message-required="Por favor, selecione a cidade">
+																		<option value="" disabled="">Selecione</option>
+																		<option value="{{cidade.nome}}" data-ng-repeat="cidade in cidades" data-ng-selected="cidade.nome == motorista.cidade">{{cidade.nome}}</option>
+																	</select>
+																	<i></i>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Bairro</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="bairro" 
+																			id 						="bairro" 
+																			placeholder				="Bairro"
+																			ng-model				="motorista.bairro"																			
+																			maxlength 				="100"
+						                                            		data-message-required 	="Por favor, informe o Bairro"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Bairro
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-2 col-md-2 col-lg-2">
+																<label class="label"><strong>Status</strong></label>
+																<div class="form-inline">
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="motorista.ativo">
+																			<span>Ativo</span>  
+																		</label>
+																	</div>
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" value="0" ng-model="motorista.ativo">
+																			<span>Inativo</span>  
+																		</label>	
+																	</div>
+																</div>
+															</section>
+														<!-- ****************************************************************************************** -->
+														</div>
+													</fieldset>
+													<footer>
+														<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"> Novo <div class="ripple-wrapper"></div></a>
+														<button class="btnmd btnmd-info pull-right" ng-click="cadastrarMotorista(motorista)" id="SalvarMotorista"> Salvar </button>
+													</footer>
+												</form>
+											
+
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+
+	
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	// end pagefunction
+	// run pagefunction on load
+
+</script>

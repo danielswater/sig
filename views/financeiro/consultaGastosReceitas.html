@@ -1,0 +1,280 @@
+<script src="controllers/controller.consultaGastosReceitas.js"></script>
+<!-- widget grid -->
+<section ng-controller='consultaGastosReceitas' id="widget-grid" widget-grid>
+
+  <!-- START ROW -->
+  <div class="row">
+
+    
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+        <header>
+          <span class="widget-icon"> <i class="fa fa-filter"></i> </span>
+          <h2>Filtrar Gastos X Receitas</h2> 
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <form id="buscarGastosReceitas-form" class="smart-form" novalidate="novalidate" validate-form>              
+              <fieldset>
+                <div class="row">
+                  <section class="col col-lg-5">
+                    <label class="label"><strong>Eventos</strong></label>
+                    <div class="form-control-wrapper inputValidate">
+                      <ui-select ng-model="evento.selected"
+                      theme="bootstrap"
+                      ng-disabled="disabled"
+                      reset-search-input="false"
+                      ng-change="verificarAcaoEvento(evento.selected)">
+                        <ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.title}}
+                        </ui-select-match>
+                        <ui-select-choices group-by="'tipo'" repeat="evento in eventos | propsFilter: {title: $select.search}">
+                          <div ng-bind-html="evento.title | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                      <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_evento" id="id_evento" type="text" 
+                      ng-model="buscar.id_evento">
+                    </div>
+                  </section>
+                  <section class="col col-1">
+                    <div align="center"><strong>Ou</strong></div>
+                  </section>
+                  <section class="col col-3">
+                    <label class="label"><strong>Data</strong></label>
+                    <div class="form-control-wrapper inputValidate">
+                      <i class="icon-append fa fa-question-circle"></i>
+                      <input class="form-control" name="data_inicio" id="data_inicio" placeholder="De"
+                      ng-model="buscar.data_inicio"
+                      ng-disabled="buscar.id_evento"
+                      mask="99/9999"
+                      data-validate-input
+                      data-required 
+                      data-message-required="Informe a data de inicio">
+                      <span class="material-input"></span>
+                      <b class="tooltip tooltip-top-right">
+                        <i class="fa fa-warning txt-color-teal"></i> 
+                        Data de início</b>                       
+                      </div>                    
+                    </section>
+                  <section class="col col-3">
+                    <label class="label"><strong>&nbsp;</strong></label>
+                    <div class="form-control-wrapper inputValidate">
+                      <i class="icon-append fa fa-question-circle"></i>
+                      <input class="form-control" name="data_final" id="data_final" placeholder="Até"
+                      ng-model="buscar.data_fim"
+                      ng-disabled="buscar.id_evento"
+                      mask="99/9999"
+                      data-validate-input
+                      data-required 
+                      data-message-required="Informe a data final">
+                      <span class="material-input"></span>
+                      <b class="tooltip tooltip-top-right">
+                        <i class="fa fa-warning txt-color-teal"></i> 
+                        Data de fim</b>                       
+                      </div>                    
+                    </section>
+
+                </div>
+              </fieldset>
+              <footer>
+                <button class="btnmd btnmd-info  pull-right" ng-click="statusGastosReceitas()">
+                  Buscar
+                </button> 
+              </footer>
+            </form>
+          </div>
+          <!-- end widget content -->
+
+        </div>
+        <!-- end widget div -->
+
+      </div>
+      <!-- end widget -->
+
+    </article>
+    <!-- END COL -->
+    
+  </div>
+
+  <!-- END ROW -->
+  <div class="row">
+
+    
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12" ng-show="statusGastoReceitas.error == 0">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+        <header>
+          <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+          <h2>Dados</h2> 
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class=""> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Despesas e Receitas</a></h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse in" style="height: auto;">
+                  <div class="panel-body">
+                   
+                    <section class="col col-lg-12">
+
+                      <nvd3-pie-chart
+                        data="despesasReceitas"
+                        id="id_despesas_receitas"
+                        showLabels="true"
+                        x="xFunction()"
+                        y="yFunction()"   
+                        labelThreshold=".05"                      
+                        donutLabelsOutside="true"
+                        labelType="percent"
+                        showLegend="true"
+                        tooltips="true"
+                        tooltipcontent="toolTipContentFunction()">
+                        <svg height="300"></svg>
+                      </nvd3-pie-chart>
+
+                    </section>
+                  </div>
+                </div>
+              </div>
+            <div class="panel-group smart-accordion-default" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>Detalhes</a></h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+                  <div class="panel-body">
+
+                    <div ng-repeat="detalhe in detalhes">
+                      <div class="row">
+                        <h4 class="col col-lg-12">
+                          {{detalhe.title}}
+                        </h4>
+                      </div>
+                      <div class="row">
+                        <section class="col col-lg-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="label-primary" style="color:white"><h6>Despesa</h6></th>
+                                  <th class="label-primary" style="color:white"><h6>Valor</h6></th>
+                                </tr>
+                              </thead>
+                              <tbody>                   
+                                <tr ng-repeat="despesa in detalhe.caixa | filter:filtroDespesas">
+                                  <td>{{despesa.descricao}}</td>
+                                  <td>{{despesa.valor | currency}}</td>
+                                </tr>
+                              </tbody>  
+                            </table>
+                          </div>
+                        </section>
+                        <section class="col col-lg-6">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="label-primary" style="color:white"><h6>Receitas</h6></th>
+                                  <th class="label-primary" style="color:white"><h6>Valor</h6></th>
+                                </tr>
+                              </thead>
+                              <tbody>                                     
+                                <tr ng-repeat="receita in detalhe.caixa | filter:filtroReceitas">
+                                  <td>{{receita.descricao}}</td>
+                                  <td>{{receita.valor | currency}}
+                                  </td>
+                                </tr>
+                              </tbody>  
+                            </table>
+                          </div>
+                        </section>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <div class="ng-scope" style="border-bottom: dotted #999 1px">
+                            <p>
+                              <h4 class="text-success ng-binding ng-scope"><strong>Totais:</strong></h4>
+                            </p>
+                            <p class="ng-binding"><strong>Despesa:</strong> {{somaDespesa(detalhe.caixa) | currency}}</p> 
+                            <p class="ng-binding"><strong>Receita:</strong> {{somaReceitas(detalhe.caixa) | currency}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                </div>
+              </div>
+              <div class="panel panel-default" ng-show="historicos.length > 0">
+                <div class="panel-heading">
+                  <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>Histórico</a></h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" style="height: 0px;">
+                  <div class="panel-body">
+                   
+                    <nvd3-multi-bar-chart
+                      data="historicos"
+                      id="id_historicos"
+                      width="600"
+                      height="300"
+                      showXAxis="true"
+                      showYAxis="true"  
+                      yaxistickformat="xAxisTickFormatFunction()"                 
+                      reduceXTicks="false"
+                      rotateLabels="90"
+                      staggerLabels="true"
+                      interactive="true"
+                      tooltips="true"
+                      tooltipContent="tooltipUsuarios()">
+                      <svg></svg>
+                    </nvd3-multi-bar-chart>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end widget content -->
+
+        </div>
+        <!-- end widget div -->
+
+      </div>
+      <!-- end widget -->
+
+    </article>
+    <!-- END COL -->
+    
+  </div>
+
+  <!-- END ROW -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!   
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+  pageSetUp();
+</script>

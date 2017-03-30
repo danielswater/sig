@@ -1,0 +1,189 @@
+<script src="controllers/controller.formCadastroFuneraria.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroFuneraria' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Funerária</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroFuneraria-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>CNPJ</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="cnpj" id="cnpj" data-mask="99.999.999/9999-99" placeholder="Número CNPJ" ng-model="funeraria.cnpj" ng-blur="getCnpjFuneraria('cnpj')"
+											data-validate-input
+											data-required
+											data-cnpj	
+				                            data-message-cnpj="Informe um CNPJ válido"											
+				                            data-message-required="Por favor, informe o CNPJ">
+				                            <span class="material-input"></span>
+				                            <i class="icon-append fa fa-user"></i>
+										</div>
+										
+									</section>																		
+									<section class="col col-8">
+										<label class="label"><strong>Nome</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="nomeCompleto" id="nomeCompleto" type="text" placeholder="Nome da funerária" ng-model="funeraria.nome"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe o nome da funerária">
+											<span class="material-input"></span>
+											<i class="icon-append fa fa-warning"></i>
+										</div>
+									</section>																
+								</div>								
+
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>CEP</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" ng-model="funeraria.cep" type="text" name="cep" id="cep" ng-blur="getCep('cep')" ui-br-cep-mask placeholder="CEP" placeholder="CEP"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe o CEP">
+										</div>
+									</section>
+									<section class="col col-8">
+										<label class="label"><strong>Endereço</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" placeholder="Endereço" id="logradouro" name='logradouro' ng-model="funeraria.logradouro"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe o endereço">
+											<span class="material-input"></span>
+											
+										</div>
+										
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Número</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="numero" id="numero" placeholder="Número" ng-model="funeraria.numero"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe o número">
+											<span class="material-input"></span>
+											
+										</div>
+									</section>								
+									<section class="col col-4">
+										<label class="label"><strong>Complemento</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="complemento" id="complemento" placeholder="Ex: casa 1, bloco 2" ng-model="funeraria.complemento">
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Bairro</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" placeholder="Bairro" id="bairro" name='bairro' ng-model="funeraria.bairro"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe o bairro">
+										</div>
+									</section>									
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Estado</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" ng-change="getCidade(funeraria.estado)" name="estado" ng-model="funeraria.estado"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, selecione o estado">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="estado in estados" value="{{estado.uf}}" data-ng-selected="{{estado.select}}">{{estado.nome}}</option>
+											</select> <i></i> 
+										</div>																	
+									</section>								
+									<section class="col col-4">
+										<label class="label"><strong>Cidade</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" name="cidade" ng-model="funeraria.cidade"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, selecione a cidade">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="cidade in cidades" data-ng-selected="{{cidade.select}}">{{cidade.nome}}</option>											
+											</select> <i></i> 
+										</div>
+									</section>							
+									<section class="col col-4">
+										<label class="label"><strong>País</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" name="pais" ng-model="funeraria.idPais"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, selecione o país">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="pais in paises" data-ng-selected="{{pais.select}}">{{pais.nome}}</option>					
+											</select> <i></i> </label>
+										</div>
+									</section>								
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarFuneraria(funeraria)" id="SalvarFuneraria">
+									Salvar
+								</button>								
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();	
+
+</script>

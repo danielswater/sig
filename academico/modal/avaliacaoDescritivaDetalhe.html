@@ -1,0 +1,74 @@
+<div class="modal fade" id="modal_detalhe_avaliacao_descritiva" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		
+	<div class="modal-dialog" style="width:700px;" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Avaliação Descritiva</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<section class="col-lg-3">
+						<img src="./img/{{avaliacaodescritiva.foto}}" class="img-responsive img-thumbnail">							
+					</section>
+					<section class="col-lg-9" style="padding-left:inherit">
+						<div class="alert alert-info" role="alert">
+							<strong>Nome:</strong>{{avaliacaodescritiva.aluno}}<br />
+							<strong>Turma:</strong>{{avaliacaodescritiva.turma}}<br />							
+							<strong>Serie:</strong>{{avaliacaodescritiva.serie}}<br />
+						</div>
+					</section>
+					<section class="col-lg-9">					
+						<div id="content">
+							<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+								<li class="active"><a href="#anual" data-toggle="tab">1º Fase</a></li>
+								<li class=""><a href="#primeiro" data-toggle="tab">2º Fase</a></li>
+								<li class=""><a href="#segundo" data-toggle="tab">3º Fase</a></li>
+								<li class=""><a href="#terceiro" data-toggle="tab">4º Fase</a></li>
+							</ul>
+
+							<div id="my-tab-content" class="tab-content" style="overflow: hidden;">
+
+								<div class="tab-pane active" id="anual">
+									<div class="row no-margin-left">
+										<section class="col col-lg-12">
+											{{avaliacaodescritiva.fase[0].avaliacao}}
+										</section>			
+									</div>
+								</div>
+								<div class="tab-pane" id="primeiro">
+									<div class="row no-margin-left">
+										<section class="col col-lg-12">
+											{{avaliacaodescritiva.fase[1].avaliacao}}
+										</section>
+									</div>
+								</div>
+
+								<div class="tab-pane" id="segundo">
+									<div class="row no-margin-left">
+										<section class="col col-lg-12">
+											{{avaliacaodescritiva.fase[2].avaliacao}}
+										</section>
+									</div>
+								</div>
+
+								<div class="tab-pane" id="terceiro">
+									<div class="row no-margin-left">
+										<section class="col col-lg-12">
+											{{avaliacaodescritiva.fase[3].avaliacao}}
+										</section>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					
+				</div>
+				<div class="modal-footer">
+
+				</div>
+			</div>
+		</div>
+	</div>
+		
+</div>

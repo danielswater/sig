@@ -1,0 +1,31 @@
+<div class="modal fade" id="modal_avaliacao_descritiva" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+	<div class="modal-dialog" style="width:700px;" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Avaliação Descritiva</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<section class="col-lg-3">
+						<img src="./img/{{avaliacaodescritiva.foto}}" class="img-responsive img-thumbnail">
+					</section>
+					<section class="col-lg-9" style="padding-left:inherit">
+						<div class="alert alert-info" role="alert">
+							<strong>Nome:</strong>{{avaliacaodescritiva.aluno}}<br />
+							<strong>Turma:</strong>{{avaliacaodescritiva.turma}}<br />
+							<strong>Serie:</strong>{{avaliacaodescritiva.serie}}<br />
+						</div>
+					</section>
+					<section class="col-lg-9" style="padding-left:inherit">
+						<textarea class="form-control" rows="5" ng-model="avaliacaodescritiva.avaliacao"></textarea>
+					</section>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a id="salvarAvaliacaoDescritiva" name="salvarAvaliacaoDescritiva" ng-click="cadastrarAvaliacaoDescritiva(avaliacaodescritiva.id_aluno)" style="cursor:pointer;" class="btn btn-primary pull-right"> Salvar <i class="fa fa-floppy-o"></i></a>		
+			</div>
+		</div>
+	</div>
+</div>

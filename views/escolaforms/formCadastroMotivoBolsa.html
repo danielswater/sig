@@ -1,0 +1,254 @@
+<script src="controllers/controller.formCadastroMotivoBolsa.js"></script> 
+<!-- widget grid -->
+<section ng-controller='formCadastroMotivoBolsa' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Motivo de Bolsa</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroMotivoBolsa-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+
+									<!--
+				                    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label class="label"><strong>Grupo de Motivos de Bolsa</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="id_grupo_motivo_bolsa" name="id_grupo_motivo_bolsa" ng-model="motivobolsa.id_grupo_motivo_bolsa"
+				                           		  data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione um grupo">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option value="{{grupo.id}}" data-ng-repeat="grupo in grupomotivobolsas" ng-selected="grupo.id == motivobolsa.id_grupo_motivo_bolsa">{{grupo.descricao}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+				                    -->
+
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Grupo de Motivos de Bolsa</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="grupo.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoGrupoMotivoBolsa(grupo.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="grupo in grupomotivobolsas | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="grupo.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="selmotivobolsa" id="selmotivobolsa" type="text" 
+	                                          	ng-model="motivobolsa.id_grupo_motivo_bolsa"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um Grupo de Motivo de Bolsa">
+										</div>
+									</section>
+
+									<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" maxlength="200" placeholder="Descricao"
+											ng-model="motivobolsa.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição do Motivo de Bolsa</b>
+										</div>										
+									</section>
+										
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="motivobolsa.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="motivobolsa.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section> 	
+								</div>
+								<!--
+								<div class="row">
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Pontualidade</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="sem_pontualidade" checked="true" value="1" ng-model="motivobolsa.sem_pontualidade">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="sem_pontualidade" value="0" ng-model="motivobolsa.sem_pontualidade">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Gratuidade</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="gratuidade" value="1" ng-model="motivobolsa.gratuidade">
+													<span>Sim</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="gratuidade" checked="true" value="0" ng-model="motivobolsa.gratuidade">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Bolsa Irmão</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="bolsa_irmao" value="1" ng-model="motivobolsa.bolsa_irmao">
+													<span>Sim</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="bolsa_irmao" checked="true" value="0" ng-model="motivobolsa.bolsa_irmao">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+									
+									<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+										<label class="label"><strong>Perde Bolsa</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="perde_bolsa" value="1" ng-model="motivobolsa.perde_bolsa">
+													<span>Sim</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="perde_bolsa" checked="true" value="0" ng-model="motivobolsa.perde_bolsa">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+								</div>								
+								-->
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button ng-click="cadastrarMotivoBolsa()" type="submit" class="btnmd btnmd-info pull-right" id="SalvarMotivoBolsa">
+									Salvar
+								</button>
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	<!-- Modal Grupo de Motivo de Bolsa-->
+	<div class="modal fade" id="myModalGrupoMotivoBolsa">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Grupo de Motivo de Bolsa</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroGrupoMotivoBolsa-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addGrupoMotivoBolsa.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe a descrição do Grupo de Motivo de Bolsa"><div class="floating-label">Nome do Grupo de Motivo de Bolsa</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Nome do Grupo de Motivo de Bolsa</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal" ng-click="grupo.selected = ''">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarGrupoMotivoBolsa()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal Grupo de Motivo de Bolsa-->
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

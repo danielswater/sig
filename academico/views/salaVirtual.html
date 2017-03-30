@@ -1,0 +1,51 @@
+<script src="controllers/controller.salaVirtual.js"></script>
+
+<div class="container" ng-controller="salaVirtual">
+	<div class="row">
+		
+		<!-- =========================Start Col right section ============================= -->
+		<article class="col-lg-12 col-right">
+			<div class="row" style="margin-bottom: 20px;">
+				<section class="col col-lg-12 pull-right">
+					<a href="#novaPublicacao" type="buttom" id="novaPublicacao" class="btn btn-primary pull-right">
+						Nova Publicação <i class="fa fa-plus-square"></i></a>
+					</section>
+				</div>
+				<div class="row no-margin-left">
+					<section class="col col-lg-12">				
+						<table class="table table-striped">
+							<tr ng-repeat="item in filteredTodos">
+								<td class="publicado-coluna" width="5%" align="center">
+									<div class="publicado-publicado">Publicado</div>
+									<div class="publicado-data">{{item.dia_publicacao}}</div>
+									<div class="publicado-mes">{{item.mes_publicacao}}</div>
+								</td>
+								<td><strong>{{item.id_categoria_sala_virtual}}</strong><br/><h4>{{item.titulo}}</h4><small>Publicado por: {{item.nome_pessoa_publicacao}}</small></td>
+
+								<td class="prazo-coluna" width="5%" align="center">
+									<div class="prazo-publicado">Prazo</div>
+									<div class="prazo-data">{{item.dia_entrega}}</div>
+									<div class="prazo-mes">{{item.mes_entrega}}</div>
+								</td>
+								<td style="text-align: center; vertical-align:middle;" width="5%">
+									<a style="float: left;" href="#/salaVirtualDetalhes/{{item.id}}"><i style="font-size:1.5em;" title="{{item.descricao_interna}}" class="fa fa-search-plus fa-1x"></i></a>
+									<a style="float:right;" href="#/novaPublicacao/{{item.id}}"><i style="font-size:1.5em;" style="cursor: pointer;" class="fa fa-pencil fa-1x"></i></a>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<div class="text-center">
+					<pagination 
+					max-size="10"
+					previous-text="«"
+					last-text="»"
+					next-text="»"
+					items-per-page="itemsPerPage"
+					total-items="salavirtual.length" 
+					ng-model="currentPage" 
+					ng-change="pageChanged()"></pagination>
+				</div>
+				</div>
+			</article><!-- end col right-->
+		</div><!-- end row-->
+</div><!-- end container-->

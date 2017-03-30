@@ -1,0 +1,157 @@
+<script src="controllers/controller.formImportarComplementarResponsavel.js"></script>
+<!-- widget grid -->
+<section ng-controller='formImportarComplementarResponsavel' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Importar Complementar Responsavel</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+				
+						<div class="smart-form">
+							<form id="cadastroParcela-form" class="smart-form" novalidate="novalidate" validate-form>							
+								<fieldset>
+									<div class="row">
+										<section class="col col-3" ng-hide="showCadastroRapido">
+											<label class="label"><strong>Arquivos</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<select  class="form-control" 
+													id="arquivo" name="arquivo" 
+													ng-options="arquivo.nome for arquivo in arquivos" 
+													ng-model="selected"
+													ng-change="selecionaArquivo(selected)">
+													<option value="" selected>Selecione</option>
+												</select>	
+											</select>
+											<i></i>
+											</div>
+										</section>
+									</div>							
+								</fieldset>
+								<footer>
+									<button class="btnmd btnmd-info  pull-right" ng-click="importarResponsavel()" >
+										Importar
+									</button>								
+								</footer>
+							</form>
+							<div ng-show="importacoes.length > 0">
+								<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th width="10%" class="label-primary" style="color:white"><h6>ID</h6></th>
+													<th width="60%" class="label-primary" style="color:white"><h6>Nome</h6></th>
+													<th width="15%" class="label-primary" style="color:white"><h6>Res. Financeiro</h6></th>
+													<th width="15%" class="label-primary" style="color:white"><h6>Res. Pedagogico</h6></th>
+												</tr>
+											</thead>
+											<tbody>				
+												<tr ng-repeat="resultado in importacoes">
+													<td>{{resultado.id_aluno}}</td>
+													<td>{{resultado.nome}}</td>
+													</td>
+													<td align="center">
+														<i class="glyphicon glyphicon-chevron-down"
+														ng-show="resultado.resultado_financeiro == true" style="color: #40AC2B"></i>
+														<i class="glyphicon glyphicon-remove"
+														ng-show="resultado.resultado_financeiro == false" style="color: #FF0000"></i>
+														<i class="glyphicon glyphicon-ban-circle"
+														ng-show="resultado.resultado_financeiro == null" style="color: #C79121"></i>
+													</td>
+													<td align="center">
+														<i class="glyphicon glyphicon-chevron-down"
+														ng-show="resultado.resultado_pedagogico == true" style="color: #40AC2B"></i>
+														<i class="glyphicon glyphicon-remove"
+														ng-show="resultado.resultado_pedagogico == false" style="color: #FF0000"></i>
+														<i class="glyphicon glyphicon-ban-circle"
+														ng-show="resultado.resultado_pedagogico == null" style="color: #C79121"></i>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+							</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalImportar">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Importando</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<div class="row">
+							<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div>
+									<div class="progress progress-sm">
+										<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{processo}}%;"></div>
+									</div>
+									<div align="center">
+										<h1>
+											<strong>{{processo}}%</strong>
+										</h1>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>	
+				</div>
+			<!-- 	<div class="modal-footer">	                
+					<button type="button" class="btnmd btnmd-primary" ng-disabled="processo < 100" data-dismiss="modal">OK</button>		        
+				</div> -->
+			</div>
+		</div>
+	</div>	
+<!-- Modal -->
+
+
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

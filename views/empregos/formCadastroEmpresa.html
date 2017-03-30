@@ -1,0 +1,346 @@
+<script src="controllers/controller.formCadastroEmpresa.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroEmpresa' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Empresa</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroEmpresa-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Nome</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" placeholder="Nome"
+											ng-model="empresa.nome"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Nome da Empresa">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome da Empresa</b> 											
+										</div>										
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Ramo de Atividade</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_ramo_empresa" name="id_ramo_empresa"
+													ng-model="empresa.id_ramo_empresa"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o ramo de atividade">
+												<option value="" selected>Selecione</option>
+												<option value="{{item.id}}" data-ng-repeat="item in ramoempresa">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+									<section class="col col-4" id="arquivos">
+										<label class="label"><strong>Logotipo</strong></label>
+										<div for="file" class="form-control form-control-wrapper input-file">										
+											<div class="button">
+											<input class="form-control" type="file" accept="image/*,application/pdf" name="logotipo" id="logotipo" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="empresa.logotipo">Procurar</div><input onclick="$('#logotipo').trigger('click')" class="form-control" type="text" placeholder="Sua logotipo" readonly="">			
+										</div>
+									</section>
+
+								</div>
+								<div class="row">
+								<section class="col col-4">
+									<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" name="descricao" id="descricao" placeholder="Informe a Descrição" ng-model="empresa.breve_descricao"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Website</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-desktop"></i>
+											<input class="form-control" name="website" id="website" placeholder="http://www.dominio.com"
+											ng-model="empresa.website"
+											data-validate-input
+											data-url
+											data-message-url="O website esta invalido">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-desktop txt-color-teal"></i> 
+												Descrição</b> 											
+										</div>
+									</section>									
+									<section class="col col-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="empresa.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="empresa.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarEmpresa()" id="SalvarEmpresa">
+									Salvar
+								</button>							
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+
+
+
+
+		<div class="row" ng-show="empresa.id != NULL">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Contato da Empresa</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="row">
+						<form id="cadastroEmpresaContato-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Departamento</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_departamento" name="id_departamento"
+													ng-model="contatoempresa.id_departamento"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o ramo de atividade">
+												<option value="" selected>Selecione</option>
+												<option value="{{item.id}}" ng-selected="item.id == contatoempresa.id_departamento" data-ng-repeat="item in departamentos">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Cargo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="cargo" id="cargo" placeholder="Cargo"
+											ng-model="contatoempresa.cargo"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Nome da Empresa">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome do Cargo</b> 											
+										</div>										
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Nome do Contato</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" placeholder="Nome do Contato"
+											ng-model="contatoempresa.nome"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Nome do Contato">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome do Contato</b> 											
+										</div>										
+									</section>
+
+									
+								</div>
+
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Email do Contato</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-envelope-square"></i>
+											<input class="form-control" name="email" id="email" placeholder="Email do Contato"
+											ng-model="contatoempresa.email"
+											data-validate-input
+											data-email
+											data-message-email="Por favor, informe um e-mail válido">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Email do Contato</b> 											
+										</div>										
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>DDD</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-phone"></i>
+											<input class="form-control" name="ddd" id="ddd" mask="(99)" placeholder="DDD"
+											ng-model="contatoempresa.ddd"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o DDD">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												DDD</b> 											
+										</div>
+									</section>
+
+									<section class="col col-2">
+										<label class="label"><strong>Telefone</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-phone"></i>
+											<input class="form-control" 
+											name="telefone" 
+											mask="9999-9999?9" id="telefone" placeholder="Telefone"
+											ng-model="contatoempresa.telefone"
+											data-validate-input
+											data-required 
+                                            data-message-required="Informe o telefone">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Telefone</b> 											
+										</div>
+									</section>
+
+									<section class="col col-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="contatoempresa.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="contatoempresa.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroContato()" id="NovoCadastroContatoEmpresa">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarContatoEmpresa(contatoempresa)" id="SalvarEmpresa">
+									Salvar
+								</button>							
+							</footer>
+						</form>
+
+					</div>
+					<div class="row" ng-show="contatosempresas.length > 0">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="label-primary" style="color:white"><h6>Departamento</h6></th>
+										<th class="label-primary" style="color:white"><h6>Cargo</h6></th>
+										<th class="label-primary" style="color:white"><h6>Nome do Contato</h6></th>
+										<th class="label-primary" style="color:white"><h6>Email do Contato</h6></th>
+										<th class="label-primary" style="color:white"><h6>Telefone</h6></th>
+										<th class="label-primary" style="color:white"><h6>Status</h6></th>
+										<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+									</tr>
+								</thead>
+								<tbody>										
+									<tr ng-repeat="contato in contatosempresas">
+									<td>{{contato.departamento}}</td>
+									<td>{{contato.cargo}}</td>
+									<td>{{contato.nome}}</td>
+									<td>{{contato.email}}</td>
+									<td>{{contato.ddd}} - {{contato.telefone}}</td>
+									<td>{{contato.status}}</td>
+									<td align="center" width="30"><button type="button" ng-click='editCadastroContato(contato)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+										<div class="ripple-wrapper"></div>
+									</button></td>
+									<td align="center"  width="30"><button type="button" ng-click="delContatoEmpresa($index, contato)" popover="Excluir cadastro" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button></td>
+
+								</tr>
+							</tbody>	
+						</table>
+					</div>
+
+
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

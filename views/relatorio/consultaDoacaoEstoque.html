@@ -1,0 +1,305 @@
+<script src="controllers/controller.consultaDoacaoEstoque.js"></script>
+
+<section ng-controller='consultaDoacaoEstoque' id="widget-grid" widget-grid>
+  
+  <div class="row">   
+	
+	<article class="col-sm-12 col-md-12 col-lg-12">
+	  
+	  <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+		<header>
+		  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+		  <h2>Relatório de Doação de Estoque</h2> 
+		</header>
+		
+		<div>
+		  
+		  <div class="widget-body no-padding">
+			<form id="consultaDoacaoEstoque-form" class="smart-form" novalidate="novalidate" validate-form>
+			  <fieldset>
+				<div class="row">
+
+
+					<section class="col col-4">
+						<label class="label"><strong>Tipo de Doação</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select 	ng-model="itemtd.selected"
+										theme="bootstrap"
+										ng-disabled="disabled"
+										reset-search-input="false"
+										ng-change="verificarAcao('td',itemtd.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+								<ui-select-choices group-by="'tipo'" repeat="itemtd in select_tipodoacao | propsFilter: {descricao: $select.search}">
+									<div ng-bind-html="itemtd.descricao | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+									name="itemtd" 
+									id="itemtd" 
+									type="text" 
+									ng-model="insel_tipodoacao.itemtd">
+						</div>							
+					</section>
+
+					<section class="col col-4">
+						<label class="label"><strong>Local de Armazenamento de Doação</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select 	ng-model="itemla.selected"
+										theme="bootstrap"
+										ng-disabled="disabled"
+										reset-search-input="false"
+										ng-change="verificarAcao('la',itemla.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+								<ui-select-choices group-by="'tipo'" repeat="itemla in select_local | propsFilter: {descricao: $select.search}">
+									<div ng-bind-html="itemla.descricao | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+									name="itemla" 
+									id="itemla" 
+									type="text" 
+									ng-model="insel_local.itemla">
+						</div>							
+					</section>
+
+					<section class="col col-4">
+						<label class="label"><strong>Status</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select 	ng-model="itemst.selected"
+										theme="bootstrap"
+										ng-disabled="disabled"
+										reset-search-input="false"
+										ng-change="verificarAcao('st',itemst.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.status}}</ui-select-match>
+								<ui-select-choices group-by="'tipo'" repeat="itemst in select_status | propsFilter: {status: $select.search}">
+									<div ng-bind-html="itemst.status | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+									name="itemst" 
+									id="itemst" 
+									type="text" 
+									ng-model="insel_status.itemst">
+						</div>							
+					</section>
+
+					<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<label class="label"><strong>Tipo de relatório</strong></label>
+						<div class="form-inline">
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="status" checked="true" value="0" ng-model="doacaoestoque.tipo">
+									<span>Sintético</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="status" value="1" ng-model="doacaoestoque.tipo">
+									<span>Analítico</span>  
+								</label>	
+							</div>
+						</div>
+					</section>
+
+				</div>
+			  </fieldset>
+			  <footer>
+				<button class="btnmd btnmd-info pull-right" ng-click="consultaEstoque()" id="consultaEstoque" name="consultaEstoque">
+				  Gerar Relatório
+				</button>
+			  </footer>
+			</form>
+		  </div>		  
+		</div>		
+	  </div>	  
+	</article>
+
+  </div>
+
+	  	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+		<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RESULTADOS RELATÓRIO ANALÍTICO xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	  	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	
+  	<div class="row">
+
+		<article class="col-sm-12 col-md-12 col-lg-12" ng-show="showRelatorio == 1">
+		
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+				<header>
+				  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				  <h2>Relatório Analítico</h2>
+				</header>				
+				
+				<div>
+				<div class="widget-body no-padding">					
+
+					<div>
+					<div class="table-responsive">       
+
+						<table show-filter="true" class="table table-striped table-bordered">
+							<thead>
+							 <tr>
+							   <th ng-click="changeSorting('doacao')">				DOAÇÃO 					<i class="glyphicon" ng-class="getIcon('doacao')"></i></th>
+							   <th ng-click="changeSorting('quantidade')">			QUANTIDADE  			<i class="glyphicon" ng-class="getIcon('quantidade')"></i></th>
+							   <th ng-click="changeSorting('tipo_entrada')">		TIPO DE ENTRADA 		<i class="glyphicon" ng-class="getIcon('tipo_entrada')"></i></th>
+							   <th ng-click="changeSorting('tipo_doacao')">			TIPO DE DOAÇÃO 			<i class="glyphicon" ng-class="getIcon('tipo_doacao')"></i></th>
+							   <th ng-click="changeSorting('local_armazenamento')">	LOCAL DE ARMAZENAMENTO 	<i class="glyphicon" ng-class="getIcon('local_armazenamento')"></i></th>
+							   <th ng-click="changeSorting('doador')">				DOADOR 					<i class="glyphicon" ng-class="getIcon('doador')"></i></th>							   
+							   <th ng-click="changeSorting('donatario')">			DONATÁRIO 				<i class="glyphicon" ng-class="getIcon('donatario')"></i></th>
+							   <th ng-click="changeSorting('data')">				DATA 					<i class="glyphicon" ng-class="getIcon('data')"></i></th>
+							 </tr>
+							</thead>
+							<tbody>
+							 <tr>
+							   <td><input ng-model="search.doacao" id="search" class="form-control" placeholder="Doação"></td>
+							   <td><input ng-model="search.quantidade" id="search" class="form-control" placeholder="Quantidade"></td>
+							   <td><input ng-model="search.tipo_entrada" id="search" class="form-control" placeholder="Tipo de Entrada"></td>
+							   <td><input ng-model="search.tipo_doacao" id="search" class="form-control" placeholder="Tipo de Doação"></td>
+							   <td><input ng-model="search.local_armazenamento" id="search" class="form-control" placeholder="Local de Armazenamento"></td>
+							   <td><input ng-model="search.doador" id="search" class="form-control" placeholder="Doador"></td>
+							   <td><input ng-model="search.donatario" id="search" class="form-control" placeholder="Donatário"></td>
+							   <td><input ng-model="search.data" id="search" class="form-control" placeholder="Data"></td>
+							 </tr>
+							 <tr dir-paginate="regan in doacao_estoque_analitico | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+
+							   <td>{{regan.doacao}}</td>
+							   <td>{{regan.quantidade}}</td>
+							   <td>{{regan.tipo_entrada}}</td>							   
+							   <td>{{regan.tipo_doacao}}</td>
+							   <td>{{regan.local_armazenamento}}</td>
+							   <td>{{regan.doador}}</td>
+							   <td>{{regan.donatario}}</td>
+							   <td>{{regan.data}}</td>
+
+							 </tr>
+							</tbody>
+						</table>			   
+					</div>   
+
+					<div>      
+						<div>  
+							<div class="row" style="margin-top:20px; margin-bottom:5px;">
+								<div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+											<div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+												<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+											</div>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+									<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>              
+				</div>
+				</div>
+			</div>
+			<button class="btnmd btnmd-warning pull-right fa fa-file-pdf-o" id="gerarpdf" ng-click="gerarAnaliticoPDF()"> Gerar PDF </button>
+		</article>
+	</div>
+
+
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RESULTADOS RELATÓRIO SINTÉTICO xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+  	<div class="row">
+
+		<article class="col-sm-12 col-md-12 col-lg-12" ng-show="showRelatorio == 0">
+		
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+				<header>
+				  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				  <h2>Relatório Sintético</h2>
+				</header>				
+				
+				<div>
+				<div class="widget-body no-padding">					
+
+					<div>
+					<div class="table-responsive">       
+
+						<table show-filter="true" class="table table-striped table-bordered">
+							<thead>
+							 <tr>							
+								<th ng-click="changeSorting('doacao')">				DOAÇÃO 					<i class="glyphicon" ng-class="getIcon('doacao')"></i></th>
+								<th ng-click="changeSorting('qtd_saida')">			QUANTIDADE DE SAÍDA 	<i class="glyphicon" ng-class="getIcon('qtd_saida')"></i></th>
+								<th ng-click="changeSorting('qtd_entrada')">		QUANTIDADE DE ENTRADA 	<i class="glyphicon" ng-class="getIcon('qtd_entrada')"></i></th>
+								<th ng-click="changeSorting('estoque')">			ESTOQUE 				<i class="glyphicon" ng-class="getIcon('estoque')"></i></th>
+								<th ng-click="changeSorting('local_armazenamento')">LOCAL DE ARMAZENAMENTO 	<i class="glyphicon" ng-class="getIcon('local_armazenamento')"></i></th>
+							 </tr>
+							</thead>
+							<tbody>
+							 <tr>						   
+							   <td><input ng-model="search.doacao" 				id="search" class="form-control" placeholder="Doação"></td>
+							   <td><input ng-model="search.qtd_saida" 			id="search" class="form-control" placeholder="Quantidade de Saída"></td>
+							   <td><input ng-model="search.qtd_entrada" 		id="search" class="form-control" placeholder="Quantidade de Entrada"></td>
+							   <td><input ng-model="search.estoque" 			id="search" class="form-control" placeholder="Quantidade em Estoque"></td>						   
+							   <td><input ng-model="search.local_armazenamento" id="search" class="form-control" placeholder="Local de Armazenamento"></td>
+							 </tr>
+							 <tr dir-paginate="regst in doacao_estoque_sintetico | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+							 
+							 	<td>{{regst.doacao}}</td>
+							 	<td>{{regst.qtd_saida}}</td>
+							    <td>{{regst.qtd_entrada}}</td>
+							    <td>{{regst.estoque}}</td>
+							    <td>{{regst.local_armazenamento}}</td>
+
+							 </tr>
+
+							</tbody>
+						</table>
+
+					</div>   
+
+					<div>      
+						<div>  
+							<div class="row" style="margin-top:20px; margin-bottom:5px;">
+								<div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+											<div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+												<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+											</div>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+									<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>              
+				</div>
+				</div>
+			</div>
+			<button class="btnmd btnmd-warning pull-right fa fa-file-pdf-o" id="gerarpdf" ng-click="gerarSinteticoPDF()"> Gerar PDF </button>
+		</article>
+	</div>
+
+
+</section>
+
+
+<script type="text/javascript">
+
+pageSetUp(); 
+var pagefunction = function() {  };
+pagefunction();
+
+</script>

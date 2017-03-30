@@ -1,0 +1,140 @@
+<script src="controllers/controller.financeiroAlunoFicha.js"></script>
+
+<div class="container" ng-controller="financeiroAlunoFicha">
+	<div class="row">
+		<article class="col-lg-12 col-right">			
+			<div data-ng-include="'includes/forms/filtroAluno.html'"></div>	
+		</article>
+		<article class="col-lg-12 col-right" ng-show="aluno.id_pessoa">
+			<div class="row no-margin-left">			
+				<section class="col col-lg-12" style="padding-left:0px; padding-right: 0px;">				
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Aluno</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<section class="col-lg-1">
+									<img src="./img/female.png"  
+										ng-if="aluno.sexo == 'F' && aluno.foto == ''"
+										class="img-responsive img-thumbnail">
+									<img src="./img/male.png"
+										ng-if="aluno.sexo == 'M' && aluno.foto == ''"
+									 	class="img-responsive img-thumbnail">
+									<img src="../img/pessoa/{{aluno.foto}}"
+										ng-if="aluno.foto != ''"
+									 	class="img-responsive img-thumbnail">
+								</section>
+								<section class="col-lg-11" style="padding-left:inherit">
+									<div class="alert alert-info" role="alert" style="padding: 0px 10px ;">
+										<strong>Nome:</strong> {{aluno.nome}} <br>
+										<strong>Turma:</strong> {{aluno.turma}}<br>
+										<strong>Nº</strong> {{aluno.numero}}
+									</div>
+								</section>
+							</div>
+
+							<div class="row">
+								<section class="col col-lg-12">
+									<div class="panel-group" id="accordion">
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+														Liquidado</a>
+													</h4>
+												</div>
+												<div id="collapse1" class="panel-collapse collapse">
+													<div class="panel-body">
+														<div class="table-responsive" ng-show="parcelasLiquidada.length > 0">
+															<table class="table table-bordered table-hover">
+																<thead>
+																	<tr>
+																		<th>Ano</th>
+																		<th>Mês</th>
+																		<th>Tipo</th>
+																		<th>Nº Doc.</th>
+																		<th>Vencimento</th>
+																		<th>Valor</th>
+																		<!-- <th>Data Pagto</th>
+																		<th>Valor Pago</th>
+																		<th>Observação</th> -->
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr data-ng-repeat="parcela in parcelasLiquidada">
+																		<td>{{parcela.ano}}</td>
+																		<td>{{parcela.mes}}</td>
+																		<td>{{parcela.tipo_carne}}</td>
+																		<td>{{parcela.numero_documento}}</td>
+																		<td>{{parcela.data_vencimento_formatada}}</td>
+																		<td>{{parcela.valor_bruto | currency}}</td>
+																		 <!--<td>{{parcela.valor_pago}}</td>
+																		<td>{{parcela.observacao}}</td> -->
+																		<td></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													</div>
+												</div>
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														<h4 class="panel-title">
+															<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+																Em Aberto</a>
+														</h4>
+													</div>
+													<div id="collapse2" class="panel-collapse collapse">
+														<div class="panel-body" ng-hide="parcelasEmAberto.length > 0">
+																Não consta nenhuma pendência.
+														</div>
+														<div class="table-responsive" ng-show="parcelasEmAberto.length > 0">
+															<table class="table table-bordered table-hover">
+																<thead>
+																	<tr>
+																		<th>Ano</th>
+																		<th>Mês</th>
+																		<th>Tipo</th>
+																		<th>Nº Doc.</th>
+																		<th>Vencimento</th>
+																		<th>Valor</th>
+																		<th width="100" align="center">Download</th>
+																		<!-- <th>Data Pagto</th>
+																		<th>Valor Pago</th>
+																		<th>Observação</th> -->
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr data-ng-repeat="parcela in parcelasEmAberto">
+																		<td>{{parcela.ano}}</td>
+																		<td>{{parcela.mes}}</td>
+																		<td>{{parcela.tipo_carne}}</td>
+																		<td>{{parcela.numero_documento}}</td>
+																		<td>{{parcela.data_vencimento_formatada}}</td>
+																		<td>{{parcela.valor_bruto | currency}}</td>
+																		<td align="center">
+																			<button ng-show="parcela.boleto != ''"
+																			ng-click="download(parcela.boleto)"
+																			class="btn btn-primary"><i class="fa fa-file-pdf-o"></i></button>
+																		</td>
+																		<!-- <td>{{parcela.valor_pago}}</td>
+																		<td>{{parcela.observacao}}</td>
+																		<td></td> -->
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>													
+												</div>
+												</section>								
+											</div>
+										</div>
+									</div>
+								</section>			
+							</div>
+						</article><!-- end col right-->
+					</div><!-- end row-->
+				</div><!-- end container-->
+

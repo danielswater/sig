@@ -1,0 +1,257 @@
+<script src="controllers/controller.consultaUA.js"></script>
+<style type="text/css">
+.quadra{
+    background-color: #CEF2E1;
+    padding-bottom:20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+}
+.quadra p{
+    margin-top: 10px;
+    font-weight: bolder;
+}
+.lote p{
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.lote{
+    padding-top: 10px;
+    background-color: #D3EEF8;
+    float: left;;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 3px -1px rgba(0,0,0,0.75);
+}
+.container-lote{
+    margin-top: 20px;
+}
+
+.unidade{
+    border: 1px solid #EEEEEE;
+    cursor: pointer;
+    background: #FFF;
+    min-height: 35px;
+    margin-bottom: 30px;
+    transition: all .2s ease-in-out;
+}
+
+.unidade.slideright:hover {
+
+    -webkit-user-select: none;
+    -webkit-box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.100), 0px 2px 2px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.100), 0px 2px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0px -3px 1px rgba(0, 0, 0, 0.100), 0px 2px 2px rgba(0, 0, 0, 0.25);
+    -webkit-text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    -moz-text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+.popover{
+    z-index: 1000;
+    width: 300px;
+}
+.popover-title{
+    margin: 0;
+    padding: 8px 14px;
+    font-size: 13px;
+    line-height: 18px;
+    background: black;
+}
+.popover-content{
+    padding: 9px 14px;
+}
+.icon-livre{
+    color: green;
+}
+.icon-ocupado{
+    color: red;
+}
+.icon-bloqueado{
+    color: yellow;
+}
+
+
+/* popover-title */
+</style>
+<section ng-controller='consultaUA' id="widget-grid" widget-grid>
+    
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget" style="position: relative; opacity: 1; left: 0px; top: 0px;">
+                <header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="#" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> </div>
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Jazigo</h2>
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+                </header>
+                <div role="content">
+                    <div class="widget-body no-padding">
+                        <form id="" class="smart-form ng-pristine ng-valid" novalidate="novalidate">
+                            <fieldset>
+
+                                <!--
+                                <div class="row">
+                                    <section class="col col-md-12" ng-repeat="quadra in quadras">
+                                        <div class="col col-md-12 quadra">
+                                            <p>Quadra: {{ quadra.descricao }}</p>                                          
+                                            <div class="col col-md-4" ng-repeat="lote in quadra.lotes">
+                                                <div class="col lote col-md-12">
+                                                    <div class="col col-md-12">
+                                                        <p>Lote: {{ lote.descricao }}</p>
+                                                        
+                                                        <div class="row">
+                                                            <div  class="col slideright col-md-4 col-xs-4 col-sm-4" ng-repeat="ua in lote.uas">
+                                                                <div class="unidade slideright" ng-click="editaUnidade(ua.id)">
+                                                                    <div align="center" class="col-md-4 col-xs-4 col-sm-4 i_falecido" ng-repeat="gaveta in ua.gavetas">
+                                                                        <i popover-html-unsafe="Descrição: {{ua.descricao}}</br> Tipo: {{ua.nome_plano_unidade_armazenagem}}</br> Unidade: {{ua.nome_tipo_unidade_armazenagem}}</br> Falecido: {{gaveta.nome_falecido}}" popover-trigger="mouseenter" popover-title="Unidade de Armazenamento" class="fa fa-circle fa-star" ng-class="setClass(gaveta.id_status_gaveta)"></i>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                -->
+                                
+                                <div class="row">
+
+                                    <section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+                                        <label class="label"><strong>Quadra</strong></label>
+                                        <div class="form-group form-control-wrapper inputValidate">
+                                            <select class="form-control" 
+                                                    ng-change="getDados()"
+                                                    ng-model="dash.id_quadra" 
+                                                    ng-options="itemd.id as itemd.descricao for itemd in combo_quadras" 
+                                                    ng-selected="itemd.id_quadra==dash.id_quadra" 
+                                                    data-validate-input 
+                                                    data-required 
+                                                    data-message-required="Selecione a quadra">
+                                            <option value="" selected>Selecione a quadra</option>
+                                            </select>
+                                        </div>
+                                    </section>
+
+                                </div>
+                                <div class="row">
+
+                                    <section class="col col-md-12" ng-repeat="quadra in retorno.quadra">
+                                        <div class="col col-md-12 quadra">
+                                            <p>Quadra: {{ quadra.q_descricao }}</p>                                                     
+
+                                            <div class="col col-md-4" ng-repeat="lote in retorno.lote">
+                                            
+                                                <div class="col lote col-md-12">
+                                                    <div class="col col-md-12">
+                                                        <p>Lote: {{ lote.l_descricao }}</p> 
+                                                        
+                                                        <div class="row">                                                                       
+                                                            <div class="col slideright col-md-4 col-xs-4 col-sm-4" ng-repeat="ua in retorno.ua | filter:{ua_id_lote:lote.l_id}:true">                                                                       
+                                                                
+                                                                <div class="unidade slideright" ng-click="editaUnidade(ua.ua_id)">
+                                                                
+                                                                    <div align="center" class="col-md-4 col-xs-4 col-sm-4 i_falecido" ng-repeat="gaveta in retorno.gaveta | filter:{g_id_ua:ua.ua_id}:true">
+                                                                        <i popover-html-unsafe="Descrição: {{ua.ua_descricao}}</br> Tipo: {{ua.pua_descricao}}</br> Unidade: {{ua.tua_descricao}}</br> Falecido: {{gaveta.f_falecido}}" popover-trigger="mouseenter" popover-title="Unidade de Armazenamento" class="fa fa-circle fa-star" ng-class="setClass(gaveta.g_id_status_gaveta)"></i>
+
+                                                                    </div>
+                                                                
+                                                                </div>                                                                          
+                                                            
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>      
+                                                                                        
+                                        </div>
+                                    </section>
+                                </div>
+
+
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+<script type="text/javascript">
+    /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+     *
+     * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+     *
+     * // activate tooltips
+     * $("[rel=tooltip]").tooltip();
+     *
+     * // activate popovers
+     * $("[rel=popover]").popover();
+     *
+     * // activate popovers with hover states
+     * $("[rel=popover-hover]").popover({ trigger: "hover" });
+     *
+     * // activate inline charts
+     * runAllCharts();
+     *
+     * // setup widgets
+     * setup_widgets_desktop();
+     *
+     * // run form elements
+     * runAllForms();
+     *
+     ********************************
+     *
+     * pageSetUp() is needed whenever you load a page.
+     * It initializes and checks for all basic elements of the page
+     * and makes rendering easier.
+     *
+     */
+
+     pageSetUp();
+
+    /*
+     * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+     * eg alert("my home function");
+     * 
+     * var pagefunction = function() {
+     *   ...
+     * }
+     * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+     * 
+     * TO LOAD A SCRIPT:
+     * var pagefunction = function (){ 
+     *  loadScript(".../plugin.js", run_after_loaded);  
+     * }
+     * 
+     * OR
+     * 
+     * loadScript(".../plugin.js", run_after_loaded);
+     */
+
+    // PAGE RELATED SCRIPTS
+    
+    // pagefunction
+    
+    var pagefunction = function() {
+
+    };
+    
+    // end pagefunction
+    
+    // run pagefunction on load
+    pagefunction();
+
+    $(function(){
+        //$("[rel=popover]").popover();
+    });
+
+    </script>

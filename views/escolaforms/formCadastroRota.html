@@ -1,0 +1,249 @@
+<script src="controllers/controller.formCadastroRota.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroRota' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cadastro de Rotas</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+											
+									<form id="cadastroRota-form" class="smart-form" novalidate="novalidate" validate-form>
+										<fieldset>
+											<div class="row">
+											<!-- ****************************************************************************************** -->
+
+												<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+													<label class="label"><strong>Descrição</strong></label>
+													<div class="form-control-wrapper inputValidate">
+														<i class="icon-append fa fa-question-circle"></i>
+
+														<input 	class 					="form-control" 
+																name 					="descricao" 
+																id 						="descricao" 
+																placeholder				="Descrição do Rota"
+																ng-model				="rota.descricao"																			
+																maxlength 				="200"
+			                                            		data-message-required 	="Por favor, informe a Descrição do Rota"
+																data-validate-input
+																data-required>
+
+														<span class="material-input"></span>
+														<b class="tooltip tooltip-top-right">
+															<i class="fa fa-warning txt-color-teal"></i>
+															Informe a Descrição do Rota
+														</b>
+													</div>
+												</section>
+
+												<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+													<label class="label"><strong>Status</strong></label>
+													<div class="form-inline">
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="rota.ativo">
+																<span>Ativo</span>  
+															</label>
+														</div>
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" value="0" ng-model="rota.ativo">
+																<span>Inativo</span>  
+															</label>	
+														</div>
+													</div>
+												</section>
+
+											<!-- ****************************************************************************************** -->
+											</div>
+										</fieldset>
+										<footer>
+											<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"> Novo <div class="ripple-wrapper"></div></a>
+											<button class="btnmd btnmd-info pull-right" ng-click="cadastrarRota(rota)" id="SalvarRota"> Salvar </button>
+										</footer>
+									</form>			
+
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<!-- ========== CADASTRO DE ITINERARIO ========== -->
+		
+		<article class="col-sm-12 col-md-12 col-lg-12" ng-show="showItinerario">
+			
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Itinerário</h2>
+				</header>
+				
+				<div>					
+					<div class="widget-body no-padding">
+						<form id="cadastroRota-Itinerario-form" class="smart-form">
+							<fieldset>
+								<div class="row">
+
+
+									<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										<label class="label"><strong>Rua</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input 	class 					="form-control" 
+													name 					="rua" 
+													id 						="rua" 
+													placeholder				="Nome da Rua"
+													ng-model				="itinerario.rua"
+													maxlength 				="200"
+                                            		data-message-required 	="Por favor, informe o nome da Rua"
+													data-validate-input
+													data-required>
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i>
+												Informe o nome da Rua
+											</b>
+										</div>
+									</section>
+
+									<section class="col col-xs-12 col-sm-2 col-md-2 col-lg-2">
+				                        <label class="label"><strong>Horário</strong></label>
+				                        <div class="input-group inputValidate">
+
+				                          <input  class 				="form-control" 
+						                          id 					="clockpicker1" 
+						                          name 					="horario" 
+						                          type    				="text" 
+						                          placeholder			="Selecione o horário de inicio" 
+						                          data-autoclose		="true" 
+						                          ng-model 				="itinerario.horario"
+						                          data-message-required	="Informe o Horário"
+						                          data-validate-input
+                                            	  data-required>
+
+				                          <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+				                        </div>
+									</section>
+
+									<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+										<label class="label"><strong>Observações</strong></label>
+										<div class="form-control-wrapper inputValidate">
+
+											<textarea 	rows 				 	="5" 
+														class 					="form-control ng-pristine ng-valid" 
+														name 				 	="observacao" 
+														id 					 	="observacao" 
+														placeholder 		 	="Observação" 
+														ng-model 			 	="itinerario.observacoes"
+														data-validate-input
+														data-required 
+														data-message-required	="Por favor, informe uma Observação"
+														data-maxlength 			="400"
+                                            			data-message-maxlength	="Máximo de 400 Caracteres">
+											</textarea>
+
+											<span class="material-input"></span>
+										</div>
+									</section>
+
+									<section class="col col-xs-12 col-sm-2 col-md-2 col-lg-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="itinerario.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="itinerario.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-success pull-right" ng-click="novoCadastro()" id="NovoCadastro"> Novo </button>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarItinerario()" id="SalvarItinerario"> Salvar </button>
+							</footer>
+						</form>
+						<form>
+
+							<div class="row" ng-show="selItinerarios.length > 0">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<th class="label-primary" style="color:white">Rua</th>
+										<th class="label-primary" style="color:white">Horário</th>
+										<th class="label-primary" style="color:white">Status</th>
+										<th class="label-primary" style="color:white">Ações</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="selItinerario in selItinerarios track by $index">
+											<td width="250">{{selItinerario.rua}}</td>
+											<td width="120" width="120">{{selItinerario.horario}}</td>
+											<td width="120" width="120">{{selItinerario.statAtivo}}</td>
+											<td width="50">
+
+												<button ng-click='editarItinerario($index, selItinerario)' popover="Editar" popover-trigger="mouseenter"   class="btnmd btnmd-success btnmd-raised fa fa-edit btnmd-sm" style="margin:0px;"> Editar</button>
+												<button ng-click='excluirItinerario($index, selItinerario)' popover="Excluir" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"> Excluir</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</form>
+					</div>					
+				</div>				
+			</div>			
+		</article>		
+	</div>
+
+</section>
+
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+  // load summernote, and all markdown related plugins
+    loadScript("js/clockpicker.min.js", runClockPicker);
+  
+    function runClockPicker(){
+      $('#clockpicker1').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+      $('#clockpicker2').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+    }    
+</script>

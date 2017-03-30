@@ -1,0 +1,317 @@
+<script src="controllers/controller.formCadastroTipoCarne.js"></script> 
+<!-- widget grid -->
+<section ng-controller='formCadastroTipoCarne' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Tipo de Carnê</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroTipoCarne-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+
+									<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" maxlength="200" placeholder="Descricao"
+											ng-model="tipocarne.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição</b>
+										</div>										
+									</section>
+											
+									<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label class="label"><strong>Abreviatura</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="abreviatura" id="abreviatura" maxlength="10" placeholder="Abreviatura"
+											ng-model="tipocarne.abreviatura"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Abreviatura">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Abreviatura</b>
+										</div>										
+									</section>
+
+								</div>
+								<div class="row">
+
+				                     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label class="label"><strong>Tipo de Receita</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="id_tipo_receita" name="id_tipo_receita" ng-model="tipocarne.id_tipo_receita"
+				                           		  data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione um tipo de receita">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option value="{{receita.id}}" data-ng-repeat="receita in tiporeceitas" ng-selected="receita.id == tipocarne.id_tipo_receita">{{receita.descricao}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+				                    <!--
+				                     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label><strong>Grupo de Carnê</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="id_grupo_carne" name="id_grupo_carne" ng-model="tipocarne.id_grupo_carne"
+				                           		  data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione um tipo de carnê">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option value="{{grupo.id}}" data-ng-repeat="grupo in grupotipocarnes" ng-selected="grupo.id == tipocarne.id_grupo_carne">{{grupo.descricao}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+									-->
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Grupo de Tipo de Carnê</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="grupo.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoGrupoTipoCarne(grupo.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="grupo in grupotipocarnes | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="grupo.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="selgrupoTipoCarne" id="selgrupoTipoCarne" type="text" 
+	                                          	ng-model="tipocarne.id_grupo_carne"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um grupo de Tipo de Carnê">
+										</div>
+									</section>
+									<!--
+				                     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label><strong>Bloqueio Matrícula</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="id_bloqueio_matricula" name="id_bloqueio_matricula" ng-model="tipocarne.id_bloqueio_matricula"
+				                           		  data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione um tipo de Bloqueio">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option value="{{bloqueio.id}}" data-ng-repeat="bloqueio in tipobloqueios" ng-selected="bloqueio.id == tipocarne.id_bloqueio_matricula">{{bloqueio.descricao}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+									-->
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Bloqueio de Matrícula</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="bloqueio.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoBloqueioMatricula(bloqueio.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="bloqueio in tipobloqueios | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="bloqueio.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="selbloqueiomatricula" id="selbloqueiomatricula" type="text" 
+	                                          	ng-model="tipocarne.id_bloqueio_matricula"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um Bloqueio de Matrícula">
+										</div>
+									</section>
+								</div>
+								<div class="row">								
+
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Recibo Avulso</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="recibo_avulso" checked="true" value="1" ng-model="tipocarne.recibo_avulso">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="recibo_avulso" value="0" ng-model="tipocarne.recibo_avulso">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Calcula correção</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="calcula_correcao" value="1" ng-model="tipocarne.calcula_correcao">
+													<span>Sim</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="calcula_correcao" checked="true" value="0" ng-model="tipocarne.calcula_correcao">
+													<span>Não</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+
+				                    <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="1" ng-model="tipocarne.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="0" ng-model="tipocarne.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section> 
+
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button ng-click="cadastrarTipoCarne()" type="submit" class="btnmd btnmd-info pull-right" id="SalvarTipoCarne">
+									Salvar
+								</button>
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+	<!-- Modal Grupo de Tipo de Carnê-->
+	<div class="modal fade" id="myModalGrupoTipoCarne">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Grupo de Tipo de Carnê</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroGrupoTipoCarne-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addGrupoTipoCarne.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe o nome de Tipo de Carnê"><div class="floating-label">Nome do Grupo de Tipo de Carnê</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Nome do Grupo de Tipo de Carnê</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal" ng-click="grupo.selected = ''">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarGrupoTipoCarne()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal Grupo de Tipo de Carnê-->
+	<!-- Modal Bloqueio de Matrícula-->
+	<div class="modal fade" id="myModalBloqueioMatricula">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Bloqueio de Matrícula</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroBloqueioMatricula-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addBloqueioMatricula.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe o nome do Bloqueio de Matrícula"><div class="floating-label">Nome do Bloqueio de Matrícula</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Nome do Bloqueio de Matrícula</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal" ng-click="bloqueio.selected = ''">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarBloqueioMatricula()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal Bloqueio de Matrícula-->
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

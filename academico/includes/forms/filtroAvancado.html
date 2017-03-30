@@ -1,0 +1,43 @@
+<form action="" ng-init="filtroAvancado.carregar();">
+	<fieldset>
+		<div class="row no-margin-left">
+			<section class="col col-lg-6">
+				<label>Curso</label>
+				<select ng-model="filtroAvancado.busca.id_curso" name="diario_curso" id="diario_curso" class="form-control" ng-change="filtroAvancado.getSerie(filtroAvancado.busca.id_curso)">
+					<option value="">Selecione</option>
+					<option value="{{item.id}}" ng-repeat="item in filtroAvancado.cursos">{{item.nome}}</option>
+				</select>
+			</section>
+			<section class="col-lg-3">
+				<label>Série</label>
+				<select ng-model="filtroAvancado.serie" name="serie" id="serie" class="form-control" ng-change="filtroAvancado.getTurma(filtroAvancado.serie, filtroAvancado.busca.id_curso)">
+					<option value="">Selecione</option>
+					<option value="{{item.id}}" ng-repeat="item in filtroAvancado.series">{{item.value}}</option>
+				</select>
+			</section>
+			<section class="col-lg-3">
+				<label>Turma</label>
+				<select ng-model="filtroAvancado.busca.id_turma" name="diario_turma" id="diario_turma" class="form-control" ng-change="filtroAvancado.getDisciplina(filtroAvancado.busca.id_curso, filtroAvancado.serie, filtroAvancado.busca.id_turma)">
+					<option value="">Selecione</option>
+					<option value="{{item.id}}" ng-repeat="item in filtroAvancado.turmas">{{item.nome}}</option>
+				</select>
+			</section>
+		</div>
+		<div class="row no-margin-left">
+			<section class="col-lg-6">
+				<label>Disciplina</label>
+				<select ng-model="filtroAvancado.busca.id_disciplina" name="disciplina" id="disciplina" class="form-control" ng-change="filtroAvancado.getProfessor(filtroAvancado.busca.id_curso, filtroAvancado.serie, filtroAvancado.busca.id_turma, filtroAvancado.busca.id_disciplina)">
+					<option value="">Selecione</option>
+					<option value="{{item.id}}" ng-repeat="item in filtroAvancado.disciplinas">{{item.nome}}</option>
+				</select>
+			</section>
+			<section ng-show="tipoUsuario != 2" class="col-lg-6">
+				<label>Professor</label>
+				<select ng-model="filtroAvancado.busca.id_professor" name="professor" id="professor" class="form-control">
+					<option value="">Selecione</option>
+					<option value="{{item.id}}" ng-repeat="item in filtroAvancado.professores">{{item.nome}}</option>
+				</select>
+			</section>									
+		</div>
+	</fieldset>				
+</form>

@@ -1,0 +1,121 @@
+<script src="controllers/controller.consultaAssociado.js"></script>
+<style type="text/css">
+.ng-table th.text-left {
+	text-align: left;
+}
+</style>
+<!-- widget grid -->
+
+<section ng-controller='consultaAssociado' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Consulta de Associados</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div>
+							<!-- NOVA TABELA -->
+							<div class="table-responsive">
+								<table show-filter="true" class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th ng-click="changeSorting('nome')">NOME <i class="glyphicon" ng-class="getIcon('nome')"></i></th>
+											<th ng-click="changeSorting('cpf')">CPF <i class="glyphicon" ng-class="getIcon('cpf')"></i></th>
+											<th>DATA ASSOCIAÇÃO</th>
+											<th>CONTRIBUIÇÃO</th>
+											<th>CIDADE</th>
+											<th>ESTADO</th>
+											<th>ATIVO</th>
+											<th>Ações</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td width="350"><input ng-model="search.nome" id="search" class="form-control" placeholder="Busque pelo nome"></td>
+											<td width="120"><input ng-model="search.cpf" id="search" class="form-control" placeholder="CPF"></td>
+											<td width="150"></td>
+											<td width="120"><input ng-model="search.contribuicaovalor" id="search" class="form-control" placeholder="Contribuição"></td>
+											<td width="120"><input ng-model="search.cidade" id="search" class="form-control" placeholder="Cidade"></td>
+											<td width="70"><input ng-model="search.estado" id="search" class="form-control" placeholder="Estado"></td>
+											<td width="70"></td>
+											<td></td>
+										</tr>
+										<tr ng-show="user.length == 0">
+											<td colspan="10">Não existem dados para serem exibidos.</td>
+										</tr>
+										<tr dir-paginate="users in user | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+											<td width="350" style="display:table-cell;vertical-align:middle">{{users.nome}}</td>
+											<td width="120" style="display:table-cell;vertical-align:middle">{{users.numero}}</td>
+											<td width="150"  style="display:table-cell;vertical-align:middle">{{users.data_associacao}}</td>
+											<td width="120" style="display:table-cell;vertical-align:middle">{{users.contribuicaovalor}}</td>
+											<td width="120"  style="display:table-cell;vertical-align:middle">{{users.cidade}}</td>
+											<td width="70" style="display:table-cell;vertical-align:middle">{{users.estado}}</td>
+											<td width="70" style="display:table-cell;vertical-align:middle">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" value="{{users.ativo}}" ng-checked="users.ativobol" ng-click="updatePessoa(users.id)" type="checkbox"><span class="ripple"></span><span class="check"></span>
+													</label>
+												</div>
+											</td>
+											<td><button ng-click='editCadastro(users.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+												<div class="ripple-wrapper"></div>
+											</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>     
+					<div>      
+				<div>  
+			<div>
+		      <div class="row" style="margin-top:0px; margin-bottom:0px;">
+		        <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+		          <form class="form-horizontal">
+		            <div class="form-group">
+
+		              <label style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Quantidade de Associados: {{user.length}}</strong></label>
+		            </div>
+		          </form>
+		        </div>
+		      </div>
+
+		      <div class="row" style="margin-top:2px; margin-bottom:5px;">
+		        <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 0px;">
+		          <form class="form-horizontal">
+		            <div class="form-group">
+
+		              <label for="inputEmail3" style="padding-top:2px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Itens por página:</strong></label>
+		              <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+		                <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+		              </div>
+
+		            </div>
+		          </form>
+		        </div>
+		        <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+		          <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+		        </div>
+		      </div> 
+			</div>
+		</article>
+		<!-- END COL -->    
+	</div>
+	<!-- END ROW -->
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+pageSetUp();
+var pagefunction = function() {
+};
+pagefunction();
+</script>

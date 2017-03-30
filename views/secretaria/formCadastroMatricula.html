@@ -1,0 +1,420 @@
+<script src="controllers/controller.formCadastroMatricula.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroMatricula' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Matrícula</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroMatricula-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">											
+									<section class="col col-3">
+										<label class="label"><strong>Etapa</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="sel_id_etapa" name="sel_id_etapa"
+													ng-model="matricula.id_etapa"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione a Etapa"
+                                            	   	ng-change="getCurso(item.id)"
+                                            	   	ng-options="item.id as item.descricao for item in etapas">
+												<option value="" selected>Selecione</option>
+											</select>
+ 
+											<i></i>
+										</div>				
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Aluno</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="aluno.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="changeAluno(aluno.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+											</ui-select-match>
+											<ui-select-choices repeat="aluno in alunos | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="aluno.nome | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+										<input name="sel_id_aluno" id="sel_id_aluno" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+											ng-model="matricula.id_aluno"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione o aluno">
+										</div>
+									</section>
+
+									<!--
+									<section class="col col-3">
+										<label class="label"><strong>Curso</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="curso.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="changeCurso(curso.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+											</ui-select-match>
+											<ui-select-choices repeat="curso in cursos | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="curso.nome | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+										<input name="id_curso" id="id_curso" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+											ng-model="matricula.id_curso"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione o curso">
+										</div>
+									</section>
+									-->
+
+									<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-2">													
+										<label class="label"><strong>Curso</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" 
+													id="selCurso" 
+													name="selCurso" 
+													ng-model="matricula.id_curso" 
+													ng-options="itemcur.id as itemcur.nome for itemcur in cursos" 
+													ng-selected="matricula.id_curso" 
+													ng-change="getTurma(matricula.id_curso)" 
+													data-validate-input 
+													data-required 
+													data-message-required="Selecione o Curso"
+													ng-selected="item.id = matricula.id_curso">
+											<option value="" selected>Selecione</option>
+											</select>
+										</div>
+									</section>
+
+									<!--
+									<section class="col col-3">
+										<label class="label"><strong>Turma</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="turma.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="changeTurma(turma.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+											</ui-select-match>
+											<ui-select-choices repeat="turma in turmas | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="turma.nome | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+										<input name="id_turma" id="id_turma" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+											ng-model="matricula.id_turma"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a turma">
+										</div>
+									</section>
+									-->
+
+									<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-2">
+										<label class="label"><strong>Turma</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" 
+													id="selTurma" 
+													name="selTurma" 
+													ng-model="matricula.id_turma" 
+													ng-options="itemtur.id as itemtur.nome for itemtur in turmas" 
+													ng-selected="matricula.id_turma" 
+													data-validate-input 
+													data-required 
+													data-message-required="Selecione a Turma"
+													ng-selected="itemtur.id = matricula.id_turma">
+											<option value="" selected>Selecione</option>
+											</select>
+										</div>
+									</section>
+
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Situação da série</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_situacao_serie" name="id_situacao_serie"
+													ng-model="matricula.id_situacao_serie"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione a situação da matrícula">
+												<option value="" selected>Selecione</option>
+												<option  ng-selected="matricula.id_situacao_serie == item.id"value="{{item.id}}" data-ng-repeat="item in situacoesSeries">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>				
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Série</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="ultima_serie" id="serie" placeholder="Série"
+											ng-model="matricula.serie"
+											mask="9"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a série">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Série</b>
+										</div>
+									</section>
+									<section class="col col-lg-4">
+										<label class="label"><strong>Data da matrícula</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="matricula.data_matricula" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd",
+				                                selectYears: 100,
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_matricula" id="data_matricula" type="text" 
+                                            ng-model="matricula.data_matricula1"
+                                            data-validate-input
+	                                        data-required 
+	                                        data-message-required="Por favor, selecione a data da matrícula">
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+									<input class="form-control data-picker" id="dataNasc" ng-model="matricula.data_matricula" type="text"
+									data-validate-input
+									mask="99/99/9999" 
+									data-required
+									data-message-required="Por favor, selecione a data da matrícula"
+									/>
+									<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+										pick-a-date="matricula.dataMatricula" placeholder="Selecione uma data" pick-a-date-options='{
+										format: "dd/mm/yyyy",
+										formatSubmit: "yyyy-mm-dd",
+										selectYears: 190,
+									}' 
+									></button></span>
+									<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_matricula" id="data_matricula" type="text" 
+									ng-model="matricula.data_matricula1"
+									data-validate-input
+									data-required 
+									data-message-required="Por favor, selecione a data da matrícula">
+								</label>
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Número do contrato</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="numero_contrato" id="numero_contrato" placeholder="Número de contrato"
+											ng-model="matricula.numero_contrato"
+											ui-number-mask="0"
+											maxlength="20" 
+											data-validate-input>
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número do contrato</b>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-lg-4">
+										<label class="label"><strong>Data do contrato</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+									<input class="form-control data-picker" id="dataNasc" ng-model="matricula.data_contrato" type="text"
+									mask="99/99/9999" 
+									/>
+									<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+										pick-a-date="pessoa.data_nasc" placeholder="Selecione uma data" pick-a-date-options='{
+										format: "dd/mm/yyyy",
+										formatSubmit: "yyyy-mm-dd",
+										selectYears: 190,
+									}' 
+									></button></span>
+									<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_contrato" id="data_contrato" type="text" 
+									ng-model="matricula.data_contrato1"
+									>
+								</label>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Total de parcelas</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="total_parcelas" id="total_parcelas" placeholder="Total de parcelas"
+											ng-model="matricula.total_parcelas"
+											data-mask="9?9"
+											data-validate-input>
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Total de parcelas</b>
+										</div>
+									</section>
+									<section class="col col-lg-4">
+										<label class="label"><strong>Data transferência da escola</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="matricula.data_transferencia_escola" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd",
+				                                selectYears: 100,
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_transferencia_escola" id="data_transferencia_escola" type="text" 
+                                            ng-model="matricula.data_transferencia_escola1">
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+									<input class="form-control data-picker" id="datatransferenciaescola" ng-model="matricula.data_transferencia_escola" type="text"
+									mask="99/99/9999"
+									/>
+									<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+										pick-a-date="matricula.datatransferenciaescola" placeholder="Selecione uma data" pick-a-date-options='{
+										format: "dd/mm/yyyy",
+										formatSubmit: "yyyy-mm-dd",
+										selectYears: 190,
+									}' 
+									></button></span>
+									<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_transferencia_escola" id="data_transferencia_escola" type="text" 
+									ng-model="matricula.data_transferencia_escola1">
+								</label>
+									</section>
+								</div>					
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarMatricula()" id="SalvarMatricula">
+									Salvar
+									<div class="ripple-wrapper"></div>
+								</button>		
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+		<!-- Modal -->
+	<div class="modal fade" id="myModalMontarFormula">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Montar Fórmula</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroMontarFormula-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section">
+							<label class="label"><strong>Notas Cadastradas</strong></label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select class="form-control" id="notas_cadastradas" name="notas_cadastradas"
+									ng-model="addMontar.notas_cadastradas"
+									ng-change="selecionarItemFormula()">
+									<option value="" selected>Selecione</option>
+									<option value="{{item.abreviatura}}" ng-repeat="item in notasInformadas">{{item.descricao}}</option>
+								</select>
+								<i></i>
+							</div>				
+						</section>
+						<section class="section">
+							<label class="label"><strong>Operadores</strong></label>
+							<button ng-disabled="addMontar.formulas.length == 0 && operador.habilita == false" ng-repeat="operador in operadores" class="btnmd btnmd-info btnmd-material-indigo btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(operador.item)" id="operadorNota">
+								{{operador.item}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Valores</strong></label>
+							<button ng-repeat="valor in valores" class="btnmd btnmd-material-blue btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(valor.numero)" id="valorNota">
+								{{valor.numero}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Fórmula Montada</strong></label>
+							<div class="form-control-wrapper">
+								<div rows="3" class="form-control" style="height: 70px;">
+									<div class="col col-8" style="margin-left: -10px; margin-right: 10px;">
+										<span ng-repeat="formula in addMontar.formulas track by $index">
+											{{formula}}
+										</span>
+									</div>
+									<div class="col col-4">
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="width: 170px;"
+										ng-click="addMontar.formulas = []">
+										Limpar fórmula</button>
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin-top: 5px; width: 170px;"
+										ng-click="removeItemFormula()">
+										Remover item  </button>
+									</div>
+								</div>
+							</div>
+						</section>		
+				</form>  
+			</div>
+			<div class="modal-footer">	                
+				<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+				<button type="button" class="btnmd btnmd-primary" ng-click="salvarFormula()">Salvar</button>		        
+			</div>
+		</div>
+	</div>
+</div>	
+<!-- Modal -->
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+	$.fn.incluirItemFormula = function (txt) {
+	return this.each(function(){
+		console.log('txt', txt);
+
+		var numCaracter = txt.length;
+		var posInicial = this.selectionStart;
+		var posFinal = this.selectionEnd;
+		var scrollTop = this.scrollTop;
+		this.value = this.value.substring(0, posInicial) + txt + this.value.substring(posFinal,this.value.length);
+		this.focus();
+		this.selectionStart = posInicial + numCaracter;
+		this.selectionEnd = posInicial + numCaracter;
+		
+		console.log('txt.length', numCaracter);
+		
+		this.scrollTop = scrollTop;
+	});
+}
+</script>

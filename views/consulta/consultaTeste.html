@@ -1,0 +1,208 @@
+<script src="controllers/controller.consultaTeste.js"></script>
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+
+</style>
+<!-- widget grid -->
+
+<section ng-controller='consultaTeste' id="widget-grid" widget-grid>
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de Associados</h2>
+
+        </header>
+
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+              <!--table show-filter="true" ng-table="tableParams" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            <div>Ações</div>
+                        </th>
+                        <th class="sortable text-left" ng-class="{
+                            'sort-asc': tableParams.isSortBy('nome', 'asc'),
+                            'sort-desc': tableParams.isSortBy('nome', 'desc')
+                          }"
+                            ng-click="tableParams.sorting({'nome' : tableParams.isSortBy('nome', 'asc') ? 'desc' : 'asc'})" rowspan="2">
+                            <div><i class="glyphicon glyphicon-user"></i> Nome</div>
+                        </th>                    
+                        <th class="text-left">
+                            <div>CPF</div>
+                        </th>
+                        <th class="text-left">
+                            <div>Cidade</div>
+                        </th>
+                        <th class="text-left">
+                            <div>Estado</div>
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-title="'Ações'">
+                         
+                        </td>
+                        <td data-title="'Nome'"><input ng-model="search" type="text"></td>
+                        <td data-title="'CPF'" filter="{ 'numero': 'text' }">                     
+                        </td>
+                        <td data-title="'Cidade'" filter="{ 'cidade': 'text' }">                          
+                        </td>
+                        <td data-title="'Estado'" filter="{ 'estado': 'text' }">
+                        </td>       
+                    </tr>
+                    <tr ng-repeat="user in $data">
+                        <td data-title="'Ações'">
+                          <button ng-click='editCadastro(user.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btn btn-default ng-scope"><i class="fa fa-pencil-square-o fa-4"></i></button>
+                        </td>
+                        <td data-title="'Nome'" filter="{ 'nome': 'text' }">{{user.nome}}</td>
+                        <td data-title="'CPF'" filter="{ 'numero': 'text' }">
+                          <span ng-repeat="doc in user.documento | filter:{ id_tipo_documento: 2 }">{{doc.numero}}</span>              
+                        </td>
+                        <td data-title="'Cidade'" filter="{ 'cidade': 'text' }">
+                          <span ng-repeat="end in user.endereco">{{end.cidade}}</span> 
+                        </td>
+                        <td data-title="'Estado'" filter="{ 'estado': 'text' }">
+                          <span ng-repeat="end in user.endereco">{{end.estado}}</span> 
+                        </td>       
+                    </tr>
+                </tbody>
+            </table-->
+              
+              <h1>Exemplo de performance</h1>
+
+              <p><strong>Total:</strong> {{registros}}</p>
+              <p><strong>Registros por página:</strong> {{tableParams.count()}}</p>
+              <h2>Através de filtros</h2>  
+              <table show-filter="true" ng-table="tableParams" class="table table-striped table-bordered">
+                 
+                  <tbody>
+                      <tr ng-repeat="user in $data">
+                          <td data-title="'Ações'">
+                            <button ng-click='editCadastro(user.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btn btn-default ng-scope"><i class="fa fa-pencil-square-o fa-4"></i></button>
+                          </td>
+                          <td data-title="'Nome'" sortable="'nome'" filter="{ 'nome': 'text' }">{{user.nome}}</td>
+                          <td data-title="'Idade'" sortable="'idade'" filter="{ 'idade': 'text' }">{{user.idade}}</td>
+                      </tr>
+                  </tbody>
+              </table> 
+              </br> 
+              <h2>Através de autocomplete</h2>
+              <section class="col col-6">
+                <ui-select ng-model="objeto.selected"
+                                   theme="select2"                                       
+                                   reset-search-input="false"
+                                   style="min-width:600px"
+                                   on-select="someFunction($item, $model)">
+                          <match placeholder=" Digite uma palavra minimo 3 caracteres ">{{$select.selected.nome}}</match>
+                          <choices ng-click="salvarSocios(objeto.selected)" repeat="objeto in socios track by $index"
+                                   refresh="refreshSocios($select.search)"
+                                   refresh-delay="0">                                                    
+                            <div style="line-height:40px;padding-left:50px">{{objeto.nome}}</div>
+                          </choices>
+                        </ui-select>
+              </section>                  
+              </br>
+            </div>     
+          <div>      
+        <div>  
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+
+  
+  
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+   *
+   * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+   *
+   * // activate tooltips
+   * $("[rel=tooltip]").tooltip();
+   *
+   * // activate popovers
+   * $("[rel=popover]").popover();
+   *
+   * // activate popovers with hover states
+   * $("[rel=popover-hover]").popover({ trigger: "hover" });
+   *
+   * // activate inline charts
+   * runAllCharts();
+   *
+   * // setup widgets
+   * setup_widgets_desktop();
+   *
+   * // run form elements
+   * runAllForms();
+   *
+   ********************************
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+
+  pageSetUp();
+  
+  /*
+   * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+   * eg alert("my home function");
+   * 
+   * var pagefunction = function() {
+   *   ...
+   * }
+   * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+   * 
+   * TO LOAD A SCRIPT:
+   * var pagefunction = function (){ 
+   *  loadScript(".../plugin.js", run_after_loaded);  
+   * }
+   * 
+   * OR
+   * 
+   * loadScript(".../plugin.js", run_after_loaded);
+   */
+
+  // PAGE RELATED SCRIPTS
+  
+  // pagefunction
+  
+  var pagefunction = function() {
+    
+  };
+  
+  // end pagefunction
+  
+  // run pagefunction on load
+  pagefunction();
+        
+
+</script>

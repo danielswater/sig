@@ -1,0 +1,198 @@
+<style type="text/css">
+	.tabela{
+		float: left;
+		margin-right: 20px;
+	}
+	.show{
+		display: compact;
+	}
+	.hide{
+		display: none;
+	}
+	.link{
+		cursor: pointer;
+	}
+</style>
+<script src="controllers/controller.formCadastroCotacao.js"></script>
+<!-- widget grid -->
+<section ng-controller='cadastroCotacao' id="widget-grid" widget-grid> 
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cotações de Preços</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="consultaCotacao-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<!-- <div class="row">
+									<section class="col col-lg-12 col-md-12 col-sm-12">
+										<div class="table-responsive">
+											<table class="table table-bordered">
+												<thead>
+													<tr style="background: #009587; color: #fff;">
+														<th></th>
+														<th>Processo de Compras</th>
+														<th>Descrição</th>
+														<th>Comprador</th>
+														<th>Situação</th>
+													</tr>													
+												</thead>
+												<tbody>
+													<tr ng-repeat="cotacao in cotacoes">
+														<td width="1%"><i class="{{cotacao.classe}}" 
+															ng-click="abre($index)"></i></td>
+															<td width="15%">{{cotacao.id}}</td>
+															<td width="30%">{{cotacao.descricao}}</td>
+															<td>{{cotacao.comprador}}</td>
+															<td>{{cotacao.situacao_compra}}</td>
+														
+														</tr>													
+													</tbody>
+												</table>
+											</div>		
+										</section>												
+									</div> -->
+									<div class="row">
+										<section class="col col-lg-12 col-md-12 col-sm-12">
+											<div class="table-responsive" ng-repeat="item in cotacoes" >
+												<table class="table table-bordered">
+													<tr>
+														<td colspan="6"  style="max-width:100px;">
+															<div class="col-lg-6">
+																
+																 <table class="table table-bordered">
+																	<thead>
+																		<tr>
+																			<th colspan="3">&nbsp;</th>
+																		</tr>
+																		<tr>
+																			<th width="70%">Ítem</th>
+																			<th></th>
+																			<th></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat="produtos in item.items" >
+																			<td style="padding-bottom: 20px;">{{produtos.descricao_produtos_servicos}}</td>
+																			<td style="padding-bottom: 20px;"></td>
+																			<td style="padding-bottom: 20px;"></td>
+																		</tr>
+																		<!-- <tr>
+																			<td colspan="3" align="right">Total bruto:</td>
+																		</tr>
+																		<tr>
+																			<td colspan="3" align="right">Imposto:</td>
+																		</tr>
+																		<tr>
+																			<td colspan="3" align="right">Total líquido:</td>
+																		</tr> -->
+
+																	</tbody>																
+																</table>
+															</div>
+															<div class="col col-lg-6" style="overflow: auto;">
+																<!-- TABELA DE FORNECEDORES -->
+																<div style="width:50000px;">	
+
+																	<div ng-repeat="fornecedor in item.items[$index].fornecedores" style="float: left; width:380px; margin-right:15px;">							
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr style="background: #009587; color: #fff;">
+																					<th colspan="3" align="center">Fornecedor: {{fornecedor.nome_fornecedor}} {{fornecedor.id_pessoa}}</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>Valor Unitário</td>
+																					<td>Total</td>
+																					<!-- <td>IPI</td> -->
+																					<td></td>
+																				</tr>
+																				<tr>
+																					<td style="padding-top: 0px;" width="30%">
+																						<div class="form-control form-control-wrapper inputValidate">
+												                                            <input ui-money-mask="2" ng-model="fornecedor.valor_unitario" class="form-control" id="{{$index}}" name="{{$index}}" type="text" 
+																							data-validate-input 
+																							data-required
+																							data-message-required="Informe o valor">										
+												                                        </div>																					
+																					</td>
+																					<td style="padding-top: 0px;"  width="30%">															
+																						{{item.quantidade * fornecedor.valor_unitario | currency}}
+																					</td>
+																					<!-- <td style="padding-top: 0px;"></td> -->
+																					<td  width="1%"><button ng-click="cadastraCotacao(fornecedor.id_fornecedor,fornecedor.valor_unitario, item.quantidade);" popover="Incluir Cotação" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-check btnmd-sm">
+																							<div class="ripple-wrapper"></div>
+																						</button>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+															</div>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</section>
+									</div>								
+								</fieldset>
+															
+							<footer ng-show="click == true">
+								<button class="btnmd btnmd-info pull-right" ng-click="modalEnviar()" id="enviarAprovacao">
+									Enviar para aprovação
+								</button>								
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+	</script>

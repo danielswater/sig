@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>Boleto</title>
+
+	<style type="text/css">
+		html, body {height:100%;} 
+		body {
+			margin:0; 
+			padding:0;
+			background:#ddd;
+			color:#666;
+			font:75%/1.4 Verdana, Arial, Helvetica, sans-serif;
+			text-align:center;
+		}
+		h1, h2, h3, h4, small, p{
+			color: #000;
+		}
+		h1{
+			font-size: 30px;
+		}
+		tr{
+			text-align: left;
+		}
+		#tudo { 
+			width:760px;
+			position:relative;  /*Contexto de posicionamento */
+			background:#fff;
+			margin:0 auto;
+			text-align:left;
+			min-height:100%;/**/
+			border:solid #999;
+			border-width:0 1px;
+		}
+
+		* html #tudo {height: 100%;}
+		#conteudo {padding-bottom:30px;}
+		#topo {
+			width: 760px;
+			height: 100px;
+			border-bottom:1px solid #999;
+			border-top:1px solid #999;
+			background-color: #EDEDED;
+		}
+		#principal {
+			width:720px;
+			padding-left:20px;
+			padding-right: 20px;
+			float:left;
+			padding-top:10px;
+		}
+		#rodape {
+			width:760px;
+			height:45px;
+			position: absolute;
+			bottom: 0; 
+			border:solid #999;
+			border-width: 1px 0;
+			text-align:center;
+			z-index: 200;
+		}
+		.cabecalho{
+			background-color: #EDEDED;
+			float: left;
+		}
+		.box-img{
+			width: 80px;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.box-img img{
+			width: 80px;
+		}
+		.titulo{
+			float: left;
+			margin-left: 20px;
+		}
+		.titulo h1{
+			margin-bottom: 0px;
+		}
+		.row{
+			width: 100%;
+			height: 30px;
+			float: left;
+		}
+		.row:first-child{
+			margin-top: 10px;
+		}
+		.column{
+			width: 102px;
+			margin-right: 10px;
+			padding: 5px;
+			float: left;
+		}
+		.column:last-child{
+			margin-right: -2px;
+		}
+
+		.clear {clear:both;}
+
+		@media print {
+			#tudo { 
+				border: none;
+				border-width: 0;
+			}
+
+			#rodape {
+				border: none;
+				border-width: 0;
+			}
+		}
+</style>
+</head>
+<body onload='window.print()'>
+	<div id="tudo">
+		<div id="conteudo" style="background:#fff;">
+			<div id="principal">
+
+				{{corpo}}
+
+			</div> <!-- Fim da div#principal -->
+
+
+			<div class="clear"></div>
+
+		</div> <!-- Fim da div#conteudo -->
+		<div id="rodape">
+
+		</div>
+	</div> <!-- Fim da div#tudo -->
+</body>
+</html>

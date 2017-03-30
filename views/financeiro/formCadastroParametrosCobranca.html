@@ -1,0 +1,602 @@
+<script src="controllers/controller.formCadastroParametrosCobranca.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroParametrosCobranca' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Parametros de Cobrança</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+							<fieldset>
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<div class="widget-body">
+										<tabset>
+											<tab active="tab.active">
+												<tab-heading>
+												<i class="fa fa-fw fa-lg fa-cube"></i>Parametros
+											</tab-heading>
+											<div id="myTabContent1" class="tab-content padding-10 ">
+
+												<form id="cadastroParametro-form" class="smart-form" novalidate="novalidate" validate-form>							
+													<fieldset>
+														<div class="row">
+															<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+																<label class="label"><strong>Mês/Ano</strong></label>
+
+																<label class="input-group form-control-wrapper inputValidate">
+																	<input class="form-control data-picker" id="dataNasc" ng-model="parametro.mes_ano" type="text"
+																	data-validate-input
+																	mask="99/9999" 
+																	data-required
+																	data-message-required="Informe o mês e o ano"
+																	/>
+																	<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																		pick-a-date="parametro.ano_mes" placeholder="Selecione uma data" pick-a-date-options='{
+																		format: "mm/yyyy",
+																		formatSubmit: "yyyy-mm",
+																	}' 
+																	></button></span>
+																	<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="mes_ano" id="mes_ano" type="text" 
+																	ng-model="parametro.mes_ano1"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Informe o mês e o ano">
+																</label>					
+															</section>	
+															<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+																<label><strong>Tipo de Carnê</strong></label>
+																<div class="form-control form-control-wrapper inputValidate" style="margin-top: 5px;">
+																	<select class="form-control" id="id_tipo_carne" name="id_tipo_carne" ng-model="parametro.id_tipo_carne"
+																	data-validate-input
+																	data-required                                      
+																	data-message-required="Por favor, selecione um tipo de carnê">
+																	<option value="" disabled="">Selecione</option>
+																	<option value="{{carne.id}}" data-ng-repeat="carne in tipos_carnes" ng-selected="carne.id == parametro.id_tipo_carne">{{carne.descricao}}</option>
+																</select> <i></i> 
+															</div>
+														</section>
+
+														<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+															<label class="label"><strong>Data de vencimento normal</strong></label>
+
+															<label class="input-group form-control-wrapper inputValidate">
+															<input 	class="form-control data-picker" 
+																	id="dataVenc" 
+																	ng-model="parametro.data_vencimento" 
+																	type="text"
+																	data-validate-input
+																	mask="99/99/9999" 
+																	data-required
+																	data-message-required="Informe a data de vencimento"/>
+															<span class="input-group-addon">
+																<button style="border: none; cursor: pointer;" 
+																		class="fa fa-calendar"
+																		pick-a-date="parametro.vencimento_data" 
+																		placeholder="Selecione uma data" 
+																		pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd",selectYears: 190,}'>
+																</button>
+															</span>
+															<input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+																	name="pessoa_dataNascimento" 
+																	id="pessoa_dataNascimento" 
+																	type="text" 
+																	ng-model="parametro.data_vencimento1"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Informe a data de vencimento">
+															</label>
+														</section>	
+												</div>
+												<div class="row">
+													<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+														<label class="label"><strong>Desconto especial?</strong></label>
+														<div class="form-inline">
+															<div class="form-group">
+																<label class="radio radio-inline">
+																	<input type="radio" class="radiobox ng-pristine ng-valid" name="desconto_especial" checked="true" value="0" ng-model="parametro.desconto_especial">
+																	<span>Nenhum</span>  
+																</label>
+															</div>
+															<div class="form-group">
+																<label class="radio radio-inline">
+																	<input type="radio" class="radiobox ng-pristine ng-valid" name="desconto_especial" checked="true" value="1" ng-model="parametro.desconto_especial">
+																	<span>Até o vencimento</span>  
+																</label>
+															</div>
+															<div class="form-group">
+																<label class="radio radio-inline">
+																	<input type="radio" class="radiobox ng-pristine ng-valid" name="desconto_especial" value="2" ng-model="parametro.desconto_especial">
+																	<span>Data fixa de desconto especial</span>  
+																</label>	
+															</div>
+														</div>
+													</section>	
+
+													<!--section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2" ng-show="show_data">
+														<label class="label"><strong>Data</strong></label>
+														<label class="input-group form-control-wrapper inputValidate" >		
+															<input class="form-control" type="text" pick-a-date="parametro.data_fixa_desconto" placeholder="Selecione uma data" pick-a-date-options='{	
+															format: "dd/mm/yyyy",
+															formatSubmit: "yyyy-mm-dd"                      
+														}' />		
+														<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+														<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_fixa_desconto" id="data_fixa_desconto" type="text" 
+														ng-model="parametro.data_fixa_desconto1"
+														data-validate-input
+														data-required 
+														data-message-required="Informe a data">	
+													</label>						
+												</section-->
+													<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2" ng-show="show_data">
+														<label class="label"><strong>Data</strong></label>
+
+														<label class="input-group form-control-wrapper inputValidate">
+														<input 	class="form-control data-picker" 
+																id="pdfd" 
+																name="pdfd" 
+																ng-model="parametro.data_fixa_desconto" 
+																type="text"
+																data-validate-input
+																mask="99/99/9999" 
+																data-required
+																data-message-required="Informe a data fixa de desconto"/>
+														<span class="input-group-addon">
+															<button style="border: none; cursor: pointer;" 
+																	class="fa fa-calendar"
+																	pick-a-date="xxx" 
+																	placeholder="Selecione uma data" 
+																	pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd"}'>
+															</button>
+														</span>
+														</label>
+													</section>	
+
+												<section ng-class="class_porcentagem_desconto">
+													<label class="label"><strong>% de desconto</strong></label>
+													<div class="form-control-wrapper inputValidate">
+														<input class="form-control"  name="porcentagem_desconto" id="porcentagem_desconto" 
+														ui-number-mask="2"
+														ng-disabled="desabilitar" 
+														ng-model="parametro.porcentagem_desconto" placeholder="Informe a porcentagem desconto">
+														<span class="material-input"></span>
+													</div>	
+												</section>
+												<section ng-class="class_valor_desconto">
+													<label class="label"><strong>Valor do desconto</strong></label>
+													<div class="form-control-wrapper inputValidate">
+														<input class="form-control"  name="valor_desconto" id="valor_desconto" ui-money-mask="2" 
+														ng-disabled="desabilitar"
+														ng-model="parametro.valor_desconto" placeholder="Informe a porcentagem desconto">
+														<span class="material-input"></span>
+													</div>	
+												</section>		
+											</div>
+											<div class="row">
+												<section class="col col-4">
+													<label class="label"><strong>Status</strong></label>
+													<div class="form-inline">
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="parametro.ativo">
+																<span>Ativo</span>  
+															</label>
+														</div>
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" value="0" ng-model="parametro.ativo">
+																<span>Inativo</span>  
+															</label>	
+														</div>
+													</div>
+												</section>
+											</div>								
+										</fieldset>
+										<footer>
+											<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+												Novo
+											</a>
+											<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarParametro()" id="SalvarCargo">
+												Salvar
+												<div class="ripple-wrapper"></div>
+											</button>		
+										</footer>
+									</form>	
+
+
+
+
+								</div>
+							</tab>
+							<tab>
+								<tab-heading>
+								<i class="fa fa-fw fa-lg fa-exclamation"></i>Ocorrências
+							</tab-heading>
+							<div id="myTabContent2" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+								<form id="cadastroOcorrencia-form" class="smart-form" novalidate="novalidate" validate-form>
+									<fieldset>
+										<div class="row">
+											<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+												<label class="label"><strong>Tipo de Receita</strong></label>
+												<div class="form-group form-control-wrapper inputValidate">
+													<ui-select ng-model="tipo_receita.selected"
+													theme="bootstrap"
+													ng-disabled="disabled"
+													reset-search-input="false"
+													ng-change="verificarAcaoTipoReceita(tipo_receita.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices repeat="tipo_receita in tipos_receitas | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="tipo_receita.descricao | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+										<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_tipo_receita" id="id_tipo_receita" type="text" 
+										ng-model="ocorrencia.id_tipo_receita"
+										data-validate-input
+										data-required 
+										data-message-required="Por favor, selecione o tipo de receita">
+									</div>
+								</section>
+								<section class="col col-4">
+									<label class="label"><strong>Status</strong></label>
+									<div class="form-inline">
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="ocorrenciastatus" checked="true" value="1" ng-model="ocorrencia.ativo">
+												<span>Ativo</span>  
+											</label>
+										</div>
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="ocorrenciastatus" value="0" ng-model="ocorrencia.ativo">
+												<span>Inativo</span>  
+											</label>	
+										</div>
+									</div>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+									<label class="label"><strong>&nbsp;</strong></label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" type="checkbox" name="aviso"
+											ng-model="ocorrencia.receita_principal">
+											<span class="ripple"></span>
+											<span class="check"></span>
+											<strong>Indicador de receita principal</strong>
+										</label>
+									</div>
+								</section>
+								<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+									<label class="label"><strong>&nbsp;</strong></label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" type="checkbox" 
+											ng-model="ocorrencia.faixa_preco">
+											<span class="ripple"></span>
+											<span class="check"></span>
+											<strong>Faixa de preço</strong>
+										</label>
+									</div>
+								</section>
+								<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+									<label class="label"><strong>&nbsp;</strong></label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" type="checkbox" 
+											ng-model="ocorrencia.desconto_bolsa">
+											<span class="ripple"></span>
+											<span class="check"></span>
+											<strong>Desconto de bolsa do aluno</strong>
+										</label>
+									</div>
+								</section>	
+								<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+									<label class="label"><strong>&nbsp;</strong></label>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" type="checkbox" 
+											ng-model="ocorrencia.desconto_pontualidade">
+											<span class="ripple"></span>
+											<span class="check"></span>
+											<strong>Desconto de pontualidade</strong>
+										</label>
+									</div>
+								</section>
+							</div>																
+
+						</fieldset>
+						<footer>
+							<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroOcorrencia()" id="novoCadastroOcorrencia">
+								Novo
+							</a>
+							<button class="btnmd btnmd-info  pull-right" ng-disabled="!parametro.id" ng-click="cadastrarOcorrencia()" id="SalvarOcorrencia">
+								Salvar
+								<div class="ripple-wrapper"></div>
+							</button>		
+						</footer>
+					</form>
+					<div class="row" ng-show="ocorrencias.length > 0">
+						<section>
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th class="label-primary" style="color:white">Tipo de Receita</th>
+											<th class="label-primary" style="color:white" align="center">Indicador de receita principal</th>
+											<th class="label-primary" style="color:white" align="center">Faixa de preço</th>
+											<th class="label-primary" style="color:white" align="center">Desconto de bolsa do aluno</th>
+											<th class="label-primary" style="color:white" align="center">Desconto de pontualidade</th>
+											<th class="label-primary" style="color:white" align="center">Status</th>
+											<th class="label-primary" style="color:white" align="center" colspan="3">Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item_ocorrencia in ocorrencias">
+											<td>
+												{{item_ocorrencia.tipo_receita}}
+											</td>
+											<td align="center">
+												<i class="fa fa-check" ng-show="item_ocorrencia.receita_principal"></i>
+											</td>
+											<td align="center">
+												<i class="fa fa-check" ng-show="item_ocorrencia.faixa_preco"></i>
+											</td>
+											<td align="center">
+												<i class="fa fa-check" ng-show="item_ocorrencia.desconto_bolsa"></i>
+											</td>
+											<td align="center">
+												<i class="fa fa-check" ng-show="item_ocorrencia.desconto_pontualidade"></i>
+											</td>
+											<td align="center">
+												{{item_ocorrencia.status}}
+											</td>
+											<td>
+												<button ng-click="delParametroCobrancaOcorrencia($index, item_ocorrencia)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"></button>
+											</td>
+											<td>
+												<button ng-click="editarOcorrencia(item_ocorrencia)" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"></button>
+											</td>
+											<td>
+												<button type="button" class="btnmd btnmd-success btnmd-raised fa fa-money btnmd-sm" 
+												ng-click="modalNovoOcorrenciaPreco(item_ocorrencia)" id="preco">
+												Preços
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</div>
+		</tab>
+	</tabset>
+</div>
+</section>
+</fieldset>
+</div>
+
+
+</div>
+<!-- end widget content -->
+
+</div>
+<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>
+
+<!-- END ROW -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModalOcorrenciaPreco">
+	<div class="modal-dialog" style="width:80%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">Novo Preço em {{cobranca_preco.titulo}}</h4>
+			</div>
+			<div class="modal-body">
+				<form id="cadastroOcorrenciaPreco-form" class="smart-form" novalidate="novalidate" validate-form>	
+					<div class="row">
+						<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+							<label class="label"><strong>Série</strong></label>
+							<div class="form-control-wrapper inputValidate">
+								<i class="icon-append fa fa-question-circle"></i>
+								<input class="form-control" name="serie" id="serie" placeholder="Série"
+								ng-model="cobranca_preco.serie"
+								mask="9"
+								data-validate-input
+								data-required 
+								data-message-required="Informe a série">
+								<span class="material-input"></span>
+								<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Série</b>
+							</div>
+						</section>
+						<section class="col col-lg-9 col-md-9 col-sm-9 col-xs-9">
+							<label class="label"><strong>Curso</strong></label>
+							<div class="form-control-wrapper inputValidate">
+								<ui-select ng-model="item_curso.selected"
+								theme="bootstrap"
+								ng-disabled="disabled"
+								reset-search-input="false"
+								ng-change="verificarAcaoCobrancaPreco(item_curso.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+							</ui-select-match>
+							<ui-select-choices repeat="item_curso in cursos | propsFilter: {nome: $select.search}">
+							<div ng-bind-html="item_curso.nome | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+					<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_curso" id="id_curso" type="text" 
+					ng-model="cobranca_preco.id_curso"
+					data-validate-input
+					data-required 
+					data-message-required="Informe o curso">
+				</section>
+			</div>
+			<div class="row">
+				<section class="col col-xs-1 col-sm-1 col-md-1 col-lg-1">
+					<label class="label"><strong>Valor Normal</strong></label>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" type="checkbox" 
+							ng-model="cobranca_preco.valor_normal">
+							<span class="ripple"></span>
+							<span class="check"></span>
+						</label>
+					</div>
+				</section>
+				<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<label class="label"><strong>Valor autorizado</strong></label>
+					<div class="form-control-wrapper inputValidate">
+						<input class="form-control"  name="valor_autorizado" id="valor_autorizado" 
+						ui-money-mask="2"
+						maxlength="14"
+						ng-model="cobranca_preco.valor_autorizado" 
+						placeholder="Informe o valor autorizado">
+						<span class="material-input"></span>
+					</div>	
+				</section>
+				<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<label class="label"><strong>% de desconto</strong></label>
+					<div class="form-control-wrapper inputValidate">
+						<input class="form-control"  name="cp_porcentagem_desconto" id="cp_porcentagem_desconto" 
+						ui-number-mask="2"
+						maxlength="5"
+						ng-model="cobranca_preco.porcentagem_desconto" placeholder="Informe a porcentagem de desconto">
+						<span class="material-input"></span>
+					</div>	
+				</section>
+				<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<label class="label"><strong>Valor do desconto</strong></label>
+					<div class="form-control-wrapper inputValidate">
+						<input class="form-control"  name="valor_desconto" id="valor_desconto" 
+						ui-money-mask="2" 
+						maxlength="14"
+						ng-model="cobranca_preco.valor_desconto" placeholder="Informe o valor de desconto">
+						<span class="material-input"></span>
+					</div>	
+				</section>
+				<section class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<label class="label"><strong>Status</strong></label>
+					<div class="form-inline">
+						<div class="form-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" name="cobranca_preco_status" checked="true" value="1" ng-model="cobranca_preco.ativo">
+								<span>Ativo</span>  
+							</label>
+						</div>
+						<div class="form-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" name="cobranca_preco_status" value="0" ng-model="cobranca_preco.ativo">
+								<span>Inativo</span>  
+							</label>	
+						</div>
+					</div>
+				</section>
+			</div>
+		</form>  
+	</div>
+	<div class="modal-footer">	                
+		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	
+
+		<button type="button" class="btnmd btnmd-info" ng-click="adicionarCobrancaPreco()">Salvar</button>		        
+
+		<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroCobrancaPreco()" id="NovoCadastro">
+			Novo
+		</a>
+	</div>
+	<div class="row" ng-show="cobrancas_precos.length > 0">
+		<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="label-primary" style="color:white">Série</th>
+							<th class="label-primary" style="color:white">Curso</th>
+							<th class="label-primary" style="color:white" align="center">Valor Normal</th>
+							<th class="label-primary" style="color:white">Valor autorizado</th>
+							<th class="label-primary" style="color:white">% de desconto</th>
+							<th class="label-primary" style="color:white">Valor do desconto</th>
+							<th class="label-primary" style="color:white">Status</th>
+							<th class="label-primary" style="color:white" align="center" colspan="2">Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item_preco in cobrancas_precos">
+							<td>
+								{{item_preco.serie}}
+							</td>
+							<td>
+								{{item_preco.curso}}
+							</td>
+							<td align="center">
+								<i class="fa fa-check" ng-show="item_preco.valor_normal"></i>
+							</td>
+							<td>
+								{{item_preco.valor_autorizado | currency}}
+							</td>
+							<td>
+								{{item_preco.porcentagem_desconto}}
+							</td>
+							<td>
+								{{item_preco.valor_desconto | currency}}
+							</td>
+							<td align="center">
+								{{item_preco.status}}
+							</td>
+							<td>
+								<button ng-click="delCobrancaPreco($index, item_preco)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"></button>
+							</td>
+							<td>
+								<button ng-click="editarCobrancaPreco(item_preco)" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</div>
+</div>
+</div>
+</div>	
+<!-- Modal -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+	</script>

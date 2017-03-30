@@ -1,0 +1,296 @@
+<style type="text/css">
+	.table{
+		margin-bottom: 0px;
+	}
+</style>
+<script src="controllers/controller.formCadastroListaConvidados.js"></script>    
+<!-- widget grid -->
+<section ng-controller='formCadastroListaConvidados' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Lista</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<section>
+							<div name="id_lista" style="height: 180px; overflow: auto;" class="custom-scroll">
+								<div style="overflow: hidden;">
+									<div>
+										<ul class="list-group">
+											<li class="list-group-item open" data-ng-repeat="lista in lista" ng-show="lista.error != -1">
+												{{lista.nome}}
+												<ul class="list-group-submenu-button">
+													<li>												
+														<button ng-click="modalExcluirLista($index, lista)" popover-title="Excluir convidados" popover-trigger="mouseover" class="btnmd btnmd-danger fa fa-times btnmd-sm"></button>
+														<button ng-click="modalAlterLista($index, lista)" popover-title="Alterar Lista de convidados" popover-trigger="mouseover" class="btnmd btnmd-primary fa fa-pencil btnmd-sm"></button>
+														<button ng-click="tabelaLista($index)" popover-title="Selecionar Lista de convidados" popover-trigger="mouseover" class="btnmd btnmd-warning  fa fa-check btnmd-sm"></button>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>								
+								</div>
+							</div> 
+							<div class="smart-form">
+								<footer style="text-align: right;">
+									<button type="button" class="btnmd btnmd-primary btnmd-raised" ng-click="modalNovaLista()">
+									  Nova Lista
+									</button>
+								</footer>
+							</div>
+						</section>
+											
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+	<div class="row" ng-show="tabela_pessoa.length > 0">
+		<article class="col-sm-8 col-md-8 col-lg-8">
+					
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Pessoas</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+					<div class="row">
+						<div style="margin:5px">
+							<button style="margin-bottom:5px" type="button" ng-disabled="tableParams.data.length == 0" id="addTodos" class="btnmd btnmd-sm btnmd-primary btnmd-raised pull-right" ng-click="modalAddSelListaPessoa(search)">
+								Adicionar selecionados a lista
+							</button>
+						</div>					
+						<section>
+
+
+
+							<div class="table-responsive">       
+			            		<table show-filter="true" class="table table-striped table-bordered">
+			                     <thead>
+			                       <tr>
+			                         <th ng-click="changeSorting('nome')">NOME <i class="glyphicon" ng-class="getIcon('nome')"></i></th>
+			                         <th ng-click="changeSorting('empresa')">EMPRESA <i class="glyphicon" ng-class="getIcon('empresa')"></i></th>
+			                         <th ng-click="changeSorting('ocupacao')">OCUPAÇÃO <i class="glyphicon" ng-class="getIcon('ocupacao')"></i></th>
+			                         <th ng-click="changeSorting('categoria')">CATEGORIA<i class="glyphicon" ng-class="getIcon('categoria')"></i></th>
+			                         <th ng-click="changeSorting('eventos')">EVENTOS<i class="glyphicon" ng-class="getIcon('eventos')"></i></th>
+			                         <th >Ações</th>
+			                       </tr>
+			                     </thead>
+			                     <tbody>
+			                       <tr>
+			                         <td><input ng-model="search.nome"  class="form-control" placeholder="Nome"></td>
+			                         <td><input ng-model="search.empresa"  class="form-control" placeholder="Empresa"></td>
+			                         <td><input ng-model="search.ocupacao"  class="form-control" placeholder="Ocupação"></td>
+			                         <td><input ng-model="search.categoria"  class="form-control" placeholder="Categoria"></td>
+			                         <td><input ng-model="search.eventos"  class="form-control" placeholder="Eventos"></td>
+			                         <td></td>
+			                       </tr>
+			                       <tr dir-paginate="item_pessoa in tabela_pessoa | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+			                         <td>{{item_pessoa.nome}}</td>
+			                         <td>{{item_pessoa.empresa}}</td>
+			                         <td>{{item_pessoa.ocupacao}}</td>
+			                         <td>{{item_pessoa.categoria}}</td>
+			                         <td>{{item_pessoa.eventos}}</td>
+			                         <td>
+										<!--<button ng-click='addListaConvidados(item_pessoa)' popover="Adicionar na lista de convidados" popover-trigger="mouseenter" class="btn btn-default ng-scope"><i class="fa fa-plus fa-4"></i></button>-->
+										<button ng-click="addListaConvidados(item_pessoa)" popover-title="Adicionar na lista de convidados" popover-trigger="mouseover" class="btnmd btnmd-primary fa fa-plus btnmd-sm"></button>
+			                         </td>
+			                       </tr>
+			                     </tbody>
+			                   </table>       
+			            	</div> 
+							<div>  
+					          <div class="row" style="margin-top:20px; margin-bottom:5px;">
+					          <div class="col-xs-5 col-ls-5 col-md-5 col-lg-5" style="padding-top: 8px;">
+					            <form class="form-horizontal">
+					              <div class="form-group">
+					                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+					                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+					                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+					                </div>
+					              </div>
+					            </form>
+					          </div>
+					          <div class="col-xs-7 col-ls-7 col-md-7 col-lg-7 pull-right">
+					            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+					          </div>              
+					        </div>
+					      </div>
+							
+			            </section>
+			            </div>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+
+		<!-- NEW COL START -->
+		<article class="col-sm-4 col-md-4 col-lg-4">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>{{lista_selected.nome}}</h2> 
+
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+					<div class="row">
+						<div style="margin:5px">
+							<button style="margin-bottom:5px" type="button" ng-disabled="tabela_lista.length == 0" id="limparLista"  class="btnmd btnmd-sm btnmd-primary btnmd-raised pull-right" ng-click="modalLimparLista()">
+								Limpar lista
+							</button>
+						</div>						
+						<section>
+
+
+							<div class="table-responsive">       
+			            		<table show-filter="true" class="table table-striped table-bordered">
+			                     <thead>
+			                       <tr>
+			                         <th ng-click="changeSorting('nome')">NOME <i class="glyphicon" ng-class="getIcon('nome')"></i></th>
+			                         <th width="30">Ações</th>
+			                       </tr>
+			                     </thead>
+			                     <tbody>
+			                       <tr>
+			                         <td><input ng-model="search2.nome" id="search" class="form-control" placeholder="Nome"></td>
+			                         <td></td>
+			                       </tr>
+			                       <tr dir-paginate="item_lista in tabela_lista | filter:search2:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+			                         <td>{{item_lista.nome}}</td>
+			                         <td>
+										<button ng-click="excluirListaConvidados(item_lista)" popover-title="Excluir convidados" popover-trigger="mouseover" class="btnmd btnmd-danger fa fa-times btnmd-sm"></button>
+			                         </td>
+			                       </tr>
+			                     </tbody>
+			                   </table>       
+			            	</div> 
+							<div>  
+					         <div class="row" style="margin-top:20px; margin-bottom: 10px;">
+					          <div class="col-xs-5 col-ls-5 col-md-5 col-lg-5" style="padding-top: 8px;">
+					            <form class="form-horizontal">
+					              <div class="form-group">
+					                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+					                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+					                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+					                </div>
+					              </div>
+					            </form>
+					          </div>
+					          <div class="col-xs-7 col-ls-7 col-md-7 col-lg-7">
+					            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+					          </div>              
+					        </div>
+					      </div>
+
+ 
+						</section>
+
+					</div>
+					<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- END COL -->
+		</div>
+		<!-- END ROW -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Nova Lista</h4>
+		      </div>
+		      <div>
+				<form id="cadastroLista-form" class="smart-form" novalidate="novalidate" validate-form>		
+				  <fieldset>
+					<section class="section"> 
+		               <div class="form-group">
+		               	<label class="label"><strong>Nome</strong></label>
+		                <div class="form-control-wrapper inputValidate">
+		                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addLista.nome"
+									data-validate-input 
+									data-required
+									data-message-required="Por favor, informe o nome da lista"><div class="floating-label"></div>
+									<b class="tooltip tooltip-top-right">
+										<i class="fa fa-warning txt-color-teal"></i> 
+										Nome da Lista de convidado</b>							
+		                 <span class="material-input"></span>
+		                </div>       
+		               </div>       
+	                </section>
+	                <section>
+						<label class="label"><strong>Mais Detalhes</strong></label>
+						<div class="form-control-wrapper">
+							<textarea rows="5" name="descricao" id="descricao"class=" form-control" ng-model="addLista.descricao"></textarea>
+							<span class="material-input"></span>
+						</div>
+					</section>
+				  </fieldset>
+			      <footer style="text-align: right;">
+					<button type="button" class="btnmd btnmd-default btnmd-raised" data-dismiss="modal">Cancelar</button>
+					<button id="upLista" class="btnmd btnmd-primary btnmd-raised" ng-click="novaLista(listaConvidado)">Alterar</button>
+			        <button id="addLista" class="btnmd btnmd-primary btnmd-raised" ng-click="novaLista(listaConvidado)">Salvar</button>
+			      </footer>
+				</form>
+
+		      </div>
+		    </div>
+		  </div>
+		</div>
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+		/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+	$('#myModal').on('hidden.bs.modal', function (e) {
+  		$('#myModal #cadastroLista-form .inputValidate').removeClass("state-error");
+  		$('#myModal #cadastroLista-form .invalid').remove();
+	});
+</script>

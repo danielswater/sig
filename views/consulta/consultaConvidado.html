@@ -1,0 +1,181 @@
+<script src="controllers/controller.consultaConvidado.js"></script>             
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+</style>
+<!-- widget grid -->
+<section ng-controller='consultaConvidado' id="widget-grid" widget-grid>
+    
+    
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de Convidados</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>  
+            <div class="table-responsive">
+              <table show-filter="true" class="table table-striped table-bordered">
+                <thead>
+                  <tr>                    
+                    <th ng-click="changeSorting('nome')">NOME <i class="glyphicon" ng-class="getIcon('nome')"></i></th>
+                    <th ng-click="changeSorting('cpf')">CPF/CNPJ <i class="glyphicon" ng-class="getIcon('cpf')"></i></th>
+                    <th>CELULAR</th>
+                    <th ng-click="changeSorting('cidade')">CIDADE <i class="glyphicon" ng-class="getIcon('cidade')"></i></th>
+                    <th>ESTADO</th>
+                    <th>ATIVO</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>                    
+                    <td><input ng-model="search.nome" id="search" class="form-control" placeholder="Busque pelo nome"></td>
+                    <td><input ng-model="search.cpf" id="search" class="form-control" placeholder="Busque pelo cpf"></td>
+                    <td></td>
+                    <td><input ng-model="search.cidade" id="search" class="form-control" placeholder="Busque pela cidade"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+                <tr ng-show="user.length == 0">
+                  <td colspan="7">Não há dados para serem apresentados.</td>
+                </tr>
+                <tr dir-paginate="users in user | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+                  <td>{{users.nome}}</td>
+                  <td>{{users.cpf}}</td>
+                  <td>{{users.telefone_celular}}</td>
+                  <td>{{users.cidade}}</td>
+                  <td>{{users.estado}}</td>
+                  <td></td>
+                  <td><button ng-click='editCadastro(users.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+                    <div class="ripple-wrapper"></div>
+                  </button></td>
+                </tr>
+              </table>
+            </div>           
+            <!-- <table show-filter="true" ng-table="tableParams" class="table table-striped table-bordered">
+               
+                <tbody>
+                    <tr ng-repeat="user in $data">
+                        <td width="50" data-title="'Ações'">
+                          <button ng-click='editCadastro(user.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btn btn-default ng-scope"><i class="fa fa-pencil-square-o fa-4"></i></button>
+                        </td>
+                        <td width="250" data-title="'NOME'" sortable="'nome'" filter="{ 'nome': 'text' }">{{user.nome}}</td>
+                        <td width="120" width="120" data-title="'CPF/CNPJ'" sortable="'cpf'" filter="{ 'cpf': 'text' }">{{user.cpf}}</td>
+                        <td align="center" width="120" data-title="'CELULAR'" sortable="'telefone_celular'">{{user.telefone_celular}}</td>
+                        <td width="120" align="center" data-title="'CIDADE'" filter="{ 'cidade': 'text' }">
+                          <span ng-repeat="end in user.endereco">{{end.cidade}}</span> 
+                        </td>
+                        <td width="70" align="center" data-title="'ESTADO'">
+                          <span ng-repeat="end in user.endereco">{{end.estado}}</span> 
+                        </td>       
+                        </td>
+                        <td width="70" align="center" data-title="'ATIVO'">                            
+                            <input type="checkbox" name="ativo" ng-show="user.ativo == 1" checked=checked ng-click="updatePessoa(user.id)" />
+                            <input type="checkbox" name="ativo" ng-show="user.ativo == 0" ng-click="updatePessoa(user.id)" />                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>  -->
+            </div>     
+          <div>      
+        <div>  
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+
+  
+  
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+   *
+   * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+   *
+   * // activate tooltips
+   * $("[rel=tooltip]").tooltip();
+   *
+   * // activate popovers
+   * $("[rel=popover]").popover();
+   *
+   * // activate popovers with hover states
+   * $("[rel=popover-hover]").popover({ trigger: "hover" });
+   *
+   * // activate inline charts
+   * runAllCharts();
+   *
+   * // setup widgets
+   * setup_widgets_desktop();
+   *
+   * // run form elements
+   * runAllForms();
+   *
+   ********************************
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+
+  pageSetUp();
+  
+  /*
+   * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+   * eg alert("my home function");
+   * 
+   * var pagefunction = function() {
+   *   ...
+   * }
+   * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+   * 
+   * TO LOAD A SCRIPT:
+   * var pagefunction = function (){ 
+   *  loadScript(".../plugin.js", run_after_loaded);  
+   * }
+   * 
+   * OR
+   * 
+   * loadScript(".../plugin.js", run_after_loaded);
+   */
+
+  // PAGE RELATED SCRIPTS
+  
+  // pagefunction
+  
+  var pagefunction = function() {
+    
+  };
+  
+  // end pagefunction
+  
+  // run pagefunction on load
+  pagefunction();
+        
+
+</script>

@@ -1,0 +1,145 @@
+
+<style type="text/css">
+	.marcadores{
+		padding: 3px;
+		background-color: #3276B1;
+		color: white;
+		margin-right: 5px;
+		border-radius: 3px;
+	}
+
+</style>
+<script src="controllers/controller.painelDeVagas.js"></script>
+<!-- widget grid -->
+<section ng-controller='painelDeVagas' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Painel de Vagas</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="painelDeVagas-form" class="smart-form">
+							<fieldset>
+								<div class="row">
+									<section  class="col col-lg-8" style="float: none; margin: 0 auto;">
+
+
+										<div class="jarviswidget jarviswidget-color-blueLight" id="wid-id-10" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget" style="">
+
+
+											<!-- widget div-->
+											<div role="content">
+
+												<!-- widget edit box -->
+												<div class="jarviswidget-editbox">
+													<!-- This area used as dropdown edit box -->
+
+												</div>
+												<!-- end widget edit box -->
+
+												<!-- widget content -->
+												<div class="widget-body no-padding" style="min-height: 0px;">
+
+													<div class="panel-group smart-accordion-default" id="accordion-2">
+														<div style="box-shadow: none !important;" class="panel panel-default" ng-repeat="(key, value) in painelvagas | groupBy: 'titulo_vaga'" >
+															<div class="panel-heading" style="border: 1px solid #919191;">
+																<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#{{$index}}" class="collapsed"> <i class="fa fa-fw fa-plus-circle txt-color-green"></i> <i class="fa fa-fw fa-minus-circle txt-color-red"></i> {{key}} </a></h4>
+															</div>
+															<div id="{{$index}}" class="panel-collapse collapse" style="height: 0px;">
+																<div class="panel-body">
+																	<div ng-repeat="vaga in value" >
+																		
+																			<section class="col col-lg-10" style="margin-top: 15px;">
+																				<p><strong>Empresa:</strong> {{vaga.empresa}}</p>
+																				<p><strong>Site:</strong> {{vaga.site}}</p>
+																				<p><strong>Ramo de atividade:</strong> {{vaga.ramo}}</p>
+																				<p><strong>Tipo de Vaga:</strong> {{vaga.tipo_vaga}}</p>
+																				<p><strong>Contato:</strong> {{vaga.nome_contato}}</p>
+																				<p><strong>Email:</strong> {{vaga.email_contato}}</p>
+																				<p><strong>Telefone:</strong> {{vaga.telefone}}</p>
+																				<p><strong>Faixa salarial:</strong> {{vaga.faixa_salarial}}</p>
+																				<p><strong>Descrição da Vaga:</strong></p>
+																				<p>{{vaga.descricao}}</p>
+																				<br />
+																				<strong>Marcadores: </strong><span class="marcadores" ng-repeat="marcador in vaga.tags"> {{marcador.descricao}} </span> <span></span>
+																				
+																			</section>
+																			<section class="col-lg-2" style="margin-top: 15px;">
+																				<img width="100" ng-show="vaga.logotipo != null" height="100" ng-src="img/logotipos/{{vaga.logotipo}}">
+																				<img width="100" ng-show="vaga.logotipo == null" height="100" ng-src="img/logotipos/no-img.jpg">
+																			</section>
+																		
+
+																	</div>
+																	<hr>
+																	<!-- Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. -->
+																</div>
+
+															<!-- <div class="panel-body" style="padding: 20px;">
+																	Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+																</div> -->
+															</div>
+														</div>
+
+													</div>
+
+												</div>
+												<!-- end widget content -->
+
+											</div>
+											<!-- end widget div -->
+
+										</div>
+									</section>
+								</div>
+							</fieldset>
+						</form>
+						<footer>
+
+						</footer>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+
+	</div>
+
+	<!-- END ROW -->
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+
+	</script>

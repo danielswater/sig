@@ -1,0 +1,877 @@
+<script src="controllers/controller.formMovimentacao.js"></script>
+
+<style type="text/css">
+	.pull-right>.dropdown-menu{
+		left: auto;
+		right: 204px;
+		width: 218px;
+	}
+</style>
+
+<section ng-controller='formMovimentacao' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Lançamento de contas</h2>   
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroMovimentacao-form" class="smart-form" novalidate="novalidate" validate-form>
+
+							<fieldset>
+								<section class="col col-sm-12 col-md-12 col-lg-12" style="background: #F0F0EE; padding-top:10px; padding-bottom:10px;">
+									<div class="col-sm-10" >
+										<h4 class="alert-heading">{{tabssel.nome}}</h4>
+									</div>
+									<div class="col-sm-2">
+										<strong>Saldo:</strong> {{resumo.creditos-resumo.debitos | currency}}
+									</div>
+								</section>
+							</fieldset>
+
+							<fieldset>
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<button class="btnmd {{tabssel.classe}} btnmd-sm" ng-click="lancarContas(tabssel.indice)"
+										popover="{{tabssel.texto}}"
+										popover-trigger="mouseenter"
+									><i class="glyphicon glyphicon-plus"></i> {{tabssel.texto}}</button>
+								</section>									
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<div class="widget-body">
+
+										<tabset>
+											<tab ng-repeat="tab in tabs" select="changeTab($index)" active="tab.active">
+												<tab-heading >
+													<i ng-if="tab.nome == 'Recebimentos'" class="fa fa-fw fa-credit-card"></i>
+													<i ng-if="tab.nome == 'Despesas Fixas'" class="fa fa-fw fa-money"></i>
+													<i ng-if="tab.nome == 'Despesas Variáveis'" class="fa fa-fw fa-bar-chart-o"></i>
+													<i ng-if="tab.nome == 'Pessoas'" class="fa fa-fw fa-user-plus"></i>
+													<i ng-if="tab.nome == 'Impostos'" class="fa fa-fw fa-pie-chart"></i>
+													<i ng-if="tab.nome == 'Doações'" class="fa fa-fw fa-heart-o"></i>
+													<i ng-if="tab.nome == 'Transferências'" class="fa fa-fw fa-exchange"></i>
+													{{tab.nome}}
+												</tab-heading>
+											</tab>
+										</tabset>
+
+										<div id="myTabContent1" class="tab-content padding-10">
+
+											<!-- ******************************* FRH - Transferência ***************************************** --> 
+											<div class="row" style="background: #F0F0EE; margin: 3px; padding: 10px;" ng-show="tabssel.indice==6">
+
+												<div class="row">
+
+													<section class="col col-2">
+														<label class="label"><strong>Dia</strong></label>
+
+														<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="dataNasc" ng-model="transferencia.dia" type="text"
+																data-validate-input
+																mask="99/99/9999" 
+																data-required
+																data-message-required="Por favor, informe o dia da transferência"
+																/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="transferenciaDia" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "dd/mm/yyyy",
+																	formatSubmit: "yyyy-mm-dd",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="transferencia_dia" id="transferencia_dia" type="text" 
+																ng-model="transferencia.dia1"
+																data-validate-input
+																data-required 
+																data-message-required="Por favor, informe a data de nascimento">
+																</label>
+													</section>
+
+													<section class="col col-4">
+														<label class="label"><strong>Descrição</strong></label>
+														<div class="form-control-wrapper inputValidate">
+															<i class="icon-append fa fa-question-circle"></i>
+															<input class="form-control" 
+																	name="transferencia_descricao" 
+																	id="transferencia_descricao" 
+																	placeholder="Descrição"
+																	ng-model="transferencia.descricao"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Informe a descrição">
+															<span class="material-input"></span>
+															<b class="tooltip tooltip-top-right">
+																<i class="fa fa-warning txt-color-teal"></i>
+																Descrição da Transferência</b>
+														</div>
+													</section>
+
+													<section class="col col-2">													
+														<label class="label"><strong>Moeda</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" 
+																	id="transferencia_moeda" 
+																	name="transferencia_moeda" 
+																	ng-model="transferencia.id_moeda"
+																	data-validate-input
+				                                           		   	data-required 
+				                                            	   	data-message-required="Selecione a moeda">
+																<option value="" selected>Selecione</option>
+																<option value="{{moeda.id_moeda}}" ng-repeat="moeda in moedas" ng-selected="moeda.id_moeda == transferencia.id_moeda">{{moeda.moeda}}</option>	
+															</select>
+															<i></i>
+														</div>																							
+													</section>
+
+													<!--
+													<section class="col col-2">
+														<label class="label"><strong>Moeda</strong></label>
+														<div class="form-control-wrapper inputValidate">
+
+				                                            <select class="form-control" 
+				                                            		id='transferencia_moeda' 
+				                                            		name='transferencia_moeda'
+				                                                    ng-model="transferencia.id_moeda"
+				                                                    ng-options="itemm as itemm.descricao for itemm in moedas"
+				                                                    ng-selected="itemm.id_moeda == transferencia.id_moeda"
+				                                                    required>
+				                                            </select>
+				                                            <em class="error smart-form state-error" ng-show="frm_dadosgerais.transferencia_moeda.$error.required">Selecione a Moeda</em>
+														</div>
+													</section>
+													-->
+													
+													<section class="col col-4">
+														<label class="label"><strong>Valor</strong></label>
+														<div class="form-control form-control-wrapper inputValidate">
+															<input 	ui-money-mask="2" 
+																	ng-model="transferencia.valor" 
+																	class="form-control empty" 
+																	id="transferencia_valor" 
+																	name="transferencia_valor" 
+																	type="text" 
+																	data-validate-input 
+																	data-required
+																	data-message-required="Informe o valor">
+															<span class="material-input"></span>
+															<b class="tooltip tooltip-top-right">
+															<i class="icon-append fa fa-money"></i>
+															Valor da Transferência</b>
+														</div>
+													</section>
+
+												</div>
+												<div class="row">
+
+													<section class="col col-2">
+														<label class="label"><strong>Conta Bancária Origem</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" 
+																	id="transferencia_conta_bancaria_origem" 
+																	name="transferencia_conta_bancaria_origem"
+																	ng-change="chkconta()"
+																	ng-model="transferencia.id_conta_bancaria"
+																	data-validate-input 
+																	data-required 
+																	data-message-required="Selecione a Conta Origem">
+																<option value="" selected>Selecione</option>
+																<option value="{{conta_origem.id}}" data-ng-repeat="conta_origem in contas">{{conta_origem.descricao}}</option>
+															</select>
+															<i></i>
+														</div>
+													</section>
+
+													<section class="col col-2">
+														<label class="label"><strong>Conta Bancária Destino</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" 
+																	id="transferencia_conta_bancaria_destino" 
+																	name="transferencia_conta_bancaria_destino"
+																	ng-change="chkconta()"
+																	ng-model="transferencia.id_conta_bancaria_destino"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Selecione a Conta Destino">
+																<option value="" selected>Selecione</option>
+																<option value="{{conta_destino.id}}" data-ng-repeat="conta_destino in contas">{{conta_destino.descricao}}</option>	
+															</select>
+															<i></i>
+														</div>
+													</section>
+
+												</div>
+
+
+											</div>
+											<div class="tab-pane fade in active" id="s1" ng-show="tabssel.indice!=6">
+
+												<div class="row">
+
+													<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-3">
+														<label class="label"><strong>Categoria</strong></label>
+														<div class="form-control-wrapper inputValidate">
+															<ui-select ng-model="categoria.selected"
+																theme="bootstrap"
+																ng-disabled="disabled"
+																reset-search-input="false"
+																ng-change="verificarAcao(categoria.selected)">
+																<ui-select-match placeholder="Selecione ">{{$select.selected.descricao}}
+																</ui-select-match>
+																<ui-select-choices group-by="'tipo'" repeat="categoria in categorias | propsFilter: {descricao: $select.search}">
+																<div ng-bind-html="categoria.descricao | highlight: $select.search"></div>
+																</ui-select-choices>
+															</ui-select>
+															<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="categoria" id="categoria" type="text" 
+					                                          	ng-model="movimentacao.categoria"
+					                                            data-validate-input
+					                                            data-required 
+					                                            data-message-required="Selecione a categoria">
+														</div>
+													</section>
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">
+														<label class="label"><strong>Item</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" ng-model="movimentacao.id_produtos_servicos" ng-options="itemit.id as itemit.descricao for itemit in item" ng-selected="itemit.id_categoria==movimentacao.categoria" data-validate-input data-required data-message-required="Selecione o evento">
+															<option value="" selected>Selecione</option>
+															</select>
+														</div>
+													</section>
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-5">
+														<label class="label"><strong>Descrição</strong></label>
+														<div class="form-control form-control-wrapper inputValidate">
+															<input ng-model="movimentacao.descricao" class="form-control empty" id="descricao" name="descricao" type="text">
+															<span class="material-input"></span>
+														</div>												
+													</section>
+
+												</div>
+												<div class="row">
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">
+														<label class="label"><strong>Data Vencimento</strong></label>
+														<!-- <label class="input-group form-control-wrapper inputValidate" >		
+															<input class="form-control" type="text" pick-a-date="movimentacao.data_vencimento" placeholder="Selecione uma data" pick-a-date-options='{	
+								                                format: "dd/mm/yyyy",
+								                                formatSubmit: "yyyy-mm-dd"                      
+								                            }' />		
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+				                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_vencimento" id="data_vencimento" type="text" 
+				                                            ng-model="movimentacao.data_vencimento1"
+				                                            data-validate-input
+				                                            data-required 
+				                                            data-message-required="Informe a data de vencimento">			                                            
+														</label> -->
+														<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="dataVenc" ng-model="movimentacao.data_vencimento" type="text"
+																data-validate-input
+																mask="99/99/9999" 
+																data-required
+																data-message-required="Por favor, informe a data de nascimento"
+																/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="pessoa.dataNascimento" placeholder="Informe a data de vencimento" pick-a-date-options='{
+																	format: "dd/mm/yyyy",
+																	formatSubmit: "yyyy-mm-dd",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="pessoa_dataNascimento" id="pessoa_dataNascimento" type="text" 
+																ng-model="movimentacao.data_vencimento1"
+																data-validate-input
+																data-required 
+																data-message-required="Informe a data de vencimento">
+																</label>														
+													</section>
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">													
+														<label class="label"><strong>Moeda</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="selmoeda" name="selmoeda" ng-model="movimentacao.id_moeda" ng-options="itemcur.id as itemcur.moeda for itemcur in moedas" ng-selected="movimentacao.id_moeda" data-validate-input data-required data-message-required="Selecione a Moeda">
+															<option value="" selected>Selecione</option>
+															</select>
+														</div>
+													</section>
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-3">
+														<label class="label"><strong>Valor</strong></label>
+														<div class="form-control form-control-wrapper inputValidate">
+															<input ui-money-mask="2" ng-model="movimentacao.valor" class="form-control empty" id="valor" name="valor" type="text" 
+															data-validate-input 
+															data-required
+															data-message-required="Informe o valor">
+															<span class="material-input"></span>
+															<i class="icon-append fa fa-money"></i>
+														</div>												
+													</section>
+													<section class="col col-xm-12 col-sm-6 col-md-6 col-lg-5">
+														<label class="label" ng-show="texto==1"><strong>Recebido de:</strong> </label>
+														<label class="label" ng-show="texto==2"><strong>Pago a:</strong></label>
+
+
+													<div class="form-control form-control-wrapper inputValidate" ng-show="texto==1">
+														<input class="form-control" name="recebidopago" id="recebidopago" placeholder="Selecione um responsavel" typeahead="pessoas as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="passaPessoa($item, $model, $label)"
+														ng-model="recebido_pessoa.nome">
+													    <i class="icon-append fa fa-user"></i>
+														<span class="material-input"></span>
+
+														<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+										              	ng-model="movimentacao.recebido"
+										              	data-validate-input
+										                data-required 
+										                data-message-required="Selecione o responsável pela conta">
+													</div>
+			
+														<!-- <label class="label" ng-show="texto==1">
+															<div class="form-control-wrapper inputValidate">
+																<ui-select ng-model="recebido_pessoa.selected"
+																theme="bootstrap"
+																ng-disabled="disabled"
+																reset-search-input="false"
+																ng-change="changeRecebido(recebido_pessoa.selected)">
+																	<ui-select-match placeholder="Selecione">{{$select.selected.nome || $select.selected}}
+																	</ui-select-match>
+																	<ui-select-choices repeat="recebido_pessoa in pessoas"
+																	refresh="getPessoaMovimento($select.search)"
+																	refresh-delay="0">
+																	<div ng-bind-html="recebido_pessoa.nome | highlight: $select.search"></div>
+																	</ui-select-choices>
+																</ui-select>
+															
+					                                          <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+					                                          	ng-model="movimentacao.recebido"
+					                                            data-validate-input
+					                                            data-required 
+					                                            data-message-required="Selecione o responsável pela conta">
+					                                        </div>    
+					                                    </label> -->
+
+					                                    <div class="form-control form-control-wrapper inputValidate" ng-show="texto==2">
+															<input class="form-control" name="recebidopago" id="recebidopago" placeholder="Selecione um responsavel" typeahead="pessoas as pessoa.nome for pessoa in getPessoasFornecedor($viewValue)" typeahead-on-select="passaPessoa($item, $model, $label)"
+															ng-model="recebido_pessoa.nome">
+														    <i class="icon-append fa fa-user"></i>
+															<span class="material-input"></span>
+
+															<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+											              	ng-model="movimentacao.recebido"
+											              	data-validate-input
+											                data-required 
+											                data-message-required="Selecione o responsável pela conta">
+														</div>
+
+														<!-- <label class="label" ng-show="texto==2">
+															<div class="form-control-wrapper inputValidate">
+																<ui-select ng-model="pessoa.selected"
+																theme="bootstrap"
+																ng-disabled="disabled"
+																reset-search-input="false"
+																ng-change="changeRecebido(pessoa.selected)">
+																	<ui-select-match placeholder="Selecione">{{$select.selected.nome || $select.selected}}
+																	</ui-select-match>
+																	<ui-select-choices repeat="pessoa in pessoas_fornecedor"
+																	refresh="getPessoasFornecedor($select.search)"
+																	refresh-delay="0">
+																	<div ng-bind-html="pessoa.nome | highlight: $select.search"></div>
+																	</ui-select-choices>
+																</ui-select>
+															
+					                                          <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+					                                          	ng-model="movimentacao.recebido"
+					                                            data-validate-input
+					                                            data-required 
+					                                            data-message-required="Selecione o responsável pela conta">
+					                                        </div>    
+				                                        </label> -->
+				                                       	
+													</section>
+
+												</div>
+												<div class="row">
+
+													<section class="col col-2">													
+														<label class="label"><strong>Competência</strong></label>
+														<!-- <label class="input-group form-control-wrapper inputValidate">
+															<input class="form-control" type="text" pick-a-date="movimentacao.data_lancamento" placeholder="Selecione uma data" pick-a-date-options='{	
+								                                format: "dd/mm/yyyy",
+								                                formatSubmit: "yyyy-mm-dd"                      
+								                            }' />														
+															<span class="input-group-addon"><i ng-click="open($event,'opened2')" class="fa fa-calendar"></i></span>	
+
+				                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="competencia" id="competencia" type="text" 
+				                                            ng-model="movimentacao.data_lancamento1"
+				                                            data-validate-input
+				                                            data-required 
+				                                            data-message-required="Informe a data de competência">
+														</label> -->
+														<label class="input-group form-control-wrapper inputValidate">
+																<input class="form-control data-picker" id="dataNasc" ng-model="movimentacao.data_lancamento" type="text"
+																data-validate-input
+																mask="99/99/9999" 
+																data-required
+																data-message-required="Informe a data de competência"
+																/>
+																<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="dataCompetencia" placeholder="Selecione uma data" pick-a-date-options='{
+																	format: "dd/mm/yyyy",
+																	formatSubmit: "yyyy-mm-dd",
+																	selectYears: 190,
+																}' 
+																></button></span>
+																<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="competencia" id="competência" type="text" 
+																ng-model="movimentacao.data_lancamento1"
+																data-validate-input
+																data-required 
+																data-message-required="Informe a data de competência">
+																</label>		
+
+
+													</section>
+
+													<section class="col col-2">
+														<label class="label"><strong>Número do Documento</strong></label>
+														<div class="form-control form-control-wrapper inputValidate">
+															<input class="form-control"  name="numero_documento" id="numero_documento" 
+																   ng-model="movimentacao.numero_documento" placeholder="Informe o Número do Documento"
+																   data-validate-input
+				                                           		   data-required 
+				                                            	   data-message-required="Informe o número do documento">
+															<span class="material-input"></span>
+														</div>													
+													</section>
+													
+													<section class="col col-2 section">
+														<label class="label" ng-show="texto==1"><strong>Modo de Recebimento</strong></label>
+														<label class="label" ng-show="texto==2"><strong>Modo de Pagamento</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="modo_pagamento" name="modo_pagamento" ng-model="movimentacao.id_forma_pagamento"
+																	data-validate-input
+				                                           		   	data-required 
+				                                            	   	data-message-required="Selecione o modo">
+																<option value="" selected>Selecione</option>
+																<option value="{{n_formapagamento.id}}" data-ng-repeat="n_formapagamento in formapagamento">{{n_formapagamento.descricao}}</option>	
+															</select>
+															<i></i>
+														</div>
+													</section>
+													
+													<section class="col col-3 section">
+														<label class="label"><strong>Situação</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="situacao" name="situacao" ng-model="movimentacao.id_situacao"
+																	data-validate-input
+				                                           		   	data-required 
+				                                            	   	data-message-required="Selecione a situação">
+																<option value="" selected>Selecione</option>
+																<option value="{{n_situacao.id}}" data-ng-repeat="n_situacao in situacao">{{n_situacao.descricao}}</option>	
+															</select>
+															<i></i>
+														</div>
+													</section>
+			
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-3">
+														<label class="label"><strong>Data do Pagamento</strong></label>
+
+														 <!--
+														 <label class="input-group form-control-wrapper inputValidate" >		
+															<input ng-disabled="!(movimentacao.id_situacao == 2 || movimentacao.id_situacao == 6)" class="form-control" type="text" pick-a-date="movimentacao.data_pagamento" placeholder="Selecione uma data" pick-a-date-options='{	
+								                                format: "dd/mm/yyyy",
+								                                formatSubmit: "yyyy-mm-dd"                      
+								                            }' />		
+															<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+				                                            <input 	ng-disabled="!(movimentacao.id_situacao == 2 || movimentacao.id_situacao == 6)" 
+				                                            		style="width:0px; height:0px; visibility: hidden; position: absolute" 
+				                                            		name="data_pagamento" 
+				                                            		id="data_pagamento" 
+				                                            		type="text" 
+				                                            		ng-model="movimentacao.data_pagamento1"
+				                                            		data-validate-input
+				                                            		data-required 
+				                                            		data-message-required="Informe a data do pagamento">
+														</label>
+														 -->
+
+														<label class="input-group form-control-wrapper inputValidate">
+															<input 	ng-disabled="!(movimentacao.id_situacao == 2 || movimentacao.id_situacao == 6)"
+																	class="form-control data-picker" 
+																	id="data_pagamento" 
+																	ng-model="movimentacao.data_pagamento" 
+																	type="text"
+																	data-validate-input
+																	mask="99/99/9999" 
+																	data-required
+																	data-message-required="Por favor, informe a data de pagamento">
+															<span class="input-group-addon">
+																<button style="border: none; cursor: pointer;" 
+																		class="fa fa-calendar"
+																		pick-a-date="xxx" 
+																		placeholder="Informe a data de pagamento" 
+																		pick-a-date-options='{format: "dd/mm/yyyy", formatSubmit: "yyyy-mm-dd",	selectYears: 190,}'>
+																</button>
+															</span>
+															<input 	ng-disabled="!(movimentacao.id_situacao == 2 || movimentacao.id_situacao == 6)" 
+																	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+																	name="data_pagamento" 
+																	id="data_pagamento" 
+																	type="text" 
+																	ng-model="movimentacao.data_pagamento1"
+																	data-validate-input
+																	data-required 
+																	data-message-required="Informe a data de pagamento">
+														</label>
+															
+													</section>
+
+												</div>
+												<div class="row">
+
+													<section class="col col-2">
+														<label class="label"><strong>Juros</strong></label>
+														<div class="form-control-wrapper">
+															<input class="form-control"  name="juros" id="juros" ui-money-mask="2" 
+																   ng-model="movimentacao.juros" placeholder="Informe os juros">
+															<span class="material-input"></span>
+														</div>	
+													</section>
+
+													<section class="col col-2">
+														<label class="label"><strong>Multa</strong></label>
+														<div class="form-control-wrapper">
+															<input class="form-control" name="multa" id="multa" ui-money-mask="2"
+																   ng-model="movimentacao.multa" placeholder="Informe a multa">
+															<span class="material-input"></span>
+														</div>													
+													</section>
+													
+													<section class="col col-2">
+														<label class="label"><strong>Desconto</strong></label>
+														<div class="form-control-wrapper">
+															<input class="form-control"  name="desconto" id="desconto" ui-money-mask="2"
+																   ng-model="movimentacao.desconto" placeholder="Informe o desconto">
+															<span class="material-input"></span>
+														</div>
+													</section>
+													
+													<section class="col col-2">
+														<label class="label"><strong>Valor Final</strong></label>
+														<div class="form-control-wrapper">
+															<input class="form-control"  name="valor_final" id="valor_final" disabled="disabled" 
+																   ng-value="setValorFinal()">
+															<span class="material-input"></span>
+														</div>
+													</section>
+
+													
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">
+														<label class="label"><strong>Centro de Custo</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="selcc" name="selcc" ng-model="movimentacao.id_centro_custo" ng-options="itemcc.id as itemcc.descricao for itemcc in centro_custo" ng-selected="movimentacao.id_centro_custo" data-validate-input data-required data-message-required="Selecione o centro de custo">
+															<option value="" selected>Selecione</option>
+															</select>
+														</div>
+													</section>
+
+													
+
+												</div>
+												<div class="row">
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-2">
+														
+														<label class="label"><strong>Evento</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="selevt" name="selevt" ng-model="movimentacao.id_evento" ng-options="itemevt.id as (itemevt.data_evento_formatada+' - '+itemevt.title) for itemevt in eventos | orderBy:'data_evento'" ng-selected="movimentacao.id_evento">
+															<option value="" selected>Selecione</option>
+															</select>
+														</div>
+													</section>
+																										
+													<section class="col col-4" id="arquivos">
+														<label class="label"><strong>Arquivo digitalizado</strong></label>
+														<div for="file" class="form-control form-control-wrapper input-file">										
+															<div class="button">
+															<input class="form-control" type="file" accept="image/*,application/pdf" name="foto" id="foto" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="movimentacao.foto">Procurar</div><input onclick="$('#foto').trigger('click')" class="form-control" type="text" placeholder="Sua foto" readonly="">			
+														</div>
+													</section>
+
+													<section class="col col-4" id="preview">
+														<label class="label"><strong>Visualização de arquivos</strong></label>
+														<div data-ng-repeat="arquivo in arquivos" style="margin-bottom: 3px;" ng-show="arquivo.tipo == 1">
+															<button ng-click="removeFile(arquivo.id, arquivo.id_caixa)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"
+															popover="Remover"
+															popover-trigger="mouseenter"
+															></button>
+															<button ng-click="previewFile(arquivo.arquivo)" class="btnmd btnmd-primary btnmd-raised fa fa-search btnmd-sm"
+															popover="Visualizar {{arquivo.descricao}}"
+															popover-trigger="mouseenter"
+															></button>
+															<span>{{arquivo.arquivo}}</span>
+														</div>
+													</section>
+
+												</div>
+												<div class="row">
+
+													<section class="col col-2">
+
+													<label class="label"><strong>Conta:</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" id="selconta" name="selconta" ng-model="movimentacao.id_conta_bancaria" ng-options="itemcb.id as itemcb.descricao for itemcb in contas" ng-selected="movimentacao.id_conta_bancaria" data-validate-input data-required data-message-required="Selecione a conta">
+															<option value="" selected>Selecione</option>
+															</select>
+															<i></i>
+														</div>
+													</section>
+													
+
+													<section class="col col-4" id="arquivos">
+														<label class="label"><strong>Comprovante Pagamento / Depósito</strong></label>
+														<div for="file" class="form-control form-control-wrapper input-file">										
+															<div class="button">
+															<input class="form-control" type="file" accept="image/*,application/pdf" name="pagamento_deposito" id="pagamento_deposito" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFileComprovante(this)" ng-model="movimentacao.pagamento_deposito">Procurar</div><input onclick="$('#pagamento_deposito').trigger('click')" class="form-control" type="text" placeholder="Seu comprovante" readonly="">			
+														</div>
+													</section>
+
+													<section class="col col-4" id="preview">
+														<label class="label"><strong>Visualização de arquivos</strong></label>
+														<div data-ng-repeat="arquivo in arquivos" style="margin-bottom: 3px;" ng-show="arquivo.tipo == 2">
+															<button ng-click="removeFile(arquivo.id, arquivo.id_caixa)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"
+															popover="Remover"
+															popover-trigger="mouseenter"
+															></button>
+															<button ng-click="previewFile(arquivo.arquivo)" class="btnmd btnmd-primary btnmd-raised fa fa-search btnmd-sm"
+															popover="Visualizar {{arquivo.descricao}}"
+															popover-trigger="mouseenter"
+															></button>
+															<span>{{arquivo.arquivo}}</span>
+														</div>
+													</section>
+																					
+												</div>
+												<div class="row">
+
+													<section class="col col-8">
+														<label class="label"><strong>Mais detalhes</strong></label>
+														<div class="form-control-wrapper">
+															<textarea rows="5" class="form-control" ng-model="movimentacao.mais_detalhes"></textarea>
+															<span class="material-input"></span>
+														</div>
+													</section>
+
+													<section class="col col-4" ng-show="movimentacao.repete>0">
+														<label class="label"><strong>Quantas Parcelas?</strong></label>
+														<label class="form-group">
+															<input class="form-control spinner-left" style="height:17px;" id="spinner" name="spinner" 
+															value="1" type="text" ng-model="movimentacao.parcelas">
+														</label>
+													</section>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</section>
+							</fieldset>
+							<!-- FOOTER -->
+							<footer>
+									<div class="btn-group dropup pull-right">							
+
+									<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"
+										popover="Novo"
+										popover-trigger="mouseenter"
+									>
+										Novo
+									</a>			
+									<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarMovimentacao(movimentacao)" id="SalvarMovimentacao"
+										popover="Salvar"
+										popover-trigger="mouseenter"
+									>
+										Salvar
+									</button>
+									<button class="btnmd btnmd-default" ng-click=""
+										popover="Cancelar"
+										popover-trigger="mouseenter"
+										ng-show="tabssel.indice != 6"
+									>
+										Cancelar
+									</button>
+									<button class="btnmd btnmd-warning pull-right dropdown-toggle" data-toggle="dropdown" ng-if="movimentacao.id != null  && tabssel.indice != 6">
+										<span class="caret"></span>
+									</button>															
+									<button class="btnmd btnmd-warning pull-right" ng-if="movimentacao.id != null && tabssel.indice != 6"
+										popover="Emitir Recibo"
+										popover-trigger="mouseenter"
+									>
+										Emitir Recibo
+									</button>
+									<ul class="dropdown-menu" ng-show="tabssel.indice != 6">
+										<li ng-repeat="recibos in recibo" >
+											<a target="_blank" href="recibo.php?template={{recibos.id}}&caixa={{movimentacao.id}}">{{recibos.descricao}} </a>
+										</li>
+										
+									</ul>
+								</div>                          
+							</footer>
+							<!-- FIM DO FOOTER -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Categoria</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroCategoria-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addCategoria.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da categoria"><div class="floating-label">Nome da Categoria</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome da Categoria</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCategoria()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+		<!-- Modal -->
+	<div class="modal fade" id="myModalPessoa">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">{{camp[tabssel.form].pessoa.label}}</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroPessoa-form" class="smart-form" novalidate="novalidate" validate-form>	
+	                	<div class="row">
+						    <section class="col col-xm-12 col-sm-12 col-md-12 col-lg-12">
+				                <div class="form-group">
+				                	<div class="form-control-wrapper inputValidate">
+				                 		<input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addPessoa.nome"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe o nome"><div class="floating-label">Nome</div>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome</b>							
+				                 		<span class="material-input"></span>
+				                	</div>       
+				               	</div>       
+			              	</section>
+		              		<section class="col col-xm-12 col-sm-12 col-md-12 col-lg-12">
+								<label class="label">Tipo de Pessoa</label>
+								<div class="form-inline">
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="tipopessoa" checked="true" value="1" ng-model="addPessoa.id_tipo_pessoa" id="pf">
+											<span>Pessoa Física</span>  
+										</label>
+									</div>
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="tipopessoa" value="2" ng-model="addPessoa.id_tipo_pessoa" id="pj">
+											<span>Pessoa Jurídica</span>  
+										</label>
+									</div>
+								</div>
+							</section> 								
+						</div>
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarPessoa()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="myModalTipo">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Tipo de Doação</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroTipoDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addTipoDoacao.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Fabricante</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarTipoDoacao()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+</section>
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+
+pageSetUp();
+
+var pagefunction = function() {
+	$("#spinner").spinner({
+		min: 1,
+		max: 2500,
+		step: 1,
+		start: 1000,
+		numberFormat: "C"
+	});
+};
+
+// end pagefunction
+
+// run pagefunction on load
+pagefunction();
+
+
+
+</script>

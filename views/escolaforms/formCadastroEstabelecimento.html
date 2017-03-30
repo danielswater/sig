@@ -1,0 +1,162 @@
+<script src="controllers/controller.formCadastroEstabelecimento.js"></script> 
+<!-- widget grid -->
+<section ng-controller='formCadastroEstabelecimento' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Estabelecimento</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroEstabelecimento-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-4">
+										<label class="label"><strong>Nome do estabelecimento</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" maxlength="100" placeholder="Descricao"
+											ng-model="estabelecimento.nome"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o estabelecimento">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome do estabelecimento</b> 											
+										</div>										
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Apelido do estabelecimento</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="apelido" id="apelido" maxlength="100" placeholder="Apelido"
+											ng-model="estabelecimento.apelido">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Apelido do estabelecimento</b> 											
+										</div>										
+									</section>
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<label class="label"><strong>Tipo</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" value="0" ng-model="estabelecimento.tipo">
+													<span>Escola Pública</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo" checked="true" value="1" ng-model="estabelecimento.tipo">
+													<span>Escola Particular</span>  
+												</label>	
+											</div>
+										</div>
+									</section>											
+								</div>
+								<div class="row">
+									<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label><strong>Estado</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" ng-change="getCidade(estabelecimento.estado)" id="estado" name="estado" ng-model="estabelecimento.estado"
+				                           data-validate-input
+				                           data-required                                      
+				                           data-message-required="Por favor, selecione um estado">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option data-ng-repeat="estado in estados" ng-selected="estado.uf == estabelecimento.estado" value="{{estado.uf}}">{{estado.nome}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                     </section>  
+				                     <section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				                        <label><strong>Cidade</strong></label>
+				                        <div class="form-control form-control-wrapper inputValidate">
+				                           <select class="form-control" id="cidade" name="cidade" ng-model="estabelecimento.cidade"
+				                           data-validate-input
+				                                  data-required                                      
+				                                  data-message-required="Por favor, selecione uma cidade">
+				                              <option value="" disabled="">Selecione</option>
+				                              <option data-ng-repeat="cidade in cidades" ng-selected="cidade.nome == estabelecimento.cidade" value="{{cidade.nome}}">{{cidade.nome}}</option>
+				                           </select> <i></i> 
+				                        </div>
+				                    </section>
+				                    <section class="col col-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="estabelecimento.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="estabelecimento.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section> 
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button ng-click="cadastrarEstabelecimento()" type="submit" class="btnmd btnmd-info pull-right" id="SalvarEstabelecimento">
+									Salvar
+								</button>
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

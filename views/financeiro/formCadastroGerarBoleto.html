@@ -1,0 +1,243 @@
+<script src="controllers/controller.formCadastroGerarBoleto.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroGerarBoleto' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Gerar Boleto</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+				
+						<div class="smart-form">
+							<form id="cadastroBoleto-form" class="smart-form" novalidate="novalidate" validate-form>							
+								<fieldset>
+									<div class="row">
+										<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<label class="label"><strong>Tipo de processo</strong></label>
+											<div class="form-inline">
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" checked="true" value="1" ng-model="boleto.tipo">
+														<span>Todos responsáveis</span>  
+													</label>
+												</div>
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" value="0" ng-model="boleto.tipo">
+														<span>Escolher responsável</span>  
+													</label>	
+												</div>
+											</div>
+										</select>
+									</div>		
+									<div class="row">
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-show="boleto.tipo == 0">
+											<label class="label"><strong>Responsável</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<ui-select ng-model="responsavel.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="verificarAcaoResponsavel(responsavel.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+													</ui-select-match>
+													<ui-select-choices repeat="responsavel in responsaveis | propsFilter: {nome: $select.search}">
+														<div ng-bind-html="responsavel.nome  | highlight: $select.search"></div>
+													</ui-select-choices>
+												</ui-select>
+												<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_responsavel" id="id_responsavel" type="text" 
+												ng-model="boleto.id_responsavel"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione o responsável">
+											</div>
+										</section>
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">											
+											<label class="label"><strong>Ano/Mês</strong></label>
+											<!--
+											<label class="input-group form-control-wrapper inputValidate" >		
+												<input class="form-control" type="text" pick-a-date="boleto.mes_ano" placeholder="Selecione uma data" pick-a-date-options='{	
+					                                format: "mm/yyyy",
+					                                formatSubmit: "yyyy-mm"                      
+					                            }' />		
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+	                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="mes_ano" id="mes_ano" type="text" 
+	                                            ng-model="boleto.mes_ano1"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Informe o mês e ano">	
+											</label>						
+											-->
+											<label class="input-group form-control-wrapper inputValidate">
+												<input 	class="form-control data-picker" 
+														id="bl_mes_ano" 
+														name="bl_mes_ano" 
+														type="text"
+														ng-model="boleto.mes_ano" 
+														mask="99/9999" 
+														data-validate-input
+														data-required
+														data-message-required="Por favor, informe a datas"/>
+												<span class="input-group-addon">
+													<button style="border: none; cursor: pointer;" 
+															class="fa fa-calendar"
+															pick-a-date="xxx" 
+															placeholder="Selecione uma data" 
+															pick-a-date-options='{format: "mm/yyyy",formatSubmit: "yyyy-mm",selectYears: 100,}'>
+													</button>
+												</span>
+												<input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+														id="bl_mes_ano" 
+														name="bl_mes_ano" 
+														type="text" 
+														ng-model="boleto.mes_ano1"
+														data-validate-input
+														data-required 
+														data-message-required="Por favor, informe a data">
+											</label>
+										</section>										
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					                        <label><strong>Tipo de Carnê</strong></label>
+					                        <div class="form-control form-control-wrapper inputValidate" style="margin-top: 5px;">
+					                           <select class="form-control" id="id_tipo_carne" name="id_tipo_carne" ng-model="boleto.id_tipo_carne"
+					                           		  data-validate-input
+					                                  data-required                                      
+					                                  data-message-required="Por favor, selecione um tipo de carnê">
+					                              <option value="" disabled="">Selecione</option>
+					                              <option value="{{carne.id}}" data-ng-repeat="carne in tipos_carnes" ng-selected="carne.id == boleto.id_tipo_carne">{{carne.descricao}}</option>
+					                           </select> <i></i> 
+					                        </div>
+					                    </section>	
+									</div>								
+								</fieldset>
+								<footer>
+									<button type="button" ng-disabled="!(boletos.length > 0)" class="btnmd btnmd-primary  pull-right" ng-click="boletoDownload('')" >
+										Boletos gerado este mês
+									</button>
+									<button ng-disabled="processo > 0 && processo < 100" class="btnmd btnmd-info  pull-right" ng-click="cadastrarBoleto()" >
+										Gerar
+									</button>								
+								</footer>
+							</form>
+							<div ng-show="boletos.length > 0">
+								<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th width="50%" class="label-primary" style="color:white"><h6>Responsavel</h6></th>
+													<th width="15%" class="label-primary" style="color:white"><h6>Data vencimento</h6></th>
+													<th width="15%" class="label-primary" style="color:white" align="center"><h6>Valor</h6></th>
+													<th width="10%" class="label-primary" style="color:white" align="center"><h6>Boletos</h6></th>
+													<th width="5%" class="label-primary" style="color:white" align="center"><h6></h6></th>
+												</tr>
+											</thead>
+											<tbody>				
+												<tr ng-repeat="item_boleto in boletos">
+													<td>{{item_boleto.responsavel}}</td>
+													<td>{{item_boleto.data_vencimento | date : 'dd/MM/yyyy'}}</td>
+													<td>{{item_boleto.valor}}</td>
+													</td>
+													<td align="center">
+														<button type="button" ng-disabled="!(boletos.length > 0)" class="btnmd btnmd-primary btnmd-raised  btnmd-sm pull-right" 
+														ng-show="item_boleto.status == true"
+														ng-click="boletoDownload(item_boleto.id)" >
+														<i class="fa fa-money"></i>
+															Visualizar
+														</button>
+													</td>
+													<td align="center">
+														<i class="glyphicon glyphicon-chevron-down"
+														ng-show="item_boleto.status == true" style="color: #40AC2B"></i>
+														<i class="glyphicon glyphicon-remove"
+														ng-show="item_boleto.status == false" style="color: #FF0000"></i>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+							</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalBoleto">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Gerando Boletos</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<div class="row">
+							<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div>
+									<div class="progress progress-sm">
+										<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{processo}}%;"></div>
+									</div>
+									<div align="center">
+										<h1>
+											<strong>{{truncar(processo)}}%</strong>
+										</h1>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>	
+				</div>
+			<!-- 	<div class="modal-footer">	                
+					<button type="button" class="btnmd btnmd-primary" ng-disabled="processo < 100" data-dismiss="modal">OK</button>		        
+				</div> -->
+			</div>
+		</div>
+	</div>	
+<!-- Modal -->
+
+
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

@@ -1,0 +1,939 @@
+<script src="controllers/controller.formCadastroDoacao.js"></script>
+<!-- widget grid -->
+<style>
+	#myModalPrograma .modal-body{
+		height: 530px;
+		max-height: 530px;
+	}
+
+	#myModalPrograma .modal-dialog{
+		margin-top: 0px;
+	}
+</style>
+
+<section ng-controller='formCadastroDoacao' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Doações</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroDoacao-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-2">
+										<label class="label"><strong>Tipo de Doação</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo_de_doacao" checked="true" value="1" ng-model="addDoacao.tipo_de_doacao" ng-disabled="doacao.id" ng-click="novoCadastro(1)">
+													<span>Material</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo_de_doacao" value="0" ng-model="addDoacao.tipo_de_doacao" ng-disabled="doacao.id" ng-click="novoCadastro(0)">
+													<span>Dinheiro</span>  
+												</label>	
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo_de_doacao" value="2" ng-model="addDoacao.tipo_de_doacao" ng-disabled="doacao.id" ng-click="novoCadastro(2)">
+													<span>Cadastro Rápido</span>  
+												</label>	
+											</div>
+										</div>
+									</section>								
+									<section class="col col-3" ng-hide="showCadastroRapido">
+										<label class="label"><strong>Matriz e Filiais</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="empresa" name="empresa" ng-model="addDoacao.id_entidade"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a Empresa">
+											<option value="" selected>Selecione</option>
+											<option value="{{n_entidade.id}}" data-ng-repeat="n_entidade in entidade">{{n_entidade.nome}}</option>	
+										</select>
+										<i></i>
+										</div>
+									</section>								
+									<section class="col col-4" ng-hide="showCadastroRapido">
+										<label class="label"><strong>Programa Doação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="progDoacao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoPrograma(progDoacao.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+										</ui-select-match>
+										<ui-select-choices group-by="'tipo'" repeat="progDoacao in programaDoacao | filter:{ativo: 1} | propsFilter: {descricao: $select.search}">
+										<div ng-bind-html="progDoacao.descricao | highlight: $select.search"></div>
+										</ui-select-choices>
+										</ui-select>
+										<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="progDoacao" id="progDoacao" type="text" 
+										ng-model="addDoacao.progDoacao">
+										</div>
+									</section>
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Tipo Doação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+												<ui-select ng-model="tipoDoacao.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="verificarAcaoTipo(tipoDoacao.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="tipoDoacao in tipoDeDoacao | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="tipoDoacao.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+												</ui-select>
+												<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="tipoDoacao" id="tipoDoacao" type="text" 
+												ng-model="addDoacao.tipoDoacao"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione o tipo de doação">
+										</div>
+									</section>
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Data de Doação</strong></label>
+										<label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="addDoacao.data_validade" placeholder="Selecione uma data" pick-a-date-options='{	
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd"                 
+										}' />		
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_validade" id="data_validade" type="text" 
+										ng-model="addDoacao.data_validade1"
+                                        data-validate-input
+                                        data-required 
+                                       	data-message-required="Por favor, informe uma data válida">                                           
+									</label>															
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-3" ng-hide="showCadastroRapido">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" placeholder="Descrição"
+											ng-model="addDoacao.descricao"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição</b> 											
+										</div>										
+									</section>
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Quantidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="quantidade" id="quantidade" placeholder="Informe a quantidade"
+											ng-model="addDoacao.quantidade"
+											ui-number-mask="0"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a quantidade">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da quantidade</b> 											
+											</div>										
+									</section>
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label" ><strong>Valor Unitário</strong></label>			
+										<div class="form-control-wrapper inputValidate">
+											<input class="form-control"  name="valor" id="valor" ui-money-mask="2" 
+											ng-model="addDoacao.valor_unitario" placeholder="Informe o valor">
+											<span class="material-input"></span>
+										</div>	
+									</section>
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Data de Validade</strong></label>
+										<label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="addDoacao.data_validade" placeholder="Selecione uma data" pick-a-date-options='{	
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd"                 
+										}' />		
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_validade" id="data_validade" type="text" 
+										ng-model="addDoacao.data_validade1">			                                            
+										</label>															
+									</section>									
+									<section class="col col-4" ng-show="addDoacao.tipo_de_doacao == 0">										
+										<label class="label"><strong>Moeda</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="moeda" name="moeda" ng-model="addDoacao.id_moeda"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a Moeda">
+											<option value="" selected>Selecione</option>
+											<option value="{{moedas.id}}" data-ng-repeat="moedas in moeda">{{moedas.moeda}}</option>	
+										</select>
+										<i></i>
+										</div>
+									</section>
+									<section class="col col-5" ng-show="addDoacao.tipo_de_doacao == 0 || showCadastroRapido">
+										<label class="label"><strong>Valor</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<input class="form-control"  name="valor" id="valor" ui-money-mask="2" 
+											ng-model="addDoacao.valor" placeholder="Informe o valor"
+											data-validate-input
+											data-required 
+											data-message-required="Informe o valor da doação">
+											<span class="material-input"></span>
+										</div>	
+									</section>
+								</div>
+								
+								<div class="row">
+									<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-hide="showCadastroRapido">
+										<label class="label"><strong>Doador</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="doador.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoDoador(doador.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="doador in doadores | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="doador.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="doador" id="doador" type="text" 
+									          	ng-model="addDoacao.idDoador">
+										</div>
+									</section>
+
+									<!-- =============================================================================================================================== -->
+
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Categoria</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="categoria.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarCategorias(categoria.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+										</ui-select-match>
+										<ui-select-choices group-by="'tipo'" repeat="categoria in categorias | propsFilter: {descricao: $select.search}">
+										<div ng-bind-html="categoria.descricao | highlight: $select.search"></div>
+									</ui-select-choices>
+									</ui-select>
+									<input  style="width:0px; height:0px; visibility: hidden; position:absolute" name="categoria" id="categoria" type="text" 
+									ng-model="addDoacao.id_categoria"
+									data-validate-input
+									data-required 
+									data-message-required="Selecione a Categoria">
+									</div>
+									</section>
+
+									<section class="col col-3" ng-show="showCadastroRapido">
+										<label class="label"><strong>Categoria</strong></label>
+										
+
+											<div class="form-group">
+												<label class="radio radio-inline" style="margin-left: 0px; margin-bottom: 10px;" data-ng-repeat="categoria in categorias">
+													<input type="radio" class="radiobox" name="categoria" value="{{categoria.id}}" ng-model="addDoacao.id_categoria" ng-checked="$index==0">
+													<span>{{categoria.descricao}}</span>  
+												</label>
+											</div>
+
+										
+									</section>
+
+									<!-- =============================================================================================================================== -->
+
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Centro de Custo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="centro_custo.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarCentroCusto(centro_custo.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+											</ui-select-match>
+											<ui-select-choices group-by="'tipo'" repeat="centrocustos in centro_custo | propsFilter: {descricao: $select.search}">
+											<div ng-bind-html="centrocustos.descricao | highlight: $select.search"></div>
+											</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="centro_custo" id="centro_custo" type="text" 
+											ng-model="addDoacao.id_centro_custo"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione o Centro de Custo">
+										</div>
+									</section>
+
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Conta Bancária</strong></label>
+										<select class="form-control inputValidate" id="entidade" name="entidade" ng-model="addDoacao.id_conta_bancaria"
+										data-validate-input
+										data-required 
+										data-message-required="Selecione a Conta Bancária">
+										<option value="" selected>Selecione</option>
+										<option value="{{contasbancarias.id}}" data-ng-repeat="contasbancarias in contabancaria">{{contasbancarias.descricao}}</option>	
+										</select>
+									</section>
+	
+									<section class="col col-4" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Local de Armazenamento de Doação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="localDoacao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoLocal(localDoacao.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+											</ui-select-match>
+											<ui-select-choices group-by="'tipo'" repeat="localDoacao in localDeDoacao | propsFilter: {descricao: $select.search}">
+											<div ng-bind-html="localDoacao.descricao | highlight: $select.search"></div>
+											</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="localDoacao" id="localDoacao" type="text" 
+											ng-model="addDoacao.localDoacao"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione o Local de armazenamento de doação">
+										</div>
+									</section>
+									<section class="col col-4" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Status Doação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="statusDoacao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoStatus(statusDoacao.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+										</ui-select-match>
+										<ui-select-choices group-by="'tipo'" repeat="statusDoacao in statusDeDoacao | propsFilter: {descricao: $select.search}">
+										<div ng-bind-html="statusDoacao.descricao | highlight: $select.search"></div>
+									</ui-select-choices>
+									</ui-select>
+									<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="statusDoacao" id="statusDoacao" type="text" 
+									ng-model="addDoacao.statusDoacao"
+									data-validate-input
+									data-required 
+									data-message-required="Selecione o status de doação">
+									</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-3"  ng-show="addDoacao.tipo_de_doacao == 0">			
+										<label class="label"><strong>Evento</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" id="evento" name="evento" ng-model="addDoacao.id_evento">
+												<option value="" selected>Selecione</option>
+												<option value="{{evento.id}}" data-ng-repeat="evento in eventos | orderBy:'data_evento'">{{evento.data_evento_formatada}} - {{evento.title}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>	
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Status Doação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="statusDoacao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoStatus(statusDoacao.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+										</ui-select-match>
+										<ui-select-choices group-by="'tipo'" repeat="statusDoacao in statusDeDoacao | propsFilter: {descricao: $select.search}">
+										<div ng-bind-html="statusDoacao.descricao | highlight: $select.search"></div>
+										</ui-select-choices>
+										</ui-select>
+										<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="statusDoacao" id="statusDoacao" type="text" 
+										ng-model="addDoacao.statusDoacao"
+										data-validate-input
+										data-required 
+										data-message-required="Selecione o status de doação">
+										</div>
+									</section>								
+									<section class="col col-3" ng-show="addDoacao.tipo_de_doacao == 0">
+										<label class="label"><strong>Mais Detalhes</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" ng-model="addDoacao.mais_detalhes"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+									<section class="col col-6" ng-show="addDoacao.tipo_de_doacao == 1">
+										<label class="label"><strong>Mais Detalhes</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" ng-model="addDoacao.mais_detalhes"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>									
+									<section class="col col-3" ng-hide="showCadastroRapido">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="addDoacao.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="addDoacao.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>				
+								</div>
+							</fieldset>
+<footer>
+	<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro(3)" id="NovoCadastro">
+		Novo
+	</a>
+	<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarDoacao()" ng-disabled="movimentacaoDoacao.length >= 2">
+		Salvar
+	</button>
+</footer>
+</form>
+
+</div>
+<!-- end widget content -->
+
+</div>
+<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>	<!-- END ROW -->
+
+<!-- START ROW -->
+<div class="row" ng-show="addDoacao.tipo_de_doacao == 1">		
+	<!-- NEW COL START -->
+	<article class="col-sm-12 col-md-12 col-lg-12">
+		<!-- Widget ID (each widget will need unique ID)-->
+		<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Movimentação de Doação</h2> 
+			</header>
+			<!-- widget div-->
+			<div>
+				<!-- widget content -->
+				<div class="widget-body no-padding">
+
+					<form id="cadastroMovimentacaoDoacao-form" class="smart-form" novalidate="novalidate" validate-form>							
+						<fieldset>
+
+							<div class="row">
+								<section class="col col-4">
+									<label class="label"><strong>Tipo de Movimentação</strong></label>
+									<div class="form-inline">
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="tipo_entrada" checked="true" value="1" ng-model="addMovimentacaoDoacao.tipo_entrada">
+												<span>Entrada</span>
+											</label>
+										</div>
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="tipo_entrada" value="0" ng-model="addMovimentacaoDoacao.tipo_entrada">
+												<span>Saída</span>  
+											</label>	
+										</div>
+									</div>
+								</section>
+
+								<section class="col col-4" ng-show="addMovimentacaoDoacao.tipo_entrada == 1">
+									<label class="label"><strong>Doador:</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<ui-select ng-model="movDoador.selected"
+										theme="bootstrap"
+										ng-disabled="disabled"
+										reset-search-input="false"
+										ng-change="verificarAcaoMovDoador(movDoador.selected)">
+										<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+									</ui-select-match>
+									<ui-select-choices repeat="movDoador in doadores | propsFilter: {nome: $select.search}">
+									<div ng-bind-html="movDoador.nome | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="movDoador" id="movDoador" type="text" 
+							ng-model="addMovimentacaoDoacao.idDoador">
+						</div>
+					</section>
+
+
+					<section class="col col-4" ng-show="addMovimentacaoDoacao.tipo_entrada == 0">
+						<label class="label"><strong>Doado para:</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select ng-model="movDoadoPara.selected"
+							theme="bootstrap"
+							ng-disabled="disabled"
+							reset-search-input="false"
+							ng-change="verificarAcaoMovDoadoPara(movDoadoPara.selected)">
+							<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+						</ui-select-match>
+						<ui-select-choices repeat="movDoadoPara in pessoa | propsFilter: {nome: $select.search}">
+						<div ng-bind-html="movDoadoPara.nome | highlight: $select.search"></div>
+					</ui-select-choices>
+				</ui-select>
+				<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="movDoadoPara" id="movDoadoPara" type="text" 
+				ng-model="addMovimentacaoDoacao.idDoadoPara"
+				data-validate-input
+				data-required 
+				data-message-required="Selecione para quem será doado">
+			</div>
+		</section>
+		<section class="col col-4">
+			<label class="label"><strong>Local de Armazenamento de Doação</strong></label>
+			<div class="form-control-wrapper inputValidate">
+				<ui-select ng-model="movLocalDoacao.selected"
+				theme="bootstrap"
+				ng-disabled="disabled"
+				reset-search-input="false"
+				ng-change="verificarAcaoMovLocal(movLocalDoacao.selected)">
+				<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+			</ui-select-match>
+			<ui-select-choices group-by="'tipo'" repeat="movLocalDoacao in localDeDoacao | propsFilter: {descricao: $select.search}">
+			<div ng-bind-html="movLocalDoacao.descricao | highlight: $select.search"></div>
+		</ui-select-choices>
+	</ui-select>
+	<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="movLocalDoacao" id="movLocalDoacao" type="text" 
+	ng-model="addMovimentacaoDoacao.localDoacao">
+</div>
+</section>
+
+
+</div>
+<div class="row" ng-hide="showCadastroRapido">
+	<section class="col col-4">
+		<label class="label"><strong>Status Doação</strong></label>
+		<div class="form-control-wrapper inputValidate">
+			<ui-select ng-model="movStatusDoacao.selected"
+			theme="bootstrap"
+			ng-disabled="disabled"
+			reset-search-input="false"
+			ng-change="verificarAcaoMovStatus(movStatusDoacao.selected)">
+			<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+		</ui-select-match>
+		<ui-select-choices group-by="'tipo'" repeat="movStatusDoacao in statusDeDoacao | propsFilter: {descricao: $select.search}">
+		<div ng-bind-html="movStatusDoacao.descricao | highlight: $select.search"></div>
+	</ui-select-choices>
+</ui-select>
+<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="movStatusDoacao" id="movStatusDoacao" type="text" 
+ng-model="addMovimentacaoDoacao.statusDoacao"
+data-validate-input
+data-required 
+data-message-required="Selecione o status de doação">
+</div>
+</section>
+<section class="col col-4">
+	<label class="label"><strong>Quantidade</strong></label>
+	<div class="form-control-wrapper inputValidate">
+		<i class="icon-append fa fa-question-circle"></i>
+		<input class="form-control" name="quantidade" id="quantidade" placeholder="Informe a quantidade"
+		ng-model="addMovimentacaoDoacao.quantidade"
+		ui-number-mask="0"
+		data-validate-input
+		data-required 
+		data-message-required="Informe a quantidade">
+		<span class="material-input"></span>
+		<b class="tooltip tooltip-top-right">
+			<i class="fa fa-warning txt-color-teal"></i> 
+			Descrição da quantidade</b> 											
+		</div>										
+	</section>
+	<section class="col col-4">
+		<label class="label"><strong>Data da movimentação</strong></label>
+		<label class="input-group form-control-wrapper inputValidate" >		
+			<input class="form-control" type="text" pick-a-date="addMovimentacaoDoacao.data_movimentacao" placeholder="Selecione uma data" pick-a-date-options='{	
+			format: "dd/mm/yyyy",
+			formatSubmit: "yyyy-mm-dd"                      
+		}' />		
+		<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+		<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_movimentacao" id="data_movimentacao" type="text" 
+		ng-model="addMovimentacaoDoacao.data_movimentacao1"
+		data-validate-input
+		data-required 
+		data-message-required="Informe a data da movimentação">			                                            
+	</label>		
+</section>
+</div>
+<div class="row" ng-hide="showCadastroRapido">								
+	<section class="col col-6" >
+		<label class="label"><strong>Historico</strong></label>
+		<div class="form-control-wrapper">
+			<textarea rows="5" class="form-control" ng-model="addMovimentacaoDoacao.historico"></textarea>
+			<span class="material-input"></span>
+		</div>
+	</section>				
+</div>						
+</fieldset>
+<footer>
+	<button id="salvarMovimentacaoDoacao" class="btnmd btnmd-info  pull-right" ng-disabled="!doacao.id" ng-click="cadastrarMovimentacaoDoacao(addMovimentacaoDoacao)">
+		Salvar
+	</button>															
+</footer>
+<div ng-show="movimentacaoDoacao.length > 0">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<!--<th class="label-primary" style="color:white"><h6></h6></th>-->
+				<th class="label-primary" style="color:white"><h6>Tipo</h6></th>
+				<th class="label-primary" style="color:white"><h6>Doador ou Doado para:</h6></th>
+				<th class="label-primary" style="color:white"><h6>Local de Armazenamento</h6></th>
+				<th class="label-primary" style="color:white"><h6>Status</h6></th>								
+				<th class="label-primary" style="color:white"><h6>Quantidade</h6></th>
+				<th class="label-primary" style="color:white"><h6>Data de Movimentação</h6></th>
+			</tr>
+		</thead>
+		<tbody>																		
+			<tr ng-repeat="movimentacao in movimentacaoDoacao">
+											<!--<td>
+											<a class="btn btn-danger btn-sm" ng-click='delMovimentacaoDoacao($index, movimentacao)'><i class="fa fa-minus-square"></i> Excluir</a>							</td>-->
+											<td>{{movimentacao.tipo_entrada}}</td>
+											<td>{{movimentacao.pessoa}}{{movimentacao.pessoa_donatario}}</td>
+											<td>{{movimentacao.local_armazenamento_doacao}}</td>
+											<td>{{movimentacao.status_doacao}}</td>
+											<td>{{movimentacao.quantidade}}</td>
+											<td>{{movimentacao.data_movimentacao | date : 'dd/MM/yyyy'}}</td>
+										</tr>
+									</tbody>								
+								</table>
+								<footer>
+									<div class="col-sm-12 col-md12 col-lg-12">
+										<p class="ng-binding"><strong>Qtde entrada: </strong>{{movimentacao_quant.entrada}}</p>
+										<p class="ng-binding"><strong>Qtde saida: </strong> {{movimentacao_quant.saida}}</p>
+										<h4 class="text-success ng-binding ng-scope"><strong>Estoque: </strong>{{movimentacao_quant.estoque}}</h4>
+									</div>                           
+								</footer>								
+							</div>
+						</form>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModalPrograma">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Programa Doação</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section"> 
+							<div class="form-group">
+								<div class="form-control-wrapper inputValidate">
+									<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addProgramaDoacao.descricao"
+									data-validate-input 
+									data-required
+									data-message-required="Por favor, informe a descrição do programa de doação"><div class="floating-label">Descrição</div>
+									<b class="tooltip tooltip-top-right">
+										<i class="fa fa-warning txt-color-teal"></i> 
+										Descrição do Programa de Doação</b>							
+										<span class="material-input"></span>
+									</div>       
+								</div>       
+							</section> 			
+							<section class="section">
+								<label class="label"><strong>Data de Inicio</strong></label>
+								<label class="input-group form-control-wrapper inputValidate">		
+									<input class="form-control" type="text" pick-a-date="addProgramaDoacao.data_inicio" placeholder="Selecione uma data" pick-a-date-options='{	
+									format: "dd/mm/yyyy",
+									formatSubmit: "yyyy-mm-dd"                      
+								}' />		
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+								<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio" id="data_inicio" type="text" 
+								ng-model="addProgramaDoacao.data_inicio1"
+								data-validate-input
+								data-required 
+								data-message-required="Informe a data de inicio">			                                            
+							</label>															
+						</section>
+						<section class="section">
+							<label class="label"><strong>Data de Fim</strong></label>
+							<label class="input-group form-control-wrapper inputValidate">		
+								<input class="form-control" type="text" pick-a-date="addProgramaDoacao.data_fim" placeholder="Selecione uma data" pick-a-date-options='{	
+								format: "dd/mm/yyyy",
+								formatSubmit: "yyyy-mm-dd"                      
+							}' />		
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+							<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_fim" id="data_fim" type="text" 
+							ng-model="addProgramaDoacao.data_fim1"
+							data-validate-input
+							data-required 
+							data-message-required="Informe a data de fim">			                                            
+						</label>															
+					</section>
+				</form>  
+			</div>
+			<div class="modal-footer">	                
+				<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+				<button type="button" class="btnmd btnmd-primary" ng-click="adicionarProgramaDoacao()">Salvar</button>		        
+			</div>
+		</div>
+	</div>
+</div>	
+<!-- Modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModalTipo">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title">Novo Tipo de Doação</h4>
+			</div>
+			<div class="modal-body">
+				<form id="cadastroTipoDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					<section class="section"> 
+						<div class="form-group">
+							<div class="form-control-wrapper inputValidate">
+								<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addTipoDoacao.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Nome do Fabricante</b>							
+									<span class="material-input"></span>
+								</div>       
+							</div>       
+						</section> 								
+					</form>  
+				</div>
+				<div class="modal-footer">	                
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarTipoDoacao()">Salvar</button>		        
+				</div>
+			</div>
+		</div>
+	</div>	
+	<!-- Modal -->	
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalStatus">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Status de Doação</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroStatusDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section"> 
+							<div class="form-group">
+								<div class="form-control-wrapper inputValidate">
+									<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addStatusDoacao.descricao"
+									data-validate-input 
+									data-required
+									data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+									<b class="tooltip tooltip-top-right">
+										<i class="fa fa-warning txt-color-teal"></i> 
+										Nome do Status</b>							
+										<span class="material-input"></span>
+									</div>       
+								</div>       
+							</section> 								
+						</form>  
+					</div>
+					<div class="modal-footer">	                
+						<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+						<button type="button" class="btnmd btnmd-primary" ng-click="adicionarStatusDoacao()">Salvar</button>		        
+					</div>
+				</div>
+			</div>
+		</div>	
+		<!-- Modal -->	
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModalLocal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title">Novo Local de Armazenamento de Doação</h4>
+					</div>
+					<div class="modal-body">
+						<form id="cadastroLocalDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+							<section class="section"> 
+								<div class="form-group">
+									<div class="form-control-wrapper inputValidate">
+										<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addLocalDoacao.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Local de Armazenamento</b>							
+											<span class="material-input"></span>
+										</div>       
+									</div>       
+								</section> 								
+							</form>  
+						</div>
+						<div class="modal-footer">	                
+							<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+							<button type="button" class="btnmd btnmd-primary" ng-click="adicionarLocalDoacao()">Salvar</button>		        
+						</div>
+					</div>
+				</div>
+			</div>	
+			<!-- Modal -->
+
+			<!-- MODAL CATEGORIA -->
+
+			<div class="modal fade" id="myModalCategoria">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title">Nova Categoria de Doação</h4>
+						</div>
+						<div class="modal-body">
+							<form id="cadastroCategoria-form" class="smart-form" novalidate="novalidate" validate-form>	
+								<section class="section"> 
+									<div class="form-group">
+										<div class="form-control-wrapper inputValidate">
+											<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addCategoria.descricao"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome do Local de Armazenamento</b>							
+												<span class="material-input"></span>
+											</div>       
+										</div>       
+									</section> 								
+								</form>  
+							</div>
+							<div class="modal-footer">	                
+								<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+								<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCategoria()">Salvar</button>		        
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- FIM MODAL CATEGORIA -->
+
+
+				<!-- MODAL CENTRO DE CUSTO -->
+
+				<div class="modal fade" id="myModalCentroCusto">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="modal-title">Novo Centro de Custo</h4>
+							</div>
+							<div class="modal-body">
+								<form id="cadastroCentroCusto-form" class="smart-form" novalidate="novalidate" validate-form>
+									<div class="row">	
+										<section class="col-lg-6">
+										<label class="label"><strong>Departamento Funcionário</strong></label>
+											<div class="form-group">
+												<div class="form-control-wrapper inputValidate">
+													<select class="form-control" id="tipo_lancamento" name="tipo_lancamento" ng-model="addCentroCusto.id_departamento_funcionario"
+													data-validate-input
+													data-required 
+													data-message-required="Selecione o departamento">
+													<option value="" selected>Depto Funcionário</option>
+													<option value="{{departamentos.id}}" data-ng-repeat="departamentos in departamentos_funcionarios">{{departamentos.descricao}}</option>	
+												</select>
+												<i></i>
+											</div>       
+										</div>       
+									</section>
+
+									<section class="col col-lg-6">
+									<label class="label"><strong>Código Contábil</strong></label> 
+										<div class="form-group">
+											<div class="form-control-wrapper inputValidate">
+												<i class="icon-append fa fa-question-circle"></i>
+												<input class="form-control" name="codigo_contabil" id="codigo_contabil" placeholder="Código Contábil"
+												ng-model="addCentroCusto.codigo_contabil"
+												data-validate-input
+												data-required 
+												data-message-required="Informe o código">
+												<span class="material-input"></span>
+												<b class="tooltip tooltip-top-right">
+													<i class="fa fa-warning txt-color-teal"></i> 
+													Código</b> 											
+												</div>       
+											</div>       
+										</section>
+									</div>
+									<div class="row">
+										<section class="col-lg-12"> 
+											<label class="label"><strong>Descrição</strong></label>
+											<div class="form-control-wrapper">
+												<textarea rows="5" class="form-control" ng-model="addCentroCusto.descricao"></textarea>
+												<span class="material-input"></span>
+											</div>       
+										</section>
+									</div>					
+								</form>  
+							</div>
+							<div class="modal-footer">	                
+								<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+								<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCentroCusto()">Salvar</button>		        
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- FIM MODAL CENTRO DE CUSTO -->
+
+			</section>
+			<!-- end widget grid -->
+
+			<!-- SCRIPTS ON PAGE EVENT -->
+			<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+
+	</script>

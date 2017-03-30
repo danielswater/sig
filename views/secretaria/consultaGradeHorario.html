@@ -1,0 +1,169 @@
+<script src="controllers/controller.consultaGradeHorario.js"></script>                
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+</style>
+<!-- widget grid -->
+<section ng-controller='consultaGradeHorario' id="widget-grid" widget-grid>
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de grade de horário</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+
+            <div class="table-responsive">
+
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th ng-click="changeSorting('turma')">TURMA <i class="glyphicon" ng-class="getIcon('turma')"></i></th>
+                    <th ng-click="changeSorting('curso')">CURSO  <i class="glyphicon" ng-class="getIcon('curso')"></i></th>
+                    <th ng-click="changeSorting('serie')" align="center">SÉRIE <i class="glyphicon" ng-class="getIcon('serie')"></i></th>
+                    <th ng-click="changeSorting('horario')" align="center">HORÁRIO<i class="glyphicon" ng-class="getIcon('horario')"></i></th>
+                    <th ng-click="changeSorting('status')" align="center">STATUS <i class="glyphicon" ng-class="getIcon('status')"></i></th>
+                    <th align="center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr >
+                    <td><input ng-model="search.turma" id="search" class="form-control" placeholder="Turma"></td>
+                    <td><input ng-model="search.curso" id="search" class="form-control" placeholder="Curso"></td>
+                    <td width="150"><input ng-model="search.serie" id="search" class="form-control" placeholder="Série"></td>
+                    <td width="150"><input ng-model="search.horario" id="search" class="form-control" placeholder="Horário"></td>
+                    <td width="100"><input ng-model="search.status" id="search" class="form-control" placeholder="Status"></td>
+                    <td width="100"></td>
+                  </tr>
+                  <tr ng-show="gradesHorarios.length == 0">
+                    <td colspan="3">Não existem dados para serem exibidos.</td>
+                  </tr>
+                  <tr dir-paginate="item in gradesHorarios | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+                    <td style="display:table-cell;vertical-align:middle">{{item.turma}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{item.curso}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{item.serie}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{item.horario}}</td>
+                    <td style="display:table-cell;vertical-align:middle" align="center">{{item.status}}</td>
+                    <td align="center"><button ng-click='editCadastro(item.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+                       <div class="ripple-wrapper"></div>
+                    </button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+            </div>     
+          <div>      
+        <div>
+        <div class="row" style="margin-top:20px; margin-bottom:5px;">
+          <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Itens por página:</strong></label>
+                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+          </div>              
+        </div>  
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+
+  
+  
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+   *
+   * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+   *
+   * // activate tooltips
+   * $("[rel=tooltip]").tooltip();
+   *
+   * // activate popovers
+   * $("[rel=popover]").popover();
+   *
+   * // activate popovers with hover states
+   * $("[rel=popover-hover]").popover({ trigger: "hover" });
+   *
+   * // activate inline charts
+   * runAllCharts();
+   *
+   * // setup widgets
+   * setup_widgets_desktop();
+   *
+   * // run form elements
+   * runAllForms();
+   *
+   ********************************
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+
+  pageSetUp();
+  
+  /*
+   * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+   * eg alert("my home function");
+   * 
+   * var pagefunction = function() {
+   *   ...
+   * }
+   * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+   * 
+   * TO LOAD A SCRIPT:
+   * var pagefunction = function (){ 
+   *  loadScript(".../plugin.js", run_after_loaded);  
+   * }
+   * 
+   * OR
+   * 
+   * loadScript(".../plugin.js", run_after_loaded);
+   */
+
+  // PAGE RELATED SCRIPTS
+  
+  // pagefunction
+  
+  var pagefunction = function() {
+    
+  };
+  
+  // end pagefunction
+  
+  // run pagefunction on load
+  pagefunction();
+        
+
+</script>

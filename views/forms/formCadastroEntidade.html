@@ -1,0 +1,279 @@
+<script src="controllers/controller.formCadastroEntidade.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroEntidade' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Matriz e Filiais</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroEntidade-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">
+									<section ng-if="thumb != ''" class="col col-lg-4" style="width: auto; padding-right: 0px;">
+										<img ng-src="/sig/img/logotipos/{{thumb}}" height="75" />
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-2">
+										<label class="label"><strong>CNPJ</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+
+											<input 	class 					="form-control" 
+											type 					="text" 
+											name 					="cnpj" 
+											id 						="cnpj" 													
+											placeholder 			="Número CNPJ" 
+											ng-model 				="entidade.cnpj" 
+											ng-blur 				="getCnpjEntidade('cnpj')"
+											ui-br-cnpj-mask 
+											data-validate-input
+											data-required
+											data-cnpj	
+											data-message-cnpj 		="Informe um CNPJ válido"
+											data-message-required	="Por favor, informe o CNPJ">
+
+											<i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-3 col-lg-2">
+										<label class="label"><strong>Tipo</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+
+											<select class 	 				="form-control" 
+											name 					="tipo" 
+											id 						="tipo" 
+											ng-model 				="entidade.id_tipo_entidade"
+											data-validate-input 
+											data-required
+											data-message-required 	="Por favor, selecione um tipo">
+
+											<option value="" selected>Selecione</option>
+											<option value="{{entidade.id}}" data-ng-repeat="entidade in tipoentidade">{{entidade.descricao}}</option>	
+										</select> <i></i> 
+									</div>
+								</section>																			
+								<section class="col col-xs-12 col-sm-12 col-md-5 col-lg-3">
+									<label class="label"><strong>Nome</strong></label>
+									<div class="form-control form-control-wrapper inputValidate"> <i class="icon-append fa fa-question-circle"></i>
+										<input class="form-control" name="nomeCompleto" id="nomeCompleto" type="text" placeholder="Nome da entidade" ng-model="entidade.nome"
+										data-validate-input
+										data-required				                            
+										data-message-required="Por favor, informe o nome completo">
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome da entidade</b> 
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-5 col-lg-3">
+										<label class="label"><strong>Logotipo</strong></label>
+										<div for="file" class="form-control form-control-wrapper input-file">
+											<div class="button">
+												<input class="form-control" type="file" accept="image/*" name="foto" id="foto" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="entidade.foto">Procurar</div><input onclick="$('#foto').trigger('click')" class="form-control" type="text" placeholder="Logotipo" readonly="">
+											</div>
+										</section>															
+								</div>
+								<div class="row" ng-show="logado.idTipoEntidade == 3">
+									<section class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">
+										<label class="label"><strong>Abreviatura</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" ng-model="entidade.abreviatura" type="text" name="abreviatura" id="abreviatura"
+											maxlength="5"
+											placeholder="Abreviatura"
+											data-validate-input
+											data-message-required="Por favor, informe a abreviatura">
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">
+										<div ng-show="logado.idTipoEntidade == 3">
+											<label class="label"><strong>Telefone</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="telefone" id="telefone" placeholder="Telefone"
+													ng-model="entidade.telefone" 
+													maxlength="16"
+													data-validate-input 
+													data-required
+													data-message-required="Por favor, informe um telefone"
+													ui-br-phone-number>
+												<i class="icon-append fa fa-search"></i>
+												<span class="material-input"></span>
+											</div>
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-8 col-lg-8">
+										<label class="label"><strong>Representante Legal</strong></label>
+										<div class="form-control form-control-wrapper inputValidate"> 
+											<div class="form-control form-control-wrapper inputValidate">
+												<select class="form-control" name="representante_legal" ng-model="entidade.id_pessoa_representante">
+													<option value="" disabled="">Selecione</option>
+													<option data-ng-repeat="item in pessoa" ng-selected="entidade.id_pessoa_representante == item.id" value="{{item.id}}">{{item.nome}}</option>
+												</select> <i></i> 
+											</div>
+										</section>
+									</div>
+									<div class="row">
+										<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+											<label class="label"><strong>CEP</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" ng-model="entidade.cep" type="text" name="cep" id="cep" ng-blur="getCep('cep')" 
+												ui-br-cep-mask 
+												placeholder="CEP"
+												data-validate-input
+												data-required				                            
+												data-message-required="Por favor, informe o cep">
+											</div>
+										</section>
+										<section class="col col-xs-12 col-sm-12 col-md-8 col-lg-8">
+											<label class="label"><strong>Endereço</strong></label>
+											<div class="form-control form-control-wrapper inputValidate"> 
+												<input class="form-control" type="text" placeholder="Endereço" id="logradouro" name='logradouro' ng-model="entidade.logradouro"
+												data-validate-input
+												data-required				                            
+												data-message-required="Por favor, informe o endereço">
+												<b class="tooltip tooltip-top-right">
+													<i class="fa fa-warning txt-color-teal"></i> 
+													Ex. do Estado</b> 
+												</div>
+											</section>
+										</div>
+										<div class="row">
+											<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+												<label class="label"><strong>Número</strong></label>
+												<div class="form-control form-control-wrapper inputValidate"> 
+													<input class="form-control" type="text" name="numero" id="numero" placeholder="Número" ng-model="entidade.numero" 
+													data-validate-input
+													data-required				                            
+													data-message-required="Por favor, informe o número">
+													<b class="tooltip tooltip-top-right">
+														<i class="fa fa-warning txt-color-teal"></i> 
+														Número do logradouro</b> 
+													</div>
+												</section>								
+												<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+													<label class="label"><strong>Complemento</strong></label>
+													<div class="form-control form-control-wrapper inputValidate">
+														<input class="form-control" type="text" name="complemento" id="complemento" placeholder="Ex: casa 1, bloco 2" ng-model="entidade.complemento">
+													</div>
+												</section>
+												<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+													<label class="label"><strong>Bairro</strong></label>
+													<div class="form-control form-control-wrapper inputValidate">
+														<input class="form-control" type="text" placeholder="Bairro" id="bairro" name='bairro' ng-model="entidade.bairro" 
+														data-validate-input
+														data-required				                            
+														data-message-required="Por favor, informe o bairro">
+													</div>
+												</section>									
+											</div>
+											<div class="row">
+												<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+													<label class="label"><strong>Estado</strong></label>
+													<div class="form-control form-control-wrapper inputValidate">
+														<select class="form-control" name="estado" ng-model="entidade.estado"
+														ng-change="getCidade(entidade.estado)"
+														data-validate-input
+														data-required
+														on-change               
+														data-message-required="Por favor, selecione um estado">
+														<option value="" disabled="">Selecione</option>
+														<option data-ng-repeat="estado in estados" data-ng-selected="{{estado.uf==entidade.estado}}">{{estado.nome}}</option>
+													</select> <i></i> 
+												</div>	
+											</tr>																			
+										</section>								
+										<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+											<label class="label"><strong>Cidade</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+
+												<select class="form-control" name="cidade" id="cidade" ng-model="entidade.cidade"
+												data-validate-input
+												data-required             
+												data-message-required="Por favor, selecione uma cidade">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="cidade in cidades" data-ng-selected="{{cidade.select}}">{{cidade.nome}}</option>
+											</select> <i></i>
+										</div>
+									</section>							
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>País</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" name="pais" ng-model="entidade.idPais"
+											data-validate-input
+											data-required				                            
+											data-message-required="Por favor, selecione um país">
+											<option value="" disabled="">Selecione</option>
+											<option data-ng-repeat="pais in paises" data-ng-selected="{{pais.select}}">{{pais.nome}}</option>					
+										</select> <i></i> </div>
+									</section>								
+								</div>
+								<div ng-show="entidade.idTipoEntidade == 3 || id_entidade == 3" class="row">
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Diretor</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" id="diretor" name="diretor" ng-model="entidade.id_pessoa_diretor">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="item in pessoa" ng-selected="entidade.id_pessoa_diretor == item.id" value="{{item.id}}">{{item.nome}}</option>
+											</select> <i></i> 
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Secretário</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" id="secretario" name="secretario" ng-model="entidade.id_pessoa_secretario">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="item in pessoa" ng-selected="entidade.id_pessoa_secretario == item.id" value="{{item.id}}">{{item.nome}}</option>
+											</select> <i></i> 
+										</div>
+									</section>
+									<section class="col col-xs-12 col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Tesoureiro</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" id="tesoureiro" name="tesoureiro" ng-model="entidade.id_pessoa_tesoureiro">
+												<option value="" disabled="">Selecione</option>
+												<option data-ng-repeat="item in pessoa" ng-selected="entidade.id_pessoa_tesoureiro == item.id" value="{{item.id}}">{{item.nome}}</option>
+											</select> <i></i> 
+										</div>
+									</section>
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button ng-click="cadastrarEntidade(entidade)" type="submit" class="btnmd btnmd-info pull-right" id="SalvarEntidade">
+									Salvar
+								</button>								
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+	</script>

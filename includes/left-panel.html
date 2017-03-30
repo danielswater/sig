@@ -1,0 +1,56 @@
+
+<!-- User info -->
+			<div class="logotipo" >
+
+				<!-- PLACE YOUR LOGO HERE -->
+				<span id="logo"> <img style="margin-top:0px; margin-left:1px" width="120" height="40" ng-src="img/logo_white_sig.png" alt="Sistema Integrado de Gestão"> </span>
+				<!-- END LOGO PLACEHOLDER -->
+				<!--span data-ng-controller="ActivityDemoCtrl">
+					<activity data-onrefresh="refreshCallback">
+						<activity:button data-icon="fa fa-user" data-total="total" />
+						<activity:content data-footer="footerContent">
+							<activity:item data-src="item.src" data-onload="item.onload" data-active="item.active" data-ng-repeat="item in items">
+								<span data-localize="{{ item.title }}">{{ item.title }}</span> ({{ item.count }})
+							</activity:item>
+						</activity:content>
+					</activity>
+				</span-->
+			</div>
+			<div ng-show="usuario.idTipoEntidade != 4" class="login-info" style="height:43px;">
+				<span style="margin-top:8px"> <!-- User image size is adjusted inside CSS, it should stay as is --> 
+					
+					<!--a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut"-->
+						<img ng-src="img/pessoa/{{usuario.foto}}" alt="me" class="online" /> 
+						<span style="color:black; font-weight: bold;" data-localize="">
+							{{usuario.nome | limitTo:15}}.
+						</span>
+						<!--i class="fa fa-angle-down"></i-->
+					<!--/a--> 
+					
+				</span>
+			</div>
+			<!-- end user info -->
+
+			<!-- NAVIGATION : This navigation is also responsive
+
+			To make this navigation dynamic please make sure to link the node
+			(the reference to the nav > ul) after page load. Or the navigation
+			will not initialize.
+			-->			
+			<navigation ng-show="usuario.idTipoEntidade != 4">
+				<nav:item data-view="/dashboard" data-icon="fa fa-lg fa-fw fa-home" title="Dashboard" />				
+				<nav:group ng-repeat="menu in usuario.modulo | orderBy: 'nome'" data-icon="fa fa-fw {{menu.icone}}" ng-show="menu.show_menu == 1" title="{{menu.nome}}">
+					<nav:item style="margin-left:-20px" ng-if="item.children.length <= 0" ng-show="item.show_menu == 1" ng-repeat="item in menu.children" data-view="{{item.url}}" title="{{item.nome}}" />					
+					<nav:group style="margin-left:-20px" ng-if="item.children.length > 0" ng-repeat="item in menu.children" data-icon="fa fa-lg fa-fw fa-plus-square-o" title="{{item.nome}}">							
+						<nav:item style="margin-left:22px" ng-show="child.show_menu == 1" ng-repeat="child in item.children" data-view="{{child.url}}" title="{{child.nome}}" />				
+					</nav:group>
+				</nav:group>				
+				<!--nav:group data-icon="fa fa-lg fa-fw fa-pencil-square-o" title="cadastro">					
+					<nav:item data-view="/forms/formCadastroPF2" title="Associado_PF2" />					
+					<nav:item data-view="/forms/formCadastroPJ" title="Associado_PJ" />					
+					<nav:item data-view="/forms/formCadastroFuncionario" title="Funcionario" />					
+					<nav:item data-view="/forms/formCadastroFornecedor" title="Fornecedor" />					
+					<nav:item data-view="/forms/formCadastroDoador" title="Doador" />					
+				</nav:group-->
+			</navigation>
+			<span class="minifyme" data-action="minifyMenu"> <i class="fa fa-arrow-circle-left hit"></i> </span>

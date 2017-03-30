@@ -1,0 +1,214 @@
+<script src="controllers/controller.formCadastroConfigUsuario.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroConfigUsuario' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Configurar conta de usuário</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroConfigUsuario-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Nome completo</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control"  name="nome" id="nome" placeholder="Seu nome completo"
+											ng-model="addConfig.nome"
+											data-validate-input
+	                                        data-required 
+	                                        data-message-required="Por favor, informe o nome completo">
+	                                        <i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>					
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Estado Civil</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" name="id_estado_civil" id="id_estado_civil" ng-model="addConfig.id_estado_civil"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, selecione um estado civil">
+												<option value="" selected>Selecione</option>
+												<option ng-selected="addConfig.id_estado_civil == estado_civil.estado_civil_id" value="{{estado_civil.estado_civil_id}}" ng-repeat="estado_civil in estadocivil">{{estado_civil.estado_civil_descricao}}</option>	
+											</select>
+											<i></i>
+										</div>										
+									</section>												
+									<section class="col col-3">
+										<label class="label"><strong>Data de nascimento</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="addConfig.data_nascimento" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd",
+				                                selectYears: 200				                                				                                
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_nascimento" id="data_nascimento" type="text" 
+                                            ng-model="addConfig.data_nascimento1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe a data de nascimento">
+										</label>												
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Nacionalidade</strong></label>
+										<div class="form-control form-control-wrapper">
+											<input class="form-control"  name="nacionalidade" id="nacionalidade" placeholder="Sua nacionalidade de origem" ng-model="addConfig.nacionalidade">
+											<span class="material-input"></span>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-6">
+										<label class="label"><strong>E-mail</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="email" id="email" placeholder="Seu e-mail principal" ng-model="addConfig.email"
+											data-validate-input
+				                            data-required
+				                            data-email				                            
+				                            data-message-required="Por favor, informe o e-mail"
+				                            data-messagem-email="Por favor, informe um e-mail válido">
+                                            <i class="icon-append fa fa-envelope-o"></i>
+											<span class="material-input"></span>
+										</div>	
+									</section>	
+									<section class="col col-3">
+										<label class="label"><strong>Foto</strong></label>
+										<div for="file" class="form-control form-control-wrapper input-file">										
+											<div class="button">
+											<input class="form-control" type="file" accept="image/*" name="foto" id="foto" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="addConfig.foto">Procurar</div><input onclick="$('#foto').trigger('click')" class="form-control" type="text" placeholder="Sua foto" readonly="">			
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Login</strong></label>
+										<div for="file" class="form-control form-control-wrapper input-file">
+											<div><input class="form-control" name="login" id="login" readonly ng-model="addConfig.login"></div>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Celular</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="telefone_celular" id="telefone_celular" placeholder="DDD e número" ng-model="addConfig.telefone_celular"
+											data-validate-input 
+											data-required
+											data-mobile
+											data-message-required="Por favor, informe um telefone celular"
+											data-message-mobile="Por favor, informe um telefone celular válido"
+											ui-br-phone-number>
+                                            <i class="icon-append fa fa-phone"></i>
+											<span class="material-input"></span>
+										</div>	
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Tel. residencial</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" maxlength="15" name="telefone_residencial" id="telefone_residencial" ui-br-phone-number placeholder="DDD e número" ng-model="addConfig.telefone_residencial"
+											data-validate-input 
+											data-telefone
+											data-message-telefone="Por favor, informe um telefone válido">
+                                            <i class="icon-append fa fa-phone"></i>
+											<span class="material-input"></span>
+										</div>	
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Tel. comercial</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="telefone_comercial" id="telefone_comercial" ui-br-phone-number placeholder="DDD, número e ramal " ng-model="addConfig.telefone_comercial"
+											data-validate-input 
+											data-telefone
+											data-message-telefone="Por favor, informe um telefone válido">
+                                            <i class="icon-append fa fa-phone"></i>
+											<span class="material-input"></span>
+										</div>	
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Senha Atual</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="senha_atual" id="senha_atual" type="password" placeholder="sua senha atual" 
+											ng-model="addConfig.senha_atual"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe senha atual"
+                                            ng-blur="chkPassAtual()">
+	                                        <i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>					
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Nova Senha</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="nova_senha" id="nova_senha" type="password" placeholder="Sua nova senha" 
+											ng-model="addConfig.nova_senha">
+	                                        <i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>					
+									</section>
+									<section class="col col-4" ng-show="addConfig.nova_senha.length > 0">
+										<label class="label"><strong>Confirmar Nova Senha</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" name="confirmar_nova_senha" id="confirmar_nova_senha" type="password" placeholder="Confirme sua nova senha" 
+											ng-model="addConfig.confirmar_nova_senha"
+											ng-blur="chkPass()">
+	                                        <i class="icon-append fa fa-user"></i>
+											<span class="material-input"></span>
+										</div>					
+									</section>
+								</div>
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarConfigUsuario()">
+									Salvar
+								</button>															
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

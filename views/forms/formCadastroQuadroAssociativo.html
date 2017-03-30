@@ -1,0 +1,269 @@
+<script src="controllers/controller.formCadastroQuadroAssociativo.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroQuadroAssociativo' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Estrutura Organizacional SBM</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroQuadroAssociativo-form" class="smart-form" novalidate="novalidate" validate-form>	
+							<fieldset>
+								<div class="row">
+									<section class="col col-sm-12 col-md-8 col-lg-9">
+										<label class="label"><strong>Departamento</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_departamento" name="id_departamento"
+													ng-model="addPeriodo.id_departamento"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o tipo"
+                                            	   	ng-change="verificarAcaoDepartamento(addPeriodo.id_departamento)">
+												<option value="" selected>Departamento</option>
+												<option value="{{item.id}}" data-ng-repeat="item in departamentos" ng-selected="item.id == addPeriodo.id_departamento">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+									<section class="col col-sm-12 col-md-4 col-lg-3">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="addPeriodo.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="addPeriodo.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Período de:</strong></label>
+										<label class="input-group form-control-wrapper inputValidate" >   
+											<input class="form-control" type="text" pick-a-date="addPeriodo.data_inicio" placeholder="Selecione uma data" pick-a-date-options='{ 
+												format: "dd/mm/yyyy",
+												formatSubmit: "yyyy-mm-dd",
+												selectYears: 100
+												}' />
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio" id="data_inicio" type="text" 
+												ng-model="addPeriodo.data_inicio1"
+												data-validate-input
+												data-required 
+												data-message-required="Informe a data inicial">
+										</label>															
+									</section>	
+									<section class="col col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Até:</strong></label>
+										<label class="input-group form-control-wrapper inputValidate" >   
+											<input class="form-control" type="text" pick-a-date="addPeriodo.data_termino" placeholder="Selecione uma data" pick-a-date-options='{ 
+												format: "dd/mm/yyyy",
+												formatSubmit: "yyyy-mm-dd",
+												selectYears: 100
+												}' />   
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_termino" 
+												id="data_termino" type="text" 
+												ng-model="addPeriodo.data_termino1"
+												data-validate-input
+												data-required
+												data-message-required="Informe a data final">
+										</label>
+									</section>
+									<section class="col col-sm-12 col-md-4 col-lg-4">
+										<label class="label"><strong>Referência</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="referencia" id="referencia" placeholder="Referência"
+											ng-model="addPeriodo.referencia"
+											data-validate-input
+	                                        data-required
+	                                        data-message-required="Por favor, informe a referência">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Referência</b> 									
+										</div>
+									</section>															
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarPeriodo(addPeriodo)" id="SalvarPeriodo">
+									Salvar
+								</button>
+							</footer>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<div class="row">
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cargos e Associados</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroCargoAssociado-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">
+									<section class="col col-lg-6 col-md-6 col-sm-6">
+										<label class="label"><strong>Cargo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="cargo.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoCargo(cargo.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="cargo in cargos | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="cargo.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_cargo" id="id_cargo" type="text" 
+	                                          	ng-model="addCargoAssociado.id_cargo"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o cargo">
+										</div>
+									</section>
+									<section class="col col-lg-6 col-md-6 col-sm-6">
+										<label class="label"><strong>Associado</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="associado.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoAssociado(associado.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices repeat="associado in pessoa | filter:{funcionario: 1} | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="associado.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_pessoa" id="id_pessoa" type="text" 
+	                                          	ng-model="addCargoAssociado.id_pessoa"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o Doador">
+										</div>
+									</section>	
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-warning pull-right" ng-click="limparCadastro()" id="LimparCadastro">
+									Limpar
+								</a>
+								<button ng-disabled="!periodo.id" class="btnmd btnmd-info  pull-right" ng-click="cadastrarCargoAssociado(addCargoAssociado)" id="SalvarPeriodo">
+									Salvar
+								</button>							
+							</footer>
+							<table class="table table-bordered" ng-show="cargoAssociado.length > 0">
+								<thead>
+									<tr>
+										<th class="label-primary" style="width: 8%;"></th>
+										<th class="label-primary" style="color:white; width: 40%;"><h6>Cargo</h6></th>
+										<th class="label-primary" style="color:white; width: 50%;"><h6>Associado</h6></th>
+									</tr>
+								</thead>
+								<tbody>																		
+									<tr ng-repeat="cargo_associado in cargoAssociado">
+										<td style="width: 80px;">
+											<a class="btn btn-danger btn-sm" ng-click='delItem($index, cargo_associado)'><i class="fa fa-minus-square"></i> Excluir</a>				
+										</td>
+										<td>{{cargo_associado.cargo}}</td>
+										<td>{{cargo_associado.pessoa}}</td>
+									</tr>
+								</tbody>								
+							</table>	
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+	</div>
+<!-- END ROW -->
+
+
+<!-- Modal -->
+	<div class="modal fade" id="myModalCargo">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Cargo</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroCargo-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addCargo.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Cargo</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="cadastrarCargo(addCargo)">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+<!-- Modal -->
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+</script>

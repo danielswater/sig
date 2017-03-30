@@ -1,0 +1,97 @@
+<script src="controllers/controller.formCadastroTipoItensPublicacao.js"></script>
+<section ng-controller='formCadastroTipoItensPublicacao' id="widget-grid" widget-grid>
+
+	<div class="row">
+
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cadastro de Tipo de Itens de Publicação</h2>
+				</header>
+
+				<div>
+
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+											
+									<form id="cadastroTipoItensPublicacao-form" class="smart-form" novalidate="novalidate" validate-form>
+										<fieldset>
+											<div class="row">
+											<!-- ****************************************************************************************** -->
+
+												<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+													<label class="label"><strong>Descrição</strong></label>
+													<div class="form-control-wrapper inputValidate">
+														<i class="icon-append fa fa-question-circle"></i>
+
+														<input 	class 					="form-control" 
+																name 					="descricao" 
+																id 						="descricao" 
+																placeholder				="Descrição"
+																ng-model				="tipoitenspublicacao.descricao"																			
+																maxlength 				="200"
+			                                            		data-message-required 	="Por favor, informe a Descrição"
+																data-validate-input
+																data-required>
+
+														<span class="material-input"></span>
+														<b class="tooltip tooltip-top-right">
+															<i class="fa fa-warning txt-color-teal"></i>
+															Informe a Descrição
+														</b>
+													</div>
+												</section>
+
+												<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+													<label class="label"><strong>Status</strong></label>
+													<div class="form-inline">
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="tipoitenspublicacao.ativo">
+																<span>Ativo</span>  
+															</label>
+														</div>
+														<div class="form-group">
+															<label class="radio radio-inline">
+																<input type="radio" class="radiobox" name="status" value="0" ng-model="tipoitenspublicacao.ativo">
+																<span>Inativo</span>  
+															</label>	
+														</div>
+													</div>
+												</section>
+
+											<!-- ****************************************************************************************** -->
+											</div>
+										</fieldset>
+										<footer>
+											<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"> Novo <div class="ripple-wrapper"></div></a>
+											<button class="btnmd btnmd-info pull-right" ng-click="cadastrarTipoItensPublicacao()" id="SalvarTipoItensPublicacao"> Salvar </button>
+										</footer>
+									</form>			
+
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+
+	</div>
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">  
+  pageSetUp();
+  var pagefunction = function() {
+  };
+  pagefunction();
+</script>

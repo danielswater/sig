@@ -1,0 +1,312 @@
+<style type="text/css">
+	.despesa{
+		color: red;
+	}
+	.recebimento{
+		color: #00B01D;
+	}
+</style>
+<script src="controllers/controller.consultaResumo.js"></script>
+<section id="widget-grid" ng-controller="consultaResumo" widget-grid>
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<div class="col-sm-12 col-md-12 col-lg-3">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			
+			<!-- end widget -->
+
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false">
+
+		<header>
+			<h2> Previsto / Realizado </h2>
+		</header>
+
+		<!-- widget div-->
+		<div>
+
+			<!-- widget content -->
+			<div class="widget-body no-padding">
+
+				<!-- Error states for elements -->
+				<form action="" id="add-event-form" class="smart-form ">
+
+					<fieldset>
+						<div class="text-center">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div easypiechart options="options" percent="percent">
+									<span style="position:absolute; top:30px; left:51px" class="percent percent-sign font-sm">{{percent | number:2}}</span>
+								</div>								
+								<p class="font-sm">Realizado: {{resumo.debitosRealizados | currency}}</p>
+								<p class="font-sm">Previsto: {{resumo.debitos | currency}}</p>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div easypiechart options="options2" percent="percent2">
+									<span style="position:absolute; top:30px; left:51px" class="percent percent-sign font-sm">{{percent2 | number:2}}</span>
+								</div>																
+								<p class="font-sm">Realizado:  {{resumo.creditosRealizados | currency}}</p>
+								<p class="font-sm">Previsto: {{resumo.creditos | currency}}</p>
+							</div>
+						</div>
+						<!-- CONTEUDO -->
+					</fieldset>
+					
+
+
+				</form>
+				<!--/ Error states for elements -->						
+
+			</div>
+			<!-- end widget content -->
+
+		</div>
+		<!-- end widget div -->
+
+	</div>
+
+
+	<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false">
+
+		<header>
+			<h2> Resultados (DRE) </h2>
+		</header>
+
+		<!-- widget div-->
+		<div>
+
+			<!-- widget content -->
+			<div class="widget-body no-padding" style="min-height: 0px;">
+
+				<!-- Error states for elements -->
+				<form action="" id="add-event-form" class="smart-form ">
+
+
+					<div class="panel-group smart-accordion-default" id="accordion-2">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseOne-1" class="collapsed"> <i class="fa fa-fw fa-chevron-circle-down"></i> <i class="fa fa-fw fa-chevron-circle-up"></i> Receita <strong class="pull-right text-success font-xs">{{resumo.creditos | currency}}</strong></a></h4>
+							</div>
+							<div id="collapseOne-1" class="panel-collapse collapse" style="height: 0px;">
+								<div class="panel-body" style="padding:10px;">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th width="15%">Data</th>
+												<th>Descrição</th>
+												<th width="15%">Valor pago</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="dia in resumo.resumoAll">
+												<td ng-show="dia.id_tipo_lancamento == 1" width="15%">{{dia.data_vencimento}}</td>
+												<td ng-show="dia.id_tipo_lancamento == 1">{{dia.descricao}}</td>
+												<td ng-show="dia.id_tipo_lancamento == 1" width="15%"><!--input type="checkbox"-->{{dia.valor| currency}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-2" href="#collapseTwo-1" class="collapsed"> <i class="fa fa-fw fa-chevron-circle-down"></i> <i class="fa fa-fw fa fa-fw fa-chevron-circle-up"></i> Despesas  <strong class="pull-right text-danger font-xs">{{resumo.debitos | currency}}</strong></a></h4>
+							</div>
+							<div id="collapseTwo-1" class="panel-collapse collapse">
+								<div class="panel-body" style="padding:10px;">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th width="15%">Data</th>
+												<th>Descrição</th>
+												<th width="15%">Valor pago</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="dia in resumo.resumoAll">
+												<td ng-show="dia.id_tipo_lancamento != 1" width="15%">{{dia.data_vencimento}}</td>
+												<td ng-show="dia.id_tipo_lancamento != 1">{{dia.descricao}}</td>
+												<td ng-show="dia.id_tipo_lancamento != 1" width="15%"><!--input type="checkbox"-->{{dia.valor| currency}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<!-- CONTEUDO -->
+
+				</form>
+				<!--/ Error states for elements -->						
+
+			</div>
+			<!-- end widget content -->
+
+		</div>
+		<!-- end widget div -->
+
+	</div>
+
+
+
+</div>
+
+<!-- WIDGET END -->
+
+<!-- NEW WIDGET START -->
+<div class="col-sm-12 col-md-12 col-lg-9">
+	<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false">
+		<header>
+			<h2>Vencimentos</h2>
+		</header>
+
+		<!-- widget div-->
+		<div>
+			<!-- content goes here -->
+
+
+			<div class="col-sm-4 col-md-4 col-lg-4 no-padding">
+				<!--div style="display:inline-block;">
+					<datepicker ng-model="dt" datepicker-options="dateOptions" min-date="minDate" datepicker-nav="true" show-weeks="false" class="well well-sm"></datepicker>
+					<pre>Selected date is: <em>{{dt}}</em></pre>
+				</div-->
+				
+				<div style="width:90%">
+				  <multiple-date-picker id="dtpk" name="dtpk" month-changed="logMonthChanged" day-click="logInfos" days-selected="selectedDays" disallow-back-past-months="false" disallow-go-futur-months="false"/>
+				</div>
+
+			</div>
+			<div class="col-sm-8 col-md-8 col-lg-8 no-padding">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th width="15%">Data</th>
+								<th>Descrição</th>
+								<th width="15%">Valor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="dia in selectedDate">
+								<td width="15%">{{dia.data_vencimento}}</td>
+								<!-- {{dia.id_tipo_lancamento}} -->
+								<td>{{dia.descricao}} </td>
+								<!-- <td>{{dia.descricao}} </td> -->
+								<td width="20%" ng-class="{'despesa' : dia.id_tipo_lancamento != 1, 'recebimento' : dia.id_tipo_lancamento == 1}"><!--input type="checkbox"-->{{dia.valor| currency}} <i ng-class="{'fa fa-fw fa-minus' : dia.id_tipo_lancamento != 1, 'fa fa-fw fa-check' : dia.id_tipo_lancamento == 1}"></i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- end content -->
+		</div>
+		<!-- end widget div -->
+	</div>
+</div>
+
+
+
+<div class="col-sm-12 col-md-12 col-lg-9 pull-right">
+	<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false">
+		<header>
+			<h2>Comparativo</h2>
+		</header>
+
+		<!-- widget div-->
+		<div>
+			<div class="col-sm-12 col-md-12 col-lg-12">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<td>DESPESAS</td>
+							<td width="50%"></td>
+							<td>MÊS ATUAL</td>
+							<td>MÊS ANTERIOR</td>
+						</tr>
+						<tr>
+							<td class="font-xs">Despesas fixas</td>
+							<td width="50%">
+								<div class="progress progress-xs">
+									<div class="progress-bar bg-color-yellow" role="progressbar" style="width: {{percent3 | number:0}}%;"></div>
+								</div>
+							</td>
+							<td class="font-xs text-danger">{{resumo.despesaFixa | currency}}</td>
+							<td class="font-xs text-danger">{{resumo.despesaFixa_anterior | currency}}</td>
+						</tr>
+						<tr>
+							<td class="font-xs">Despesas variáveis</td>
+							<td width="50%">
+								<div class="progress progress-xs">
+									<div class="progress-bar bg-color-blue" role="progressbar" style="width: {{percent4 | number:0}}%;"></div>
+								</div>
+							</td>
+							<td class="font-xs text-danger">{{resumo.despesaVariavel | currency}}</td>
+							<td class="font-xs text-danger">{{resumo.despesaVariavel_anterior | currency}}</td>
+						</tr>
+						<tr>
+							<td><strong>Total de despesas</strong></td>
+							<td width="50%"></td>
+							<td class="font-xs text-danger"><strong>{{resumo.debitos | currency}}</strong></td>
+							<td class="font-xs text-danger"><strong>{{resumo.debitos_anterior | currency}}</strong></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<td>RECEITAS</td>
+							<td width="50%"></td>
+							<td>MÊS ATUAL</td>
+							<td>MÊS ANTERIOR</td>
+						</tr>
+						<tr>
+							<td class="font-xs">Receitas</td>
+							<td width="50%">
+								<div class="progress progress-xs">
+									<div class="progress-bar bg-color-yellow" role="progressbar" style="width: {{percent5 | number:0}}%;"></div>
+								</div>
+							</td>
+							<td class="font-xs text-danger">{{resumo.creditos | currency}}</td>
+							<td class="font-xs text-danger">{{resumo.creditos_anterior | currency}}</td>
+						</tr>
+						<tr>
+							<td><strong>Total de receitas</strong></td>
+							<td width="50%"></td>
+							<td class="font-xs text-danger"><strong>{{resumo.creditos | currency}}</strong></td>
+							<td class="font-xs text-danger"><strong>{{resumo.creditos_anterior | currency}}</strong></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- content goes here -->
+
+
+			<!-- end content -->
+
+
+		</div>
+		<!-- end widget div -->
+	</div>
+</div>
+<!-- WIDGET END -->
+
+
+</div>
+
+<!-- end row -->
+
+</section>
+
+<!-- end row -->
+
+<script type="text/javascript">
+	
+	 pageSetUp();
+
+
+</script>

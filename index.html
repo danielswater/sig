@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page" data-ng-app="login" style="height: 100%;">
+<head>
+  <meta charset="utf-8">
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+  <title> SIG - Sistema Integrado de Gestão - SBM </title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Basic Styles -->
+  <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
+
+  <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+  <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.min.css">
+  <link href="css/material/ripples.css" rel="stylesheet">
+  <link href="css/material/material-wfont.css" rel="stylesheet">
+
+  <!-- FAVICONS -->
+  <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- GOOGLE FONT -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+  <link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+  <style type="text/css">
+    #armored_website{
+      width: -1px !important;
+    }
+    /* centered columns styles */
+    .row-centered {text-align:center;}
+    .col-centered {display:inline-block; float:none; text-align:left; margin-right:-4px;}
+    .fade {
+      opacity: 0;
+      -webkit-transition: opacity 0.15s linear;
+      -moz-transition: opacity 0.15s linear;
+      -o-transition: opacity 0.15s linear;
+      transition: opacity 0.15s linear;
+    }
+    .fade.in {
+      opacity: 1;
+      -webkit-transition: opacity 3.0s linear;
+      -moz-transition: opacity 3.0s linear;
+      -o-transition: opacity 3.0s linear;
+      transition: opacity 3.0s linear;
+    }
+    body{
+      overflow: hidden;
+      background: url(img/mybg.png);
+    }
+
+  </style>
+  <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Startup image for web apps -->
+  <link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+  <link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+
+</head>
+<body class="animated fadeInDown" ng-controller="controller.login" style="height: 100%;">    
+  <div style="height:100%" class="row row-centered">                               
+    <div class="col-xs-10 col-sm-5 col-md-5 col-lg-4 col-centered" style="margin-top:20px">
+      <div class="well no-padding">
+        <form id="login-form" class="smart-form client-form" novalidate="novalidate">                            
+          <header>
+            <div class="row" style="padding:10px">
+              <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">          
+                <img class="img-responsive" src="img/logo_white.png" alt="SmartAdmin">  
+              </div>
+            </div>
+          </header>
+          <header>
+            <h1>Login</h1>
+          </header>
+          <fieldset>
+            <div id="login" ng-show="esqueceuSenha == false">
+              <div class="alert alert-danger alert-dismissable" role="alert" style="display:none">
+                <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4>Aviso!</h4>
+                <p class="alertaLogin"></p>
+              </div>  
+              <section class="section">                  
+                <div class="form-group">
+                  <select ng-model="login.modulo" type="modulo" name="modulo" id="modulo" class="form-control">
+                    <option value="{{mod.value}}" ng-selected="mod.value == selecionado" ng-repeat="mod in modulos">{{mod.nome}}</option>
+                  </select>                                  
+                </div>  
+              </section>                                                          
+              <section class="section">                  
+                <div class="form-group"> 
+                  <label>Usuário</label>                                  
+                  <div class="form-control form-control-wrapper">
+                    <input ng-model="login.usuario" class="form-control" type="text" name="user" id="user" placeholder="Seu usuário">
+                    <i class="icon-append fa fa-user"></i>    
+                    <span class="material-input"></span>
+                  </div>               
+                </div>                 
+              </section>
+              <section ng-show="!novasenha" class="section">
+                <div class="form-group">                    
+                  <label>Senha</label>                              
+                  <div class="form-control form-control-wrapper">         
+                    <input ng-model="login.senha" class="form-control" type="password" name="password" id="password" placeholder="Sua senha">
+                    <i class="icon-append fa fa-lock"></i>                                      
+                    <span class="material-input"></span>
+                  </div>                                  
+                </div>                                  
+                <div class="note">
+                  <!--<a href="forgotpassword.html">Esqueceu sua senha?</a>-->
+                </div>
+              </section>
+              <section ng-show="novasenha" class="section">
+                <div class="form-group">
+                  <label>Nova senha</label>                         
+                  <div class="form-control form-control-wrapper">         
+                    <input ng-model="login.senha" class="form-control" type="password" name="password" id="password" placeholder="Nova senha">
+                    <i class="icon-append fa fa-lock"></i>                                      
+                    <span class="material-input"></span>
+                  </div>                                  
+                </div>                                  
+                <div class="note">                    
+                </div>
+              </section>
+              <section ng-show="novasenha" class="section">
+                <div class="form-group">                         
+                  <label>Repita nova senha</label>                         
+                  <div class="form-control form-control-wrapper">         
+                    <input ng-model="login.senharepeat" class="form-control" type="password" name="password" id="password" placeholder="Repita nova senha">
+                    <i class="icon-append fa fa-lock"></i>                                      
+                    <span class="material-input"></span>
+                  </div>                                  
+                </div>                                  
+                <div class="note">                    
+                </div>
+              </section>
+            </div>
+            <div id="esqueceu" ng-hide="esqueceuSenha == false">
+              <div class="alert alert-danger alert-dismissable" role="alert" style="display:none">
+                <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4>Aviso!</h4>
+                <p class="alertaLogin"></p>
+              </div>
+              <section class="section">                  
+                <div class="form-group"> 
+                  <label>E-mail</label>                                  
+                  <div class="form-control form-control-wrapper inputValidate">
+                    <input ng-model="esqueceu.email" class="form-control" type="text" name="email" id="email" placeholder="Seu e-mail"
+                    data-validate-input
+                    data-required 
+                    data-message-required="Informe o e-mail">
+                    <i class="icon-append fa fa-user"></i>    
+                    <span class="material-input"></span>
+                  </div>               
+                </div>                 
+              </section>
+            </div>
+          </fieldset>
+          <footer>
+            <div class="pull-right">
+              <button ng-click="validaLogin()" ng-show="esqueceuSenha == false" class="btnmd btnmd-primary btnmd-raised">Entrar <span style="margin-left:20px" class="glyphicon glyphicon-log-in"></span></button>
+              <button ng-click="enviarEmail()" ng-hide="esqueceuSenha == false" class="btnmd btnmd-primary btnmd-raised">Enviar <span style="margin-left:20px" class="glyphicon glyphicon-log-in"></span></button>
+            </div>
+            <div class="note">
+              <a href="Javascript: return false;" ng-show="esqueceuSenha == false" ng-click="esqueceuSenhaShowHide(true)">Esqueceu sua senha?</a>
+              <a href="Javascript: return false;" ng-hide="esqueceuSenha == false" ng-click="esqueceuSenhaShowHide(false)">Voltar ao login?</a>
+            </div>                               
+          </footer>
+        </form>
+      </div>
+      <div id="armored_website" style="width: 115px; height: 32px; float: right;">
+        <param id="aw_preload" value="true" />
+        <param id="aw_app_path" value="/sig/index.html" />
+        <script type="text/javascript" src="//selo.siteblindado.com/aw.js"></script>
+      </div>
+
+  </div>
+
+  <script src="js/jquery.min.js"></script>   
+
+  <script src="js/jquery-ui.min.js"></script> 
+
+  <!-- BOOTSTRAP JS -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- JQUERY VALIDATE -->
+  <script src="js/jquery.validate.min.js"></script>
+
+  <!-- JQUERY MASKED INPUT -->
+  <script src="js/jquery.maskedinput.min.js"></script>
+  <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+  <!-- JQUERY MASKMONEY -->
+  <script src="js/jquery.maskmoney.js"></script>
+  <script src="js/material/ripples.js"></script>
+  <script src="js/material/material.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-sanitize.js"></script>
+  <script src="js/angular-route.min.js"></script>            
+  <script src="js/angular-animate.min.js"></script>
+  <script src="js/angular-animate.js"></script>
+  <script src="js/i18n/angular-locale_pt-br.js"></script>  
+  <script src="controllers/controller.login.js"></script>
+  <script src="js/angular-filter.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $.material.init();
+      $('.alert-dismissable').click(function (e) {
+        $(this).slideUp();
+      });
+    });
+  </script>
+    <!--[if IE 8]>
+      
+      <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+      
+      <![endif]-->
+      <script type="text/javascript">  
+
+        $(function() {
+        // Validation
+        $("#login-form").validate({
+          // Rules for form validation
+          rules : {
+            modulo : {
+              required : true,
+            },
+            user : {
+              required : true,              
+            },
+            password : {
+              required : true,
+              minlength : 3,
+              maxlength : 20
+            }
+          },
+
+          // Messages for form validation
+          messages : {
+            user : {
+              required : 'Por favor, coloque seu login',              
+            },
+            password : {
+              required : 'Por favor, coloque sua senha'
+            },
+            modulo : {
+              required : 'Selecione o módulo de gestão'
+            }
+          },
+
+          // Do not change code below
+          errorPlacement : function(error, element) {
+            error.insertAfter(element.parent());
+          },
+          submitHandler: function(form){
+            //form.submit();
+            // var login   = $('#user').val();
+            // var pwd     = $('#password').val();
+            // var modulo  = $('#modulo').val();
+
+            // $.ajax({
+            //     url: 'api/index.php/autentica?&login='+login+'&pwd='+pwd+'&modulo='+modulo,
+            //     type: "GET",
+            //     dataType:'json',
+            //     success: function(data){
+            //         console.log(data);
+            //         if(data['error']=='-1'){
+            //           $('.alertaLogin').html(data['errorMsg']);                      
+            //           $('.alert').slideDown();                      
+            //           return;
+            //         }else{                      
+            //           window.location.href = 'dashboard.html';
+            //         }
+            //     }
+            // });
+}
+});
+});
+</script>
+
+</body>
+</html>

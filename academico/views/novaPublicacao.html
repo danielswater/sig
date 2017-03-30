@@ -1,0 +1,365 @@
+<script src="controllers/controller.novaPublicacao.js"></script>
+<style type="text/css">
+	.invalid{
+		color: #a94442;
+		font-size: 11px;
+	}
+</style>
+
+<div class="container" ng-controller="novaPublicacao">
+	<div class="row">
+		<!-- =========================Start Col right section ============================= -->
+		<article class="col-lg-12 col-right">			
+			<form id="novaPublicacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+				<fieldset>
+					<div class="row no-margin-left">
+						<section class="col col-lg-6">
+							<label>Categoria</label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select name="categoria" ng-model="salavirtual.id_categoria_sala_virtual" id="categoria" class="form-control"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, selecione a quadra">
+								<option selected="selected" value="">Selecione</option>		
+								<option value="{{item.id}}" ng-repeat="item in categorias">{{item.descricao}}</option>
+
+							</select>
+						</div>
+					</section>
+					<section class="col col-lg-6">
+						<label>Título</label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<input type="text" name="titulo" id="titulo" ng-model="salavirtual.titulo" class="form-control" placeholder="Título"
+							data-validate-input
+							data-required 
+							data-message-required="Digite o título">
+						</div>
+					</section>
+				</div>
+				<div class="row no-margin-left">
+					<section class="col col-lg-6">
+						<label>Descriçao Interna</label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<textarea class="form-control" id="descricao_interna" name="descricao_interna" ng-model="salavirtual.descricao_interna" rows="4"
+							data-validate-input
+							data-required></textarea>
+						</div>
+					</section>
+					<section class="col col-lg-6">
+						<label>Descriçao Aluno</label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<textarea class="form-control" name="descricao_aluno" id="descricao_aluno" ng-model="salavirtual.descricao_aluno" rows="4"
+							data-validate-input
+							data-required></textarea>
+						</div>
+					</section>
+					<section class="col col-lg-2">
+						<label>Data de Publicação</label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<calendario date-format="dd/MM/yyyy">
+								<input type="text" name="data_publicacao" id="data_publicacao" ng-model="salavirtual.data_publicacao" class="form-control"
+								data-validate-input
+								data-required>
+							</calendario>
+						</div>
+					</section>
+					<section class="col col-lg-2">
+						<label>Prazo de Entrega</label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<calendario date-format="dd/MM/yyyy">
+								<input type="text" name="data_entrega" id="data_entrega" ng-model="salavirtual.data_entrega" class="form-control"
+								data-validate-input
+								data-required>
+							</calendario>
+						</div>
+					</section>
+					<section class="col col-lg-8">
+						<label>&nbsp;</label>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="publicado" id="publicado" ng-model="salavirtual.publicado"> Publicado
+							</label>
+						</div>
+					</section>
+					<section class="col-lg-12">
+						<label>&nbsp;</label>
+						<button id="salvarSalaVirtual" name="salvarSalaVirtual" ng-click="cadastraSalaVirtual()" style="cursor: pointer;" class="btn btn-primary pull-right">Salvar  <i class="fa fa-floppy-o"></i></button>		
+					</section>				
+				</div>
+			</fieldset>				
+		</form>
+		<hr>
+		
+		<!-- ==================================================================================== -->
+		<!-- ==================================== Publicação ==================================== -->
+		<!-- ==================================================================================== -->
+
+		<div class="row no-margin-left" ng-show="showItensPublicacao">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Ítens da Publicação</h3>
+				</div>
+				<div class="panel-body">
+					<form id="itemPublicacao-form" class="smart-form" novalidate="novalidate" validate-form>
+						<section class="col-lg-4">
+							<label>Titulo</label>
+							<div class="form-group form-control-wrapper inputValidate">
+							<input type="text" name="titulo" id="titulo" ng-model="salavirtualPublicacao.titulo" class="form-control" placeholder="titulo"
+							data-validate-input
+							data-required>
+							</div>
+						</section>
+						<section class="col-lg-4">
+							<label>Tipo</label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select name="id_tipo_itens_publicacao" id="id_tipo_itens_publicacao" ng-model="salavirtualPublicacao.id_tipo_itens_publicacao" class="form-control"
+								data-validate-input
+								data-required>
+								<option selected="selected" value="">Selecione</option>
+								<option ng-repeat="item in itens" value="{{item.id}}">{{item.descricao}}</option>
+							</select>
+						</div>
+					</section>
+					<section class="col-lg-4">
+						<div class="checkbox">
+							<label>
+								<label>&nbsp;</label>
+								<input type="checkbox" name="publicado" id="publicado" ng-model="salavirtualPublicacao.publicar_titulo"> Publicado
+							</label>
+						</div>
+					</section>
+					
+					<div ng-if="salavirtualPublicacao.id_tipo_itens_publicacao == 1">
+						<section class="col-lg-12">
+							<textarea ckeditor="editorOptions" name="texto_artigo" ng-model="salavirtualPublicacao.texto_artigo"
+							></textarea>
+						</section>
+					</div>
+
+					<div ng-if="salavirtualPublicacao.id_tipo_itens_publicacao == 3">
+						<section  class="col-lg-12">
+							<h3>Atenção:</h3>
+							<p>- Após selecionar o arquivo e enviar, aguarde a mensagem de envio concluído do arquivo antes de gravar a publicação.
+								Caso contrário os arquivos não estarão disponíveis para download.<br />
+
+								- O tempo para envio dependerá do tamanho do arquivo e da sua velocidade da conexão com a internet, podendo ocorrer falhas no envio.
+								Em caso de falha recomece o procedimento de envio.<br />
+
+								- O limite de tamanho de arquivo para envio é de 10 megabytes, acima disto ocorrerá falha após o envio.</p>
+								<div class="well">
+
+									<input style="float: none;" class="form-control" type="file" name="arquivo" id="arquivo" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="salavirtualPublicacao.arquivo"
+									>
+
+								</div>
+							</section>
+						</div>
+
+						<div ng-if="salavirtualPublicacao.id_tipo_itens_publicacao == 2">
+							<section class="col-lg-12">
+								<textarea name="codigo_objeto_video" id="codigo_objeto_video" ng-model="salavirtualPublicacao.codigo_objeto_video" class="form-control" rows="4" placeholder="Código do Objeto"
+								></textarea>
+							</section>
+
+						</div>
+						<section class="col-lg-12" ng-if="salavirtualPublicacao.id_tipo_itens_publicacao != null">
+							<label>&nbsp;</label>
+							<a id="salvarItemPublicacao" name="salvarItemPublicacao" ng-click="cadastraItemPublicacao(salavirtualPublicacao)" style="cursor: pointer;" class="btn btn-primary pull-right">Salvar  <i class="fa fa-floppy-o"></i></a>		
+						</section>
+					</form>
+					<!-- fecha painel --></div>
+				</div>
+			</div>
+
+			<!-- ==================================================================================== -->
+			<!-- ==================================== ATRIBUIÇÃO ==================================== -->
+			<!-- ==================================================================================== -->
+
+			<div class="row no-margin-left" ng-show="showAtribuicao">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Atribuição</h3>
+					</div>
+					<div class="panel-body">
+
+						<form id="itemAtribuicao-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+
+								<section class="col col-lg-6">
+									<label>Curso</label>
+									<!--
+									<select ng-model="atribuicao.curso" name="curso" id="curso" class="form-control" ng-options="curso.nome for curso in cursos" ng-change="getSerie(atribuicao.curso)">
+										<option value="">Selecione</option>										
+									</select>
+									-->
+									<select name="curso" id="curso" ng-model="atribuicao.curso" class="form-control" data-validate-input data-required ng-change="getSerie(atribuicao.curso)">
+										<option selected="selected" value="">Selecione</option>
+										<option ng-repeat="curso in cursos" value="{{curso.id}}" ng-selected="curso.id == atribuicao.curso">{{curso.nome}}</option>
+									</select>
+
+								</section>
+								<section class="col-lg-3">
+									<label>Série</label>
+									<!--
+									<select ng-model="atribuicao.serie" name="serie" id="serie" class="form-control" ng-options="serie.value for serie in series" ng-change="getTurma(atribuicao.serie, atribuicao.curso)">
+										<option value="">Selecione</option>
+									</select>
+									-->
+									<select name="serie" id="serie" ng-model="atribuicao.serie" class="form-control" data-validate-input data-required ng-change="getTurma(atribuicao.serie, atribuicao.curso)">
+										<option selected="selected" value="">Selecione</option>
+										<option ng-repeat="serie in series" value="{{serie.id}}" ng-selected="serie.id == atribuicao.serie">{{serie.value}}</option>
+									</select>
+
+								</section>
+								<section class="col-lg-3">
+									<label>Turma</label>
+									<!--
+									<select ng-model="atribuicao.turma" name="turma" id="turma" class="form-control" ng-options="turma.nome for turma in turmas" ng-change="getDisciplina(atribuicao.curso, atribuicao.serie, atribuicao.turma)">
+										<option value="">Selecione</option>
+									</select>
+									-->
+									<select name="turma" id="turma" ng-model="atribuicao.turma" class="form-control" data-validate-input data-required ng-change="getDisciplina(atribuicao.curso, atribuicao.serie, atribuicao.turma)">
+										<option selected="selected" value="">Selecione</option>
+										<option ng-repeat="turma in turmas" value="{{turma.id}}" ng-selected="turma.id == atribuicao.turma">{{turma.nome}}</option>
+									</select>
+
+								</section>
+								<section class="col-lg-6">
+									<label>Disciplina</label>
+									<!--
+									<select ng-model="atribuicao.disciplina" name="disciplina" id="disciplina" class="form-control" ng-options="disciplina.nome for disciplina in disciplinas" ng-change="getGridDisciplina(atribuicao.curso, atribuicao.serie, atribuicao.turma, atribuicao.disciplina)">
+										<option value="">Selecione</option>
+									</select>
+									-->
+									<select name="disciplina" id="disciplina" ng-model="atribuicao.disciplina" class="form-control" data-validate-input data-required ng-change="getGridDisciplina(atribuicao.curso, atribuicao.serie, atribuicao.turma, atribuicao.disciplina)">
+										<option selected="selected" value="">Selecione</option>
+										<option ng-repeat="disciplina in disciplinas" value="{{disciplina.id}}" ng-selected="disciplina.id == atribuicao.disciplina">{{disciplina.nome}}</option>
+									</select>
+								</section>
+
+								<section class="col-lg-12">
+									<label>&nbsp;</label>
+									<a id="salvarAtribuicao" name="salvarAtribuicao" ng-click="cadastrarAtribuicao()" style="cursor: pointer;" class="btn btn-primary pull-right"> Salvar <i class="fa fa-floppy-o"></i></a>		
+								</section>
+
+							</fieldset>				
+						</form>
+
+						<hr>
+
+						<div class="row no-margin-left" ng-show="tabelaDisciplina == true">
+							<section class="col col-lg-12">				
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered table-hover" ts-wrapper>
+										<thead>
+											<tr>
+												<th width="3%">&nbsp;</th>
+												<th ts-criteria="disciplina" ts-default>Disciplina</th>
+												<th width="10%" ts-criteria="turma">Turma</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="item in grid" ts-repeat>
+												<td><input 	type 	 			  ="checkbox" 														
+															checklist-model		  ="atribuicao.chkidlist"
+															checklist-value 	  ="item.id_disciplina+'_'+item.id_turma"	
+				                                			data-message-required ="Por favor, informe o E-mail"
+															data-validate-input
+															data-required></td>
+												<td>{{item.disciplina}}</td>
+												<td>{{item.turma}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</section>
+			
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</article><!-- end col right-->
+	</div><!-- end row-->
+</div><!-- end container-->
+
+
+<script type="text/javascript">
+	$(function() {                
+                // Validation
+                $("#novaPublicacao-form").validate({
+                    // Rules for form validation
+                    rules: {
+                    	categoria: {
+                    		required: true,
+                    	},
+                    	titulo: {
+                    		required: true,
+                    	},
+                    	descricao_interna: {
+                    		required: true,
+                    	},
+                    	descricao_aluno: {
+                    		required: true,
+                    	},
+                    	data_publicacao: {
+                    		required: true,
+                    	},
+                    	data_entrega: {
+                    		required: true,
+                    	}
+                    },
+                    // Messages for form validation
+                    messages: {
+                    	categoria: {
+                    		required: 'Selecione a Categoria',
+                    	},
+                    	titulo: {
+                    		required: 'Digite o título'
+                    	},
+                    	descricao_interna: {
+                    		required: 'Entre com a descrição interna',
+                    	},
+                    	descricao_aluno: {
+                    		required: 'Entre com a descrição do aluno',
+                    	},
+                    	data_publicacao: {
+                    		required: 'Entre com a data de publicação',
+                    	},
+                    	data_entrega: {
+                    		required: 'Entre com a data de entrega',
+                    	}
+                    },
+                    // Do not change code below
+                    errorPlacement: function(error, element) {
+                    	error.insertAfter(element.parent());
+                    }
+                });
+
+                $("#itemPublicacao-form").validate({
+                    // Rules for form validation
+                    rules: {
+                    	titulo: {
+                    		required: true,
+                    	},
+                    	tipo: {
+                    		required: true,
+                    	}
+                    },
+                    // Messages for form validation
+                    messages: {
+                    	titulo: {
+                    		required: 'Digite o título',
+                    	},
+                    	tipo: {
+                    		required: 'Selecione o tipo de ítem'
+                    	}
+                    },
+                    // Do not change code below
+                    errorPlacement: function(error, element) {
+                    	error.insertAfter(element.parent());
+                    }
+                });
+
+});
+</script>

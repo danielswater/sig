@@ -1,0 +1,211 @@
+<script src="controllers/controller.consultaParametroCobranca.js"></script>                
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+</style>
+<!-- widget grid -->
+<section ng-controller='consultaParametroCobranca' id="widget-grid" widget-grid>
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de Parametros de Cobrança</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+            <div class="table-responsive">       
+            <table show-filter="true" class="table table-striped table-bordered">
+                     <thead>
+                       <tr>                         
+                         <th ng-click="changeSorting('mes_ano')">MÊS/ANO<i class="glyphicon" ng-class="getIcon('mes_ano')"></i></th>
+                         <th ng-click="changeSorting('tipo_carne')">TIPO DE CARNÊ <i class="glyphicon" ng-class="getIcon('tipo_carne')"></i></th>
+                         <th ng-click="changeSorting('desconto_especial_status')">DESCONTO ESPECIAL<i class="glyphicon" ng-class="getIcon('desconto_especial_status')"></i></th>
+                         <th ng-click="changeSorting('status')">STATUS<i class="glyphicon" ng-class="getIcon('status')"></i></th>
+                         <th colspan="2" width="20">Ações</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr>                         
+                         <td><input ng-model="search.mes_ano" id="search" class="form-control" placeholder="Mês/Ano"></td>
+                         <td><input ng-model="search.tipo_carne" id="search" class="form-control" placeholder="Tipo de carnê"></td>
+                         <td><input ng-model="search.desconto_especial_status" id="search" class="form-control" placeholder="Desconto especial"></td>
+                         <td><input ng-model="search.status" id="search" class="form-control" placeholder="Status"></td>
+                         <td colspan="2"></td>
+                       </tr>
+                       <tr ng-show="parametroCobranca.length == 0">
+                          <td colspan="6">Não existem dados para serem exibidos.</td>
+                       </tr>
+                       <tr dir-paginate="parametro in parametroCobranca | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">                         
+                         <td>{{parametro.mes_ano}}</td>
+                         <td>{{parametro.tipo_carne}}</td>
+                         <td>{{parametro.desconto_especial_status}}</td>
+                         <td>{{parametro.status}}</td>
+                         <td align="center"><button ng-click='modalCopiar(parametro.id)' popover="Copiar Registro" popover-trigger="mouseenter" class="btnmd btnmd-info btnmd-raised fa fa-copy btnmd-sm">
+                           <div class="ripple-wrapper"></div>
+                         </button></td>
+                         <td align="center"><button ng-click='editCadastro(parametro.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+                           <div class="ripple-wrapper"></div>
+                         </button></td>
+                       </tr>
+                     </tbody>
+                   </table>       
+            </div>  
+            </div>     
+          <div>      
+        <div>  
+          <div class="row" style="margin-top:20px; margin-bottom:5px;">
+          <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Itens por página:</strong></label>
+                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+          </div>              
+        </div>
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+
+  <!-- MODAL CENTRO DE CUSTO -->
+
+    <div class="modal fade" id="myModalCopiar">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Copiar Parametro de cobrança</h4>
+          </div>
+          <div class="modal-body">
+            <form id="copiarParametroCobranca-form" class="smart-form" novalidate="novalidate" validate-form>
+              <div class="row" style="height: 400px"> 
+
+                <section class="section">
+                  <label class="label"><strong>Mês/Ano</strong></label>
+                  <label class="input-group form-control-wrapper inputValidate">    
+                    <input class="form-control" type="text" pick-a-date="copiar.data" placeholder="Selecione uma data" pick-a-date-options='{ 
+                      format: "mm/yyyy",
+                      formatSubmit: "yyyy-mm"                      
+                    }' />   
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+
+                  <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data" id="data" type="text" 
+                  ng-model="copiar.data1"
+                  data-validate-input
+                  data-required 
+                  data-message-required="Informe a data para a copia">                                                 
+                </label>                              
+              </section>
+
+              </div>          
+            </form>  
+          </div>
+          <div class="modal-footer">                  
+            <button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>   
+            <button type="button" class="btnmd btnmd-primary" ng-click="copiarParametroCobranca()">Copiar</button>           
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIM MODAL CENTRO DE CUSTO -->
+
+
+
+  
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!
+   *
+   * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+   *
+   * // activate tooltips
+   * $("[rel=tooltip]").tooltip();
+   *
+   * // activate popovers
+   * $("[rel=popover]").popover();
+   *
+   * // activate popovers with hover states
+   * $("[rel=popover-hover]").popover({ trigger: "hover" });
+   *
+   * // activate inline charts
+   * runAllCharts();
+   *
+   * // setup widgets
+   * setup_widgets_desktop();
+   *
+   * // run form elements
+   * runAllForms();
+   *
+   ********************************
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+
+  pageSetUp();
+  
+  /*
+   * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+   * eg alert("my home function");
+   * 
+   * var pagefunction = function() {
+   *   ...
+   * }
+   * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+   * 
+   * TO LOAD A SCRIPT:
+   * var pagefunction = function (){ 
+   *  loadScript(".../plugin.js", run_after_loaded);  
+   * }
+   * 
+   * OR
+   * 
+   * loadScript(".../plugin.js", run_after_loaded);
+   */
+
+  // PAGE RELATED SCRIPTS
+  
+  // pagefunction
+  
+  var pagefunction = function() {
+    
+  };
+  
+  // end pagefunction
+  
+  // run pagefunction on load
+  pagefunction();
+        
+
+</script>

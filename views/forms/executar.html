@@ -1,0 +1,81 @@
+<script src="controllers/controller.executar.js"></script>
+<!-- widget grid -->
+<section ng-controller='executar' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Executar</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroExecutar-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">												
+									<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<label class="label"><strong>SQL</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<textarea rows="5" class="form-control" ng-model="executar.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a descrição"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>												
+								</div>								
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrar(executar)" id="SalvarExecutar">
+									Executar
+									<div class="ripple-wrapper"></div>
+								</button>		
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

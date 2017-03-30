@@ -1,0 +1,401 @@
+<script src="controllers/controller.formCadastroGerarParcela.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroGerarParcela' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Gerar Parcela</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+				
+						<div class="smart-form">
+							<form id="cadastroParcela-form" class="smart-form" novalidate="novalidate" validate-form>							
+								<fieldset>
+									<!--<div class="row">
+										<section class="col col-lg-3 col-md-3 col-sm-3 col-xs-3">
+											<label class="label"><strong>Tipo de processo</strong></label>
+											<div class="form-inline">
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" checked="true" value="1" ng-model="parcela.tipo">
+														<span>Todos alunos</span>  
+													</label>
+												</div>
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" value="0" ng-model="parcela.tipo">
+														<span>Escolher aluno</span>  
+													</label>	
+												</div>
+											</div>
+										</select>
+									</div>-->
+									<div class="row">
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-show="parcela.tipo == 0">
+											<label class="label"><strong>Aluno</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<ui-select ng-model="aluno.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="verificarAcaoAluno(aluno.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.aluno}}
+													</ui-select-match>
+													<ui-select-choices repeat="aluno in alunos | propsFilter: {aluno: $select.search}">
+														<div ng-bind-html="aluno.aluno  | highlight: $select.search"></div>
+													</ui-select-choices>
+												</ui-select>
+												<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_aluno" id="id_aluno" type="text" 
+												ng-model="parcela.id_aluno"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione o Aluno">
+											</div>
+										</section>
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">											
+											<label class="label"><strong>Ano/Mês</strong></label>
+											<label class="input-group form-control-wrapper inputValidate">
+												<input 	class="form-control data-picker" 
+														id="parc_mes_ano" 
+														name="parc_mes_ano" 
+														type="text"
+														ng-model="parcela.mes_ano" 
+														mask="99/9999" 
+														data-validate-input
+														data-required
+														data-message-required="Por favor, informe a datas"/>
+												<span class="input-group-addon">
+													<button style="border: none; cursor: pointer;" 
+															class="fa fa-calendar"
+															pick-a-date="yyy" 
+															placeholder="Selecione uma data" 
+															pick-a-date-options='{format: "mm/yyyy",formatSubmit: "yyyy-mm",selectYears: 100,}'>
+													</button>
+												</span>
+											</label>
+										</section>
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					                        <label><strong>Tipo de Carnê</strong></label>
+					                        <div class="form-control form-control-wrapper inputValidate" style="margin-top: 5px;">
+					                           <select class="form-control" id="id_tipo_carne" name="id_tipo_carne" ng-model="parcela.id_tipo_carne"
+					                           		  data-validate-input
+					                                  data-required                                      
+					                                  data-message-required="Por favor, selecione um tipo de carnê">
+					                              <option value="" disabled="">Selecione</option>
+					                              <option value="{{carne.id}}" data-ng-repeat="carne in tipos_carnes" ng-selected="carne.id == parcela.id_tipo_carne">{{carne.descricao}}</option>
+					                           </select> <i></i> 
+					                        </div>
+					                    </section>	
+									</div>								
+								</fieldset>
+								<footer>
+									<button class="btnmd btnmd-primary pull-right" ng-click="VisualizarParcela()" >
+										Visualizar
+									</button>
+									<button ng-disabled="processo > 0 && processo < 100" class="btnmd btnmd-info  pull-right" ng-click="cadastrarParcela()" >
+										Gerar
+									</button>								
+									
+								</footer>
+							</form>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+	<div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta de Parcelas</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+            <div class="table-responsive">       
+            <table show-filter="true" class="table table-striped table-bordered">
+                     <thead>
+                       <tr>                         
+                         <th ng-click="changeSorting('codigo')">CÓDIGO <i class="glyphicon" ng-class="getIcon('codigo')"></i></th>
+                         <th ng-click="changeSorting('aluno')">ALUNO <i class="glyphicon" ng-class="getIcon('aluno')"></i></th>
+                         <th ng-click="changeSorting('data_vencimento_formatada')">DATA VENCIMENTO <i class="glyphicon" ng-class="getIcon('data_vencimento_formatada')"></i></th>
+                         <th >Ações</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr>                         
+                         <td><input ng-model="search.codigo" id="search" class="form-control" placeholder="Código"></td>
+                         <td><input ng-model="search.aluno" id="search" class="form-control" placeholder="Aluno"></td>
+                         <td><input ng-model="search.data_vencimento_formatada" id="search" class="form-control" placeholder="Data Vencimento"></td>
+                         <td></td>
+                       </tr>
+                       <tr ng-show="parcelaAlunos.length == 0">
+                          <td colspan="5">Não existem dados para serem exibidos.</td>
+                       </tr>
+                       <tr dir-paginate="parcelaAluno in parcelaAlunos | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">                         
+                         <td>{{parcelaAluno.codigo}}</td>
+                         <td>{{parcelaAluno.aluno}}</td>
+                         <td>{{parcelaAluno.data_vencimento_formatada}}</td>
+                         <td><button ng-click='editCadastro($index, parcelaAluno)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+                           <div class="ripple-wrapper"></div>
+                         </button></td>
+                       </tr>
+                     </tbody>
+                   </table>       
+            </div>  
+            </div>     
+          <div>      
+        <div>  
+          <div class="row" style="margin-top:20px; margin-bottom:5px;">
+          <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label"><strong>Itens por página:</strong></label>
+                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+          </div>              
+        </div>
+      </div>
+
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalParcela">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Gerando Parcelas</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<div class="row">
+							<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div>
+									<div class="progress progress-sm">
+										<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{processo}}%;"></div>
+									</div>
+									<div align="center">
+										<h1>
+											<strong>{{truncar(processo)}}%</strong>
+										</h1>
+									</div>
+								</div>
+							</section>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>	
+	<!-- Modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalParcelaError">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Erro nas Parcelas</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroProgramaDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<div class="row">
+							<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								<div ng-show="parcelas.length > 0">
+									<section class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="table-responsive">
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th width="10%" nowrap="" class="label-primary" style="color:white"><h6>Codigo</h6></th>
+														<th width="36%" nowrap="" class="label-primary" style="color:white"><h6>Nome</h6></th>
+														<th width="15%" nowrap="" class="label-primary" style="color:white" nowrap=""><h6>Data vencimento</h6></th>
+														<th width="35%" nowrap="" class="label-primary" style="color:white" align="center"><h6>Resultado</h6></th>
+														<th class="label-primary" style="color:white"><h6></h6></th>
+													</tr>
+												</thead>
+												<tbody>				
+													<tr ng-repeat="item_parcela in parcelas | filter:resultado:false">
+														<td>{{item_parcela.codigo}}</td>
+														<td>{{item_parcela.nome}}</td>
+														<td>{{item_parcela.data_vencimento | date : 'dd/MM/yyyy'}}</td>
+														<td>{{item_parcela.resultado}}</td>
+														</td>
+														<td align="center">
+															<i class="glyphicon glyphicon-chevron-down"
+															ng-show="item_parcela.status == true" style="color: #40AC2B"></i>
+															<i class="glyphicon glyphicon-remove"
+															ng-show="item_parcela.status == false" style="color: #FF0000"></i>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</section>
+								</div>
+							</section>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="editaParcela">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Editar Parcelas</h4>
+					</div>
+					<div class="modal-body">
+						<form id="editaParcela-form" class="smart-form" novalidate="novalidate" validate-form>	
+							
+							<div class="alert alert-block alert-danger" ng-show="detalheParcela.id_status_parcela == 1 && detalheParcela.id_status_parcela_atual == 3">
+								<a class="close" data-dismiss="alert" href="#">Ã—</a>
+								<h4 class="alert-heading"><i class="fa fa-info-circle" style="margin-right: 10px;"></i>Atenção!</h4>
+								<p>
+									Ao retornar o status da parcela de BOLETO GERADO para PARCELA GERADA todas as parcelas vinculada ao boleto retornarão para o mesmo status.
+								</p>
+							</div>
+							<div class="row">
+								<section class="col col-lg-4">
+									<label class="label"><strong>Aluno</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" value="{{detalheParcela.aluno}}" disabled="disabled" class="form-control" name="nome_aluno" id="nome_aluno">
+									</div>
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Carnê</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" value="{{detalheParcela.tipo_carne}}" disabled="disabled" class="form-control" name="carne" id="carne">
+									</div>
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Curso</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" value="{{detalheParcela.curso}}" disabled="disabled" class="form-control" name="curso" id="curso">
+									</div>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-lg-2">
+									<label class="label"><strong>Mês</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" value="{{detalheParcela.mes}}" disabled="disabled" class="form-control" name="mes" id="mes">
+									</div>
+								</section>
+								<section class="col col-lg-2">
+									<label class="label"><strong>Ano</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" value="{{detalheParcela.ano}}" disabled="disabled" class="form-control" name="ano" id="ano">
+									</div>
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Data de Vencimento</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input type="text" ng-disabled="detalheParcela.id_status_parcela == 3" ng-model="detalheParcela.data_vencimento_formatada" mask="99/99/9999" class="form-control" name="data_vencimento" id="data_vencimento">
+									</div>
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Status da Parcela</strong></label>
+									<div class="form-control form-control-wrapper inputValidate" style="margin-top: 5px;">
+										<select class="form-control" id="status_parcela" name="status_parcela" ng-model="detalheParcela.id_status_parcela"
+										data-validate-input
+										data-required>
+										<option value="">Selecione</option>
+										<option value="3">Boleto Gerado</option>
+										<option value="1">Parcela Gerada</option>
+									</select> <i></i> 
+								</div>
+							</section>
+							</div>
+							<div class="row">
+								<section class="col col-lg-4">
+									<label class="label"><strong>Valor Bruto</strong></label>
+									<input ui-money-mask="2" ng-keypress="mascara();" ng-model="detalheParcela.valor_bruto" class="form-control ng-dirty ng-valid ng-valid-required" id="valor_bruto" name="valor_bruto" ng-disabled="detalheParcela.id_status_parcela == 3" type="text" data-validate-input="" data-required="" data-message-required="Informe o valor" style="">
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Valor Desconto</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input ui-money-mask="2" ng-keypress="mascara();" ng-model="detalheParcela.valor_desconto" data-validate-input="" ng-disabled="detalheParcela.id_status_parcela == 3" data-required="" data-message-required="Informe o valor" type="text" class="form-control" name="valor_desconto" id="valor_desconto">
+									</div>
+								</section>
+								<section class="col col-lg-4">
+									<label class="label"><strong>Valor Líquido</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+										<input ui-money-mask="2"  data-validate-input="" data-required="" ng-model="detalheParcela.valor_liquido" data-message-required="Informe o valor" disabled="disabled" type="text" class="form-control" name="valor_liquido" id="valor_liquido">
+									</div>
+								</section>
+						</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btnmd btnmd-primary" ng-disabled="detalheParcela.id_status_parcela == 3" ng-click="atualizaParcela(detalheParcela);">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<!-- Modal -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

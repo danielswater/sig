@@ -1,0 +1,196 @@
+<script src="controllers/controller.formCadastroContaBancaria.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroContaBancaria' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Conta Bancária</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroContaBancaria-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4 section">
+										<label class="label"><strong>Matriz e Filiais</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="entidade" name="entidade" ng-model="contabancaria.id_entidade"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione a matriz ou filial">
+												<option value="" selected>Selecione</option>
+												<option value="{{n_entidade.id}}" data-ng-repeat="n_entidade in entidade">{{n_entidade.nome}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>	
+									<section class="col col-4 section">
+										<label class="label"><strong>Tipo de Conta</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="tipoconta" name="tipoconta" ng-model="contabancaria.id_tipo_conta"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o tipo de conta">
+												<option value="" selected>Selecione</option>
+												<option value="{{n_tipoconta.id}}" data-ng-repeat="n_tipoconta in tipoconta">{{n_tipoconta.descricao}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" placeholder="Descrição"
+											ng-model="contabancaria.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da categoria</b> 											
+										</div>										
+									</section>
+								</div>
+								<div class="row">										
+									<section class="col col-4">
+										<label class="label"><strong>Banco</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="campBanco.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoBanco(campBanco.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="campBanco in banco | filter:{ativo: 1} | propsFilter: {nome: $select.search}">
+												<div ng-bind-html="campBanco.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_banco" id="id_banco" type="text" 
+	                                          	ng-model="contabancaria.id_banco">
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Agência</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="agencia" id="agencia" placeholder="Agência"
+											ng-model="contabancaria.agencia"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a agência">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número da agência</b> 											
+										</div>										
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Número da Conta</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="numero" id="numero" placeholder="Número da Conta"
+											ng-model="contabancaria.numero"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o número da conta">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número da conta</b> 											
+										</div>										
+									</section>
+								</div>
+								<div class="row">																														
+									<section class="col col-3">
+										<label class="label"><strong>Conta Principal?</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="principal" checked="true" value="1" ng-model="contabancaria.principal">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="principal" value="0" ng-model="contabancaria.principal">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="contabancaria.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="contabancaria.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>																																			
+								</div>								
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarContaBancaria(1)" id="SalvarContaBancaria">
+									Salvar
+								</button>					
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

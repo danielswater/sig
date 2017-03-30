@@ -1,0 +1,1397 @@
+<script src="controllers/controller.formCadastroBens.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroBens' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Bens</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroBens-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-3">
+										<label class="label"><strong>Nome</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" placeholder="Nome"
+											ng-model="bens.nome"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o nome">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome do Bem</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" placeholder="Descrição"
+											ng-model="bens.descricao"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição do Bem</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Grupo de Bens</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="grupobens.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcao(grupobens.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="grupobens in grupodebens | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="grupobens.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="grupobens" id="grupobens" type="text" 
+	                                          	ng-model="bens.id_grupo_bens"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o grupo de bens">
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Data de Aquisição</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="bens.data_aquisicao" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />		
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_aquisicao" id="data_aquisicao" type="text" 
+                                            ng-model="bens.data_aquisicao1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data de aquisição">			                                            
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+										<input class="form-control data-picker" id="dataNasc" ng-model="bens.data_aquisicao" type="text"
+										data-validate-input
+										mask="99/99/9999" 
+										data-required
+										data-message-required="Informe a data de aquisição"
+										/>
+										<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+											pick-a-date="bens.dataAquisicao" placeholder="Selecione uma data" pick-a-date-options='{
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd",
+											selectYears: 190,
+										}' 
+										></button></span>
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_aquisicao" id="data_aquisicao" type="text" 
+										ng-model="bens.data_aquisicao1"
+										data-validate-input
+										data-required 
+										data-message-required="Informe a data de aquisição">
+										</label>														
+									</section>																		
+								</div>
+
+								<div class="row">																										
+									<section class="col col-3">
+										<label class="label"><strong>Fabricante</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="fabricante.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoFabricante(fabricante.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="fabricante in fabricantes | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="fabricante.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="fabricante" id="fabricante" type="text" 
+	                                          	ng-model="bens.id_fabricante"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o fabricante">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Marca</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="marca.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoMarca(marca.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="marca in marcas | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="marca.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="marca" id="marca" type="text" 
+	                                          	ng-model="bens.id_marca"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o marca">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Procedência</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="procedencia.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoProcedencia(procedencia.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="procedencia in procedencias | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="procedencia.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="procedencia" id="procedencia" type="text" 
+	                                          	ng-model="bens.id_procedencia"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a procedência">
+										</div>
+									</section>
+
+
+									<section class="col col-3">
+										<label class="label"><strong>Fornecedor</strong> </label>
+										<label class="label">
+											<div class=" form-control-wrapper inputValidate">
+												<ui-select ng-model="pessoa.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="changeFornecedor(pessoa.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione">{{$select.selected.nome || $select.selected}}
+													</ui-select-match>
+													<ui-select-choices repeat="pessoa in pessoas track by $index"
+													refresh="getPessoaFornecedor($select.search)"
+													refresh-delay="0">
+													<div ng-bind-html="pessoa.nome | highlight: $select.search"></div>
+													</ui-select-choices>
+												</ui-select>
+											
+	                                          <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="fornecedorclasse" id="fornecedorclasse" type="text" 
+	                                          	ng-model="bens.id_pessoa"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o fornecedor">
+	                                        </div>    
+                                        </label>
+									</section>									
+								</div>
+
+								<div class="row">																										
+									<section class="col col-3">
+										<label class="label"><strong>Unidade de Medida</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="unidademedida.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoUnidadeMedida(unidademedida.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="unidademedida in unidademedidas | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="unidademedida.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="unidademedida" id="unidademedida" type="text" 
+	                                          	ng-model="bens.id_unidade_medida"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a unidade de medida">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Estado de Conservação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="estadoconservacao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoEstadoConservacao(estadoconservacao.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="estadoconservacao in estadoconservacaos | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="estadoconservacao.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="estadoconservacao" id="estadoconservacao" type="text" 
+	                                          	ng-model="bens.id_estado_conservacao"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o estado de conservação">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Situação Econômica</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="situacaoeconomica.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoSituacaoEconomica(situacaoeconomica.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="situacaoeconomica in situacaoeconomicas | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="situacaoeconomica.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="situacaoeconomica" id="situacaoeconomica" type="text" 
+	                                          	ng-model="bens.id_situacao_economica"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a situação econômica">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Forma de Aquisição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="formaaquisicao.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoFormaAquisicao(formaaquisicao.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="formaaquisicao in formaaquisicaos | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="formaaquisicao.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="formaaquisicao" id="formaaquisicao" type="text" 
+	                                          	ng-model="bens.id_forma_aquisicao"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a forma de aquisição">
+										</div>
+									</section>
+
+								</div>	
+
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Valor</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor" id="valor" ui-money-mask="2" 
+												   ng-model="bens.valor" placeholder="Informe o valor">
+											<span class="material-input"></span>
+										</div>	
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Valor Corrigido</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor_corrigido" id="valor_corrigido" ui-money-mask="2"
+												   ng-model="bens.valor_corrigido" placeholder="Informe o valor corrigido">
+											<span class="material-input"></span>
+										</div>													
+									</section>
+									
+									<section class="col col-3">
+										<label class="label"><strong>Valor de Depreciação</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor_depreciacao" id="valor_depreciacao" ui-money-mask="2"
+												   ng-model="bens.valor_depreciacao" placeholder="Informe o valor de depreciação">
+											<span class="material-input"></span>
+										</div>
+									</section>
+									
+									<section class="col col-3">
+										<label class="label"><strong>Valor Residual</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor_residual" id="valor_residual" ui-money-mask="2"
+												   ng-model="bens.valor_residual" placeholder="Informe o valor residual">
+											<span class="material-input"></span>
+										</div>
+									</section>									
+
+								</div>
+
+								<div class="row">
+									<section class="col col-6" id="arquivos">
+										<label class="label"><strong>Foto</strong></label>
+										<div for="file" class="form-control form-control-wrapper input-file">										
+										<div class="button">
+											<input class="form-control" type="file" accept="image/*" name="foto" id="foto" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="bens.foto">Procurar</div><input onclick="$('#foto').trigger('click')" class="form-control" type="text" placeholder="Sua foto" readonly="">			
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Número do Série</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control"  name="numero_serie" id="numero_serie" 
+												   ng-model="bens.numero_serie" placeholder="Informe o Número de Série">
+											<span class="material-input"></span>
+										</div>													
+									</section>	
+
+									<section class="col col-3">
+										<label class="label"><strong>Número do Patrimônio</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control"  name="numero_patrimonio" id="numero_patrimonio" 
+												   ng-model="bens.numero_patrimonio" placeholder="Informe o Número do Patrimônio">
+											<span class="material-input"></span>
+										</div>													
+									</section>	
+								</div>
+
+								<div class="row">																	
+									<section class="col col-3">
+										<label class="label"><strong>Número do Processo de Compra</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="numero_processo" id="numero_processo" placeholder="Número do Processo de Compra"
+											ng-model="bens.numero_processo">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número do Processo de Compra</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Número do Empenho de Compra</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="numero_empenho" id="numero_empenho" placeholder="Número do Empenho de Compra"
+											ng-model="bens.numero_empenho">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número do Empenho de Compra</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Número da Nota Fiscal</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="numero_nota_fiscal" id="numero_nota_fiscal" placeholder="Número da Nota Fiscal"
+											ng-model="bens.numero_nota_fiscal">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número da Nota Fiscal</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Data Limite de Utilização</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="bens.data_limite_utilizacao" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />		
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_limite_utilizacao" id="data_limite_utilizacao" type="text" 
+                                            ng-model="bens.data_limite_utilizacao1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data limite de utilização">			                                            
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+										<input class="form-control data-picker" id="dataNasc" ng-model="bens.data_limite_utilizacao" type="text"
+										data-validate-input
+										mask="99/99/9999" 
+										data-required
+										data-message-required="Informe a data limite de utilização"
+										/>
+										<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+											pick-a-date="bens.datalimiteutilizacao" placeholder="Selecione uma data" pick-a-date-options='{
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd",
+											selectYears: 190,
+										}' 
+										></button></span>
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_limite_utilizacao" id="data_limite_utilizacao" type="text" 
+										ng-model="bens.data_limite_utilizacao1"
+										data-validate-input
+										data-required 
+										data-message-required="Informe a data limite de utilização">
+										</label>															
+									</section>																		
+								</div>
+
+								<div class="row">																	
+									<section class="col col-3">
+										<label class="label"><strong>Modelo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="modelo" id="modelo" placeholder="Modelo do Bem"
+											ng-model="bens.modelo">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Modelo do Bem</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Ano de Fabricação</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="ano_fabricacao" id="ano_fabricacao" placeholder="Ano de Fabricação"
+											ng-model="bens.ano_fabricacao"
+											ui-number-mask="0" ui-hide-group-sep
+											maxlength="4">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Ano de Fabricação</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Quantidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade"
+											ng-model="bens.quantidade"
+											ui-number-mask="0"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a quantidade">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Quantidade</b> 											
+										</div>										
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Centro de Custo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="centrocusto.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeCentroCusto(centrocusto.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="custo in centro_custo | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="custo.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="centro_custo" id="centro_custo" type="text" 
+	                                          	ng-model="bens.id_centro_custo"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o centro de custo">
+										</div>
+									</section>
+								</div>
+
+								<div class="row">
+										<section class="col col-6">
+											<label class="label"><strong>Características</strong></label>
+											<div class="form-control-wrapper">
+												<textarea rows="5" class="form-control" ng-model="bens.caracteristicas"></textarea>
+												<span class="material-input"></span>
+											</div>
+										</section>
+									<section class="col col-3">
+										<label class="label"><strong>Localização do Bem</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="localidadeB.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoLocalidadeB(localidadeB.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="localidade in localidades | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="localidade.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="localidadeB" id="localidadeB" type="text" 
+	                                          	ng-model="bens.id_localidade_bens"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a localização do bem">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Status do Bem</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="statusbemB.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoStatusBemB(statusbemB.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="statusbem in statusbems | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="statusbem.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="statusbemB" id="statusbemB" type="text" 
+	                                          	ng-model="bens.id_status_bem"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o status do bem">
+										</div>
+									</section>											
+								</div>
+								<div class="row">
+										<section class="col col-6">
+											<label class="label"><strong>Observações</strong></label>
+											<div class="form-control-wrapper">
+												<textarea rows="5" class="form-control" ng-model="bens.observacoes"></textarea>
+												<span class="material-input"></span>
+											</div>
+										</section>								
+								</div>																
+
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBens(bens)"  id="SalvarBens">
+									Salvar
+								</button>															
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Seguro</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroBensSeguro-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Seguradora</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="seguradora.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoSeguradora(seguradora.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="seguradora in seguradoras | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="seguradora.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="seguradora" id="seguradora" type="text" 
+	                                          	ng-model="seguro.id_seguradora"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a seguradora">
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Número da Apólice</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="apolice" id="apolice" placeholder="Número da Apólice"
+											ng-model="seguro.numero_apolice"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o número da apólice">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Número da Apólice</b> 											
+										</div>										
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Data de Início do Seguro</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="seguro.data_inicio" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />		
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio" id="data_inicio" type="text" 
+                                            ng-model="seguro.data_inicio1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data de início do seguro">			                                            
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+										<input class="form-control data-picker" id="dataNasc" ng-model="seguro.data_inicio" type="text"
+										data-validate-input
+										mask="99/99/9999" 
+										data-required
+										data-message-required="Informe a data de início do seguro"
+										/>
+										<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+											pick-a-date="seguro.dataIncio" placeholder="Selecione uma data" pick-a-date-options='{
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd",
+											selectYears: 190,
+										}' 
+										></button></span>
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="pessoa_dataNascimento" id="pessoa_dataNascimento" type="text" 
+										ng-model="seguro.data_inicio1"
+										data-validate-input
+										data-required 
+										data-message-required="Informe a data de início do seguro">
+										</label>															
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Data de Término do Seguro</strong></label>
+
+										<label class="input-group form-control-wrapper inputValidate">
+										<input class="form-control data-picker" id="dataNasc" ng-model="seguro.data_termino" type="text"
+										data-validate-input
+										mask="99/99/9999" 
+										data-required
+										data-message-required="Informe a data de término do seguro"
+										/>
+										<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+											pick-a-date="seguro.dataTermino" placeholder="Selecione uma data" pick-a-date-options='{
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd",
+											selectYears: 190,
+										}' 
+										></button></span>
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_termino" id="data_termino" type="text" 
+										ng-model="seguro.data_termino1"
+										data-validate-input
+										data-required 
+										data-message-required="Informe a data de término do seguro">
+										</label>															
+									</section>																											
+								</div>
+
+								<div class="row">
+									<section class="col col-6">
+										<label class="label"><strong>Cobertura</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" ng-model="seguro.cobertura"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Valor do Seguro</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor_seguro" id="valor_seguro" ui-money-mask="2" 
+												   ng-model="seguro.valor_seguro" placeholder="Informe o valor do seguro">
+											<span class="material-input"></span>
+										</div>	
+									</section>
+
+									<section class="col col-3">
+										<label class="label"><strong>Valor do Prêmio</strong></label>
+										<div class="form-control-wrapper">
+											<input class="form-control"  name="valor_premio" id="valor_premio" ui-money-mask="2" 
+												   ng-model="seguro.valor_premio" placeholder="Informe o valor do prêmio">
+											<span class="material-input"></span>
+										</div>	
+									</section>
+																																			
+								</div>	
+
+								<div class="row">
+									<section class="col col-6">
+										<label class="label"><strong>Mais Informações</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" ng-model="seguro.mais_informacoes"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+																																			
+								</div>															
+
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBensSeguro(seguro)" id="SalvarBensSeguro">
+									Salvar
+								</button>															
+							</footer>
+							</form>
+							<table class="table table-bordered" ng-show="seguros.length > 0">
+								<thead>
+									<tr>
+										<th class="label-primary" style="color:white"><h6></h6></th>
+										<th class="label-primary" style="color:white"><h6>Seguradora</h6></th>
+										<th class="label-primary" style="color:white"><h6>Número da Apólice</h6></th>
+										<th class="label-primary" style="color:white"><h6>Data de Início</h6></th>								
+										<th class="label-primary" style="color:white"><h6>Data de Término</h6></th>
+									</tr>
+								</thead>
+								<tbody>																		
+									<tr ng-repeat="item_seguro in seguros">
+										<td>
+										<a class="btn btn-danger btn-sm" ng-click='delSeguro($index, item_seguro)'><i class="fa fa-minus-square"></i> Excluir</a>										
+										<td>{{item_seguro.seguradoraNome}}</td>
+										<td>{{item_seguro.numero_apolice}}</td>
+										<td>{{item_seguro.data_inicio | date : 'dd/MM/yyyy'}}</td>
+										<td>{{item_seguro.data_termino | date : 'dd/MM/yyyy'}}</td>
+									</tr>
+								</tbody>								
+							</table>								
+						
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->	
+
+<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Movimentação de Bens</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroBensMovimentacao-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Localização do Bem</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="localidadeM.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoLocalidadeM(localidadeM.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="localidade in localidades | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="localidade.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="localidadeM" id="localidadeM" type="text" 
+	                                          	ng-model="bensmovimentacao.id_localidade_bens"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione a localização do bem">
+										</div>
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Status do Bem</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="statusbemM.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoStatusBemM(statusbemM.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="statusbem in statusbems | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="statusbem.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="statusbemM" id="statusbemM" type="text" 
+	                                          	ng-model="bensmovimentacao.id_status_bem"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione o status do bem">
+										</div>
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Quantidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="quantidade" id="quantidade" placeholder="Quantidade"
+											ng-model="bensmovimentacao.quantidade"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a quantidade">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Quantidade</b> 											
+										</div>										
+									</section>																		
+
+								</div>
+
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Tipo de Movimentação</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo_entrada" checked="true" value="1" ng-model="bensmovimentacao.tipo_entrada">
+													<span>Entrada</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="tipo_entrada" value="0" ng-model="bensmovimentacao.tipo_entrada">
+													<span>Saída</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>Data de Movimentação</strong></label>
+										<!-- <label class="input-group form-control-wrapper inputValidate" >		
+											<input class="form-control" type="text" pick-a-date="bensmovimentacao.data_movimentacao" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />		
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_movimentacao" id="data_movimentacao" type="text" 
+                                            ng-model="bensmovimentacao.data_movimentacao1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data de movimentação">			                                            
+										</label> -->
+										<label class="input-group form-control-wrapper inputValidate">
+										<input class="form-control data-picker" id="dataNasc" ng-model="bensmovimentacao.data_movimentacao" type="text"
+										data-validate-input
+										mask="99/99/9999" 
+										data-required
+										data-message-required="Informe a data de movimentação"
+										/>
+										<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+											pick-a-date="bensmovimentacao.datamovimentacao" placeholder="Selecione uma data" pick-a-date-options='{
+											format: "dd/mm/yyyy",
+											formatSubmit: "yyyy-mm-dd",
+											selectYears: 190,
+										}' 
+										></button></span>
+										<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="pessoa_dataNascimento" id="pessoa_dataNascimento" type="text" 
+										ng-model="bensmovimentacao.data_movimentacao1"
+										data-validate-input
+										data-required 
+										data-message-required="Informe a data de movimentação">
+										</label>															
+									</section>
+
+								</div>	
+
+								<div class="row">
+									<section class="col col-6">
+										<label class="label"><strong>Histórico de Movimentação</strong></label>
+										<div class="form-control-wrapper">
+											<textarea rows="5" class="form-control" ng-model="bensmovimentacao.historico"></textarea>
+											<span class="material-input"></span>
+										</div>
+									</section>
+																																			
+								</div>	
+															
+							</fieldset>
+							<footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBensMovimentacao(bensmovimentacao)">
+									Salvar
+								</button>															
+							</footer>
+						</form>
+							<table class="table table-bordered" ng-show="movimentacoes.length > 0">
+								<thead>
+									<tr>
+										<th class="label-primary" style="color:white"><h6></h6></th>
+										<th class="label-primary" style="color:white"><h6>Tipo de Movimentação</h6></th>
+										<th class="label-primary" style="color:white"><h6>Histórico</h6></th>
+										<th class="label-primary" style="color:white"><h6>Quantidade</h6></th>
+										<th class="label-primary" style="color:white"><h6>Data de Movimentação</h6></th>								
+									</tr>
+								</thead>
+								<tbody>																		
+									<tr ng-repeat="item_movimentacao in movimentacoes">
+										<td>
+										<a class="btn btn-danger btn-sm" ng-click='delBensMovimentacao($index, item_movimentacao)'><i class="fa fa-minus-square"></i> Excluir</a>										
+										<td>{{item_movimentacao.tipoMovimentacao}}</td>
+										<td>{{item_movimentacao.historico}}</td>
+										<td>{{item_movimentacao.quantidade}}</td>
+										<td>{{item_movimentacao.data_movimentacao | date : 'dd/MM/yyyy'}}</td>
+									</tr>
+								</tbody>								
+							</table>						
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->		
+
+
+	
+	
+<!-- Modal -->
+	<div class="modal fade" id="myModalGrupoBens">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Grupo de Bens</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroGrupoBens-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addGrupoBens.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição do grupo de bens"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição do Grupo de Bens</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarGrupoBens()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+<!-- Modal -->
+	<div class="modal fade" id="myModalFabricante">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Fabricante</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroFabricante-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addFabricante.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome do fabricante"><div class="floating-label">Nome</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Fabricante</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarFabricante()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalMarca">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Marca</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroMarca-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addMarca.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da marca"><div class="floating-label">Nome</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome da Marca</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarMarca()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalProcedencia">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Procedência</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroProcedencia-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addProcedencia.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Procedência"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da Procedencia</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarProcedencia()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalUnidadeMedida">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Unidade de Medida</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroUnidadeMedida-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addUnidadeMedida.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da unidade de medida"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da Unidade de Medida</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarUnidadeMedida()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalEstadoConservacao">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Estado de Conservação</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroEstadoConservacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addEstadoConservacao.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição do Estado de Conservação"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição do Estado de Conservação</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarEstadoConservacao()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalSituacaoEconomica">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Situacao Econômica</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroSituacaoEconomica-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addSituacaoEconomica.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Situação Econômica"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da Situação Econômica</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarSituacaoEconomica()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalFormaAquisicao">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Forma de Aquisição</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroFormaAquisicao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addFormaAquisicao.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Forma de Aquisição"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da Forma de Aquisição</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarFormaAquisicao()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalSeguradora">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Seguradora</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroSeguradora-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addSeguradora.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da seguradora"><div class="floating-label">Nome</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome da Seguradora</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarSeguradora()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+<!-- Modal -->
+	<div class="modal fade" id="myModalLocalidade">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Localidade de Bens</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroLocalidade-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addLocalidade.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Localidade do Bem"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição da localidade do bem</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarLocalidade()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->	
+
+<!-- Modal -->
+	<div class="modal fade" id="myModalStatus">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Status de Bens</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroStatus-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addStatus.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Status do Bem"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição do status do bem</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarStatus()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->		
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

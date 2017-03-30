@@ -1,0 +1,423 @@
+<script src="controllers/controller.formCadastroNota.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroNota' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Nota</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroNota-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">												
+									<section class="col col-2">
+										<label class="label"><strong>Código</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="codigo" id="codigo" placeholder="Código"
+											ng-model="nota.codigo"
+											maxlength="3"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Código">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Código da Nota</b>
+										</div>
+									</section>
+									<section class="col col-6">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="descricao" id="descricao" placeholder="Descrição"
+											ng-model="nota.descricao"
+											maxlength="200"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a descrição">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da Nota</b>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Abreviatura</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="Abreviatura" id="Abreviatura" placeholder="Abreviatura"
+											ng-model="nota.abreviatura"
+											maxlength="10"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Abreviatura">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Abreviatura da Nota</b>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-2">
+										<label class="label"><strong>Nota Informada</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="nota_informada" checked="true" value="1" ng-model="nota.nota_informada">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="nota_informada" value="0" ng-model="nota.nota_informada">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+									<section class="col col-8">
+										<label class="label"><strong>Fórmula</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input readonly="readonly" class="form-control" name="formula" id="formula"	placeholder="Fórmula"
+											 ng-disabled="nota.nota_informada == 1"
+											 ng-model="nota.formula"
+											 data-validate-input
+	                                         data-required 
+	                                         data-message-required="Informe a Fórmula">
+											 <span class="material-input"></span>
+											 <b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Fórmula da Nota</b>
+										</div>
+									</section>
+									<section class="col col-2">
+										<button type="button" class="btnmd btnmd-success btnmd-raised fa fa-gears pull-right" style="margin-top:24px;" 
+										ng-disabled="nota.nota_informada == 1"
+										ng-click="modalMontarFormula()" id="montar">
+											Montar
+										</button>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Condição</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_condicao" name="id_condicao"
+													ng-model="nota.id_condicao">
+												<option value="">Selecione</option>
+												<option ng-selected="nota.id_condicao == item.id" value="{{item.id}}" data-ng-repeat="item in condicoes">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>				
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Fase</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="fase" id="fase" placeholder="Fase"
+											ng-model="nota.fase"
+											data-mask="9?99"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a Fase">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Numero da Fase</b>
+										</div>
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Valor Mínimo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="valor_minimo_aprovacao" id="valor_minimo_aprovacao" placeholder="Valor Mínimo"
+											ng-model="nota.valor_minimo_aprovacao"
+											data-mask="9?99"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Valor Mínimo">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Valor Mínimo para Nota</b>
+										</div>
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Valor Máximo</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="valor_maximo" id="valor_maximo" placeholder="Valor Máximo"
+											ng-model="nota.valor_maximo"
+											data-mask="9?99"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Valor Máximo">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Valor Máximo para Nota</b>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-2">
+										<label class="label"><strong>Arredondamento</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_arredondamento" name="id_arredondamento"
+													ng-model="nota.id_arredondamento"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione o Arredondamento">
+												<option value="" selected>Selecione</option>
+												<option  ng-selected="nota.id_arredondamento == item.id"value="{{item.id}}" data-ng-repeat="item in arredondamentos">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>				
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Valor</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control empty" id="valor" name="valor" type="text" 
+											ng-disabled="!nota.id_arredondamento"
+											ng-model="nota.valor"
+											ui-number-mask="2">
+											<span class="material-input"></span>
+											<i class="icon-append fa fa-question-circle"></i>
+										</div>												
+									</section>
+									<section class="col col-2">
+										<button type="button" class="btnmd btnmd-success btnmd-raised fa fa-gears pull-right" style="margin-top:24px;" 
+										ng-disabled="!nota.valor"
+										ng-click="nota.valor = calcularArredondamento(nota.id_arredondamento, nota.valor)" id="testar">
+											Testar
+										</button>
+									</section>		
+									<section class="col col-3">
+										<label class="label"><strong>Peso</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="peso" id="peso" placeholder="Peso"
+											ng-model="nota.peso"
+											data-mask="9?99"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Peso">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Peso</b>
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Peso para Média</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="peso_media" id="peso_media" placeholder="Peso para Média"
+											ng-model="nota.peso_media"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Peso para Média">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Peso para Média</b>
+										</div>
+									</section>
+								</div>	
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Ordem</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="ordem" id="ordem" placeholder="Ordem"
+											ng-model="nota.ordem"
+											data-mask="9?9"
+											data-validate-input
+                                            data-required 
+                                            data-message-required="Informe o Ordem">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Ordem da Nota</b>
+										</div>
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Recuperação</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="recuperacao" value="1" ng-model="nota.recuperacao">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="recuperacao" ng-checked="true" value="0" ng-model="nota.recuperacao">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+									<section class="col col-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="nota.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="nota.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>						
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarNota()" id="SalvarCargo">
+									Salvar
+									<div class="ripple-wrapper"></div>
+								</button>		
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+		<!-- Modal -->
+	<div class="modal fade" id="myModalMontarFormula">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Montar Fórmula</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroMontarFormula-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section">
+							<label class="label"><strong>Notas Cadastradas</strong></label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select class="form-control" id="notas_cadastradas" name="notas_cadastradas"
+									ng-model="addMontar.notas_cadastradas"
+									ng-change="selecionarItemFormula()">
+									<option value="" selected>Selecione</option>
+									<option value="{{item.abreviatura}}" ng-repeat="item in notasInformadas">{{item.descricao}}</option>
+								</select>
+								<i></i>
+							</div>				
+						</section>
+						<section class="section">
+							<label class="label"><strong>Operadores</strong></label>
+							<button ng-disabled="addMontar.formulas.length == 0 && operador.habilita == false" ng-repeat="operador in operadores" class="btnmd btnmd-info btnmd-material-indigo btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(operador.item)" id="operadorNota">
+								{{operador.item}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Valores</strong></label>
+							<button ng-repeat="valor in valores" class="btnmd btnmd-material-blue btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(valor.numero)" id="valorNota">
+								{{valor.numero}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Fórmula Montada</strong></label>
+							<div class="form-control-wrapper">
+								<div rows="3" class="form-control" style="height: 70px;">
+									<div class="col col-8" style="margin-left: -10px; margin-right: 10px;">
+										<span ng-repeat="formula in addMontar.formulas track by $index">
+											{{formula}}
+										</span>
+									</div>
+									<div class="col col-4">
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="width: 170px;"
+										ng-click="addMontar.formulas = []">
+										Limpar fórmula</button>
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin-top: 5px; width: 170px;"
+										ng-click="removeItemFormula()">
+										Remover item  </button>
+									</div>
+								</div>
+							</div>
+						</section>		
+				</form>  
+			</div>
+			<div class="modal-footer">	                
+				<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+				<button type="button" class="btnmd btnmd-primary" ng-click="salvarFormula()">Salvar</button>		        
+			</div>
+		</div>
+	</div>
+</div>	
+<!-- Modal -->
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+	$.fn.incluirItemFormula = function (txt) {
+	return this.each(function(){
+		console.log('txt', txt);
+
+		var numCaracter = txt.length;
+		var posInicial = this.selectionStart;
+		var posFinal = this.selectionEnd;
+		var scrollTop = this.scrollTop;
+		this.value = this.value.substring(0, posInicial) + txt + this.value.substring(posFinal,this.value.length);
+		this.focus();
+		this.selectionStart = posInicial + numCaracter;
+		this.selectionEnd = posInicial + numCaracter;
+		
+		console.log('txt.length', numCaracter);
+		
+		this.scrollTop = scrollTop;
+	});
+}
+</script>

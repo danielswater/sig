@@ -1,0 +1,335 @@
+<script src="controllers/controller.formFrequencia.js"></script>                
+<!-- widget grid -->
+<section ng-controller="formFrequencia" id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-7 col-md-7 col-lg-7">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2> Incluir Associados em {{evento.title}} - {{evento.data_evento_formatada}}</h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form action="" id="add-frequencia-form" class="smart-form ng-pristine ng-valid">
+									<fieldset>
+										<div class="row">
+											<section class="col col-sm-12 col-md-12 col-lg-12">
+												<label class="label">Nome</label>
+												<label class="select inputValidate">
+													<ui-select ng-model="associado.selected"
+													theme="select2"
+													ng-disabled="disabled"
+													reset-search-input="false"
+													style="min-width: 100%;"
+													ng-change="postEventoFrequencia(associado.selected, 0)"
+													>
+													<ui-select-match placeholder="Digite o nome do associado">{{$select.selected.nome || $select.selected}}</ui-select-match>
+													<ui-select-choices repeat="associado in socios | filter:{donatario: 0} track by $index"
+													ng-click="addSocios(associado.selected)"
+													refresh="refreshAssociados($select.search)"
+													refresh-delay="0">
+													<div ng-bind-html="associado.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden;" name="Select2" id="Select2" type="text" placeholder="Complemento para validar o select2" ng-model="pessoa.id_pessoa"
+											data-validate-input
+											data-required                                           
+											data-message-required="Por favor, informe o nome completo">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered">
+											<thead>
+												<tr>
+								                    <td align="center" colspan="2">
+														<strong>AÇÔES</strong>
+								                    </td>
+								                    <td>
+								                    	<strong>NOME</strong>
+								                    </td>
+								                    <td align="center">
+								                        <strong>PAGO</strong>
+								                    </td>
+								                    <td align="center">
+								                    	<strong>FORMA DE PAGAMENTO</strong>
+								                    </td>
+								                </tr>
+											</thead>
+								            <tbody>
+								                <tr ng-repeat="associados in tabela_pessoa | filter:{donatario: 0} ">
+								                    <td align="center">
+														<button ng-click="delEventoFrequencia($index, associados)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button>
+													</td>
+													<td align="center">
+														<button ng-disabled="associados.isento != null" ng-click="postCaixaUpFrequencia($index, associados)" class="btnmd btnmd-primary btnmd-raised fa fa-save btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button>
+								                    </td>
+								                    <td>
+								                    	{{associados.nome}}
+								                    </td>
+								                    <td align="center">
+								                        <label ng-show="associados.isento == null" class="select" style="width: 60px;">
+															<select name="pago" id="pago" ng-model="pago[$index].id">
+																<option value="">Não</option>	
+																<option value="2" ng-if="evento.valor != '0,00'">Sim</option>	
+															</select><i></i> 
+														</label>
+														<span ng-show="associados.isento != null">{{associados.situacao}}</span> 
+								                    </td>
+								                    <td align="center">
+								                    	<label ng-show="associados.isento == null"  class="select" style="width: 150px;">
+															<select name="forma_pagamento" id="forma_pagamento" ng-model="forma[$index].id">
+																<option value="" selected>Selecione</option>
+																<option value="{{item.id}}" data-ng-repeat="item in forma_pagamento" ng-if="evento.valor != '0,00'">{{item.descricao}}</option>	
+															</select> <i></i> 
+														</label>
+														<span ng-show="associados.isento != null">{{associados.forma_pagamento}}</span> 
+								                    </td>
+								                </tr>
+								            </tbody>
+								        </table> 
+									</div>
+								</div>
+							</fieldset>
+						</form>
+						<!--/ Error states for elements -->	
+
+											
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+
+				<!-- NEW COL START -->
+		<article class="col-sm-5 col-md-5 col-lg-5">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2> Incluir Donatário em {{evento.title}} - {{evento.data_evento_formatada}}</h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+					<form action="" id="add-frequencia-form" class="smart-form ng-pristine ng-valid">
+							<fieldset>
+								<div class="row">
+									<section class="col col-sm-12 col-md-12 col-lg-12">
+										<label class="label">Nome</label>
+										<label class="select inputValidate">
+											<ui-select ng-model="donatario.selected"
+											theme="select2"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											style="min-width: 100%;"
+											ng-change="postEventoFrequencia(donatario.selected, 1)">
+													<ui-select-match placeholder="Digite o nome do donatário">{{$select.selected.nome || $select.selected}}</ui-select-match>
+													<ui-select-choices repeat="donatario in membros | filter:{donatario: 1} track by $index"
+													refresh="refreshDonatarios($select.search)"
+													refresh-delay="0">
+													<div ng-bind-html="donatario.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden;" name="Select2" id="Select2" type="text" placeholder="Complemento para validar o select2" ng-model="pessoa.id_pessoa_donataria"
+											data-validate-input
+											data-required                                           
+											data-message-required="Por favor, informe o nome completo">
+										</label>
+									</section>
+								</div>
+								<div class="row">
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered">
+											<thead>
+												<tr>
+								                    <td colspan="4">
+								                    	<section style="margin-bottom: 0px; height: 30px;">
+															<label class="select">
+																<ui-select ng-model="pagante.selected"
+																theme="select2"
+																ng-disabled="disabled"
+																reset-search-input="false"
+																style="min-width: 100%;"
+																ng-change="modalFormaPagamento(pagante.selected)">
+																		<ui-select-match placeholder="Indique um associado como pagante">{{$select.selected.nome || refreshPagante$select.selected}}</ui-select-match>
+																		<ui-select-choices repeat="pagante in sociosPag | filter:{donatario: 0} track by $index"
+																		refresh="refreshPagante($select.search)"
+																		refresh-delay="0">
+																		<div ng-bind-html="pagante.nome | highlight: $select.search"></div>
+																	</ui-select-choices>
+																</ui-select>
+																<input style="width:0px; height:0px; visibility: hidden;" name="Select2" id="Select2" type="text" placeholder="Complemento para validar o select2" ng-model="pessoa.id_pessoa_pagante">
+															</label>
+														</section>
+								                    </td>
+								                </tr>
+											</thead>
+											<thead>
+												<tr>
+								                    <td align="center" width="30">
+														<strong>|</strong>
+								                    </td>
+								                    <td>
+								                    	<strong>NOME</strong>
+								                    </td>
+								                    <td>
+								                    	<strong>PAGANTE</strong>
+								                    </td>
+								                    <td align="center">
+														<strong>EXCLUIR</strong>
+								                    </td>
+								                </tr>
+											</thead>
+								            <tbody>
+								                <tr ng-repeat="donatarios in tabela_pessoa | filter:{donatario: 1} ">
+								                    <td align="center">
+								                    	<input id="check" ng-disabled="donatarios.pagante || evento.valor == '0,00'" type="checkbox" ng-checked="master" ng-model="donatario_check.[$index]" ng-true-value="{{donatarios.id}}">
+								                    </td>
+								                    <td>
+								                    	{{donatarios.nome}}
+								                    </td>
+								                    <td>
+								                    	{{donatarios.pagante}}
+								                    </td>
+								                    <td align="center">
+														<button ng-click="delEventoFrequencia($index, donatarios)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button>
+													</td>
+								                </tr>
+								            </tbody>
+								        </table> 
+									</div>
+								</div>
+							</fieldset>			
+						</form>
+						<!--/ Error states for elements -->	
+
+											
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalFormaPagamento">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Forma de Pagamento</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroFormaPagamento-form" class="smart-form" novalidate="novalidate" validate-form>
+						<section class="col col-12">
+							<div class="form-control form-control-wrapper inputValidate">
+								<select class="form-control" name="forma_pagamento" id="forma_pagamento" ng-model="addForma.id_forma_pagamento"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe a forma de pagamento">
+									<option value="" selected>Selecione</option>
+									<option value="{{item.id}}" data-ng-repeat="item in forma_pagamento">{{item.descricao}}</option>	
+								</select> <i></i> 
+							</div>
+						</section>
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="postEventoFrequenciaUpPagante()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+</section>
+
+<!-- end row -->
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+
+	 pageSetUp();
+
+	/*
+	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+	 * eg alert("my home function");
+	 * 
+	 * var pagefunction = function() {
+	 *   ...
+	 * }
+	 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+	 * 
+	 * TO LOAD A SCRIPT:
+	 * var pagefunction = function (){ 
+	 *  loadScript(".../plugin.js", run_after_loaded);	
+	 * }
+	 * 
+	 * OR
+	 * 
+	 * loadScript(".../plugin.js", run_after_loaded);
+	 */
+
+	// PAGE RELATED SCRIPTS
+
+	// pagefunction
+	
+	var pagefunction = function() {}	
+
+</script>

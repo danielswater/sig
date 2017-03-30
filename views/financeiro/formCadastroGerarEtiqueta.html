@@ -1,0 +1,143 @@
+<script src="controllers/controller.formCadastroGerarEtiqueta.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroGerarEtiqueta' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Gerar Etiqueta</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+				
+						<div class="smart-form">
+							<form id="cadastroEtiqueta-form" class="smart-form" novalidate="novalidate" validate-form>							
+								<fieldset>
+									<div class="row">
+										<section class="col col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<label class="label"><strong>Tipo de processo</strong></label>
+											<div class="form-inline">
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" checked="true" value="1" ng-model="etiqueta.tipo">
+														<span>Todos responsáveis</span>  
+													</label>
+												</div>
+												<div class="form-group">
+													<label class="radio radio-inline">
+														<input type="radio" class="radiobox" name="tipo" value="0" ng-model="etiqueta.tipo">
+														<span>Escolher responsável</span>  
+													</label>	
+												</div>
+											</div>
+										</select>
+									</div>		
+									<div class="row">
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-show="etiqueta.tipo == 0">
+											<label class="label"><strong>Responsável</strong></label>
+											<div class="form-control-wrapper inputValidate">
+												<ui-select ng-model="responsavel.selected"
+												theme="bootstrap"
+												ng-disabled="disabled"
+												reset-search-input="false"
+												ng-change="verificarAcaoResponsavel(responsavel.selected)">
+													<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+													</ui-select-match>
+													<ui-select-choices repeat="responsavel in responsaveis | propsFilter: {nome: $select.search}">
+														<div ng-bind-html="responsavel.nome  | highlight: $select.search"></div>
+													</ui-select-choices>
+												</ui-select>
+												<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_responsavel" id="id_responsavel" type="text" 
+												ng-model="etiqueta.id_responsavel"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione o responsável">
+											</div>
+										</section>
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+											<label class="label"><strong>Ano/Mês</strong></label>
+											<label class="input-group form-control-wrapper inputValidate">
+											<input placeholder="mm/aaaa" class="form-control data-picker" id="dataNasc" ng-model="etiqueta.mes_ano" type="text"
+											data-validate-input
+											mask="99/9999" 
+											data-required
+											data-message-required="Informe o mês e ano"
+											/>
+											<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+												pick-a-date="etiqueta.ano_mes" placeholder="Selecione uma data" pick-a-date-options='{
+												format: "mm/yyyy",
+												formatSubmit: "yyyy-mm",
+												selectYears: 190,
+											}' 
+											></button></span>
+											<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="mes_ano" id="mes_ano" type="text" 
+											ng-model="etiqueta.mes_ano1"
+											data-validate-input
+											data-required 
+											data-message-required="Informe o mês e ano">
+										</label>
+										</section>
+										<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					                        <label><strong>Tipo de Carnê</strong></label>
+					                        <div class="form-control form-control-wrapper inputValidate" style="margin-top: 5px;">
+					                           <select class="form-control" id="id_tipo_carne" name="id_tipo_carne" ng-model="etiqueta.id_tipo_carne"
+					                           		  data-validate-input
+					                                  data-required                                      
+					                                  data-message-required="Por favor, selecione um tipo de carnê">
+					                              <option value="" disabled="">Selecione</option>
+					                              <option value="{{carne.id}}" data-ng-repeat="carne in tipos_carnes" ng-selected="carne.id == etiqueta.id_tipo_carne">{{carne.descricao}}</option>
+					                           </select> <i></i> 
+					                        </div>
+					                    </section>	
+									</div>								
+								</fieldset>
+								<footer>
+									<button ng-disabled="processo > 0 && processo < 100" class="btnmd btnmd-info  pull-right" ng-click="cadastrarEtiqueta()" >
+										Gerar
+									</button>								
+								</footer>
+							</form>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+	
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

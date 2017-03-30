@@ -1,0 +1,38 @@
+<form action="" ng-init="filtroAluno.carregar();">
+	<fieldset>
+		<div class="row no-margin-left">
+			<section class="col col-lg-4">
+				<label>Turma</label>
+				<select ng-model="turma" class="form-control" ng-options="turma.label group by turma.nome for turma in filtroAluno.dados.turmas" ng-change="filtroAluno.filtraTurma(turma)">
+					<option value="">Selecione</option>
+				</select>
+			</section>		
+			<section class="col col-lg-5" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<label>Nome</label>
+				<input class="form-control" name="nome" id="nome" placeholder="Nome completo do aluno"
+				ng-model="filtroAluno.dados.busca.nome">
+			</section>
+			<section class="col col-lg-3" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<label>Matrícula</label>
+				<input class="form-control"  name="codigo" id="codigo" placeholder="código do aluno"  
+				ng-model="filtroAluno.dados.busca.codigo">
+			</section>							
+			<!--
+			<section class="col col-lg-5" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<label>Nome</label>
+				<input class="form-control"  name="nome" id="nome" placeholder="Nome completo do aluno"  typeahead="pessoa as pessoa.nome for pessoa in typeahead.exists(filtroAluno.dados.turmaAlunos, $viewValue, 'nome')" typeahead-on-select="getPessoa($item, $model, $label)"
+				ng-model="pessoa.nome"
+				data-validate-input
+				data-required>
+			</section>
+			<section class="col col-lg-3" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<label>Matrícula</label>
+				<input class="form-control"  name="nome" id="nome" placeholder="Nome completo do aluno"  typeahead="pessoa as pessoa.codigo for pessoa in typeahead.exists(filtroAluno.dados.turmaAlunos, $viewValue, 'codigo')" typeahead-on-select="getPessoa($item, $model, $label)"
+				ng-model="pessoa.codigo"
+				data-validate-input
+				data-required>
+			</section>
+			-->
+		</div>
+	</fieldset>				
+</form>

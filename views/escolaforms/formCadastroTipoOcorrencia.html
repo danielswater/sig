@@ -1,0 +1,223 @@
+<script src="controllers/controller.formCadastroTipoOcorrencia.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroTipoOcorrencia' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Tipo de ocorrência</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroTipoOcorrencia-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">	
+									<section class="col col-3">
+
+										
+										<label class="label"><strong>Grupo Ocorrência</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="ocorrencia.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcao(ocorrencia.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="ocorrencia in grupoocorrencias | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="ocorrencia.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="grupo" id="grupo" type="text" 
+	                                          	ng-model="tipoocorrencia.id_grupo_ocorrencia"
+	                                            data-validate-input
+	                                            data-required 
+	                                            data-message-required="Selecione um grupo">
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Tipo Bloqueio</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<ui-select ng-model="bloqueio.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoBloqueio(bloqueio.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+												</ui-select-match>
+												<ui-select-choices group-by="'tipo'" repeat="bloqueio in tipobloqueios | propsFilter: {descricao: $select.search}">
+												<div ng-bind-html="bloqueio.descricao | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+											<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="bloqueio" id="bloqueio" type="text"ng-model="tipoocorrencia.id_tipo_bloqueio"
+	                                        data-validate-input
+	                                        data-required 
+	                                        data-message-required="Selecione um bloqueio">
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input  class 					="form-control" 
+													name 					="descricao" 
+													id 						="descricao" 
+													placeholder 			="Descrição"
+													ng-model 				="tipoocorrencia.descricao"
+													data-validate-input
+		                                            data-required 
+		                                            data-message-required 	="Informe a descrição"
+													data-maxlength 			="100"
+                                            		data-message-maxlength	="Máximo de 100 Caracteres">
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição do tipo de ocorrência</b> 											
+										</div>										
+									</section>																	
+									<section class="col col-3">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="tipoocorrencia.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="tipoocorrencia.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>			
+
+
+	
+
+								</div>								
+							</fieldset>
+							<footer>
+							<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								<div class="ripple-wrapper"></div></a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarTipoOcorrencia(tipoocorrencia)">
+									Salvar
+								</button>															
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+	<!-- Modal -->
+	<div class="modal fade" id="myModal">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Grupo de Ocorrência</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroGrupo-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addGrupo.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome do grupo"><div class="floating-label">Nome do Grupo</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Grupo</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarGrupo()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal2">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Tipo de Bloqueio</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroGrupo-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addBloqueio.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome do bloqueio"><div class="floating-label">Nome do Bloqueio</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Bloqueio</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarBloqueio()">Salvar</button>
+		      	</div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+
+</script>

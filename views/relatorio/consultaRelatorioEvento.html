@@ -1,0 +1,347 @@
+<script src="controllers/controller.consultaRelatorioEvento.js"></script>
+
+<section ng-controller='consultaRelatorioEvento' id="widget-grid" widget-grid>
+  
+  <div class="row">   
+	
+	<article class="col-sm-12 col-md-12 col-lg-12">
+	  
+	  <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+		<header>
+		  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+		  <h2>Relatório de Doação de Estoque</h2> 
+		</header>
+		
+		<div>
+		  
+		  <div class="widget-body no-padding">
+			<form id="consultaRelatorioEvento-form" class="smart-form" novalidate="novalidate" validate-form>
+			  <fieldset>
+				<div class="row">
+
+
+					<section class="col col-4">
+						<label class="label"><strong>Tipo de Evento</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select 	ng-model="itemte.selected"
+										theme="bootstrap"										
+										reset-search-input="false"
+										ng-change="verificarAcao('td',itemte.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+								<ui-select-choices group-by="'tipo'" repeat="itemte in select_tipoevento | propsFilter: {descricao: $select.search}">
+									<div ng-bind-html="itemte.descricao | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+									name="itemte" 
+									id="itemte" 
+									type="text" 
+									ng-model="insel_tipoevento.itemte">
+						</div>							
+					</section>
+
+					<section class="col col-4">
+						<label class="label"><strong>Evento</strong></label>
+						<div class="form-control-wrapper inputValidate">
+							<ui-select 	ng-model="itemne.selected"
+										theme="bootstrap"										
+										reset-search-input="false"
+										ng-change="verificarAcao('la',itemne.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.description}}</ui-select-match>
+								<ui-select-choices group-by="'tipo'" repeat="itemne in select_evento | propsFilter: {description: $select.search}">
+									<div ng-bind-html="itemne.description | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+									name="itemne" 
+									id="itemne" 
+									type="text" 
+									ng-model="insel_local.itemne">
+						</div>							
+					</section>
+
+					<section class="col col-2">
+						<label class="label"><strong>Data de início</strong></label>
+						<div class="input-group form-control-wrapper inputValidate">
+							
+							<input  id 					="data_inicial"
+									name				="data_inicial"
+									class 				="form-control"
+									type 				="text" 
+									placeholder			="Dia/Mês/Ano"
+									pick-a-date 		="relatorioevento.data_inicial"
+									pick-a-date-options ='{format: "dd/mm/yyyy"}'>
+
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							
+                            <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                    name 				 ="data_inicial1" 
+                                    id 					 ="data_inicial1" 
+                                    type 				 ="text" 
+                                    ng-model 			 ="relatorioevento.data_inicial1"                                    
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Por favor, informe a data inicial">
+                                    <span class="material-input"></span>
+						</div>
+					</section>
+
+					<section class="col col-2">
+						<label class="label"><strong>Data de fim</strong></label>
+						<div class="input-group form-control-wrapper inputValidate">
+							
+							<input  id 					="data_final"
+									name				="data_final"
+									class 				="form-control" 
+									type 				="text" 
+									placeholder			="Dia/Mês/Ano" 
+									pick-a-date 		="relatorioevento.data_final"
+									pick-a-date-options ="{format: 'dd/mm/yyyy'}">
+							
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                            <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                    name 				 ="data_final1" 
+                                    id 					 ="data_final1" 
+                                    type 				 ="text" 
+                                    ng-model 			 ="relatorioevento.data_final1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Por favor, informe a data final">
+                                    <span class="material-input"></span>
+                        	
+						</div>
+					</section>
+
+					<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<label class="label"><strong>Tipo de relatório</strong></label>
+						<div class="form-inline">
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="status" checked="true" value="0" ng-model="relatorioevento.tipo">
+									<span>Sintético</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="status" value="1" ng-model="relatorioevento.tipo">
+									<span>Analítico</span>  
+								</label>	
+							</div>
+						</div>
+					</section>
+
+				</div>
+			  </fieldset>
+			  <footer>
+				<button class="btnmd btnmd-info pull-right" ng-click="gerarRelatorio()" id="bt_relatorioevento" name="bt_relatorioevento">
+				  Gerar Relatório
+				</button>
+			  </footer>
+			</form>
+		  </div>		  
+		</div>		
+	  </div>	  
+	</article>
+
+  </div>
+
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RESULTADOS RELATÓRIO ANALÍTICO xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	
+  	<div class="row">
+
+		<article class="col-sm-12 col-md-12 col-lg-12" ng-show="showRelatorio == 1">
+		
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+				<header>
+				  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				  <h2>Relatório Analítico</h2>
+				</header>				
+				
+				<div>
+				<div class="widget-body no-padding">					
+
+					<div>
+					<div class="table-responsive">       
+
+						<table show-filter="true" class="table table-striped table-bordered">
+							<thead>
+							 <tr>
+							   <th ng-click="changeSorting('tipo_evento')">	  TIPO DE EVENTO<i class="glyphicon" ng-class="getIcon('tipo_evento')"></i></th>
+							   <th ng-click="changeSorting('evento')">		  EVENTO 		<i class="glyphicon" ng-class="getIcon('evento')"></i></th>
+							   <th ng-click="changeSorting('data')">		  DATA 			<i class="glyphicon" ng-class="getIcon('data')"></i></th>
+							   <th ng-click="changeSorting('valor')">		  VALOR 		<i class="glyphicon" ng-class="getIcon('valor')"></i></th>
+							   <th ng-click="changeSorting('presenca')">	  PRESENÇA		<i class="glyphicon" ng-class="getIcon('presenca')"></i></th>
+							   <th ng-click="changeSorting('pessoa')">		  PESSOA  		<i class="glyphicon" ng-class="getIcon('pessoa')"></i></th>							   
+							   <th ng-click="changeSorting('tipo_pessoa')">	  TIPO 	  		<i class="glyphicon" ng-class="getIcon('tipo_pessoa')"></i></th>
+							   <th ng-click="changeSorting('pessoa_pagante')">PAGANTE 		<i class="glyphicon" ng-class="getIcon('pessoa_pagante')"></i></th>
+							 </tr>
+							</thead>
+							<tbody>
+							 <tr>
+							   <td><input ng-model="search.tipo_evento" 	id="search" class="form-control" placeholder="Tipo de evento"></td>
+							   <td><input ng-model="search.evento" 			id="search" class="form-control" placeholder="Nome do evento"></td>
+							   <td><input ng-model="search.data" 			id="search" class="form-control" placeholder="Data"></td>
+							   <td><input ng-model="search.valor" 			id="search" class="form-control" placeholder="Valor"></td>
+							   <td><input ng-model="search.presenca" 		id="search" class="form-control" placeholder="Presença"></td>
+							   <td><input ng-model="search.pessoa" 			id="search" class="form-control" placeholder="Pessoa"></td>
+							   <td><input ng-model="search.tipo_pessoa" 	id="search" class="form-control" placeholder="Tipo de pessoa"></td>
+							   <td><input ng-model="search.pessoa_pagante" 	id="search" class="form-control" placeholder="Pessoa Pagante"></td>
+							 </tr>
+							 <tr dir-paginate="regan in retorno_analitico | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+
+							   <td>{{regan.tipo_evento}}</td>
+							   <td>{{regan.evento}}</td>
+							   <td>{{regan.data}}</td>							   
+							   <td>{{regan.valor}}</td>
+							   <td>{{regan.presenca}}</td>
+							   <td>{{regan.pessoa}}</td>
+							   <td>{{regan.tipo_pessoa}}</td>
+							   <td>{{regan.pessoa_pagante}}</td>
+
+							 </tr>
+							</tbody>
+						</table>			   
+					</div>   
+
+					<div>      
+						<div>  
+							<div class="row" style="margin-top:20px; margin-bottom:5px;">
+								<div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+											<div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+												<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+											</div>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+									<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>              
+				</div>
+				</div>
+			</div>
+			<button class="btnmd btnmd-warning pull-right fa fa-file-pdf-o" id="gerarpdf" ng-click="gerarRelatorioPDF()"> Gerar PDF </button>
+		</article>
+	</div>
+
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RESULTADOS RELATÓRIO SINTÉTICO xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+  	<div class="row">
+
+		<article class="col-sm-12 col-md-12 col-lg-12" ng-show="showRelatorio == 0">
+		
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+				<header>
+				  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				  <h2>Relatório Sintético</h2>
+				</header>				
+				
+				<div>
+				<div class="widget-body no-padding">					
+
+					<div>
+					<div class="table-responsive">       
+
+						<table show-filter="true" class="table table-striped table-bordered">
+							<thead>
+							 <tr>							
+								<th ng-click="changeSorting('tipo_evento')">	 TIPO DE EVENTO 	<i class="glyphicon" ng-class="getIcon('tipo_evento')"></i></th>
+								<th ng-click="changeSorting('evento')">			 EVENTO 			<i class="glyphicon" ng-class="getIcon('evento')"></i></th>
+								<th ng-click="changeSorting('data')">			 DATA 				<i class="glyphicon" ng-class="getIcon('data')"></i></th>
+								<th ng-click="changeSorting('valor')">			 VALOR 				<i class="glyphicon" ng-class="getIcon('valor')"></i></th>
+								<th ng-click="changeSorting('presenca')">		 PRESENÇA			<i class="glyphicon" ng-class="getIcon('presenca')"></i></th>
+								<th ng-click="changeSorting('valor_arrecadado')">VALOR ARRECADADO 	<i class="glyphicon" ng-class="getIcon('valor_arrecadado')"></i></th>
+							 </tr>
+							</thead>
+							<tbody>
+							 <tr>						   
+							   <td><input ng-model="search.tipo_evento" 	 id="search" class="form-control" placeholder="Tipo de evento"></td>
+							   <td><input ng-model="search.evento" 			 id="search" class="form-control" placeholder="Nome do evento"></td>
+							   <td><input ng-model="search.data" 			 id="search" class="form-control" placeholder="Data"></td>
+							   <td><input ng-model="search.valor" 			 id="search" class="form-control" placeholder="Valor"></td>						   
+							   <td><input ng-model="search.presenca" 		 id="search" class="form-control" placeholder="Presença"></td>						   
+							   <td><input ng-model="search.valor_arrecadado" id="search" class="form-control" placeholder="Valor arrecadado"></td>
+							 </tr>
+							 <tr dir-paginate="regst in retorno_sintetico | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+							 
+							 	<td>{{regst.tipo_evento}}</td>
+							 	<td>{{regst.evento}}</td>
+							    <td>{{regst.data}}</td>
+							    <td>{{regst.valor}}</td>
+							    <td>{{regst.presenca}}</td>
+							    <td>{{regst.valor_arrecadado}}</td>
+
+							 </tr>
+
+							</tbody>
+						</table>
+
+					</div>   
+
+					<div>      
+						<div>  
+							<div class="row" style="margin-top:20px; margin-bottom:5px;">
+								<div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+
+									<form class="form-horizontal">
+										<div class="form-group">
+											<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+											<div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+												<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+											</div>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+									<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>              
+				</div>
+				</div>
+			</div>
+			<button class="btnmd btnmd-warning pull-right fa fa-file-pdf-o" id="gerarpdf" ng-click="gerarRelatorioPDF()"> Gerar PDF </button>
+		</article>
+	</div>
+
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

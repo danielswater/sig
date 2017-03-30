@@ -1,0 +1,68 @@
+/* Angular UI's Animation */
+
+.view-animate.ng-enter,
+.view-animate.ng-leave {
+    position: absolute;
+}
+
+.view-animate.ng-enter {
+    -moz-transition: ease-out all 0.3s 0.4s;
+    -o-transition: ease-out all 0.3s 0.4s;
+    -webkit-transition: ease-out all 0.3s 0.4s;
+    transition: ease-out all 0.3s 0.4s;
+}
+
+
+.view-animate.ng-leave {
+    -moz-transition: 0.3s ease-out all;
+    -o-transition: 0.3s ease-out all;
+    -webkit-transition: 0.3s ease-out all;
+    transition: 0.3s ease-out all;
+}
+
+.view-animate.ng-enter,
+.view-animate.ng-leave.ng-leave-active {
+    top: 2em;
+    opacity: 0;
+}
+
+.view-animate.ng-leave,
+.view-animate.ng-enter.ng-enter-active {
+    top: 0;
+    opacity: 1;
+}
+
+/* Empty href Pointer Fix */
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.animated.slow {
+  -webkit-animation-duration: 10s;
+  -moz-animation-duration: 10s;
+  -o-animation-duration: 10s;
+  animation-duration: 10s; }
+
+.animated.faster {
+  -webkit-animation-duration: .3s;
+  -moz-animation-duration: .3s;
+  -o-animation-duration: .3s;
+  animation-duration: .3s; }
+
+
+  .router-animation-loader {
+    /*position: absolute;
+    display: none;
+    top: 10px;
+    left: 10px;*/ 
+    position: absolute;
+    top: 110px;
+    z-index: 1000;
+  }
+  
+
+.fixed-ribbon .router-animation-container .router-animation-loader {
+    top: 50px;
+}
+
+.inbox-animation-container .router-animation-loader {
+  left: 210px; }

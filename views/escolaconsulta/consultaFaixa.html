@@ -1,0 +1,98 @@
+<script src="controllers/controller.consultaFaixa.js"></script>            
+<style type="text/css">
+.ng-table th.text-left {
+    text-align: left;
+}
+</style>
+<!-- widget grid -->
+<section ng-controller='consultaFaixa' id="widget-grid" widget-grid>
+  <!-- START ROW -->
+  <div class="row">
+
+    <!-- NEW COL START -->
+    <article class="col-sm-12 col-md-12 col-lg-12">
+
+      <!-- Widget ID (each widget will need unique ID)-->
+      <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+
+        <header>
+          <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+          <h2>Consulta Faixa</h2>
+
+        </header>
+
+        <!-- widget div-->
+        <div>
+          <!-- widget content -->
+          <div class="widget-body no-padding">
+            <div>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>                    
+                    <th ng-click="changeSorting('descricao')">Descrição <i class="glyphicon" ng-class="getIcon('descricao')"></i></th>
+                    <th ng-click="changeSorting('status')">Status <i class="glyphicon" ng-class="getIcon('status')"></i></th>
+                    <th width="50">Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>                  
+                    <td><input ng-model="search.descricao" id="search" class="form-control" placeholder="Descrição"></td>
+                    <td><input ng-model="search.status" id="search" class="form-control" placeholder="Status"></td>
+                    <td></td>
+                   </tr>
+                  <tr ng-show="faixaconsulta.length == 0">
+                    <td colspan="6">Não existem dados para serem exibidos.</td>
+                  </tr>
+                  <tr dir-paginate="faixaconsulta in faixas | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">                    
+                    <td style="display:table-cell;vertical-align:middle">{{faixaconsulta.descricao}}</td>
+                    <td style="display:table-cell;vertical-align:middle">{{faixaconsulta.status}}</td>
+                    <td><button ng-click='editCadastro(faixaconsulta.id)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"><div class="ripple-wrapper"></div></button></td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>     
+          <div>      
+        <div>  
+      </div>
+        <div>  
+          <div class="row" style="margin-top:20px; margin-bottom:5px;">
+          <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+          </div>              
+        </div>
+      </div>
+    </article>
+    <!-- END COL -->    
+
+  </div>
+
+  <!-- END ROW -->
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+  /* DO NOT REMOVE : GLOBAL FUNCTIONS!   
+   *
+   * pageSetUp() is needed whenever you load a page.
+   * It initializes and checks for all basic elements of the page
+   * and makes rendering easier.
+   *
+   */
+  pageSetUp();
+
+
+</script>
+

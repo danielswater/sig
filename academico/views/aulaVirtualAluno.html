@@ -1,0 +1,63 @@
+<script src="controllers/controller.aulaVirtualAluno.js"></script>
+<div class="container" ng-controller="aulaVirtualAluno">
+	<div class="row">
+		
+		<!-- =========================Start Col right section ============================= -->
+		<article class="col-lg-12 col-right">			
+			<form action="">
+				<fieldset>
+					<div class="row no-margin-left">
+						<section class="col col-lg-6">
+							<label>Categoria</label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select ng-change="filtraAulaCategoria(salavirtual)" name="categoria" ng-model="salavirtual.id_categoria_sala_virtual" id="categoria" class="form-control"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, selecione a quadra">
+								<option selected="selected" value="">Selecione</option>		
+								<option value="{{item.id}}" ng-repeat="item in categorias">{{item.descricao}}</option>
+
+							</select>
+						</div>
+					</section>
+
+						<section class="col col-lg-6">
+							<label>Disciplina</label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select ng-change="filtraAulaDisciplina(disciplina)" name="disciplina" ng-model="disciplina.id_disciplina" id="disciplina" class="form-control"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, selecione a quadra">
+								<option selected="selected" value="">Selecione</option>		
+								<option value="{{item.id}}" ng-repeat="item in disciplinas">{{item.nome}}</option>
+
+							</select>
+						</div>
+						</section>									
+					</div>					
+				</fieldset>				
+			</form>
+			<hr>
+			<div class="row no-margin-left">
+				<section class="col col-lg-12">				
+					<table class="table table-striped">
+						<tr ng-repeat="item in salavirtual">
+							<td class="publicado-coluna" width="5%" align="center">
+								<div class="publicado-publicado">Publicado</div>
+								<div class="publicado-data">{{item.dia_publicacao}}</div>
+								<div class="publicado-mes">{{item.mes_publicacao}}</div>
+							</td>
+							<td><strong>{{item.descricao}}</strong><br/><a class="label-link"><span class="label label-info">{{item.nome_disciplina}}</span></a></td>
+							<td><h4>{{item.titulo_sala_virtual}} , Prof: {{item.nome}}</h4></td>
+							<td class="prazo-coluna" width="5%" align="center">
+								<div class="prazo-publicado">Prazo</div>
+								<div class="prazo-data">{{item.dia_entrega}}</div>
+								<div class="prazo-mes">{{item.mes_entrega}}</div>
+							</td>
+						</tr>
+					</table>
+				</section>								
+			</div>
+		</article><!-- end col right-->
+	</div><!-- end row-->
+</div><!-- end container-->

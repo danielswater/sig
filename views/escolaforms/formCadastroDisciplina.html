@@ -1,0 +1,154 @@
+<script src="controllers/controller.formCadastroDisciplina.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroDisciplina' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Disciplina</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroDisciplina-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-xs-12 col-sm-12 col-md-5 col-lg-5">
+										<label class="label"><strong>Nome</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input 	class 					="form-control" 
+													name 					="nome" 
+													id 						="nome" 
+													placeholder 			="Nome"
+													ng-model 				="disciplina.nome"
+                                            		data-maxlength 			="200"
+                                            		data-message-required 	="Informe o nome"
+                                            		data-message-maxlength	="Máximo de 200 Caracteres"
+                                        			data-validate-input
+                                            		data-required >
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome da disciplina</b>
+										</div>										
+									</section>									
+									<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Abreviatura</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input 	class 					="form-control" 
+													name 					="nome_abreviado" 
+													id 						="nome_abreviado" 
+													placeholder 			="Abreviatura"
+													ng-model 				="disciplina.nome_abreviado"
+													data-validate-input
+                                            		data-required 
+                                            		data-message-required	="Informe a abreviatura"
+                                            		data-maxlength 			="20"
+                                            		data-message-maxlength	="Máximo de 20 Caracteres">
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Abreviatura</b>
+										</div>										
+									</section>
+									<section class="col col-xs-12 col-sm-2 col-md-2 col-lg-2">
+										<label class="label"><strong>Valor Hora/Aula</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input 	class="form-control" 
+													name="valor" 
+													id="valor" 
+													placeholder="Digite o valor" 
+													ng-model="disciplina.valor_hora" 
+                                            		data-validate-input 
+	                                        		data-message-required="Por favor, informe um valor"
+	                                        		ui-money-mask="2"> 
+                                            <i class="icon-append fa fa-envelope-o"></i> 
+											<span class="material-input"></span> 
+										</div> 
+									</section>
+									<section class="col col-xs-12 col-sm-4 col-md-3 col-lg-2">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="disciplina.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="disciplina.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<label class="label"><strong>Observa&ccedil;&atilde;o</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											
+											<textarea 	rows 					="3" 
+														class 					="form-control ng-pristine ng-valid" 
+														name 					="observacao" 
+														id 						="observacao" 
+														placeholder 			="Observação"
+														ng-model 				="disciplina.observacao">
+                                            </textarea>
+
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descri&ccedil;&atilde;o
+											</b>
+
+										</div>										
+									</section>									
+								</div>								
+							</fieldset>
+							<footer>
+							<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								<div class="ripple-wrapper"></div></a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarDisciplina(disciplina)" id="SalvarDisciplina">
+									Salvar
+								</button>							
+							</footer>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

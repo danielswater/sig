@@ -1,0 +1,33 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+        <h4 class="modal-title" id="myModalLabel">Nova Categoria</h4>
+      </div>
+      <div>
+		<form id="cadastroCategoria-form" class="smart-form" novalidate="novalidate" validate-form>		
+		  <fieldset>
+			   <section class="section"> 
+	               <div class="form-group">
+	                <div class="form-control-wrapper inputValidate">
+	                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addCategoria.descricao"
+								data-validate-input 
+								data-required
+								data-message-required="Por favor, informe o nome da categoria"><div class="floating-label">Nome da Categoria</div>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Nome da Categoria</b>							
+	                 <span class="material-input"></span>
+	                </div>       
+	               </div>       
+              </section> 								
+		  </fieldset>
+	      <footer>
+	        <button id="addLista" class="btn btn-primary" ng-click="adicionarCategoria(addCategoria)">Salvar</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	      </footer>
+		</form>
+
+      </div>
+    </div>
+  </div>

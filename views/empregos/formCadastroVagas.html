@@ -1,0 +1,228 @@
+
+<script src="controllers/controller.formCadastroVagas.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroVagas' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Vagas</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroVagas-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Título da vaga</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="titulo_vaga" id="titulo_vaga" placeholder="Nome"
+											ng-model="vagas.titulo_vaga"
+											data-validate-input
+											data-required 
+											data-message-required="Título da vaga">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Título da vaga</b> 											
+											</div>
+										</section>
+
+										<section class="col col-2">
+											<label class="label"><strong>Tipo de Vaga</strong></label>
+											<div class="form-group form-control-wrapper inputValidate">
+												<select class="form-control"  id="id_tipo_vaga" name="id_tipo_vaga"
+												ng-model="vagas.id_tipo_vaga"
+												data-validate-input
+												data-required 
+												data-message-required="Selecione o tipo de vaga">
+												<option value="" selected>Selecione</option>
+												<option value="{{item.id}}" data-ng-repeat="item in tipovagas">{{item.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+
+									<section class="col col-2">
+										<label class="label"><strong>Empresa</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control"  id="id_empresa" name="id_empresa"
+											ng-model="vagas.id_empresa"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione o tipo de vaga">
+											<option value="" selected>Selecione</option>
+											<option value="{{item.id}}" data-ng-repeat="item in empresas">{{item.descricao}}</option>
+										</select>
+										<i></i>
+									</div>
+								</section>
+
+								<section class="col col-2">
+									<label class="label"><strong>Status da Vaga</strong></label>
+									<div class="form-group form-control-wrapper inputValidate">
+										<select class="form-control"  id="id_status_vaga" name="id_status_vaga"
+										ng-model="vagas.id_status_vaga"
+										data-validate-input
+										data-required 
+										data-message-required="Selecione o status da vaga">
+										<option value="" selected>Selecione</option>
+										<option value="{{item.id}}" data-ng-repeat="item in status">{{item.descricao}}</option>
+									</select>
+									<i></i>
+								</div>
+							</section>
+
+
+
+							<section class="col col-2">
+								<label class="label"><strong>Faixa Salarial</strong></label>
+								<div class="form-group form-control-wrapper inputValidate">
+									<select class="form-control"  id="id_faixa_salarial" name="id_faixa_salarial"
+									ng-model="vagas.id_faixa_salarial"
+									data-validate-input
+									data-required 
+									data-message-required="Selecione a faixa salarial">
+									<option value="" selected>Selecione</option>
+									<option value="{{item.id}}" data-ng-repeat="item in faixas">{{item.descricao}}</option>
+								</select>
+								<i></i>
+							</div>
+						</section>
+						
+					</div>
+					<div class="row">
+						
+					</div>
+					<div class="row">
+						<section class="col col-4">
+							<label class="label"><strong>Localização</strong></label>
+							<div class="form-control-wrapper">
+								<textarea rows="5" class="form-control" name="localizacao_vaga" id="localizacao_vaga" placeholder="Localização" ng-model="vagas.localizacao_vaga"></textarea>
+								<span class="material-input"></span>
+							</div>
+						</section>
+						<section class="col col-4">
+							<label class="label"><strong>Descrição</strong></label>
+							<div class="form-control-wrapper">
+								<textarea rows="5" class="form-control" name="descricao" id="descricao" placeholder="Descrição" ng-model="vagas.descricao"></textarea>
+								<span class="material-input"></span>
+							</div>
+						</section>
+
+						<section class="col col-2">
+							<label class="label"><strong>Data do anúncio</strong></label>
+							<label class="input-group form-control-wrapper inputValidate" >		
+								<input class="form-control" type="text" pick-a-date="vagas.data_anuncio" placeholder="Selecione uma data" pick-a-date-options='{	
+								format: "dd/mm/yyyy",
+								formatSubmit: "yyyy-mm-dd"                 
+							}' />		
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+							<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_anuncio" id="data_anuncio" type="text" 
+							ng-model="vagas.data_anuncio1">			                                            
+						</label>
+					</section>
+
+					<section class="col col-2">
+						<label class="label"><strong>Data final do anúncio</strong></label>
+						<label class="input-group form-control-wrapper inputValidate" >		
+							<input class="form-control" type="text" pick-a-date="vagas.data_fim_anuncio" placeholder="Selecione uma data" pick-a-date-options='{	
+							format: "dd/mm/yyyy",
+							formatSubmit: "yyyy-mm-dd"                 
+						}' />		
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+						<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_fim_anuncio" id="data_anuncio" type="text" 
+						ng-model="vagas.data_fim_anuncio1">			                                            
+					</label>
+				</section>
+			</div>
+
+			<div class="row">
+				<section class="col col-6">
+					<label class="label"><strong>Marcadores</strong></label>
+					<div class="form-control-wrapper">
+						<ui-select multiple tagging ng-model="multiple.tags" theme="select2" sortable="true" ng-disabled="disabled" style="width: 600px;" title="Selecione as tags">
+					    	<ui-select-match placeholder="Selecione as tags...">{{$item}}</ui-select-match>
+					    	<ui-select-choices repeat="tag in multiple.tags | filter:$select.search">
+					      	{{tag}}
+					    	</ui-select-choices>
+					  	</ui-select>	
+					  	{{multipleDemo.tags}}					
+					</div>
+				</section>
+				<section class="col col-2">
+					<label class="label"><strong>Status</strong></label>
+					<div class="form-inline">
+						<div class="form-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="vagas.ativo">
+								<span>Ativo</span>  
+							</label>
+						</div>
+						<div class="form-group">
+							<label class="radio radio-inline">
+								<input type="radio" class="radiobox" name="status" value="0" ng-model="vagas.ativo">
+								<span>Inativo</span>  
+							</label>	
+						</div>
+					</div>
+				</section>
+			</div>
+
+		</fieldset>
+		<footer>
+			<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+				Novo
+			</a>
+			<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarVaga(vagas)" id="SalvarEmpresa">
+				Salvar
+			</button>							
+		</footer>
+	</form>
+
+</div>
+<!-- end widget content -->
+
+</div>
+<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>
+
+<!-- END ROW -->
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+
+	</script>

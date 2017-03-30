@@ -1,0 +1,220 @@
+<script src="controllers/controller.formInscricaoEventos.js"></script>
+<!-- widget grid -->
+<section ng-controller='formInscricaoEventos' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Evento - {{agenda.title}} - {{agenda.data_evento_formatada}}</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroInscricaoEventos-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-sm-12 col-md-12 col-lg-12">
+										<label class="label"><strong>Selecione o associado</strong></label>
+										<div class=" form-control-wrapper inputValidate">
+											<ui-select ng-model="pessoa.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeRecebido(pessoa.selected)">
+												<ui-select-match placeholder="Entre com uma palavra ou selecione">{{$select.selected.nome || $select.selected}}
+												</ui-select-match>
+												<ui-select-choices repeat="pessoa in socios track by $index"
+												refresh="refreshSocios($select.search)"
+												refresh-delay="0">
+												<div ng-bind-html="pessoa.nome | highlight: $select.search"></div>
+												</ui-select-choices>
+											</ui-select>
+										
+                                          <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+                                          	ng-model="inscricao.id_pessoa"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Selecione o associado para inscrever no evento">
+                                        </div> 
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Isento?</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="isento" checked="true" value="1" ng-model="inscricao.isento" ng-click="ajustarIsentoForm(inscricao,1)" ng-disabled="inscricao.isentodisabled">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="isento" value="0" ng-model="inscricao.isento" ng-click="ajustarIsentoForm(inscricao,0)" ng-disabled="inscricao.isentodisabled">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+									<section class="col col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Pago?</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="pago" checked="true" value="1" ng-model="inscricao.pago" ng-disabled="inscricao.pagodisabled" ng-click="ajustarPagoForm(inscricao,1)">
+													<span>Sim</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="pago" value="0" ng-model="inscricao.pago" ng-disabled="inscricao.pagodisabled" ng-click="ajustarPagoForm(inscricao,0)">
+													<span>Não</span>  
+												</label>	
+											</div>
+										</div>
+									</section>
+									<section class="col col-sm-6 col-md-6 col-lg-6">
+										<label class="label"><strong>Forma de Pagamento</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" id="forma_pagamento" name="forma_pagamento" ng-model="inscricao.id_forma_pagamento"
+													data-validate-input
+                                           		   	data-required 
+                                            	   	data-message-required="Selecione a forma de pagamento" ng-disabled="inscricao.id_forma_pagamentodisabled">
+												<option value="" selected>Selecione</option>
+												<option value="{{n_formapagamento.id}}" data-ng-repeat="n_formapagamento in formapagamento">{{n_formapagamento.descricao}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>																		
+								</div>								
+				</fieldset>
+				<footer>
+					<button class="btnmd btnmd-info  pull-right" ng-click="salvarInscricao(inscricao,agenda)" id="adicionarInscricao">
+						Adicionar
+					</button>								
+				</footer>
+
+			</form>
+
+		</div>
+		<!-- end widget content -->
+
+				<section>
+				<div class="table-responsive">
+
+			<div class="table-responsive">              
+              <table show-filter="true" class="table table-striped table-bordered">
+                  <thead>
+                    
+                    <tr>                                             
+                      <th ng-click="changeSorting('nome_pessoa')">INSCRITO <i class="glyphicon" ng-class="getIcon('nome_pessoa')"></i></th>                      
+                      <th align="center">ISENTO ? </th>
+                      <th>PAGO ? </th>
+					  <th>FORMA PAGAMENTO</th>                                             
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+					  <td><input ng-model="search.nome_pessoa" id="search" class="form-control" placeholder="Busque pelo nome"></td>                      
+                      <td></td>                      
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr dir-paginate="ie in inscricao_evento | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+                      <td style="display:table-cell;vertical-align:middle">{{ie.nome_pessoa}}</td>                   
+                      <td style="display:table-cell;vertical-align:middle">
+						<div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="{{ie.isento}}" ng-model="ie.isento" type="checkbox" ng-click="ajustarIsento($index)" ng-disabled="ie.isentodisabled"><span class="ripple"></span><span class="check"></span>
+                              SIM
+                            </label>
+                        </div>                      	                      	
+                      </td>
+                      <td style="display:table-cell;vertical-align:middle">
+						<div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="{{ie.pago}}" ng-model="ie.pago" ng-disabled="ie.pagodisabled" type="checkbox" ng-click="ajustarPago($index)"><span class="ripple"></span><span class="check"></span>
+                            </label>
+                            SIM
+                        </div>                       	
+                      </td>
+                      <td style="display:table-cell;vertical-align:middle">
+						<select class="form-control" ng-model="ie.id_forma_pagamento" ng-disabled="ie.id_forma_pagamentodisabled">						
+							<option value="0">Selecione</option>
+							<option ng-selected="{{item.id == ie.id_forma_pagamento}}" value="{{item.id}}" data-ng-repeat="item in formapagamento">{{item.descricao}}</option>	
+						</select>                      	
+                      </td>                        
+                      <td style="display:table-cell;vertical-align:middle">
+								<!--<button ng-click="removeLinha($index)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"></button>-->
+								<button ng-click="editarConta($index,ie,agenda)" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>                 
+              </div> 					
+	</div>
+	<div class="row" style="margin-top:20px; margin-bottom:5px;">
+          <div class="col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+                <div class="col-xs-4 col-sm-2 col-lg-2 col-md-2">
+                  <input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+            <dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>            
+          </div>              
+        </div>
+        <div class="row">
+          <div class="col-xs-2 col-ls-2 col-md-2 col-lg-2 pull-right">
+            <button ng-click="validaLogin()" class="btnmd btnmd-info btnmd-raised btnmd-sm pull-right">Exportar <span style="margin-left:20px" class="glyphicon glyphicon-circle-arrow-down"></span><div class="ripple-wrapper"></div></button>
+          </div>
+        </div>
+      </div>	
+	<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>
+
+<!-- END ROW -->
+
+
+
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+	 </script>

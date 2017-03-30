@@ -1,0 +1,395 @@
+<script src="controllers/controller.formCadastroGradeHorario.js"></script>
+<style type="text/css">
+
+</style>
+<!-- widget grid -->
+<section ng-controller='formCadastroGradeHorario' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Grade de Horário</h2>
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+							<fieldset>
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<div class="widget-body">
+										<tabset>
+											<tab active="tab.active">
+												<tab-heading>
+													<i class="fa fa-fw fa-lg fa-table"></i>Grade
+												</tab-heading>
+												<div id="myTabContent1" class="tab-content">
+													<form id="cadastroGrade-form" class="smart-form" novalidate="novalidate" validate-form>							
+														<fieldset>
+															<div class="row">											
+																<section class="col col-4">
+																	<label class="label"><strong>Etapa</strong></label>
+																	<div class="form-group form-control-wrapper inputValidate">
+																		<select class="form-control"  id="id_etapa" name="id_etapa"
+																				ng-model="grade.id_etapa"
+																				data-validate-input
+							                                           		   	data-required 
+							                                            	   	data-message-required="Selecione a Etapa">
+																			<option value="" selected>Selecione</option>
+																			<option  ng-selected="grade.id_etapa == item.id"value="{{item.id}}" data-ng-repeat="item in etapas">{{item.descricao}}</option>
+																		</select>
+																		<i></i>
+																	</div>				
+																</section>
+																<section class="col col-4">
+																	<label class="label"><strong>Curso</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<ui-select ng-model="curso.selected"
+																			theme="bootstrap"
+																			ng-disabled="disabled"
+																			reset-search-input="false"
+																			ng-change="changeCurso(curso.selected)">
+																			<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+																		</ui-select-match>
+																		<ui-select-choices repeat="curso in cursos | propsFilter: {nome: $select.search}">
+																			<div ng-bind-html="curso.nome | highlight: $select.search"></div>
+																		</ui-select-choices>
+																	</ui-select>
+																	<input name="id_curso" id="id_curso" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+																		ng-model="grade.id_curso"
+																		data-validate-input
+																		data-required 
+																		data-message-required="Selecione o curso">
+																	</div>
+																</section>
+																<section class="col col-4">
+																	<label class="label"><strong>Turma</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<ui-select ng-model="turma.selected"
+																			theme="bootstrap"
+																			ng-disabled="disabled"
+																			reset-search-input="false"
+																			ng-change="changeTurma(turma.selected)">
+																			<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+																		</ui-select-match>
+																		<ui-select-choices repeat="turma in turmas | propsFilter: {nome: $select.search}">
+																			<div ng-bind-html="turma.nome | highlight: $select.search"></div>
+																		</ui-select-choices>
+																	</ui-select>
+																	<input name="id_turma" id="id_turma" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+																		ng-model="grade.id_turma"
+																		data-validate-input
+																		data-required 
+																		data-message-required="Selecione a turma">
+																	</div>
+																</section>
+															</div>
+															<div class="row">
+																<section class="col col-4">
+																	<label class="label"><strong>Série</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+																		<input class="form-control" name="ultima_serie" id="serie" placeholder="Série"
+																		ng-model="grade.serie"
+																		mask="9"
+																		data-validate-input
+																		data-required 
+																		data-message-required="Informe a série">
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Série</b>
+																	</div>
+																</section>
+																<section class="col col-3">
+																	<label class="label"><strong>Status</strong></label>
+																	<div class="form-inline">
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="grade.ativo">
+																				<span>Ativo</span>  
+																			</label>
+																		</div>
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" value="0" ng-model="grade.ativo">
+																				<span>Inativo</span>  
+																			</label>	
+																		</div>
+																	</div>
+																</section>
+															</div>
+														</fieldset>
+														<footer>
+															<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+																Novo
+															</a>
+															<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarGrade()" id="SalvarGrade">
+																Salvar
+																<div class="ripple-wrapper"></div>
+															</button>		
+														</footer>
+													</form>
+												</div>
+											</tab>
+											<tab>
+												<tab-heading active="tab.active">
+													<i class="fa fa-fw fa-lg fa-clock-o"></i>Horários
+												</tab-heading>
+												<div id="myTabContent2" class="tab-content padding-10">
+													<form id="cadastroGradeHorario-form" class="smart-form" novalidate="novalidate" validate-form>		<fieldset>
+															<div class="row">
+																<section class="col col-lg-2">
+																	<label class="label"><strong>Disciplina</strong></label>
+																	<div class="form-group form-control-wrapper inputValidate">
+																		<select class="form-control"  id="id_disciplina" name="id_disciplina"
+																				ng-model="horario.id_disciplina"
+																				data-validate-input
+							                                           		   	data-required 
+							                                            	   	data-message-required="Selecione a disciplina">
+																			<option value="" selected>Selecione</option>
+																			<option  ng-selected="gradeHorario.id_disciplina == item.id"value="{{item.id}}" data-ng-repeat="item in disciplinas">{{item.nome}}</option>
+																		</select>
+																		<i></i>
+																	</div>				
+																</section>
+																<section class="col col-lg-3">
+																	<label class="label"><strong>Dia da semana</strong></label>
+																	<div class="form-group form-control-wrapper inputValidate">
+																		<select class="form-control"  id="id_dia_semana" name="id_dia_semana"
+																				ng-model="horario.id_dia_semana"
+																				data-validate-input
+							                                           		   	data-required 
+							                                            	   	data-message-required="Selecione o Dia da semana">
+																			<option value="" selected>Selecione</option>
+																			<option  ng-selected="gradeHorario.id_dia_semana == item.id"value="{{item.id}}" data-ng-repeat="item in diasSemana">{{item.descricao}}</option>
+																		</select>
+																		<i></i>
+																	</div>				
+																</section>
+																<section class="col col-lg-3">
+																	<label class="label"><strong>Horário</strong></label>
+																	<div class="form-group form-control-wrapper inputValidate">
+																		<select class="form-control" 
+																			id="id_horario" name="id_horario"
+																			ng-model="horario.id_horario"
+																			data-validate-input
+							                                           		data-required 
+							                                            	data-message-required="Selecione o Horário">
+																			<option value="" selected>Selecione</option>
+																			<option  ng-selected="gradeHorario.id_horario == item.id"value="{{item.id}}" data-ng-repeat="item in horarios">{{item.descricao}}</option>
+																		</select>
+																		<i></i>
+																	</div>				
+																</section>
+																<section class="col col-2">
+																	<label class="label"><strong>Início</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+																		<input class="form-control" id="inicio" name="inicio" 
+																		ng-disabled="!horario.id_horario"
+																		ng-model="hora.hora_inicial"
+																		placeholder="00:00" readonly="readonly">
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Inicialização do horário</b>
+																	</div>
+																</section>
+																<section class="col col-2">
+																	<label class="label"><strong>Fim</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+																		<input class="form-control"
+																		ng-disabled="!horario.id_horario"
+																		id="fim" name="fim"
+																		ng-model="hora.hora_final" placeholder="00:00" readonly="readonly">
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Finalização do horário</b>
+																	</div>
+																</section>
+															</div>
+															<div class="row">
+																<section class="col col-lg-3">
+																	<label class="label"><strong>Status</strong></label>
+																	<div class="form-inline">
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="horario.ativo">
+																				<span>Ativo</span>  
+																			</label>
+																		</div>
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" value="0" ng-model="horario.ativo">
+																				<span>Inativo</span>  
+																			</label>	
+																		</div>
+																	</div>
+																</section>
+															</div>
+														 </fieldset>
+														 <footer>
+															<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastroHorario()" id="novoCadastroHorario">
+																Novo
+															</a>
+															<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarGradeHorario()" id="SalvarGradeHorario">
+																Salvar
+																<div class="ripple-wrapper"></div>
+															</button>		
+														</footer>
+													</form>
+													<div class="row" ng-show="gradeHorarios.length > 0">
+														<table class="table table-bordered">
+															<thead>
+																<tr>
+																	<th class="label-primary" style="color:white"><h6>Disciplina</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Dia da semana</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Horário</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Início</h6></th>
+																	<th class="label-primary" style="color:white"><h6>Fim</h6></th>
+																	<th colspan="2"class="label-primary" style="color:white" align="center" ><h6>Ações</h6></th>
+																</tr>
+															</thead>
+															<tbody>										<tr ng-repeat="item in gradeHorarios">
+																	<td>{{item.disciplina}}</td>
+																	<td>{{item.dia_semana}}</td>
+																	<td>{{item.horario.descricao}}</td>
+																	<td>{{item.horario.hora_inicio}}</td>
+																	<td>{{item.horario.hora_final}}</td>
+																	<td align="center" width="30"><button type="button" ng-click='editCadastroGradeHorario(item)' popover="Editar cadastro" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+												                       <div class="ripple-wrapper"></div>
+												                    </button></td>
+																	<td align="center"  width="30"><button type="button" ng-click="delGradeHorario($index, item)" popover="Excluir cadastro" popover-trigger="mouseenter" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin:0px;"><div class="ripple-wrapper"></div></button></td>
+																	
+																</tr>
+															</tbody>	
+														</table>
+													</div>
+												</div>
+											</tab>
+										</tabset>
+									</div>
+								</section>
+							</fieldset>
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+		<!-- Modal -->
+	<div class="modal fade" id="myModalMontarFormula">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Montar Fórmula</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroMontarFormula-form" class="smart-form" novalidate="novalidate" validate-form>	
+						<section class="section">
+							<label class="label"><strong>Notas Cadastradas</strong></label>
+							<div class="form-group form-control-wrapper inputValidate">
+								<select class="form-control" id="notas_cadastradas" name="notas_cadastradas"
+									ng-model="addMontar.notas_cadastradas"
+									ng-change="selecionarItemFormula()">
+									<option value="" selected>Selecione</option>
+									<option value="{{item.abreviatura}}" ng-repeat="item in notasInformadas">{{item.descricao}}</option>
+								</select>
+								<i></i>
+							</div>				
+						</section>
+						<section class="section">
+							<label class="label"><strong>Operadores</strong></label>
+							<button ng-disabled="addMontar.formulas.length == 0 && operador.habilita == false" ng-repeat="operador in operadores" class="btnmd btnmd-info btnmd-material-indigo btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(operador.item)" id="operadorNota">
+								{{operador.item}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Valores</strong></label>
+							<button ng-repeat="valor in valores" class="btnmd btnmd-material-blue btnmd-sm" style="margin-right: 5px;" ng-click="incluirItemFormula(valor.numero)" id="valorNota">
+								{{valor.numero}}
+							</button>
+						</section>
+						<section class="section">
+							<label class="label"><strong>Fórmula Montada</strong></label>
+							<div class="form-control-wrapper">
+								<div rows="3" class="form-control" style="height: 70px;">
+									<div class="col col-8" style="margin-left: -10px; margin-right: 10px;">
+										<span ng-repeat="formula in addMontar.formulas track by $index">
+											{{formula}}
+										</span>
+									</div>
+									<div class="col col-4">
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="width: 170px;"
+										ng-click="addMontar.formulas = []">
+										Limpar fórmula</button>
+										<button class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" style="margin-top: 5px; width: 170px;"
+										ng-click="removeItemFormula()">
+										Remover item  </button>
+									</div>
+								</div>
+							</div>
+						</section>		
+				</form>  
+			</div>
+			<div class="modal-footer">	                
+				<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+				<button type="button" class="btnmd btnmd-primary" ng-click="salvarFormula()">Salvar</button>		        
+			</div>
+		</div>
+	</div>
+</div>	
+<!-- Modal -->
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+	$.fn.incluirItemFormula = function (txt) {
+	return this.each(function(){
+		console.log('txt', txt);
+
+		var numCaracter = txt.length;
+		var posInicial = this.selectionStart;
+		var posFinal = this.selectionEnd;
+		var scrollTop = this.scrollTop;
+		this.value = this.value.substring(0, posInicial) + txt + this.value.substring(posFinal,this.value.length);
+		this.focus();
+		this.selectionStart = posInicial + numCaracter;
+		this.selectionEnd = posInicial + numCaracter;
+		
+		console.log('txt.length', numCaracter);
+		
+		this.scrollTop = scrollTop;
+	});
+}
+</script>

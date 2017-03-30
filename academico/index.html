@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="en"> <![endif]-->
+<html lang="en" data-ng-app="login">
+<!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs -->
+	<meta charset="utf-8">
+	<title>Escola Islâmica Brasileira</title>
+	<meta name="description" content="EDU - Educational, College and Courses Boostrap based site template only 15$">
+	<meta name="author" content="Ansonika">
+
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+	<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/megamenu.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link href="css/toaster.css" rel="stylesheet">
+	<link rel="stylesheet" href="js/fancybox/source/jquery.fancybox.css?v=2.1.4">
+
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<!-- Jquery -->
+<script src="js/jquery.js"></script>
+
+<!-- Support media queries for IE8 -->
+<script src="js/respond.min.js"></script>
+
+<!-- HTML5 and CSS3-in older browsers-->
+<script src="js/modernizr.custom.17475.js"></script>
+
+
+<!--[if IE 7]>
+  <link rel="stylesheet" href="font-awesome/css/font-awesome-ie7.min.css">
+  <![endif]-->
+
+  <!-- Style switcher-->
+  <!-- Fonts-->
+  <link rel="alternate stylesheet" type="text/css" href="src/css/helvetica.css" title="helvetica" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/cabin.css" title="cabin" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/droid.css" title="droid" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/lato.css" title="lato" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/montserrat.css" title="montserrat" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/opensans.css" title="opensans" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/quattrocento.css" title="quattrocento" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/roboto.css" title="roboto" media="all">
+  <link rel="alternate stylesheet" type="text/css" href="src/css/robotoslab.css" title="robotoslab" media="all">
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <script type="text/javascript">
+  	var _gaq = _gaq || [];
+  	_gaq.push(['_setAccount', 'UA-11097556-8']);
+  	_gaq.push(['_trackPageview']);
+
+  	(function() {
+  		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  	})();
+  </script>
+</head>
+
+<style type="text/css">
+	body {
+		padding-top: 40px;
+	}
+	.form-group{
+		margin-bottom: -5px;
+	}
+
+	.form-signin {
+		max-width: 300px;
+		padding: 19px 29px 29px;
+		margin: 0 auto 20px;
+		background-color: #fff;
+		border: 1px solid #e5e5e5;
+		-webkit-border-radius: 40px;
+		-moz-border-radius: 40px;
+		border-radius: 40px;
+		-webkit-box-shadow: 0 2px 19px rgba(0,0,0,0.40);
+		-moz-box-shadow: 0 2px 19px rgba(0,0,0,0.40);
+		box-shadow: 0 2px 19px rgba(0,0,0,0.40);
+	}
+	.form-signin .form-signin-heading,
+	.form-signin .checkbox {
+		margin-bottom: 10px;
+	}
+	.form-signin input[type="text"],
+	.form-signin input[type="password"] {
+		font-size: 16px;
+		height: auto;
+		margin-bottom: 15px;
+		padding: 7px 9px;
+	}
+	.login{
+		background-image: url('./img/fundo_login.png');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	.invalid{
+		color: #a94442;
+		font-size: 11px;
+	}
+
+	.fadein.ng-hide-remove,
+	.fadeout.ng-hide-add {
+		-webkit-transition: 400ms ease-in-out all;
+		-moz-transition: 400ms ease-in-out all;
+		-o-transition: 400ms ease-in-out all;
+		transition: 400ms ease-in-out all;
+		display: block !important;
+	}
+
+	.fadein.ng-hide-remove,
+	.fadeout.ng-hide-add.ng-hide-add-active {
+		opacity: 0;
+	}
+
+	.fadeout.ng-hide-add,
+	.fadein.ng-hide-remove.ng-hide-remove-active {
+		opacity: 1;
+	}
+
+</style>
+
+<body ng-controller="controller.login">
+	<!--[if !IE]><!--><script>if(/*@cc_on!@*/false){document.documentElement.className+=' ie10';}</script><!--<![endif]--> <!-- Border radius fixed IE10-->
+	<toaster-container toaster-options="{'time-out': 5000, 'close-button':true, 'animation-class': 'toast-center'}"></toaster-container>
+	<div class="container">
+
+		<div class="row login">
+			<!-- =========================Start Col right section ============================= -->
+
+			<form class="form-signin" id="login-form" novalidate="novalidate" validate-form>
+				<div class="text-center" style="margin-bottom:10px;" class="span3">
+					<img src="img/islamica.png">
+				</div>
+				
+				<div class="form-group form-control-wrapper inputValidate">
+				<label><strong>Login</strong></label>
+					<input type="text" ng-model="login.usuario" name="user" id="user" class="input-block-level" placeholder="Seu Login"
+					data-validate-input
+					data-required>
+				</div>
+
+				<div class="form-group form-control-wrapper inputValidate">
+				<label><strong>Senha</strong></label>
+					<input type="password" ng-model="login.senha" name="password" id="password" class="input-block-level" placeholder="Sua Senha"
+					data-validate-input
+					data-required>   
+				</div>
+				<div ng-show="novasenha" class="form-group form-control-wrapper inputValidate">
+				<label><strong>Nova Senha</strong></label>
+					<input type="password" ng-model="login.senha" name="password" id="password" class="input-block-level" placeholder="Sua Senha"
+					data-validate-input
+					data-required>   
+				</div>    
+				<button ng-click="validaLogin()" class="btn input-block-level btn-primary" >Login</button>
+				<p class="text-center"><small><a href="#">Esqueci minha senha.</a></small></p>
+				
+			</form><!-- end col right-->
+		</div><!-- end row-->
+		<!-- ng-show="showMessage" -->
+		<div ng-show="showMessage" class="col col-lg-3 message fadein fadeout alert alert-danger" role="alert" style="margin: auto; float: none;">
+		<p class="text-center"><strong>Ocorreu um erro.</strong></p>
+		<p class="text-center">{{errorMessage}}</p>
+			
+		</div>
+	</div><!-- end container-->
+
+	<!-- DATEPICKER -->
+	<!-- MEGAMENU --> 
+	<script src="js/jquery.easing.js"></script>
+	<script src="js/megamenu.js"></script>
+
+	<!-- OTHER JS -->    
+	<script src="js/bootstrap.js"></script>
+	<script src="js/functions.js"></script> 
+	<script src="assets/validate.js"></script>
+
+	<!-- FANCYBOX -->
+	<script  src="js/fancybox/source/jquery.fancybox.pack.js?v=2.1.4" type="text/javascript"></script> 
+	<script src="js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.5" type="text/javascript"></script> 
+	<script src="js/fancy_func.js" type="text/javascript"></script>
+
+	<!-- STYLE SWITCHER -->
+	<script type="text/javascript" src="src/jquery-sticklr-1.4.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$('#example-1').sticklr({
+				animate         : true,
+				showOn		    : 'hover'
+			});
+		});
+	</script>
+	<script type="text/javascript" src="src/fswit.js"></script>
+
+</body>
+
+<script src="../js/jquery-ui.min.js"></script> 
+
+<!-- BOOTSTRAP JS -->
+<script src="../js/bootstrap.min.js"></script>
+
+<script src="assets/validate.js"></script>
+
+<!-- JQUERY VALIDATE -->
+<script src="../js/jquery.validate.min.js"></script>
+
+<!-- JQUERY MASKED INPUT -->
+<script src="../js/jquery.maskedinput.min.js"></script>
+
+<!-- JQUERY MASKMONEY -->
+<script src="../js/jquery.maskmoney.js"></script>
+
+<script src="../js/angular.min.js"></script>
+<script src="../js/angular-sanitize.js"></script>
+<script src="../js/angular-route.min.js"></script>            
+<script src="../js/angular-animate.min.js"></script>
+<script src="../js/angular-animate.js"></script>
+<script src="../js/i18n/angular-locale_pt-br.js"></script>
+<script src="js/toaster.js"></script>
+<script src="controllers/controller.login.js"></script>
+
+<script type="text/javascript">  
+
+	$(function() {
+        // Validation
+        $("#login-form").validate({
+
+          // Rules for form validation
+          rules : {            
+          	user : {
+          		required : true,              
+          	},
+          	password : {
+          		required : true,
+          		minlength : 3,
+          		maxlength : 20
+          	}
+          },
+
+          // Messages for form validation
+          messages : {
+          	user : {
+          		required : 'Por favor, coloque seu login',              
+          	},
+          	password : {
+          		required : 'Por favor, coloque sua senha'
+          	}
+          },
+
+          // Do not change code below
+          errorPlacement : function(error, element) {
+          	error.insertAfter(element.parent());
+          },
+          submitHandler: function(form){
+
+          }
+      });
+    });
+</script>
+</html>

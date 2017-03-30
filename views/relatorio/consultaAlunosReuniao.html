@@ -1,0 +1,88 @@
+<script src="controllers/controller.consultaAlunosReuniao.js"></script>
+
+<section ng-controller='consultaRelatorioAlunosReuniao' id="widget-grid" widget-grid>
+
+	<div class="row">   
+
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Alunos para Reunião</h2> 
+				</header>
+
+				<div>
+
+					<div class="widget-body no-padding">
+						<form id="consultaAlunosReuniao-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Etapa</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" 
+													ng-model="alunosReuniao.id_etapa" 
+													id='sel_etapa'
+													name='sel_etapa'
+													class="form-control" 
+													ng-options="etapa.descricao for etapa in etapas" 
+													ng-change="getCurso(alunosReuniao)" 
+													data-validate-input
+													data-required 
+													data-message-required="Informe a Etapa">
+													<option value="">Selecione</option>
+											</select>
+										</div>
+								</section>
+
+								<section class="col col-3">
+									<label class="label"><strong>Curso</strong></label>
+									<div class="form-group form-control-wrapper inputValidate">
+										<select ng-model="alunosReuniao.id_curso" class="form-control" ng-options="curso.nome for curso in cursos" ng-change="getTurma(alunosReuniao)">
+										<option value="">Selecione</option>
+										</select>					
+									</div>
+								</section>
+
+								<section class="col col-3">
+									<label class="label"><strong>Turma</strong></label>
+									<div class="form-group form-control-wrapper inputValidate">
+										<select ng-model="alunosReuniao.id_turma" class="form-control" ng-change="getTurmaId(alunosReuniao)" ng-options="turma.nome for turma in turmas">
+										<option value="">Selecione</option>
+										</select>						
+									</div>
+								</section>
+
+							</div>
+
+							<div class="row">
+								<section class="col col-lg-3">
+									<label class="label"><strong>Nome do aluno</strong></label>
+									<input class="form-control"  name="nome_aluno" id="nome_aluno" placeholder="Nome completo do aluno"  typeahead="pessoa as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="getPessoa($item, $model, $label)"	ng-model="pessoa.nome">
+								</section>
+							</div>
+						</fieldset>
+						<footer>
+							<button class="btnmd btnmd-info pull-right" ng-click="gerarReuniao()" id="gerar_reuniao" name="gerar_reuniao">
+								Gerar Relatório
+							</button>
+						</footer>
+					</form>
+				</div>		  
+			</div>		
+		</div>	  
+	</article>
+
+</div>
+
+</section>
+
+
+<script type="text/javascript">
+
+	pageSetUp(); 
+	var pagefunction = function() {  };
+	pagefunction();
+
+</script>

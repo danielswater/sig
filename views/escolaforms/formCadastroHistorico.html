@@ -1,0 +1,430 @@
+<script src="controllers/controller.formCadastroHistorico.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroHistorico' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Histórico</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+
+									
+										<div class="row">
+										
+											<section class="col col-4">
+												<label class="label"><strong>Aluno</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+
+													<input 	class 				  = "form-control"  
+															name 				  = "aluno" 
+															id 					  = "aluno" 
+															placeholder 		  = "Aluno" 
+															typeahead 			  = "pessoa as pessoa.nome for pessoa in getPessoaExists($viewValue)" 
+															typeahead-on-select   = "passaPessoa($item, $model, $label)"
+															ng-model 			  = "historico.aluno"
+															data-message-required = "Por favor, informe o Aluno"
+															data-validate-input
+															data-required
+															ng-blur 			  = "carregarHistorico($item.id)">
+
+													<i class="icon-append fa fa-user"></i>
+													<span class="material-input"></span>
+												</div>
+											</section>
+											<section class="col col-lg-4">
+												<label class="label"><strong>Curso</strong></label>
+
+												<select name="curso" id="curso" ng-model="historico.id_curso" class="form-control" data-validate-input data-required ng-change="getSerie(historico.id_curso)">
+													<option selected="selected" value="">Selecione</option>
+													<option ng-repeat="curso in cursos" value="{{curso.id}}" ng-selected="curso.id == historico.id_curso">{{curso.nome}}</option>
+												</select>
+
+											</section>
+											<section class="col col-lg-2">
+												<label class="label"><strong>Série</strong></label>
+
+												<select name="serie" id="serie" ng-model="historico.serie" class="form-control" data-validate-input data-required ng-change="getTurma(historico.serie, historico.id_curso)">
+													<option selected="selected" value="">Selecione</option>
+													<option ng-repeat="serie in series" value="{{serie.id}}" ng-selected="serie.id == historico.serie">{{serie.value}}</option>
+												</select>
+
+											</section>
+											<section class="col col-lg-2">
+												<label class="label"><strong>Turma</strong></label>
+
+												<select name="turma" id="turma" ng-model="historico.id_turma" class="form-control" data-validate-input data-required ng-change="getDisciplina(historico.id_curso, historico.serie, historico.id_turma)">
+													<option selected="selected" value="">Selecione</option>
+													<option ng-repeat="turma in turmas" value="{{turma.id}}" ng-selected="turma.id == historico.id_turma">{{turma.nome}}</option>
+												</select>
+
+											</section>
+
+										</div>
+										<div class="row">
+
+											<section class="col col-lg-4">
+												<label class="label"><strong>Estabelecimento</strong></label>
+
+												<select name="estabelecimento" id="estabelecimento" ng-model="historico.id_estabelecimento" class="form-control" data-validate-input data-required>
+													<option selected="selected" value="">Selecione</option>
+													<option ng-repeat="estabelecimento in estabelecimentos" value="{{estabelecimento.id}}" ng-selected="estabelecimento.id == historico.id_entidade">{{estabelecimento.nome}}</option>
+												</select>
+
+											</section>
+
+											<section class="col col-lg-4">
+												<label class="label"><strong>Etapa</strong></label>
+
+												<select name="etapa" id="etapa" ng-model="historico.id_etapa" class="form-control" data-validate-input data-required>
+													<option selected="selected" value="">Selecione</option>
+													<option ng-repeat="etapa in etapas" value="{{etapa.id}}" ng-selected="etapa.id == historico.id_etapa">{{etapa.descricao}}</option>
+												</select>
+
+											</section>
+
+										</div>
+																		
+
+									<fieldset>
+										<div class="row">
+
+											<tabset>
+												<tab active="tab.active">
+													<tab-heading>
+														<i class="fa fa-fw fa-lg fa-arrow-circle-right"></i>Fase 01
+													</tab-heading>
+													<div id="myTabContentComplemento" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo">
+														<form id="cadastroFase01-form" class="smart-form" novalidate="novalidate" validate-form>
+															<fieldset>
+																<div class="row">
+
+																	<!--<div data-ng-include="'views/modal/formTabelaHistorico.html'"></div>-->
+																	<section class="col col-lg-12">
+																		
+																		<table class="table table-striped table-bordered table-hover" ts-wrapper>
+																			<tr style="text-align:center">
+																				<td width='20%'>{{txt_parte_m}}</td><td width='20%'>{{txt_disciplina_m}}</td><td width='20%'>{{txt_nota_m}}</td><td width='20%'>{{txt_falta_m}}</td><td width='20%'>{{txt_ch_m}}</td><td width='20%'>&nbsp;</td>
+																			</tr>
+																			<tr style="text-align:center">
+
+																				<td width='20%'><select ng-model="parte01.selected" class="form-control"><option ng-repeat="item_parte01 in partes" value="{{item_parte01.id}}">{{item_parte01.descricao}}</option></select></td>
+																				<td width='20%'>
+																					<select name="disciplina01" id="disciplina01" ng-model="fase01.disciplina" class="form-control" data-validate-input data-required>
+																						<option selected="selected" value="">Selecione</option>
+																						<option ng-repeat="disciplina in disciplinas" value="{{disciplina.id}}_{{disciplina.nome}}" ng-selected="disciplina.id == historico.disciplina">{{disciplina.nome}}</option>
+																					</select>
+																				</td>
+																				<td width='20%'><input class="form-control" name="nota01" 		   id="nota01"			placeholder="Nota"			ng-model="fase01.nota" 			data-validate-input data-required ng-change="avaliar('#nota01')"></td>
+																				<td width='20%'><input class="form-control" name="falta01" 		   id="falta01"			placeholder="Falta"		 	ng-model="fase01.falta"			data-validate-input data-required maxlength=2></td>
+																				<td width='20%'><input class="form-control" name="carga_horaria01"  id="carga_horaria01" placeholder="Carga Horária" ng-model="fase01.carga_horaria" data-validate-input data-required maxlength=3></td>
+																				<td width='20%'><button class="btnmd btnmd-info pull-right" ng-click="adicionar(1,parte01.selected)" id="adicionar"><i class="fa fa-arrow-circle-down">Adicionar</i></button></td>
+																			</tr>
+																		</table>																		
+																		
+																	</section>
+																	<section class="col col-lg-12">
+																		<div class="table-responsive">
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase01.comum.length>0">
+																				
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_comum}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemc01 in historico.fase01.comum" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemc01.disciplina}}</td>
+																					<td width="20%">{{itemc01.nota}}</td>
+																					<td width="20%">{{itemc01.falta}}</td>
+																					<td width="20%">{{itemc01.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase01.comum.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+
+																			</table>
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase01.diversificado.length>0">
+
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_diversificada}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemd01 in historico.fase01.diversificado" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemd01.disciplina}}</td>
+																					<td width="20%">{{itemd01.nota}}</td>
+																					<td width="20%">{{itemd01.falta}}</td>
+																					<td width="20%">{{itemd01.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase01.diversificado.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+																				
+																			</table>
+																		</div>
+																	</section>
+																</div>
+															</fieldset>
+														</form>
+													</div>
+												</tab>
+												
+												<tab>
+													<tab-heading>
+														<i class="fa fa-fw fa-lg fa-arrow-circle-right"></i>Fase 02
+													</tab-heading>
+													<div id="myTabContentComplemento" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo">
+														<form id="cadastroFase02-form" class="smart-form" novalidate="novalidate" validate-form>
+															<fieldset>
+																<div class="row">
+
+																	<!--<div data-ng-include="'views/modal/formTabelaHistorico.html'"></div>-->
+																	<section class="col col-lg-12">
+																		<table class="table table-striped table-bordered table-hover" ts-wrapper>
+																			<tr style="text-align:center">
+																				<td width='20%'>{{txt_parte_m}}</td><td width='20%'>{{txt_disciplina_m}}</td><td width='20%'>{{txt_nota_m}}</td><td width='20%'>{{txt_falta_m}}</td><td width='20%'>{{txt_ch_m}}</td><td width='20%'>&nbsp;</td>
+																			</tr>
+																			<tr style="text-align:center">
+
+																				<td width='20%'><select ng-model="parte02.selected" class="form-control"><option ng-repeat="item_parte02 in partes" value="{{item_parte02.id}}">{{item_parte02.descricao}}</option></select></td>
+																				<td width='20%'>
+																					<select name="disciplina02" id="disciplina02" ng-model="fase02.disciplina" class="form-control" data-validate-input data-required>
+																						<option selected="selected" value="">Selecione</option>
+																						<option ng-repeat="disciplina in disciplinas" value="{{disciplina.id}}_{{disciplina.nome}}" ng-selected="disciplina.id == historico.disciplina">{{disciplina.nome}}</option>
+																					</select>
+																				</td>
+																				<td width='20%'><input class="form-control" name="nota02" 		   id="nota02"			placeholder="Nota"			ng-model="fase02.nota" 			data-validate-input data-required ng-change="avaliar('#nota02')"></td>
+																				<td width='20%'><input class="form-control" name="falta02" 		   id="falta02"			placeholder="Falta"		 	ng-model="fase02.falta"			data-validate-input data-required data-required maxlength=2></td>
+																				<td width='20%'><input class="form-control" name="carga_horaria02" id="carga_horaria02" placeholder="Carga Horária" ng-model="fase02.carga_horaria" data-validate-input data-required data-required maxlength=3></td>
+																				<td width='20%'><button class="btnmd btnmd-info pull-right" ng-click="adicionar(2,parte02.selected)" id="adicionar"><i class="fa fa-arrow-circle-down">Adicionar</i></button></td>
+																			</tr>
+																		</table>																		
+																	</section>
+																	<section class="col col-lg-12">
+																		<div class="table-responsive">
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase02.comum.length>0">
+																				
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_comum}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemc02 in historico.fase02.comum" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemc02.disciplina}}</td>
+																					<td width="20%">{{itemc02.nota}}</td>
+																					<td width="20%">{{itemc02.falta}}</td>
+																					<td width="20%">{{itemc02.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase02.comum.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+
+																			</table>
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase02.diversificado.length>0">
+
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_diversificada}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemd02 in historico.fase02.diversificado" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemd02.disciplina}}</td>
+																					<td width="20%">{{itemd02.nota}}</td>
+																					<td width="20%">{{itemd02.falta}}</td>
+																					<td width="20%">{{itemd02.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase02.diversificado.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+																				
+																			</table>
+																		</div>
+																	</section>
+
+																</div>
+															</fieldset>
+														</form>
+													</div>
+
+												</tab>										
+												
+												<tab>
+													<tab-heading>
+														<i class="fa fa-fw fa-lg fa-arrow-circle-right"></i>Fase 03
+													</tab-heading>
+													<div id="myTabContent2" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+														<form id="cadastroFase03-form" class="smart-form" novalidate="novalidate" validate-form>
+															<fieldset>
+																<div class="row">
+
+																	<!--<div data-ng-include="'views/modal/formTabelaHistorico.html'"></div>-->
+																	<section class="col col-lg-12">
+																		<table class="table table-striped table-bordered table-hover" ts-wrapper>
+																			<tr style="text-align:center">
+																				<td width='20%'>{{txt_parte_m}}</td><td width='20%'>{{txt_disciplina_m}}</td><td width='20%'>{{txt_nota_m}}</td><td width='20%'>{{txt_falta_m}}</td><td width='20%'>{{txt_ch_m}}</td><td width='20%'>&nbsp;</td>
+																			</tr>
+																			<tr style="text-align:center">
+
+																				<td width='20%'><select ng-model="parte03.selected" class="form-control"><option ng-repeat="item_parte03 in partes" value="{{item_parte03.id}}">{{item_parte03.descricao}}</option></select></td>
+																				<td width='20%'>
+																					<select name="disciplina03" id="disciplina03" ng-model="fase03.disciplina" class="form-control" data-validate-input data-required>
+																						<option selected="selected" value="">Selecione</option>
+																						<option ng-repeat="disciplina in disciplinas" value="{{disciplina.id}}_{{disciplina.nome}}" ng-selected="disciplina.id == historico.disciplina">{{disciplina.nome}}</option>
+																					</select>
+																				</td>
+																				<td width='20%'><input class="form-control" name="nota03" 		   id="nota03"			placeholder="Nota"			ng-model="fase03.nota" 			data-validate-input data-required ng-change="avaliar('#nota03')"></td>
+																				<td width='20%'><input class="form-control" name="falta03" 		   id="falta03"			placeholder="Falta"		 	ng-model="fase03.falta"			data-validate-input data-required data-required maxlength=2></td>
+																				<td width='20%'><input class="form-control" name="carga_horaria03" id="carga_horaria03" placeholder="Carga Horária" ng-model="fase03.carga_horaria" data-validate-input data-required data-required maxlength=3></td>
+																				<td width='20%'><button class="btnmd btnmd-info pull-right" ng-click="adicionar(3,parte03.selected)" id="adicionar"><i class="fa fa-arrow-circle-down">Adicionar</i></button></td>
+																			</tr>
+																		</table>																		
+																	</section>
+																	<section class="col col-lg-12">
+																		<div class="table-responsive">
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase03.comum.length>0">
+																				
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_comum}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemc03 in historico.fase03.comum" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemc03.disciplina}}</td>
+																					<td width="20%">{{itemc03.nota}}</td>
+																					<td width="20%">{{itemc03.falta}}</td>
+																					<td width="20%">{{itemc03.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase03.comum.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+
+																			</table>
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase03.diversificado.length>0">
+
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_diversificada}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemd03 in historico.fase03.diversificado" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemd03.disciplina}}</td>
+																					<td width="20%">{{itemd03.nota}}</td>
+																					<td width="20%">{{itemd03.falta}}</td>
+																					<td width="20%">{{itemd03.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase03.diversificado.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+																				
+																			</table>
+																		</div>
+																	</section>
+																</div>
+															</fieldset>
+														</form>
+													</div>
+												</tab>
+
+												<tab>
+													<tab-heading>
+														<i class="fa fa-fw fa-lg fa-arrow-circle-right"></i>Fase 04
+													</tab-heading>
+													<div id="myTabContent2" class="tab-content padding-10 ng-hide" ng-hide="esconderConteudo" ng-show="data2">
+														<form id="cadastroFase04-form" class="smart-form" novalidate="novalidate" validate-form>
+															<fieldset>
+																<div class="row">
+
+																	<!--<div data-ng-include="'views/modal/formTabelaHistorico.html'"></div>-->
+																	<section class="col col-lg-12">
+																		<table class="table table-striped table-bordered table-hover" ts-wrapper>
+																			<tr style="text-align:center">
+																				<td width='20%'>{{txt_parte_m}}</td><td width='20%'>{{txt_disciplina_m}}</td><td width='20%'>{{txt_nota_m}}</td><td width='20%'>{{txt_falta_m}}</td><td width='20%'>{{txt_ch_m}}</td><td width='20%'>&nbsp;</td>
+																			</tr>
+																			<tr style="text-align:center">
+
+																				<td width='20%'><select ng-model="parte04.selected" class="form-control"><option ng-repeat="item_parte04 in partes" value="{{item_parte04.id}}">{{item_parte04.descricao}}</option></select></td>
+																				<td width='20%'>
+																					<select name="disciplina04" id="disciplina04" ng-model="fase04.disciplina" class="form-control" data-validate-input data-required>
+																						<option selected="selected" value="">Selecione</option>
+																						<option ng-repeat="disciplina in disciplinas" value="{{disciplina.id}}_{{disciplina.nome}}" ng-selected="disciplina.id == historico.disciplina">{{disciplina.nome}}</option>
+																					</select>
+																				</td>
+																				<td width='20%'><input class="form-control" name="nota04" 		   id="nota04"			placeholder="Nota"			ng-model="fase04.nota" 			data-validate-input data-required ng-change="avaliar('#nota04')"></td>
+																				<td width='20%'><input class="form-control" name="falta04" 		   id="falta04"			placeholder="Falta"		 	ng-model="fase04.falta"			data-validate-input data-required data-required maxlength=2></td>
+																				<td width='20%'><input class="form-control" name="carga_horaria04" id="carga_horaria04" placeholder="Carga Horária" ng-model="fase04.carga_horaria" data-validate-input data-required data-required maxlength=3></td>
+																				<td width='20%'><button class="btnmd btnmd-info pull-right" ng-click="adicionar(4,parte04.selected)" id="adicionar"><i class="fa fa-arrow-circle-down">Adicionar</i></button></td>
+																			</tr>
+																		</table>																		
+																	</section>
+																	<section class="col col-lg-12">
+																		<div class="table-responsive">
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase04.comum.length>0">
+																				
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_comum}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemc04 in historico.fase04.comum" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemc04.disciplina}}</td>
+																					<td width="20%">{{itemc04.nota}}</td>
+																					<td width="20%">{{itemc04.falta}}</td>
+																					<td width="20%">{{itemc04.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase04.comum.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+
+																			</table>
+																			<table class="table table-striped table-bordered table-hover" ts-wrapper ng-show="historico.fase04.diversificado.length>0">
+
+																				<tr><td colspan='5' style='font-weight:bold'>{{txt_parte_diversificada}}</td></tr>
+																				<tr style="text-align:center">
+																					<td width="20%">{{txt_disciplina}}</td><td width="20%">{{txt_nota}}</td><td width="20%">{{txt_falta}}</td><td width="20%">{{txt_ch}}</td><td width="20%">&nbsp;</td>
+																				</tr>
+																				<tr ng-repeat="itemd04 in historico.fase04.diversificado" ts-repeat style="text-align: center;">
+																					<td width="20%">{{itemd04.disciplina}}</td>
+																					<td width="20%">{{itemd04.nota}}</td>
+																					<td width="20%">{{itemd04.falta}}</td>
+																					<td width="20%">{{itemd04.carga_horaria}}</td>
+																					<td width="20%"><button class="btnmd btnmd-info pull-right" ng-click="historico.fase04.diversificado.splice($index,1)" id="retirar"><i class="fa fa-fw fa-lg fa-minus-circle"></i></button></td>
+																				</tr>
+																				
+																			</table>
+																		</div>
+																	</section>
+																</div>
+															</fieldset>
+														</form>
+													</div>
+												</tab>
+											</tabset>
+										</div>
+									</fieldset>
+								</div>
+							</section>
+						</fieldset>
+						<footer>														
+							<button class="btnmd btnmd-info pull-right" ng-click="cadastrar()" id="cadastrar"> Salvar </button>
+						</footer>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+
+
+
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

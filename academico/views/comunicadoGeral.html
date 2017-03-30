@@ -1,0 +1,46 @@
+<script src="controllers/controller.comunicadoGeral.js"></script>
+<div class="container" ng-controller="comunicadoGeral">
+	<div class="row">
+		<article class="col-lg-12 col-right">			
+			<form action="">
+				<fieldset>
+					<div class="row no-margin-left">
+
+						<section class="col col-lg-2">
+							<label>&nbsp;</label>
+							<a href="#novoComunicado" type="buttom" id="novoComunicado" class="btn btn-primary pull-right">
+								Novo Comunicado <i class="fa fa-plus-square"></i></a>
+							</section>
+						</div>
+					</fieldset>				
+				</form>
+				<hr>
+				<div class="row no-margin-left">
+					<section class="col-lg-12">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped" ts-wrapper>
+								<thead>
+									<tr>
+										<th ts-criteria="id">Id</th>										
+										<th ts-criteria="descricao">Descrição</th>
+										<th ts-criteria="data">Data de Envio</th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in comunicado">
+										<td>{{item.id}}</td>										
+										<td>{{item.descricao}}</td>
+										<td>{{item.data_envio}}</td>
+					                    <td align="center">
+					                    <a ng-click='editar(item.id)' style="cursor: pointer;" popover="Editar cadastro" popover-trigger="mouseenter"><i style="font-size: 1.8em;" class="fa-3x fa fa-pencil-square-o"></i></a>
+					                    </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</article><!-- end col right-->
+		</div><!-- end row-->
+	</div><!-- end container-->

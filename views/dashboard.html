@@ -1,0 +1,1630 @@
+<script src="controllers/controller.dashboard.js"></script>
+<!-- <script src="controllers/controller.consultaUA.js"></script> -->
+<style>
+
+	.livre {
+		color: green;
+	}
+	.bloqueado{
+		color: yellow;
+	}
+	.ocupado{
+		color:red;
+	}
+	.strong{
+		color: black;
+		font-family: "RobotoDraft", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+
+	.radar{
+		color: blue;
+	}
+
+	.vencido h5{background: #900323; color: #FFFFFF;}
+
+	.vencer h5{background: #628662; color: #FFFFFF;}
+
+	.hoje h5{background: #A97B1C; color: #FFFFFF;}
+
+	.vencido .num-of-tasks, .hoje .num-of-tasks, .vencer .num-of-tasks{color: #FFFFFF;}
+
+	.icon{ width: 20px; margin-top: 8px; float: left; margin-left: 3px;}
+	.cabecalho h2{margin-left: 0px !important;}
+	.btn-mesquita{
+		border:1px solid #ffad41; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;
+		background-color: #ffc579; background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc579), to(#fb9d23));
+		background-image: -webkit-linear-gradient(top, #ffc579, #fb9d23);
+		background-image: -moz-linear-gradient(top, #ffc579, #fb9d23);
+		background-image: -ms-linear-gradient(top, #ffc579, #fb9d23);
+		background-image: -o-linear-gradient(top, #ffc579, #fb9d23);
+		background-image: linear-gradient(to bottom, #ffc579, #fb9d23);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffc579, endColorstr=#fb9d23);
+		padding: 4px 10px 8px 10px;
+		border-radius:7px;
+		cursor:pointer;
+		-webkit-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+		box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+	}
+	.btn-mesquita:hover{
+		border:1px solid #ff9913;
+		background-color: #ffaf46; background-image: -webkit-gradient(linear, left top, left bottom, from(#ffaf46), to(#e78404));
+		background-image: -webkit-linear-gradient(top, #ffaf46, #e78404);
+		background-image: -moz-linear-gradient(top, #ffaf46, #e78404);
+		background-image: -ms-linear-gradient(top, #ffaf46, #e78404);
+		background-image: -o-linear-gradient(top, #ffaf46, #e78404);
+		background-image: linear-gradient(to bottom, #ffaf46, #e78404);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffaf46, endColorstr=#e78404);
+	}
+	.btn-mesquita p{
+		font-size:15px;
+		color:#fff;
+		text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;}
+
+		.btn-cemiterio{
+			border:1px solid #25729a; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;
+			background-color: #3093c7; background-image: -webkit-gradient(linear, left top, left bottom, from(#3093c7), to(#1c5a85));
+			background-image: -webkit-linear-gradient(top, #3093c7, #1c5a85);
+			background-image: -moz-linear-gradient(top, #3093c7, #1c5a85);
+			background-image: -ms-linear-gradient(top, #3093c7, #1c5a85);
+			background-image: -o-linear-gradient(top, #3093c7, #1c5a85);
+			background-image: linear-gradient(to bottom, #3093c7, #1c5a85);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3093c7, endColorstr=#1c5a85);
+			padding: 4px 10px 8px 10px;
+			border-radius:7px;
+			cursor:pointer;
+			-webkit-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+			-moz-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+			box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+		}
+		.btn-cemiterio:hover{
+			border:1px solid #1c5675;
+			background-color: #26759e; background-image: -webkit-gradient(linear, left top, left bottom, from(#26759e), to(#133d5b));
+			background-image: -webkit-linear-gradient(top, #26759e, #133d5b);
+			background-image: -moz-linear-gradient(top, #26759e, #133d5b);
+			background-image: -ms-linear-gradient(top, #26759e, #133d5b);
+			background-image: -o-linear-gradient(top, #26759e, #133d5b);
+			background-image: linear-gradient(to bottom, #26759e, #133d5b);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#26759e, endColorstr=#133d5b);
+		}
+		.btn-cemiterio p{
+			font-size:15px;
+			color:#fff;
+			text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;}
+			.dash{
+				text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+				font-size: 2.5em;
+			}
+
+
+			.btn-escola{
+				border:1px solid #a8c1d5; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;
+				background-color: #CEDCE7; background-image: -webkit-gradient(linear, left top, left bottom, from(#CEDCE7), to(#596a72));
+				background-image: -webkit-linear-gradient(top, #CEDCE7, #596a72);
+				background-image: -moz-linear-gradient(top, #CEDCE7, #596a72);
+				background-image: -ms-linear-gradient(top, #CEDCE7, #596a72);
+				background-image: -o-linear-gradient(top, #CEDCE7, #596a72);
+				background-image: linear-gradient(to bottom, #CEDCE7, #596a72);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#CEDCE7, endColorstr=#596a72);
+				padding: 4px 10px 8px 10px;
+				border-radius:7px;
+				cursor:pointer;
+				-webkit-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+				-moz-box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+				box-shadow: 0px 8px 12px -8px rgba(0,0,0,0.75);
+			}
+			.btn-escola:hover{
+				border:1px solid #8aabc5;
+				background-color: #acc4d6; background-image: -webkit-gradient(linear, left top, left bottom, from(#acc4d6), to(#434f55));
+				background-image: -webkit-linear-gradient(top, #acc4d6, #434f55);
+				background-image: -moz-linear-gradient(top, #acc4d6, #434f55);
+				background-image: -ms-linear-gradient(top, #acc4d6, #434f55);
+				background-image: -o-linear-gradient(top, #acc4d6, #434f55);
+				background-image: linear-gradient(to bottom, #acc4d6, #434f55);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#acc4d6, endColorstr=#434f55);
+			}
+			.btn-escola p{
+				font-size:15px;
+				color:#fff;
+				text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;}
+				.dash{
+					text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+					font-size: 2.5em;
+				}
+				.gaveta_repeat:first-child{
+					margin-top: 10px;
+				}
+			</style>
+			<div ng-controller='Dashboard'>
+				<section ng-SHOW="show_cemiterio" id="widget-grid" class="full-width" widget-grid>
+
+				<div class="col-lg-6" ng-if="gavetasVencidas.length">
+						<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+							<header style="background: #900323;">
+								<span class="widget-icon"> <i class="fa fa-check"></i> </span>
+								<h2>Gavetas Vencidas</h2>   
+							</header>
+							<!-- widget div-->
+							<div>
+								<!-- widget edit box -->
+								<div class="widget-body no-padding smart-form">							
+									<h5 class="todo-group-title"><i class="fa fa-external-link"></i> Gavetas ({{gavetasVencidas.length}})</h5>
+									<div>
+										<ul id="sortable2" class="todo">
+											<li data-ng-repeat="gaveta in gavetasVencidas | limitTo:10">
+												<span class="handle"> </span>
+												<p>
+													<strong>Descrição: </strong> - {{gaveta.descricao}} [ <a ng-href="#/forms/formCadastroUA/1/{{gaveta.id_unidade_armazenagem}}" class="font-xs">Visualizar</a> ]<br />
+													<strong>Falecido: </strong>{{gaveta.nome_falecido}}<br />
+													<strong>Lote: </strong>{{gaveta.descricao_lote}}
+													<span class="date"> Vencimento em: {{gaveta.data_vencimento}}</span>
+												</p>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div class="col-lg-6">
+					<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+						<header style="background: #E6A800;">
+							<span class="widget-icon"> <i class="fa fa-check"></i> </span>
+							<h2>Gavetas A Vencer</h2>   
+						</header>
+						<!-- widget div-->
+						<div>
+							<!-- widget edit box -->
+							<div class="widget-body no-padding smart-form">							
+								<h5 class="todo-group-title"><i class="fa fa-external-link"></i> Gavetas ({{gavetasVencer.length}})</h5>
+								<div>
+									<ul id="sortable2" class="todo">
+										<li data-ng-repeat="gaveta in gavetasVencer | limitTo:10">
+											<span class="handle"> </span>
+											<p>
+												<strong>Descrição: </strong> - {{gaveta.descricao}} [ <a ng-href="#/forms/formCadastroUA/1/{{gaveta.id_unidade_armazenagem}}" class="font-xs">Visualizar</a> ]<br />
+												<strong>Falecido: </strong>{{gaveta.nome_falecido}}<br />
+												<strong>Lote: </strong>{{gaveta.descricao_lote}}
+												<span class="date"> Vencimento em: {{gaveta.data_vencimento}}</span>
+											</p>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+
+				</section>
+				<section ng-SHOW="show_cemiterio" id="widget-grid" class="full-width" widget-grid>
+					<div class="row">
+						<article class="col-sm-12 col-md-12 col-lg-12">
+							<div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" data-widget-deletebutton="false" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false" role="widget" style="position: relative; opacity: 1; left: 0px; top: 0px;">
+								<header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-toggle-btn" href="#" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a data-placement="bottom" title="" rel="tooltip" class="button-icon jarviswidget-fullscreen-btn" href="javascript:void(0);" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> </div>
+									<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+									<h2>Jazigo </h2>
+									<span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span>
+								</header>
+								<div role="content">
+									<div class="widget-body no-padding">
+										<form id="" class="smart-form ng-pristine ng-valid" novalidate="novalidate">
+											<fieldset>
+
+												<div class="row">
+
+													<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+														<label class="label"><strong>Quadra</strong></label>
+														<div class="form-group form-control-wrapper inputValidate">
+															<select class="form-control" 
+															ng-change="getDados()"
+															ng-model="dash.id_quadra" 
+															ng-options="itemd.id as itemd.descricao for itemd in combo_quadras" 
+															ng-selected="itemd.id_quadra==dash.id_quadra" 
+															data-validate-input 
+															data-required 
+															data-message-required="Selecione a quadra">
+															<option value="" selected>Selecione a quadra</option>
+														</select>
+													</div>
+												</section>
+												<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+													<label class="label"><strong>Buscar por Falecido</strong></label>
+													<div class="form-control form-control-wrapper inputValidate">
+														<input class="form-control" name="buscafalecido" id="buscafalecido" placeholder="Selecione um responsavel" typeahead="pessoas as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="passaPessoa($item, $model, $label)"
+														ng-model="falecido_pessoa.nome">
+													    <i class="icon-append fa fa-user"></i>
+														<span class="material-input"></span>
+
+														<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+										              	ng-model="falecido.recebido"
+										              	data-validate-input
+										                data-required 
+										                data-message-required="Selecione o responsável pela conta">
+													</div>
+												</section>
+
+ 												<section class="col-lg-4 pull-right">
+													<i class="fa fa-circle livre"><strong class="strong"> Livre</strong></i>
+													<i class="fa fa-circle bloqueado"> <strong class="strong">Bloqueado</strong></i>
+													<i class="fa fa-circle ocupado"> <strong class="strong">Ocupado</strong></i>
+												</section>
+
+											</div>
+											<div class="row">
+												<section class="col col-md-12" ng-repeat="quadra in retorno.quadra">
+													<div class="col col-md-12 quadra">
+														<p>Quadra: {{ quadra.q_descricao }}</p>														
+
+														<div class="col col-md-4" ng-repeat="lote in retorno.lote">
+
+															<div class="col lote col-md-12">
+																<div class="col col-md-12">
+																	<p>Lote: {{ lote.l_descricao }}</p>	
+																	
+																	<div class="row">																		
+																		<div class="col slideright col-md-4 col-xs-4 col-sm-4" ng-repeat="ua in retorno.ua | filter:{ua_id_lote:lote.l_id}:true">																		
+																			
+																			<div class="unidade slideright" ng-click="editaUnidade(ua.ua_id)">
+
+																				<div align="center" class="col-md-4 col-xs-4 col-sm-4 i_falecido" ng-repeat="gaveta in retorno.gaveta | filter:{g_id_ua:ua.ua_id}:true">
+																					<i popover-html-unsafe="Descrição: {{ua.ua_descricao}}</br> Tipo: {{ua.pua_descricao}}</br> Unidade: {{ua.tua_descricao}}</br> Falecido: {{gaveta.f_falecido}}" popover-trigger="mouseenter" popover-title="Unidade de Armazenamento" ng-class="{'fa fa-circle' : gaveta.busca_id == 0, 'fa fa-circle faa-fast faa-burst animated radar' : gaveta.busca_id != 0, 'icon-livre' : gaveta.g_id_status_gaveta == 1, 'icon-ocupado' : gaveta.g_id_status_gaveta == 2, 'icon-bloqueado' : gaveta.g_id_status_gaveta == 3}" ></i>
+																					<!-- ng-class="setClass(gaveta.g_id_status_gaveta)" -->
+																				</div>																			
+																			</div>																		
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>																									
+													</div>
+												</section>
+
+											</div>
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<section ng-SHOW="show_mesquita_escola" id="widget-grid" class="full-width" widget-grid>
+				<div class="row">
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+						<!--h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Painel <span>> My Dashboard</span></h1-->
+						<h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> Painel</h1>
+					</div>	
+				</div>
+				<!-- widget grid -->
+
+				<div class="row">
+					<!-- NEW COL START -->
+					<div  class="col-sm-5 col-md-5 col-lg-5" ng-show="financeiros.avencido.length > 0 || financeiros.hoje.length > 0 || financeiros.vencer.length > 0 || cotacoes.length > 0 || unidades_armazenagens.length > 0 || agendas.length > 0 || unidades_armazenagens.avencido.length > 0 || unidades_armazenagens.hoje.length > 0 || unidades_armazenagens.vencer.length > 0">
+						<article>
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-check"></i> </span>
+									<h2>Tarefas</h2>   
+								</header>
+								<!-- widget div-->
+								<div>
+									<!-- widget edit box -->
+									<div class="widget-body no-padding smart-form">							
+										<div ng-show="financeiros.avencido.length > 0 || financeiros.hoje.length > 0 || financeiros.vencer.length > 0">
+											<h5 class="todo-group-title"><i class="fa fa-warning"></i>Financeiro(<small class="num-of-tasks">{{financeiros.avencido.length + financeiros.hoje.length + financeiros.vencer.length}}</small>)</h5>
+											<div data-ng-repeat="financeiro in financeiros" ng-class="financeiro.classe">
+												<h5 ng-show="financeiro.length > 0" class="todo-group-title" style="padding-left: 40px;"><i class="fa fa-external-link"></i> {{financeiro.tipo}} (<small class="num-of-tasks">{{financeiro.length}}</small>)</h5>
+												<ul id="sortable2" class="todo">
+													<li data-ng-repeat="item in financeiro">
+														<span class="handle"> </span>
+														<p>
+															<strong>{{item.numero_documento}}</strong> - R$ {{item.valor_final}} <small>({{item.tipo_lancamento}})</small> [ <a href="#{{item.url+'/'+item.id_tipo_lancamento+'/'+item.id}}" class="font-xs">Visualizar</a> ] <span class="text-muted">{{item.descricao}}</span>
+															<span class="date">{{item.data_vencimento}}</span>
+														</p>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div ng-show="cotacoes.length > 0">
+											<h5 class="todo-group-title"><i class="fa fa-warning"></i> Cotações (<small class="num-of-tasks">{{cotacoes.length}}</small>)</h5>
+											<ul id="sortable2" class="todo">
+												<li data-ng-repeat="cotacao in cotacoes">
+													<span class="handle"></span>
+													<p>
+														<strong>{{cotacao.descricao}}</strong> <small>({{cotacao.pessoa}})</small><!-- [ <a href="javascript:void(0);" ng-click="visualizarRegistro('compras/formCadastroPedidos/1/'+cotacao.id);" class="font-xs">Visualizar</a> ]--> <span class="text-muted">{{cotacao.departamento_funcionario}}</span>
+													</p>
+												</li>
+											</ul>
+										</div>
+										<div ng-show="unidades_armazenagens.avencido.length > 0 || unidades_armazenagens.hoje.length > 0 || unidades_armazenagens.vencer.length > 0">
+											<h5 class="todo-group-title"><i class="fa fa-warning"></i> Túmulos (<small class="num-of-tasks">{{unidades_armazenagens.avencido.length + unidades_armazenagens.hoje.length + unidades_armazenagens.vencer.length}}</small>)</h5>
+											<div data-ng-repeat="unidade_armazenagem in unidades_armazenagens" ng-class="unidade_armazenagem.classe">
+												<h5 ng-show="unidade_armazenagem.length > 0" class="todo-group-title" style="padding-left: 40px;"><i class="fa fa-external-link"></i> {{unidade_armazenagem.tipo}} (<small class="num-of-tasks">{{unidade_armazenagem.length}}</small>)</h5>
+												<ul id="sortable2" class="todo">
+													<li data-ng-repeat="item in unidade_armazenagem">
+														<span class="handle"> </span>
+														<p>
+															<strong>{{item.descricao}}</strong> <small>({{item.numero_tumulo}})</small> [ <a href="javascript:void(0);" ng-click="visualizarRegistro('forms/formCadastroUA/1/'+item.id);" class="font-xs">Visualizar</a> ] <span class="text-muted" style="font-size:13px;">{{item.data_fim_armazenagem}}</span>
+														</p>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div ng-show="agendas.length > 0">
+											<h5 class="todo-group-title"><i class="fa fa-warning"></i> Agendas (<small class="num-of-tasks">{{agendas.length}}</small>)</h5>
+											<ul id="sortable1" class="todo">
+												<li data-ng-repeat="agenda in agendas">
+													<span class="handle"></span>
+													<p>
+														<strong>{{agenda.title}}</strong> - {{agenda.valor | currency}} [ 
+														<!-- <a ng-show="agenda.id_tipo_evento != 2" href="javascript:void(0);" ng-click="visualizarRegistro('/agenda/evento/1/'+agenda.id);" class="font-xs">Visualizar</a> --> 
+														<a ng-click="visualizarRegistro('/agenda/formAlmoco/1/'+agenda.id);" class="font-xs">Visualizar</a> 
+														] <span class="text-muted">{{agenda.description}}</span>
+														<span class="date">{{agenda.data_inicio}} {{agenda.hora_inicio}} até {{agenda.data_termino}} {{agenda.hora_termino}}</span>
+													</p>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</article>
+					</div>
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<article>
+							<!-- Widget ID (each widget will need unique ID)-->
+							<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+								<header>
+									<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+									<h2>Pessoas</h2>   {{pessoas.title}}
+								</header>
+								<div>
+									<!-- widget edit box -->
+									<div class="widget-body no-padding smart-form">
+										<section class="col col-lg-12" style="margin-top:15px">
+
+											<nvd3-pie-chart
+											data="pessoas"
+											id="exampleId"
+											showLabels="true"
+											x="xFunction()"
+											y="yFunction()"
+											labelThreshold=".05"
+											pieLabelsOutside="false"
+											labelType="percent"
+											showLegend="true"
+											tooltips="true"
+											tooltipcontent="toolTipContentFunction()">
+											<svg height="400"></svg>
+										</nvd3-pie-chart>
+
+									</section>
+								</div>
+							</div>
+						</div>
+					</article>
+					<article ng-hide="usuario == 3">
+
+						<!-- Widget ID (each widget will need unique ID)-->
+						<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+							<header>
+								<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+								<h2>{{associadosAno[0].title}}</h2>   
+							</header>
+							<!-- widget div-->
+							<div>
+								<!-- widget edit box -->
+								<div class="widget-body no-padding smart-form">						<nvd3-multi-bar-chart
+									data="associadosAno"
+									id="associadoscontador"
+									width="600"
+									height="300"
+									showXAxis="true"
+									showYAxis="true"	
+									yaxistickformat="xAxisTickFormatFunction()"					        
+									reduceXTicks="false"
+									rotateLabels="90"
+									staggerLabels="true"
+									interactive="true"
+									tooltips="true"
+									tooltipContent="tooltipUsuarios()">
+									<svg></svg>
+								</nvd3-multi-bar-chart>							
+							</div>
+						</div>
+					</div>
+				</article>			
+			</div>
+
+			<div class='col col-lg-6' ng-show="usuario == 3">
+				<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+						<h2>Alunos por Turma</h2>   
+					</header>
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="widget-body no-padding smart-form">						<nvd3-multi-bar-chart
+							data="obj"
+							id="alunos"
+							width="600"
+							height="300"
+							showXAxis="true"
+							showYAxis="true"	
+							yaxistickformat="xAxisTickFormatFunction()"					        
+							reduceXTicks="false"
+							rotateLabels="90"
+							staggerLabels="true"
+							interactive="true"
+							tooltips="true"
+							tooltipContent="tooltipUsuarios()">
+							<svg></svg>
+						</nvd3-multi-bar-chart>							
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section ng-show="show_dashboard" id="widget-grid" widget-grid>
+	<!-- ABAS -->
+	<div class="row">
+		<section class="col col-sm-12 col-md-12 col-lg-12">
+			<hr class="simple">
+			<div class="widget-body">
+				<tabset>
+					<tab ng-repeat="tab in tabs" select="changeTab($index)" active="tab.active">
+						<tab-heading >
+						<i ng-if="tab.nome == 'Mesquita'" class="fa fa-cog fa-spin"></i>
+						<i ng-if="tab.nome == 'Escola'" class="fa fa-fw fa-cog fa-spin"></i>
+						<i ng-if="tab.nome == 'Cemitério'" class="fa fa-fw fa-cog fa-spin"></i>
+						{{tab.nome}}
+					</tab-heading>
+				</tab>
+			</tabset>
+			<div id="myTabContent1" class="tab-content padding-10">
+				<div class="tab-pane fade in active" id="s1">
+					<div class="table-responsive">
+
+						<section ng-if="tabssel.nome=='Mesquita'">
+							<h2 style="margin-top:10px;" class="font-lg">Mesquita</h2>
+							<!-- EXIBE OS GRAFICOS DA MESQUITA -->
+							<div class="row">
+								<div class="col-lg-6" >
+									
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Pessoas</h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+
+														<nvd3-pie-chart
+															data="pessoas"
+															id="exampleId2"
+															showLabels="true"
+															x="xFunction()"
+															y="yFunction()"
+															labelThreshold=".05"
+															pieLabelsOutside="false"
+															labelType="percent"
+															showLegend="true"
+															tooltips="true"
+															tooltipcontent="toolTipContentFunction()">
+															<svg height="400"></svg>
+														</nvd3-pie-chart>
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+
+
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Entrada e Saída - Financeiro de {{anoCorrente}} </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objFinanceiro"
+														id="financeiroMesquita"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Doações </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objMesquitaDoacoes"
+														id="financeiroMesquitaDoacoes"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+
+
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Pagantes - Inadimplentes </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objPIMesquita"
+														id="PIMesquita"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+					</section>
+					<section ng-if="tabssel.nome=='Escola'">
+						<h2 style="margin-top:10px;" class="font-lg">Escola</h2>
+						<!-- EXIBE OS GÁFICOS DA ESCOLA -->
+						<div class="row">
+						<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Entrada e Saída - Financeiro de {{anoCorrente}} </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objEscola"
+														id="financeiroEscola"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+							<div class="col-lg-6" >
+									
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Alunos - Mensalistas / Bolsistas</h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+
+														<nvd3-pie-chart
+															data="objAluno"
+															id="exampleId3"
+															showLabels="true"
+															x="xFunction()"
+															y="yFunction()"
+															labelThreshold=".05"
+															pieLabelsOutside="false"
+															labelType="percent"
+															showLegend="true"
+															>
+															<svg height="400"></svg>
+														</nvd3-pie-chart>
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Pagantes - Inadimplentes </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objPIEscola"
+														id="PIMesquita"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+					</section>
+					<section ng-if="tabssel.nome=='Cemitério'">
+						<h2 style="margin-top:10px;" class="font-lg">Cemitério</h2>
+						<div class="row">
+						<div class="col-lg-6" >
+									
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Jazigos - Livres / Ocupados</h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+
+														<nvd3-pie-chart
+															data="objJazigo"
+															id="totalJazigo"
+															showLabels="true"
+															x="xFunction()"
+															y="yFunction()"
+															labelThreshold=".05"
+															pieLabelsOutside="false"
+															labelType="percent"
+															showLegend="true"
+															>
+															<svg height="400"></svg>
+														</nvd3-pie-chart>
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Entrada e Saída - Financeiro de {{anoCorrente}} </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objCemiterio"
+														id="financeiroCemiterio"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6" >
+								
+									<article>
+										<!-- Widget ID (each widget will need unique ID)-->
+										<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+											<header>
+												<span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+												<h2>Pagantes - Inadimplentes </h2>
+											</header>
+											<div>
+												<!-- widget edit box -->
+												<div class="widget-body no-padding smart-form">
+													<section class="col col-lg-12" style="margin-top:15px">
+														<nvd3-multi-bar-chart
+														data="objPICemiterio"
+														id="PIMesquita"
+														width="600"
+														height="300"
+														showXAxis="true"
+														showYAxis="true"	
+														yaxistickformat="xAxisTickFormatFunction()"					        
+														reduceXTicks="false"
+														rotateLabels="90"
+														staggerLabels="true"
+														interactive="true"
+														tooltips="true"
+														tooltipContent="tooltipUsuarios()">
+														<svg></svg>
+													</nvd3-multi-bar-chart>				
+
+												</section>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+
+						
+						<!-- EXIBE OS GRÁFICOS DO CEMITÉRIO -->
+					</section>													
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+</section>
+
+</div>
+
+
+
+<!-- end widget grid -->
+
+<script type="text/javascript">
+	
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+
+	 pageSetUp();
+	// PAGE RELATED SCRIPTS
+
+	var pagefunction = function() {
+
+		/* chart colors default */
+		var $chrt_border_color = "#efefef";
+		var $chrt_grid_color = "#DDD"
+		var $chrt_main = "#E24913";			/* red       */
+		var $chrt_second = "#6595b4";		/* blue      */
+		var $chrt_third = "#FF9F01";		/* orange    */
+		var $chrt_fourth = "#7e9d3a";		/* green     */
+		var $chrt_fifth = "#BD362F";		/* dark red  */
+		var $chrt_mono = "#000";
+		
+		/* sales chart */
+		
+		if ($("#saleschart").length) {
+			var d = [[1196463600000, 0], [1196550000000, 0], [1196636400000, 0], [1196722800000, 77], [1196809200000, 3636], [1196895600000, 3575], [1196982000000, 2736], [1197068400000, 1086], [1197154800000, 676], [1197241200000, 1205], [1197327600000, 906], [1197414000000, 710], [1197500400000, 639], [1197586800000, 540], [1197673200000, 435], [1197759600000, 301], [1197846000000, 575], [1197932400000, 481], [1198018800000, 591], [1198105200000, 608], [1198191600000, 459], [1198278000000, 234], [1198364400000, 1352], [1198450800000, 686], [1198537200000, 279], [1198623600000, 449], [1198710000000, 468], [1198796400000, 392], [1198882800000, 282], [1198969200000, 208], [1199055600000, 229], [1199142000000, 177], [1199228400000, 374], [1199314800000, 436], [1199401200000, 404], [1199487600000, 253], [1199574000000, 218], [1199660400000, 476], [1199746800000, 462], [1199833200000, 500], [1199919600000, 700], [1200006000000, 750], [1200092400000, 600], [1200178800000, 500], [1200265200000, 900], [1200351600000, 930], [1200438000000, 1200], [1200524400000, 980], [1200610800000, 950], [1200697200000, 900], [1200783600000, 1000], [1200870000000, 1050], [1200956400000, 1150], [1201042800000, 1100], [1201129200000, 1200], [1201215600000, 1300], [1201302000000, 1700], [1201388400000, 1450], [1201474800000, 1500], [1201561200000, 546], [1201647600000, 614], [1201734000000, 954], [1201820400000, 1700], [1201906800000, 1800], [1201993200000, 1900], [1202079600000, 2000], [1202166000000, 2100], [1202252400000, 2200], [1202338800000, 2300], [1202425200000, 2400], [1202511600000, 2550], [1202598000000, 2600], [1202684400000, 2500], [1202770800000, 2700], [1202857200000, 2750], [1202943600000, 2800], [1203030000000, 3245], [1203116400000, 3345], [1203202800000, 3000], [1203289200000, 3200], [1203375600000, 3300], [1203462000000, 3400], [1203548400000, 3600], [1203634800000, 3700], [1203721200000, 3800], [1203807600000, 4000], [1203894000000, 4500]];
+
+			for (var i = 0; i < d.length; ++i)
+				d[i][0] += 60 * 60 * 1000;
+
+			function weekendAreas(axes) {
+				var markings = [];
+				var d = new Date(axes.xaxis.min);
+				// go to the first Saturday
+				d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7))
+				d.setUTCSeconds(0);
+				d.setUTCMinutes(0);
+				d.setUTCHours(0);
+				var i = d.getTime();
+				do {
+					// when we don't set yaxis, the rectangle automatically
+					// extends to infinity upwards and downwards
+					markings.push({
+						xaxis : {
+							from : i,
+							to : i + 2 * 24 * 60 * 60 * 1000
+						}
+					});
+					i += 7 * 24 * 60 * 60 * 1000;
+				} while (i < axes.xaxis.max);
+
+				return markings;
+			}
+
+			var options = {
+				xaxis : {
+					mode : "time",
+					tickLength : 5
+				},
+				series : {
+					lines : {
+						show : true,
+						lineWidth : 1,
+						fill : true,
+						fillColor : {
+							colors : [{
+								opacity : 0.1
+							}, {
+								opacity : 0.15
+							}]
+						}
+					},
+                   //points: { show: true },
+                   shadowSize : 0
+               },
+               selection : {
+               	mode : "x"
+               },
+               grid : {
+               	hoverable : true,
+               	clickable : true,
+               	tickColor : $chrt_border_color,
+               	borderWidth : 0,
+               	borderColor : $chrt_border_color,
+               },
+               tooltip : true,
+               tooltipOpts : {
+               	content : "Your sales for <b>%x</b> was <span>$%y</span>",
+               	dateFormat : "%y-%0m-%0d",
+               	defaultTheme : false
+               },
+               colors : [$chrt_second],
+
+           };
+
+           var plot = $.plot($("#saleschart"), [d], options);
+       };
+
+       if ($("#bar-chart").length) {
+
+       	var data1 = [];
+       	for (var i = 0; i <= 12; i += 1)
+       		data1.push([i, parseInt(Math.random() * 30)]);
+
+       	var data2 = [];
+       	for (var i = 0; i <= 12; i += 1)
+       		data2.push([i, parseInt(Math.random() * 30)]);
+
+       	var data3 = [];
+       	for (var i = 0; i <= 12; i += 1)
+       		data3.push([i, parseInt(Math.random() * 30)]);
+
+       	var ds = new Array();
+
+       	ds.push({
+       		data : data1,
+       		bars : {
+       			show : true,
+       			barWidth : 0.2,
+       			order : 1,
+       		}
+       	});
+       	ds.push({
+       		data : data2,
+       		bars : {
+       			show : true,
+       			barWidth : 0.2,
+       			order : 2
+       		}
+       	});
+       	ds.push({
+       		data : data3,
+       		bars : {
+       			show : true,
+       			barWidth : 0.2,
+       			order : 3
+       		}
+       	});
+
+			//Display graph
+			$.plot($("#bar-chart"), ds, {
+				colors : [$chrt_second, $chrt_fourth, "#666", "#BBB"],
+				grid : {
+					show : true,
+					hoverable : true,
+					clickable : true,
+					tickColor : $chrt_border_color,
+					borderWidth : 0,
+					borderColor : $chrt_border_color,
+				},
+				legend : true,
+				tooltip : true,
+				tooltipOpts : {
+					content : "<b>%x</b> = <span>%y</span>",
+					defaultTheme : false
+				}
+
+			});
+
+		}
+		/* end bar chart */
+
+		/* bar-chart-h */
+		if ($("#bar-chart-h").length) {
+			//Display horizontal graph
+			var d1_h = [];
+			for (var i = 0; i <= 3; i += 1)
+				d1_h.push([parseInt(Math.random() * 30), i]);
+
+			var d2_h = [];
+			for (var i = 0; i <= 3; i += 1)
+				d2_h.push([parseInt(Math.random() * 30), i]);
+
+			var d3_h = [];
+			for (var i = 0; i <= 3; i += 1)
+				d3_h.push([parseInt(Math.random() * 30), i]);
+
+			var ds_h = new Array();
+			ds_h.push({
+				data : d1_h,
+				bars : {
+					horizontal : true,
+					show : true,
+					barWidth : 0.2,
+					order : 1,
+				}
+			});
+			ds_h.push({
+				data : d2_h,
+				bars : {
+					horizontal : true,
+					show : true,
+					barWidth : 0.2,
+					order : 2
+				}
+			});
+			ds_h.push({
+				data : d3_h,
+				bars : {
+					horizontal : true,
+					show : true,
+					barWidth : 0.2,
+					order : 3
+				}
+			});
+
+			// display graph
+			$.plot($("#bar-chart-h"), ds_h, {
+				colors : [$chrt_second, $chrt_fourth, "#666", "#BBB"],
+				grid : {
+					show : true,
+					hoverable : true,
+					clickable : true,
+					tickColor : $chrt_border_color,
+					borderWidth : 0,
+					borderColor : $chrt_border_color,
+				},
+				legend : true,
+				tooltip : true,
+				tooltipOpts : {
+					content : "<b>%x</b> = <span>%y</span>",
+					defaultTheme : false
+				}
+			});
+
+		} 
+		
+		/* end bar-chart-h
+		
+		/* fill chart */
+
+		if ($("#fill-chart").length) {
+			var males = {
+				'15%' : [[2, 88.0], [3, 93.3], [4, 102.0], [5, 108.5], [6, 115.7], [7, 115.6], [8, 124.6], [9, 130.3], [10, 134.3], [11, 141.4], [12, 146.5], [13, 151.7], [14, 159.9], [15, 165.4], [16, 167.8], [17, 168.7], [18, 169.5], [19, 168.0]],
+				'90%' : [[2, 96.8], [3, 105.2], [4, 113.9], [5, 120.8], [6, 127.0], [7, 133.1], [8, 139.1], [9, 143.9], [10, 151.3], [11, 161.1], [12, 164.8], [13, 173.5], [14, 179.0], [15, 182.0], [16, 186.9], [17, 185.2], [18, 186.3], [19, 186.6]],
+				'25%' : [[2, 89.2], [3, 94.9], [4, 104.4], [5, 111.4], [6, 117.5], [7, 120.2], [8, 127.1], [9, 132.9], [10, 136.8], [11, 144.4], [12, 149.5], [13, 154.1], [14, 163.1], [15, 169.2], [16, 170.4], [17, 171.2], [18, 172.4], [19, 170.8]],
+				'10%' : [[2, 86.9], [3, 92.6], [4, 99.9], [5, 107.0], [6, 114.0], [7, 113.5], [8, 123.6], [9, 129.2], [10, 133.0], [11, 140.6], [12, 145.2], [13, 149.7], [14, 158.4], [15, 163.5], [16, 166.9], [17, 167.5], [18, 167.1], [19, 165.3]],
+				'mean' : [[2, 91.9], [3, 98.5], [4, 107.1], [5, 114.4], [6, 120.6], [7, 124.7], [8, 131.1], [9, 136.8], [10, 142.3], [11, 150.0], [12, 154.7], [13, 161.9], [14, 168.7], [15, 173.6], [16, 175.9], [17, 176.6], [18, 176.8], [19, 176.7]],
+				'75%' : [[2, 94.5], [3, 102.1], [4, 110.8], [5, 117.9], [6, 124.0], [7, 129.3], [8, 134.6], [9, 141.4], [10, 147.0], [11, 156.1], [12, 160.3], [13, 168.3], [14, 174.7], [15, 178.0], [16, 180.2], [17, 181.7], [18, 181.3], [19, 182.5]],
+				'85%' : [[2, 96.2], [3, 103.8], [4, 111.8], [5, 119.6], [6, 125.6], [7, 131.5], [8, 138.0], [9, 143.3], [10, 149.3], [11, 159.8], [12, 162.5], [13, 171.3], [14, 177.5], [15, 180.2], [16, 183.8], [17, 183.4], [18, 183.5], [19, 185.5]],
+				'50%' : [[2, 91.9], [3, 98.2], [4, 106.8], [5, 114.6], [6, 120.8], [7, 125.2], [8, 130.3], [9, 137.1], [10, 141.5], [11, 149.4], [12, 153.9], [13, 162.2], [14, 169.0], [15, 174.8], [16, 176.0], [17, 176.8], [18, 176.4], [19, 177.4]]
+			};
+
+			var females = {
+				'15%' : [[2, 84.8], [3, 93.7], [4, 100.6], [5, 105.8], [6, 113.3], [7, 119.3], [8, 124.3], [9, 131.4], [10, 136.9], [11, 143.8], [12, 149.4], [13, 151.2], [14, 152.3], [15, 155.9], [16, 154.7], [17, 157.0], [18, 156.1], [19, 155.4]],
+				'90%' : [[2, 95.6], [3, 104.1], [4, 111.9], [5, 119.6], [6, 127.6], [7, 133.1], [8, 138.7], [9, 147.1], [10, 152.8], [11, 161.3], [12, 166.6], [13, 167.9], [14, 169.3], [15, 170.1], [16, 172.4], [17, 169.2], [18, 171.1], [19, 172.4]],
+				'25%' : [[2, 87.2], [3, 95.9], [4, 101.9], [5, 107.4], [6, 114.8], [7, 121.4], [8, 126.8], [9, 133.4], [10, 138.6], [11, 146.2], [12, 152.0], [13, 153.8], [14, 155.7], [15, 158.4], [16, 157.0], [17, 158.5], [18, 158.4], [19, 158.1]],
+				'10%' : [[2, 84.0], [3, 91.9], [4, 99.2], [5, 105.2], [6, 112.7], [7, 118.0], [8, 123.3], [9, 130.2], [10, 135.0], [11, 141.1], [12, 148.3], [13, 150.0], [14, 150.7], [15, 154.3], [16, 153.6], [17, 155.6], [18, 154.7], [19, 153.1]],
+				'mean' : [[2, 90.2], [3, 98.3], [4, 105.2], [5, 112.2], [6, 119.0], [7, 125.8], [8, 131.3], [9, 138.6], [10, 144.2], [11, 151.3], [12, 156.7], [13, 158.6], [14, 160.5], [15, 162.1], [16, 162.9], [17, 162.2], [18, 163.0], [19, 163.1]],
+				'75%' : [[2, 93.2], [3, 101.5], [4, 107.9], [5, 116.6], [6, 122.8], [7, 129.3], [8, 135.2], [9, 143.7], [10, 148.7], [11, 156.9], [12, 160.8], [13, 163.0], [14, 165.0], [15, 165.8], [16, 168.7], [17, 166.2], [18, 167.6], [19, 168.0]],
+				'85%' : [[2, 94.5], [3, 102.8], [4, 110.4], [5, 119.0], [6, 125.7], [7, 131.5], [8, 137.9], [9, 146.0], [10, 151.3], [11, 159.9], [12, 164.0], [13, 166.5], [14, 167.5], [15, 168.5], [16, 171.5], [17, 168.0], [18, 169.8], [19, 170.3]],
+				'50%' : [[2, 90.2], [3, 98.1], [4, 105.2], [5, 111.7], [6, 118.2], [7, 125.6], [8, 130.5], [9, 138.3], [10, 143.7], [11, 151.4], [12, 156.7], [13, 157.7], [14, 161.0], [15, 162.0], [16, 162.8], [17, 162.2], [18, 162.8], [19, 163.3]]
+			};
+
+			var dataset = [{
+				label : 'female mean',
+				data : females['mean'],
+				lines : {
+					show : true
+				},
+				color : "rgb(255,50,50)"
+			}, {
+				id : 'f15%',
+				data : females['15%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : false
+				},
+				color : "rgb(255,50,50)"
+			}, {
+				id : 'f25%',
+				data : females['25%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.2
+				},
+				color : "rgb(255,50,50)",
+				fillBetween : 'f15%'
+			}, {
+				id : 'f50%',
+				data : females['50%'],
+				lines : {
+					show : true,
+					lineWidth : 0.5,
+					fill : 0.4,
+					shadowSize : 0
+				},
+				color : "rgb(255,50,50)",
+				fillBetween : 'f25%'
+			}, {
+				id : 'f75%',
+				data : females['75%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.4
+				},
+				color : "rgb(255,50,50)",
+				fillBetween : 'f50%'
+			}, {
+				id : 'f85%',
+				data : females['85%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.2
+				},
+				color : "rgb(255,50,50)",
+				fillBetween : 'f75%'
+			}, {
+				label : 'male mean',
+				data : males['mean'],
+				lines : {
+					show : true
+				},
+				color : "rgb(50,50,255)"
+			}, {
+				id : 'm15%',
+				data : males['15%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : false
+				},
+				color : "rgb(50,50,255)"
+			}, {
+				id : 'm25%',
+				data : males['25%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.2
+				},
+				color : "rgb(50,50,255)",
+				fillBetween : 'm15%'
+			}, {
+				id : 'm50%',
+				data : males['50%'],
+				lines : {
+					show : true,
+					lineWidth : 0.5,
+					fill : 0.4,
+					shadowSize : 0
+				},
+				color : "rgb(50,50,255)",
+				fillBetween : 'm25%'
+			}, {
+				id : 'm75%',
+				data : males['75%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.4
+				},
+				color : "rgb(50,50,255)",
+				fillBetween : 'm50%'
+			}, {
+				id : 'm85%',
+				data : males['85%'],
+				lines : {
+					show : true,
+					lineWidth : 0,
+					fill : 0.2
+				},
+				color : "rgb(50,50,255)",
+				fillBetween : 'm75%'
+			}]
+
+			$.plot($("#fill-chart"), dataset, {
+
+				xaxis : {
+					tickDecimals : 0
+				},
+
+				yaxis : {
+					tickFormatter : function(v) {
+						return v + " cm";
+					}
+				},
+
+			});
+		}
+
+		/* end fill chart */
+		
+		/* pie chart */
+
+		if ($('#pie-chart').length) {
+
+			var data_pie = [];
+			var series = Math.floor(Math.random() * 10) + 1;
+			for (var i = 0; i < series; i++) {
+				data_pie[i] = {
+					label : "Series" + (i + 1),
+					data : Math.floor(Math.random() * 100) + 1
+				}
+			}
+
+			$.plot($("#pie-chart"), data_pie, {
+				series : {
+					pie : {
+						show : true,
+						innerRadius : 0.5,
+						radius : 1,
+						label : {
+							show : false,
+							radius : 2 / 3,
+							formatter : function(label, series) {
+								return '<div style="font-size:11px;text-align:center;padding:4px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+							},
+							threshold : 0.1
+						}
+					}
+				},
+				legend : {
+					show : true,
+						noColumns : 1, // number of colums in legend table
+						labelFormatter : null, // fn: string -> string
+						labelBoxBorderColor : "#000", // border color for the little label boxes
+						container : null, // container (as jQuery object) to put legend in, null means default on top of graph
+						position : "ne", // position of default legend container within plot
+						margin : [5, 10], // distance from grid edge to default legend container within plot
+						backgroundColor : "#efefef", // null means auto-detect
+						backgroundOpacity : 1 // set to 0 to avoid background
+					},
+					grid : {
+						hoverable : true,
+						clickable : true
+					},
+				});
+
+}
+
+/* end pie chart */
+
+/* site stats chart */
+
+if ($("#site-stats").length) {
+	
+	var pageviews = [[1, 75], [3, 87], [4, 93], [5, 127], [6, 116], [7, 137], [8, 135], [9, 130], [10, 167], [11, 169], [12, 179], [13, 185], [14, 176], [15, 180], [16, 174], [17, 193], [18, 186], [19, 177], [20, 153], [21, 149], [22, 130], [23, 100], [24, 50]];
+	var visitors = [[1, 65], [3, 50], [4, 73], [5, 100], [6, 95], [7, 103], [8, 111], [9, 97], [10, 125], [11, 100], [12, 95], [13, 141], [14, 126], [15, 131], [16, 146], [17, 158], [18, 160], [19, 151], [20, 125], [21, 110], [22, 100], [23, 85], [24, 37]];
+			//console.log(pageviews)
+			var plot = $.plot($("#site-stats"), [{
+				data : pageviews,
+				label : "Your pageviews"
+			}, {
+				data : visitors,
+				label : "Site visitors"
+			}], {
+				series : {
+					lines : {
+						show : true,
+						lineWidth : 1,
+						fill : true,
+						fillColor : {
+							colors : [{
+								opacity : 0.1
+							}, {
+								opacity : 0.15
+							}]
+						}
+					},
+					points : {
+						show : true
+					},
+					shadowSize : 0
+				},
+				xaxis : {
+					mode : "time",
+					tickLength : 10
+				},
+
+				yaxes : [{
+					min : 20,
+					tickLength : 5
+				}],
+				grid : {
+					hoverable : true,
+					clickable : true,
+					tickColor : $chrt_border_color,
+					borderWidth : 0,
+					borderColor : $chrt_border_color,
+				},
+				tooltip : true,
+				tooltipOpts : {
+					content : "%s for <b>%x:00 hrs</b> was %y",
+					dateFormat : "%y-%0m-%0d",
+					defaultTheme : false
+				},
+				colors : [$chrt_main, $chrt_second],
+				xaxis : {
+					ticks : 15,
+					tickDecimals : 2
+				},
+				yaxis : {
+					ticks : 15,
+					tickDecimals : 0
+				},
+			});
+
+}
+
+if ($('#normal-bar-graph').length){ 
+
+	Morris.Bar({
+		element: 'normal-bar-graph',
+		data: [
+		{x: '2011 Q1', y: 3, z: 2, a: 3},
+		{x: '2011 Q2', y: 2, z: null, a: 1},
+		{x: '2011 Q3', y: 0, z: 2, a: 4},
+		{x: '2011 Q4', y: 2, z: 4, a: 3}
+		],
+		xkey: 'x',
+		ykeys: ['y', 'z', 'a'],
+		labels: ['Y', 'Z', 'A']
+	});
+
+}
+
+if ($('#donut-graph').length){ 
+	Morris.Donut({
+		element: 'donut-graph',
+		data: [
+		{value: 70, label: 'foo'},
+		{value: 15, label: 'bar'},
+		{value: 10, label: 'baz'},
+		{value: 5, label: 'A really really long label'}
+		],
+		formatter: function (x) { return x + "%"}
+	});
+}
+
+if ($('#sales-graph').length) {
+
+	Morris.Area({
+		element : 'sales-graph',
+		data : [{
+			period : '2010 Q1',
+			iphone : 2666,
+			ipad : null,
+			itouch : 2647
+		}, {
+			period : '2010 Q2',
+			iphone : 2778,
+			ipad : 2294,
+			itouch : 2441
+		}, {
+			period : '2010 Q3',
+			iphone : 4912,
+			ipad : 1969,
+			itouch : 2501
+		}, {
+			period : '2010 Q4',
+			iphone : 3767,
+			ipad : 3597,
+			itouch : 5689
+		}, {
+			period : '2011 Q1',
+			iphone : 6810,
+			ipad : 1914,
+			itouch : 2293
+		}, {
+			period : '2011 Q2',
+			iphone : 5670,
+			ipad : 4293,
+			itouch : 1881
+		}, {
+			period : '2011 Q3',
+			iphone : 4820,
+			ipad : 3795,
+			itouch : 1588
+		}, {
+			period : '2011 Q4',
+			iphone : 15073,
+			ipad : 5967,
+			itouch : 5175
+		}, {
+			period : '2012 Q1',
+			iphone : 10687,
+			ipad : 4460,
+			itouch : 2028
+		}, {
+			period : '2012 Q2',
+			iphone : 8432,
+			ipad : 5713,
+			itouch : 1791
+		}],
+		xkey : 'period',
+		ykeys : ['iphone', 'ipad', 'itouch'],
+		labels : ['iPhone', 'iPad', 'iPod Touch'],
+		pointSize : 2,
+		hideHover : 'auto'
+	});
+	
+}
+
+
+/* end site stats */
+
+/* updating chart */
+
+if ($('#updating-chart').length) {
+	
+			// For the demo we use generated data, but normally it would be coming from the server
+			var data = [], totalPoints = 200;
+			function getRandomData() {
+				if (data.length > 0)
+					data = data.slice(1);
+
+				// do a random walk
+				while (data.length < totalPoints) {
+					var prev = data.length > 0 ? data[data.length - 1] : 50;
+					var y = prev + Math.random() * 10 - 5;
+					if (y < 0)
+						y = 0;
+					if (y > 100)
+						y = 100;
+					data.push(y);
+				}
+
+				// zip the generated y values with the x values
+				var res = [];
+				for (var i = 0; i < data.length; ++i)
+					res.push([i, data[i]])
+				return res;
+			}
+
+			// setup control widget
+			var updateInterval = 1000;
+			$("#updating-chart").val(updateInterval).change(function() {
+				var v = $(this).val();
+				if (v && !isNaN(+v)) {
+					updateInterval = +v;
+					if (updateInterval < 1)
+						updateInterval = 1;
+					if (updateInterval > 2000)
+						updateInterval = 2000;
+					$(this).val("" + updateInterval);
+				}
+			});
+
+			// setup plot
+			var options = {
+				yaxis : {
+					min : 0,
+					max : 100
+				},
+				xaxis : {
+					min : 0,
+					max : 100
+				},
+				colors : [$chrt_fourth],
+				series : {
+					lines : {
+						lineWidth : 1,
+						fill : true,
+						fillColor : {
+							colors : [{
+								opacity : 0.4
+							}, {
+								opacity : 0
+							}]
+						},
+						steps : false
+
+					}
+				}
+			};
+			var plot = $.plot($("#updating-chart"), [getRandomData()], options);
+
+			function update() {
+				plot.setData([getRandomData()]);
+				// since the axes don't change, we don't need to call plot.setupGrid()
+				plot.draw();
+
+				setTimeout(update, updateInterval);
+			}
+
+			update();
+
+		}
+
+		/*end updating chart*/
+
+	};
+	
+	// end pagefunction
+
+	// load all flot plugins
+	loadScript("js/jquery.flot.cust.min.js", function(){
+		loadScript("js/jquery.flot.resize.min.js", function(){
+			loadScript("js/jquery.flot.fillbetween.min.js", function(){
+				loadScript("js/jquery.flot.orderBar.min.js", function(){
+					loadScript("js/jquery.flot.pie.min.js", function(){
+						loadScript("js/jquery.flot.tooltip.min.js", pagefunction);
+					});
+				});
+			});
+		});
+	});
+
+	loadScript("js/raphael.min.js", function(){
+		loadScript("js/morris.min.js", pagefunction);
+	});
+	
+
+	
+	
+</script>
+

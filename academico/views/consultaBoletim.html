@@ -1,0 +1,198 @@
+<script src="controllers/controller.consultaBoletim.js"></script>
+
+<div class="container" ng-controller="consultaBoletim">
+	<div class="row">
+		
+		<!-- =========================Start Col right section ============================= -->
+
+		<article class="col-lg-12 col-right">	
+			<div data-ng-include="'includes/forms/filtroAluno.html'"></div>	
+		</article>
+		<article class="col-lg-12 col-right" ng-show="aluno.id_pessoa">
+			<div class="row no-margin-left">			
+				<section class="col col-lg-12" style="padding-left:0px; padding-right: 0px;">				
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Aluno</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<section class="col-lg-1">
+									<img src="./img/female.png"  
+										ng-if="aluno.sexo == 'F' && aluno.foto == ''"
+										class="img-responsive img-thumbnail">
+									<img src="./img/male.png"
+										ng-if="aluno.sexo == 'M' && aluno.foto == ''"
+									 	class="img-responsive img-thumbnail">
+									<img src="../img/pessoa/{{aluno.foto}}"
+										ng-if="aluno.foto != ''"
+									 	class="img-responsive img-thumbnail">
+								</section>
+								<section class="col-lg-11" style="padding-left:inherit">
+									<div class="alert alert-info" role="alert" style="padding: 0px 10px ;">
+										<strong>Nome:</strong> {{aluno.nome}} <br>
+										<strong>Turma:</strong> {{aluno.turma}}<br>
+										<strong>Nº</strong> {{aluno.numero}}
+									</div>
+								</section>
+							</div>
+
+							<div class="row">
+								<section class="col col-lg-12">
+									<div class="table-responsive" ng-show="matriculaDisciplina.length > 0">
+										<table class="table table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>Disciplinas</th>
+													<th data-ng-repeat="fase in fases">{{fase.descricao}}</th>
+													<th>M. Anual</th>
+													<th>Recuperação.</th>
+													<th>M. final</th>
+													<!--<th>TPT</th>-->
+													<th>F</th>
+													<th>Freq.</th>
+													<th>Situação</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr data-ng-repeat="disciplina in matriculaDisciplina">
+													<td>{{disciplina.disciplina}}</td>
+													<td data-ng-repeat="fase in fases">{{disciplina.fases[$index].nota}}</td>
+													<td><span ng-show="fases.length == disciplina.fases.length">{{disciplina.media_anual}}</span></td>
+													<td>{{disciplina.recuperacao}}</td>
+													<td><span ng-show="fases.length == disciplina.fases.length">{{disciplina.media_final}}</span></td>
+													<!--<td>{{disciplina.falta}}</td>-->
+													<td>{{disciplina.total_faltas}}</td>
+													<td>{{disciplina.frequencia}}</td>
+													<td>{{disciplina.situacao_serie}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>			
+							</div>
+						</article><!-- end col right-->
+
+
+
+
+		<!-- <article class="col-lg-12 col-right">			
+			<form action="">
+				<fieldset>
+					<div class="row no-margin-left">
+						<section class="col col-lg-6">
+							<div class="row no-margin-left">
+								<section class="col col-lg-12">
+									<label>Turma</label>
+									<select name="turma" id="turma" class="form-control" ng-model="turmas.valor" ng-change="tabelaTurma()">				
+										<option ng-repeat="turmas in tabelaTurmas" value="{{turmas.codigo}}">{{turmas.label}}</option>
+									</select>
+								</section>									
+							</div>
+							<div class="row no-margin-left">
+								<section class="col col-lg-5">
+									<label>Nome</label>
+									<input type="text" name="nome" id="nome" class="form-control" placeholder="Buscar por nome">
+								</section>
+								<section class="col-lg-5">
+									<label>Matrícula</label>
+									<input type="text" name="matricula" id="matricula" class="form-control" placeholder="Buscar por Matrícula">
+								</section>
+								<section class="col-lg-1">
+									<label>&nbsp;</label>
+									<button type="button" class="btn btn-primary">Buscar</button>
+								</section>									
+							</div>						
+						</section>
+						
+						<section class="col col-lg-6" style="height: 185px; overflow: auto;" ng-show="tabela == true">
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered">
+									<tr>
+										<td>01</td>
+										<td><a style="cursor: pointer;" ng-click="mostraBoletim()">Adam Ahmad Hassan</a></td>
+										<td>99005425</td>
+									</tr>
+									<tr>
+										<td>02</td>
+										<td><a style="cursor: pointer;" ng-click="mostraBoletim()">Adam Bassel Smidi</a></td>
+										<td>99007703</td>
+									</tr>
+									<tr>
+										<td>03</td>
+										<td><a style="cursor: pointer;" ng-click="mostraBoletim()">Ahmad Hazim Fadel Habeeb</a></td>
+										<td>99005484</td>
+									</tr>
+									<tr>
+										<td>04</td>
+										<td><a style="cursor: pointer;" ng-click="mostraBoletim()">Ahmad Hazim Fadel Habeeb</a></td>
+										<td>99005484</td>
+									</tr>
+									<tr>
+										<td>05</td>
+										<td><a style="cursor: pointer;" ng-click="mostraBoletim()">Ahmad Hazim Fadel Habeeb</a></td>
+										<td>99005484</td>
+									</tr>
+								</table>
+							</div>							
+						</section>							
+					</div>
+				</fieldset>				
+			</form>
+			<hr>
+			<div class="row no-margin-left" ng-show="tabelaBoletim == true">
+				<section class="col col-lg-12">
+					<table class="table table-striped table-bordered">
+						<tr>
+							<td class="info">Ahmad Youssef Anka</td>
+							<td class="info">MATRÍCULA: 99009862</td>
+
+						</tr>
+						<tr>
+							<td >CURSO: Ensino Medio</td>
+							<td>TURMA: 1º M - Nº: 2</td>
+
+						</tr>
+					</table>
+				</section>
+
+				<section class="col col-lg-12">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Disciplinas</th>
+									<th>1º Trimestre <small>MT1</small></th>
+									<th>2º Trimestre <small>MT2</small></th>
+									<th>3º Trimestre <small>MT3</small></th>
+									<th>MA</th>
+									<th>RF</th>
+									<th>MF</th>
+									<th>TPT</th>
+									<th>F.</th>
+									<th>Freq.</th>
+									<th>Situação</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Artes Desenho Geométrico</td>
+									<td>7,0</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>0</td>
+									<td>-</td>
+									<td>Cursando</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>				
+			</div>
+		</article><!-- end col right--> 
+	</div><!-- end row-->
+</div><!-- end container-->

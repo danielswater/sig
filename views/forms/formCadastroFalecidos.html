@@ -1,0 +1,766 @@
+<script src="controllers/controller.formCadastroFalecidos.js"></script>
+<!-- widget grid -->
+<style type="text/css">
+	.fa-2x{
+		font-size: 1.5em;
+	}
+</style>
+<section ng-controller='formCadastroFalecidos' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Falecidos</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroFalecidos-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<legend><strong>Dados Gerais</strong>
+									<hr class="simple" style="background: black;" /></legend>
+
+									<div class="row">																		
+										<section class="col col-3">
+											<label class="label"><strong>Nome</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" name="nomeCompleto" id="nomeCompleto" type="text" placeholder="Nome Completo do Falecido" ng-model="falecido.nome"
+												data-validate-input
+												data-required				                            
+												data-message-required="Por favor, informe o nome">
+												<span class="material-input"></span>
+												<i class="icon-append fa fa-question-circle"></i>
+											</div>
+										</section>
+										<section class="col col-3">
+											<label class="label"><strong>Nacionalidade</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="nacionalidade" id="nacionalidade" placeholder="Sua nacionalidade de origem" ng-model="falecido.nacionalidade">
+											</div>
+										</section>
+
+										<section class="col col-3">
+											<label class="label"><strong>Estado Civil</strong></label>
+											<div class="form-group form-control-wrapper inputValidate">
+												<select class="form-control" name="estadocivil" id="estadocivil" 
+													ng-model="falecido.id_estado_civil"
+													data-validate-input 
+													data-required
+													data-message-required="Por favor, selecione um estado civil">
+													<option value="" selected>Selecione</option>
+													<option value="{{estado_civil.estado_civil_id}}" 
+														data-ng-repeat="estado_civil in estados_civil">{{estado_civil.estado_civil_descricao}}</option>
+												</select>
+												<i></i>
+											</div>
+										</section>
+
+										<section class="col col-3">
+											<label class="label"><strong>Cor</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="cor" id="cor" placeholder="Cor" ng-model="falecido.cor">
+											</div>
+										</section>															
+									</div>								
+									<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Data de nascimento</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="falecido.data_nascimento" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd",
+				                                selectYears: 400,
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="dataNascimento" id="dataNascimento" type="text" 
+                                            ng-model="falecido.data_nascimento1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Informe a data de nascimento">
+										</label>											
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Sexo</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<select class="form-control" name="sexo" ng-model="falecido.sexo"
+												data-validate-input
+												data-required				                            
+												data-message-required="Por favor, selecione o sexo">
+												<option value="" selected>Selecione</option>
+												<option value="M">Masculino</option>
+												<option value="F">Feminino</option>												
+											</select> <i></i> 
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Nome do Pai</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="pai" id="pai" placeholder="Nome do Pai" ng-model="falecido.nome_pai">
+										</section>	
+										<section class="col col-3">
+											<label class="label"><strong>Nome da Mãe</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="mae" id="mae" placeholder="Nome da Mãe" ng-model="falecido.nome_mae">
+											</div>
+										</section>																		
+									</div>									
+									<div class="row">
+									<!-- ================================================================================================================================================= -->
+										
+										<section class="col col-3">
+											<label class="label"><strong>CPF</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="cpf" id="cpf" ui-br-cpf-mask placeholder="Número CPF" ng-model="falecido.cpf"
+													data-validate-input 
+													data-cpf
+													data-message-required="Por favor, informe um CPF">
+												<i class="icon-append fa fa-user"></i>
+												<span class="material-input"></span>
+											</div>
+										</section>
+
+										<section class="col col-3">
+											<label class="label"><strong>Arquivo CPF</strong></label>
+											<div for="file" class="form-control form-control-wrapper input-file">	<div class="button">
+												<input class="form-control" type="file" accept="image/*" name="arquivo_cpf" id="arquivo_cpf" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaArquivoCPF(this)" ng-model="falecido.arquivo_cpf">Procurar</div><input onclick="$('#arquivo_cpf').trigger('click')" class="form-control" type="text" placeholder="Seu CPF" readonly="">
+											</div>
+										</section> 
+
+										<!-- <section class="col col-3">
+											<label class="label"><strong>Arquivo CPF</strong></label>
+											<div class="form-inline">
+												<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+												 	style="border: 1px #CCC dashed; ">
+													<div class="progress progress-sm" style="margin: 7px">
+														<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{teste[0].percent}}%"></div>
+													</div>												
+												</div>
+
+												<div class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+													<file-upload class="btn btn-primary btn-rad btn-trans file-upload" ng-name="teste" name="arquivoCPF" multiple="false" uri="api/index.php/uploadcommumfile" style="padding: 5px;">
+									                    <i class="fa fa-upload"></i>
+									                    <span>Arquivo</span>
+									                </file-upload>
+									            </div>
+											</div>
+										</section> -->
+
+										<section class="col col-3">
+											<label class="label"><strong>Profissão</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="profissao" id="profissao" placeholder="Profissão" ng-model="falecido.profissao">
+											</div>
+										</section>
+
+										<section class="col col-3">
+											<label class="label"><strong>Certidão de Óbito</strong></label>
+											<div for="file" class="form-control form-control-wrapper input-file">
+
+												<div class="button">
+													<input class="form-control" type="file" name="certidao_de_obito" id="certidao_de_obito" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaFile(this)" ng-model="falecido.certidao_obito">Procurar</div><input onclick="$('#certidao_de_obito').trigger('click')" class="form-control" type="text" placeholder="Seu arquivo" readonly="">
+												</div>
+												<p style="margin-top:10px;" ng-if="falecido.certidao_obito != ''"><strong>Visualizar Arquivo:</strong> <a href="/sig/img/falecido/{{falecido.certidao_obito}}" target="_blank"> <i class="fa fa-file fa-2x"></i> </a></p>
+										</section>
+
+										<!-- <section class="col col-3">
+										<label class="label"><strong>Certidão de Óbito</strong></label>
+											<div class="form-inline">
+												<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+												 	style="border: 1px #CCC dashed; ">
+													<div class="progress progress-sm" style="margin: 7px">
+														<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{teste1[0].percent}}%"></div>
+													</div>												
+												</div>
+												<div class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+													<file-upload class="btn btn-primary btn-rad btn-trans file-upload" ng-name="teste1" name="certidaoObito" multiple="false" uri="api/index.php/uploadcommumfile" style="padding: 5px;">
+									                    <i class="fa fa-upload"></i>
+									                    <span>Arquivo</span>
+									                </file-upload>
+									            </div>
+											</div>
+										</section> -->
+
+									</div>									
+									<div class="row">
+									
+										<section class="col col-3">
+											<label class="label"><strong>Documento de Identificação</strong></label>
+											<div class="form-group form-control-wrapper inputValidate">
+												<select class="form-control" name="id_tipo_documento" ng-model="falecido.id_tipo_documento">
+													<option value="" selected="" disabled="">Selecione</option>
+													<option value="1">RG</option>
+													<option value="3">RNE Modelo 19</option>
+													<option value="7">Identificação Internacional</option>
+												</select>
+												<i></i>
+											</div>
+										</section>
+										<section class="col col-3">
+											<label class="label"><strong>Nº do Documento</strong></label>
+											<div class="form-control form-control-wrapper inputValidate">
+												<input class="form-control" type="text" name="numero_documento" id="numero_documento" placeholder="Número documento" ng-model="falecido.numero_documento">
+												<i class="icon-append fa fa-user"></i>
+												<span class="material-input"></span>
+											</div>
+										</section>
+										<section class="col col-3">
+											<label class="label"><strong>Arquivo Documento</strong></label>
+											<div for="file" class="form-control form-control-wrapper input-file">	<div class="button">
+												<input class="form-control" type="file" accept="image/*" name="arquivo_documento" id="arquivo_documento" onchange="this.parentNode.nextSibling.value = this.value; angular.element(this).scope().armazenaArquivoDocumento(this)" ng-model="falecido.arquivo_documento">Procurar</div><input onclick="$('#arquivo_documento').trigger('click')" class="form-control" type="text" placeholder="Seu documento" readonly="">
+											</div>
+										</section>
+
+										<!-- <section class="col col-3">
+											<label class="label"><strong>Arquivo Documento</strong></label>
+											<div class="form-inline">
+												<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"
+												 	style="border: 1px #CCC dashed; ">
+													<div class="progress progress-sm" style="margin: 7px">
+														<div class="progress-bar bg-color-greenLight" role="progressbar" style="width: {{teste2[0].percent}}%"></div>
+													</div>												
+												</div>
+												<div class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+													<file-upload class="btn btn-primary btn-rad btn-trans file-upload"  ng-name="teste2" name="arquivoDoc" multiple="false" uri="api/index.php/uploadcommumfile" style="padding: 5px;">
+									                    <i class="fa fa-upload"></i>
+									                    <span>Arquivo</span>
+									                </file-upload>
+									            </div>
+											</div>
+										</section> -->
+
+									<!-- ================================================================================================================================================= -->
+									</div>
+									<div class="row">
+										<section class="col col-6">
+											<label class="label"><strong>Observações</strong></label>
+											<div class="form-control-wrapper">
+												<textarea class="form-control" rows="6" name="observacao" id="observacao" placeholder="Observações" ng-model="falecido.observacao"></textarea>
+												<span class="material-input"></span>
+											</div>
+										</section>
+									</div>
+
+										<legend><strong>Endereço</strong></legend>
+										<hr class="simple" style="background: black;" />
+										<br />								
+										<div class="row">
+											<section class="col col-4">
+												<label class="label"><strong>CEP</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+													<input class="form-control" ng-model="falecido.cep" type="text" name="cep" id="cep" ng-blur="getCep('cep')" ui-br-cep-mask placeholder="CEP">
+												</div>
+											</section>
+											<section class="col col-8">
+												<label class="label"><strong>Endereço</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+													<input class="form-control" type="text" placeholder="Endereço" id="logradouro" name='logradouro' ng-model="falecido.logradouro">
+												</div>
+
+											</section>
+										</div>
+										<div class="row">
+											<section class="col col-4">
+												<label class="label"><strong>Número</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+													<input class="form-control" type="text" name="numero" id="numero" placeholder="Número" ng-model="falecido.numero">
+
+												</div>
+
+											</section>								
+											<section class="col col-4">
+												<label class="label"><strong>Complemento</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+													<input class="form-control" type="text" name="complemento" id="complemento" placeholder="Ex: casa 1, bloco 2" ng-model="falecido.complemento">
+												</div>
+											</section>
+											<section class="col col-4">
+												<label class="label"><strong>Bairro</strong></label>
+												<div class="form-control form-control-wrapper inputValidate">
+													<input class="form-control" type="text" placeholder="Bairro" id="bairro" name='bairro' ng-model="falecido.bairro">
+												</div>
+											</section>									
+										</div>
+
+									<div class="row">
+
+										<section class="col col-4">
+											<label class="label"><strong>Estado</strong></label>
+											<div class="form-group form-control-wrapper inputValidate">
+												<select ng-change="getCidade(falecido.estado)" class="form-control" name="estado" ng-model="falecido.estado">
+													<option value="" disabled="">Selecione</option>
+													<option data-ng-repeat="estado in estados" data-ng-selected="estado.uf == falecido.estado" ng-value="estado.uf">{{estado.nome}}</option>
+												</select>
+												<i></i>
+											</div>
+										</section>
+
+										<section class="col col-4">
+											<label class="label"><strong>Cidade</strong></label>
+											<div class="form-group form-control-wrapper inputValidate">
+												<select class="form-control" name="cidade" ng-model="falecido.cidade">
+													<option value="" disabled="">Selecione</option>
+													<option value="{{cidade.nome}}" data-ng-repeat="cidade in cidades" data-ng-selected="cidade.nome == falecido.cidade">{{cidade.nome}}</option>
+												</select>
+												<i></i>
+											</div>
+										</section>
+
+									<section class="col col-4">
+										<label class="label"><strong>País</strong></label>
+										<div class="form-control form-control-wrapper inputValidate">
+											<select class="form-control" name="pais" ng-model="falecido.id_pais">
+											<option value="" disabled="">Selecione</option>
+											<option data-ng-repeat="pais in paises" data-ng-selected="pais.id == falecido.id_pais" value="{{pais.id}}">{{pais.nome}}</option>					
+										</select> <i></i>
+									</div>
+								</section>								
+							</div>
+							<legend><strong>Falecimento</strong></legend>
+							<hr class="simple" style="background: black;" />
+							<br />
+							<div class="row">														
+								<section class="col col-3">
+									<label class="label"><strong>Data do Óbito</strong></label>
+									<label class="input-group form-control-wrapper inputValidate" >		
+										<input class="form-control" type="text" pick-a-date="falecido.data_obito" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd",
+				                                selectYears: 400,
+				                            }' />		
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                        <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="dataObito" id="dataObito" type="text" 
+                                        ng-model="falecido.data_obito1"
+                                        data-validate-input
+                                        data-required 
+                                        data-message-required="Informe a data de nascimento">			
+									</label>											
+								</section>					
+
+								
+								<section class="col col-3">
+									<label class="label"><strong>Causa Mortis</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<ui-select multiple ng-model="causamortis_uis.selecionados"
+															on-remove="removed($item, $model)"
+															theme="select2" 
+															ng-disabled="disabled" 
+															style="width: 300px;"
+															ng-change="setarCausaMortisSelecionado(causamortis_uis.selecionados, $select)">
+											<ui-select-match placeholder="Selecione a causa mortis">{{$item.descricao}}</ui-select-match>
+											<ui-select-choices 	group-by="'tipo'"
+																refresh="refreshCausaMortis($select.search)"
+																refresh-delay="0"
+																repeat="causa_mortis in causamortis | filter:$select.search">
+																{{causa_mortis.descricao}}
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</section>
+								<!--
+								<section class="col col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<label class="label"><strong>Causa Mortis</strong></label>
+									<div class="form-control form-control-wrapper inputValidate">
+
+										<ui-select multiple	ng-model="causamortis.selected"
+															theme="bootstrap"
+															ng-disabled="disabled"
+															reset-search-input="false"															
+															ng-change="setarCausaMortisSelecionado(causamortis_uis.selecionados, $select)">
+
+											<ui-select-match placeholder="Selecione a causa mortis">{{$select.selected.descricao}}</ui-select-match>
+											<ui-select-choices 	group-by="'tipo'" 
+																repeat="item in causas | propsFilter: {descricao: $select.search}"
+																refresh="refreshCausaMortis($select.search)"
+																refresh-delay="0">
+												<div ng-bind-html="causamortis.descricao | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+
+										<input 	style="width:0px; height:0px; visibility: hidden; position:absolute" 
+												name="selcausamortis" 
+												id="selcausamortis" 
+												type="text" 
+                                          		ng-model="causamortis.id_causa_mortis"
+                                            	data-validate-input
+                                            	data-required 
+                                            	data-message-required="Selecione uma Causa Mortis">
+									</div>
+								</section>
+								-->
+							<section class="col col-3">
+								<label class="label"><strong>Local de Falecimento</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="local_falecimento" id="local_falecimento" placeholder="Local de Falecimento" ng-model="falecido.local_falecimento"/>
+								</div>
+							</section>															
+							<section class="col col-3">
+								<label class="label"><strong>Número da Certidão de Óbito</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="numero_certidao" id="numero_certidao" placeholder="Número da certidão de óbito" ng-model="falecido.numero_certidao">
+								</div>
+							</section>	
+						</div>								
+						<div class="row">	
+							<section class="col col-3">
+								<label class="label"><strong>Nome do Cartório</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="cartorio" id="cartorio" placeholder="Nome do cartório" ng-model="falecido.cartorio">
+								</div>
+
+							</section>	
+							<section class="col col-3">
+								<label class="label"><strong>Número do Livro do Cartórios</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="livro_cartorio" id="livro_cartorio" placeholder="Número do livro do cartório" ng-model="falecido.livro_cartorio">
+
+								</div>
+							</section>	
+							<section class="col col-3">
+								<label class="label"><strong>Número da Folha do Cartório</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="pagina_cartorio" id="pagina_cartorio" placeholder="Número da folha do livro do cartório" ng-model="falecido.pagina_cartorio">
+								</div>
+							</section>															
+							<section class="col col-3">
+								<label class="label"><strong>Funerária</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<select class="form-control" name="funeraria" id="funeraria" ng-model="falecido.id_funeraria">
+										<option value="" selected>Selecione</option>
+										<option value="{{item.id}}" data-ng-repeat="item in funeraria" ng-selected="item.id == falecido.id_funeraria">{{item.nome}}</option>	
+									</select> <i></i>
+								</div>
+							</section>
+						</div>
+						<div class="row">	
+							<section class="col col-3">
+								<label class="label"><strong>Nome do Médico Legista</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="nome_medico" id="nome_medico" placeholder="Nome do médico legista" ng-model="falecido.nome_medico">
+								</div>
+							</section>	
+							<section class="col col-3">
+								<label class="label"><strong>CRM Médico</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="crm_medico" id="crm_medico" placeholder="Número do CRM do médico legista" ng-model="falecido.crm_medico">
+								</div>
+							</section>																		
+						</div>
+						<legend><strong>Sepultamento</strong></legend>
+						<hr class="simple" style="background: black;" />
+						<br />
+						<div class="row">
+						<section class="col col-3">
+								<label class="label"><strong>Data do Sepultamento</strong></label>
+								<label class="input-group form-control-wrapper inputValidate" >		
+									<input class="form-control" type="text" pick-a-date="falecido.data_sepultamento" placeholder="Selecione uma data" pick-a-date-options='{	
+		                                format: "dd/mm/yyyy",
+		                                formatSubmit: "yyyy-mm-dd",
+		                                selectYears: 300,                      
+		                            }' />		
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                    <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_sepultamento" id="data_sepultamento" type="text" 
+                                    ng-model="falecido.data_sepultamento1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Informe a data do sepultamento">			
+								</label>											
+							</section>	
+							<section class="col col-3">
+		                        <div class="form-group">
+		                          <label class="label"><strong>Hora do Sepultamento</strong></label>
+		                          <div class="input-group">
+		                            <input class="form-control" id="clockpicker" name="hora_sepultamento" type="text" placeholder="Selecione o hora do Sepultamento" data-autoclose="true" ng-model="falecido.hora_sepultamento">
+		                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+		                          </div>
+		                        </div>                      
+		                    </section>		
+							<section class="col col-3">
+								<label class="label"><strong>Número do Livro de Registro</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="numero_livro" id="numero_livro" placeholder="Número do livro de registro" ng-model="falecido.numero_livro">
+								</div>
+							</section>	
+							<section class="col col-3">
+								<label class="label"><strong>Folha do Livro de Registro</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<input class="form-control" type="text" name="numero_pagina" id="numero_pagina" placeholder="Número da folha de registro" ng-model="falecido.numero_pagina">
+								</div>
+							</section>															
+						</div>								
+						<div class="row">
+							<section class="col col-3">
+								<label class="label"><strong>Quadra</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<select class="form-control" name="quadra" id="quadra" ng-model="falecido.id_quadra" ng-change="carregaLote(falecido.id_quadra,'')">
+										<option value="" selected>Selecione</option>
+										<option value="{{item.id}}" ng-selected="{{item.id == falecido.id_quadra}}" data-ng-repeat="item in quadra">{{item.descricao}}</option>	
+									</select> <i></i> 
+								</div>
+							</section>
+							<section class="col col-3">
+								<label class="label"><strong>Lote</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<select class="form-control" name="lote" id="lote" ng-model="falecido.id_lote" ng-change="carregaJazigo(falecido.id_lote,'')">
+										<option value="" selected>Selecione</option>
+										<option value="{{item.id}}" ng-selected="{{item.id == falecido.id_lote}}" data-ng-repeat="item in lote">{{item.descricao}}</option>	
+									</select> <i></i> 
+								</div>
+							</section>
+							<section class="col col-3">
+								<label class="label"><strong>Jazigo</strong></label>
+								<div class="form-control form-control-wrapper inputValidate">
+									<select class="form-control" name="jazigo" id="jazigo" ng-model="falecido.id_unidade_armazenagem" ng-change="carregaGaveta(falecido.id_unidade_armazenagem,'')">
+										<option value="" selected>Selecione</option>
+										<option value="{{item.id}}" ng-selected="{{item.id == falecido.id_unidade_armazenagem}}" data-ng-repeat="item in jazigo">{{item.descricao}}</option>	
+									</select> <i></i> 
+								</div>
+							</section>	
+							<section class="col col-3">
+								<label class="label"><strong>Gaveta</strong></label>
+								<div class="form-control form-control-wrapper ">									
+
+									<select class="form-control" name="gaveta" id="gaveta" ng-model="falecido.id_gaveta"
+									data-validate-input
+									>
+									<option value="" selected>Selecione </option>
+									<option value="{{item.id}}" ng-selected="{{item.id == falecido.id_gaveta}}" data-ng-repeat="item in gaveta">{{item.descricao}}</option>	
+								</select> <i></i> 
+							</div>
+						</section>																		
+					</div>
+					<div class="row">
+					<section class="col col-3" ng-show="falecido.id_gaveta != null">
+								<label class="label"><strong>Data do Vencimento da Gaveta</strong></label>
+								<label class="input-group form-control-wrapper inputValidate" >		
+									<input class="form-control" type="text" pick-a-date="falecido.data_vencimento_gaveta" placeholder="Selecione uma data" pick-a-date-options='{	
+		                                format: "dd/mm/yyyy",
+		                                formatSubmit: "yyyy-mm-dd",
+		                                selectYears: 300,                      
+		                            }'/>		
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                    <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_vencimento_gaveta" id="data_vencimento_gaveta" type="text"
+                                     data-validate-input
+                                        data-required 
+                                        data-message-required="Informe a data de vencimento" 
+                                    ng-model="falecido.data_vencimento_gaveta1">			
+								</label>											
+							</section>
+						<section class="col col-3">
+							<label class="label"><strong>Indigente</strong></label>
+							<div class="form-inline">
+								<div class="form-group">
+									<label class="radio radio-inline">
+										<input type="radio" class="radiobox" name="indigente" checked="true" value="0" ng-model="falecido.indigente">
+										<span>Não</span>  
+									</label>
+								</div>
+								<div class="form-group">
+									<label class="radio radio-inline">
+										<input type="radio" class="radiobox" name="indigente" value="1" ng-model="falecido.indigente">
+										<span>Sim</span>  
+									</label>	
+								</div>
+							</div>
+						</section>
+						<section class="col col-3">
+								<label class="label"><strong>Data de Exumação</strong></label>
+								<label class="input-group form-control-wrapper inputValidate" >		
+									<input class="form-control" type="text" pick-a-date="falecido.data_exumacao" placeholder="Selecione uma data" pick-a-date-options='{	
+		                                format: "dd/mm/yyyy",
+		                                formatSubmit: "yyyy-mm-dd"                      
+		                            }' />		
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+                                    <!-- <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_exumacao" id="data_exumacao" type="text" 
+                                    ng-model="falecido.data_exumacao1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Informe a data da Exumação">			 -->
+								</label>											
+							</section>
+							<section class="col col-3">
+		                        <div class="form-group">
+		                          <label class="label"><strong>Hora da Exumação</strong></label>
+		                          <div class="input-group">
+		                            <input class="form-control" id="clockpicker2" name="hora_exumacao" type="text" placeholder="Selecione a hora da Exumação" data-autoclose="true" ng-model="falecido.hora_exumacao">
+		                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+		                          </div>
+		                        </div>                      
+		                    </section>
+					</div>																									
+				</fieldset>
+				<footer>
+					<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+						Novo
+					</a>
+					<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarFalecido(falecido)" id="SalvarFalecido">
+						Salvar
+					</button>								
+				</footer>
+			</form>
+
+		</div>
+		<!-- end widget content -->
+
+	</div>
+	<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>
+
+<!-- MOVIMENTAÇÃO -->
+
+<div class="row" ng-show="movimentacao.length > 0">
+
+
+	<!-- NEW COL START -->
+	<article class="col-sm-12 col-md-12 col-lg-12">
+
+		<!-- Widget ID (each widget will need unique ID)-->
+		<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Movimentação</h2> 
+
+			</header>
+
+			<!-- widget div-->
+			<div>
+				<!-- widget content -->
+				<div class="widget-body no-padding">
+
+					<form id="movimentacaoForm-form" class="smart-form" novalidate="novalidate" validate-form>							
+						<fieldset>
+
+							<div class="row">
+								<div class="table-responsive">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th class="label-primary" style="color:white">Falecido</th>
+												<th class="label-primary" style="color:white">Data Entrada</th>
+												<th class="label-primary" style="color:white">Data Saida</th>
+												<th class="label-primary" style="color:white">Gaveta</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="falecido in movimentacao">
+												<td>{{falecido.falecido}}</td>
+												<td>{{falecido.data_entrada}}</td>
+												<td>{{falecido.data_saida}}</td>
+												<td>{{falecido.gaveta}}</td>
+											</tr>										
+										</tbody>
+									</table>
+								</div>
+							</div>								
+
+						</fieldset>
+							<!-- <footer>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarFalecido(falecido)" id="SalvarFalecido">
+									Salvar
+								</button>								
+							</footer> -->
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->
+
+
+	<!-- ========== MODAL CAUSA MORTIS ========== -->
+	<div class="modal fade" id="myModalCausaMortis">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Nova Causa Mortis</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroCausaMortis-form" class="smart-form" novalidate="novalidate" validate-form>
+						<section class="section"> 
+							<div class="form-group">
+								<div class="form-control-wrapper inputValidate">
+									<input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addCausaMortis.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição da Causa Mortis"><div class="floating-label">Descrição</div>
+									<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Descrição da Causa Mortis</b>
+									<span class="material-input"></span>
+								</div>
+							</div>
+						</section> 
+					</form>  
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCausaMortis()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== MODAL CAUSA MORTIS ========== -->
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+	 // load summernote, and all markdown related plugins
+
+    loadScript("js/clockpicker.min.js", runClockPicker);
+  
+    function runClockPicker(){
+      $('#clockpicker').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+
+      $('#clockpicker2').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+    } 
+</script>

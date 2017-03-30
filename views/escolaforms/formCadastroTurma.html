@@ -1,0 +1,892 @@
+<script src="controllers/controller.formCadastroTurma.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroTurma' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Turma</h2>
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<div class="smart-form" >
+
+							<fieldset>
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<div class="widget-body">
+
+										<tabset>							
+											<!-- TAB01 -->
+											<tab active="tab.active">
+
+												<tab-heading><i class="fa fa-fw fa-lg fa-male"></i>Turma</tab-heading>
+
+												<div id="myTabContent1" class="tab-content padding-10 ">
+													
+													<form id="cadastroTurma-form" class="smart-form" novalidate="novalidate" validate-form>
+
+														<div class="tab-pane fade in active" id="s1">
+
+															<!-- LIN01 (TAB01) -->
+															<div class="row">
+
+																<!--************************************************************************************-->
+
+																<section class="col col-3">
+																	<label class="label"><strong>Etapa</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+
+																		<ui-select 	ng-model			="itemEtapa.selected"
+																					theme 				="bootstrap"
+																					ng-disabled 		="disabled"
+																					reset-search-input 	="false"
+																					ng-change 			="verificarAcaoEtapa(itemEtapa.selected)">
+
+																			<ui-select-match	placeholder	="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+																			<ui-select-choices  group-by 	="'tipo'" 
+																								repeat 		="itemEtapa in select_etapas | propsFilter: {descricao: $select.search}">
+
+																				<div ng-bind-html="itemEtapa.descricao | highlight: $select.search"></div>
+																			</ui-select-choices>
+
+																		</ui-select>
+
+																		<input 	style 					="width:0px; height:0px; visibility: hidden; position:absolute" 
+																				name 					="id_etapa" 
+																				id 						="id_etapa" 
+																				type 					="text" 
+																				ng-model 				="turma.id_etapa"
+																				data-validate-input
+																				data-required 
+																				data-message-required 	="Selecione a etapa">
+																	</div>
+																</section>
+
+																<!--************************************************************************************-->
+																<!--************************************************************************************-->
+
+																<section class="col col-3">
+																	<label class="label"><strong>Cursos</strong></label>										
+																	<div class="form-group form-control-wrapper inputValidate">
+
+																		<select class 					="form-control" 
+																				name 					="id_curso" 
+																				id 						="id_curso" 
+																				ng-model				="turma.id_curso"
+																				data-validate-input 
+																				data-required
+																				data-message-required	="Por favor, selecione um curso">
+
+																			<option value="" selected>Selecione</option>
+																			<option value="{{itemCurso.id}}" ng-selected="itemCurso.id == turma.id_curso" data-ng-repeat="itemCurso in select_cursos">{{itemCurso.nome}}</option>	
+																		</select>
+																		<i></i>
+																	</div>	
+																</section>
+
+																<!--************************************************************************************-->
+																<!--************************************************************************************-->
+
+																<section class="col col-3">
+																	<label class="label"><strong>Período de aula</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+
+																		<ui-select 	ng-model			="itemPeriodo.selected"
+																					theme 				="bootstrap"
+																					ng-disabled 		="disabled"
+																					reset-search-input 	="false"
+																					ng-change 			="verificarAcaoPeriodo(itemPeriodo.selected)">
+
+																			<ui-select-match	placeholder	="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+																			<ui-select-choices  group-by 	="'tipo'" 
+																								repeat 		="itemPeriodo in select_periodos | propsFilter: {descricao: $select.search}">
+
+																				<div ng-bind-html="itemPeriodo.descricao | highlight: $select.search"></div>
+																			</ui-select-choices>
+
+																		</ui-select>
+
+																		<input 	style 					="width:0px; height:0px; visibility: hidden; position:absolute" 
+																				name 					="id_periodo_aula" 
+																				id 						="id_periodo_aula" 
+																				type 					="text" 
+																				ng-model 				="turma.id_periodo_aula"
+																				data-validate-input
+																				data-required 
+																				data-message-required 	="Selecione o período de aula">
+																	</div>
+																</section>
+
+																<!--************************************************************************************-->
+																<!--************************************************************************************-->
+
+																<section class="col col-3">
+																	<label class="label"><strong>Tipo de turma</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+
+																		<ui-select 	ng-model			="itemTipo.selected"
+																					theme 				="bootstrap"
+																					ng-disabled 		="disabled"
+																					reset-search-input 	="false"
+																					ng-change 			="verificarAcaoTipo(itemTipo.selected)">
+
+																			<ui-select-match	placeholder	="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+																			<ui-select-choices  group-by 	="'tipo'" 
+																								repeat 		="itemTipo in select_tipos | propsFilter: {descricao: $select.search}">
+
+																				<div ng-bind-html="itemTipo.descricao | highlight: $select.search"></div>
+																			</ui-select-choices>
+
+																		</ui-select>
+
+																		<input 	style 					="width:0px; height:0px; visibility: hidden; position:absolute" 
+																				name 					="id_tipoturma" 
+																				id 						="id_tipoturma" 
+																				type 					="text" 
+																				ng-model 				="turma.id_tipo_turma"
+																				data-validate-input
+																				data-required 
+																				data-message-required 	="Selecione o tipo de turma">
+																	</div>
+																</section>
+
+																<!--************************************************************************************-->
+
+															</div>	
+
+															<!-- LIN02 (TAB01) -->
+															<div class="row">
+																
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Código</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="codigo" 
+																				id 						="codigo" 
+																				placeholder 			="Código"
+																				ng-model 				="turma.codigo"                                           		
+							                                            		data-maxlength 			="10"
+							                                            		maxlength 				="10"
+							                                            		data-message-required 	="Por favor, informe o código"
+							                                            		data-message-maxlength	="Máximo de 10 Caracteres"
+							                                        			data-validate-input
+							                                            		data-required>
+							                                            
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i> 
+																			Informe o Código
+																		</b> 											
+																	</div>										
+																</section>
+
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Nome da turma </strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="nome" 
+																				id 						="nome" 
+																				placeholder				="Nome"
+																				ng-model				="turma.nome"
+																				data-maxlength 			="200"
+																				maxlength 				="200"
+							                                            		data-message-required 	="Por favor, informe o Nome"
+							                                            		data-message-maxlength	="Máximo de 200 Caracteres"
+																				data-validate-input
+																				data-required>
+
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i>
+																			Informe o Nome
+																		</b>
+																	</div>
+																</section>
+																
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Abreviatura</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="abreviatura" 
+																				id 						="abreviatura" 
+																				placeholder				="Abreviatura"
+																				ng-model				="turma.abreviatura"
+																				data-maxlength 			="20"
+																				maxlength 				="20">
+
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i>
+																			Informe a Abreviatura
+																		</b>
+																	</div>
+																</section>
+															</div>
+
+															<!-- LIN03 (TAB01) -->
+															<div class="row">
+																
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Série</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="serie" 
+																				id 						="serie" 
+																				placeholder 			="Série"
+																				ng-model 				="turma.serie"
+							                                            		data-maxlength 			="2"
+							                                            		maxlength 				="2"
+							                                            		ui-number-mask 			="00"
+							                                            		data-message-required 	="Por favor, informe a série"
+							                                            		data-message-maxlength	="Máximo de 2 Caracteres"
+							                                        			data-validate-input
+							                                            		data-required >
+							                                            
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i> 
+																			Informe a Série
+																		</b> 											
+																	</div>										
+																</section>
+
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Sala</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="sala" 
+																				id 						="sala" 
+																				placeholder				="Sala"
+																				ng-model				="turma.sala"
+																				data-maxlength 			="2"
+																				maxlength 				="2"
+							                                            		data-message-required 	="Por favor, informe a sala"
+							                                            		data-message-maxlength	="Máximo de 2 Caracteres"
+																				data-validate-input
+																				data-required >
+
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i>
+																			Informe a Sala
+																		</b>
+																	</div>
+																</section>
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Quantidade máxima de alunos</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<i class="icon-append fa fa-question-circle"></i>
+
+																		<input 	class 					="form-control" 
+																				name 					="quantidade_maxima_aluno" 
+																				id 						="quantidade_maxima_aluno" 
+																				placeholder				="Quantidade máxima de alunos"
+																				ng-model				="turma.quantidade_maxima_aluno"
+																				ui-number-mask 			="000"
+																				maxlength 				="3">
+
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i>
+																			Informe quantidade
+																		</b>
+																	</div>
+																</section>
+															</div>
+
+															<!-- LIN04 (TAB01) -->
+															<div class="row">
+
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Observação</strong></label>
+																	<div class="form-control-wrapper">
+
+																		<textarea 	class 		="form-control ng-pristine ng-valid" 																	
+																					name 		="observacao"
+																					id 			="observacao"
+																					placeholder ="Observação"
+																					rows 		="3" 
+																					ng-model 	="turma.observacao" 
+																					maxlength 	="200">
+																		</textarea>
+
+																		<span class="material-input"></span>
+																		<b class="tooltip tooltip-top-right">
+																			<i class="fa fa-warning txt-color-teal"></i>
+																			Observação
+																		</b>
+
+																	</div>
+																</section>
+
+																<section class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+																	<label class="label"><strong>Status</strong></label>
+																	<div class="form-inline">
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="turma.ativo">
+																				<span>Ativo</span>  
+																			</label>
+																		</div>
+																		<div class="form-group">
+																			<label class="radio radio-inline">
+																				<input type="radio" class="radiobox" name="status" value="0" ng-model="turma.ativo">
+																				<span>Inativo</span>  
+																			</label>	
+																		</div>
+																	</div>
+																</section>
+
+															</div>
+														</div>
+
+														<!-- FOOTER -->
+														<footer>
+
+															<a 		class 	 	 	="btnmd btnmd-success pull-right" 
+																	id 			 	="NovoCadastro"
+																	data-ng-click	="novoCadastroTurma()" > Novo </a>
+															<button class 			="btnmd btnmd-info pull-right" 
+																	id 				="SalvarTurma"
+																	ng-click		="cadastrarTurma()" > Salvar </button>
+
+														</footer>													
+
+													</form>
+												</div>
+											</tab>
+
+											<!-- TAB 02 -->
+											<tab ng-show="matriculas.length > 0">
+
+												<tab-heading><i class="fa fa-fw fa-lg fa-graduation-cap"></i>Alunos</tab-heading>
+
+												<div id="myTabContent1" class="tab-content padding-10 ">
+													<div>
+														<div class="table-responsive">
+															<table show-filter="true" class="table table-striped table-bordered">
+																<thead>
+																	<tr>
+																		<th>N° NA CHAMADA</th>
+																		<th ng-click="changeSorting('descricao')">MATRÍCULA<i class="glyphicon" ng-class="getIcon('descricao')"></i></th>
+																		<th ng-click="changeSorting('nome')">ALUNO<i class="glyphicon" ng-class="getIcon('nome')"></i></th>
+																		<th ng-click="changeSorting('situacao_matricula')">SITUAÇÃO<i class="glyphicon" ng-class="getIcon('situacao_matricula')"></i></th>
+																		<th width="50">Ação</th>
+																	</tr>
+																</thead>
+																<tbody>  
+																	<tr>
+																		<td width="15%"></td>
+																		<td width="20%"><input ng-model="search.codigo" id="search" class="form-control" placeholder="Código"></td>
+																		<td width="40%"><input ng-model="search.aluno" id="search" class="form-control" placeholder="Aluno"></td>
+																		<td width="20%"><input ng-model="search.situacao_matricula" id="search" class="form-control" placeholder="Situação"></td>
+																		<td width="5%"></td>
+																	</tr>
+																	<tr ng-show="matriculas.length == 0">
+																		<td colspan="6">Não existem dados para serem exibidos.</td>
+																	</tr>
+																	<tr dir-paginate="item in matriculas | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+																		<td>{{$index + 1}}</td>
+																		<td>{{item.codigo}}</td>
+																		<td>{{item.aluno}}</td>
+																		<td>{{item.situacao_matricula}}</td>
+																		<td><button ng-click='editCadastroAluno(item.id_aluno)' popover="Editar cadastro de Aluno" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+																			<div class="ripple-wrapper"></div>
+																		</button></td>
+																	</tr>
+																</tbody>
+															</table>       
+														</div>  
+													</div>          
+													<div>      
+														<div>  
+															<div class="row" style="margin: 20px 0px 5px 0px;">
+																<div class="col col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+																			<div class="col col-xs-4 col-sm-2 col-lg-2 col-md-2">
+																				<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+																	<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html">
+																</dir-pagination-controls>            
+															</div>              
+														</div>
+													</div>
+												</div>
+											</div>
+										</tab>
+
+											<!-- TAB 03 -->
+											<tab ng-show="disciplinas_professores.length > 0">
+
+												<tab-heading><i class="fa fa-fw fa-lg fa-briefcase"></i>Disciplinas/Professores</tab-heading>
+
+												<div id="myTabContent1" class="tab-content padding-10 ">
+													
+													<div>
+														<div class="table-responsive">
+															<table show-filter="true" class="table table-striped table-bordered">
+																<thead>
+																	<tr>
+																		<th ng-click="changeSorting('disciplina')">DISCIPLINA<i class="glyphicon" ng-class="getIcon('disciplina')"></i></th>
+																		<th ng-click="changeSorting('pessoa_professor')">PROFESSOR<i class="glyphicon" ng-class="getIcon('pessoa_professor')"></i></th>
+																		<th ng-click="changeSorting('pessoa_coordenador')">COORDENADOR<i class="glyphicon" ng-class="getIcon('pessoa_coordenador')"></i></th>
+																		<th width="50">Ação</th>
+																	</tr>
+																</thead>
+																<tbody>  
+																	<tr>
+																		<td width="15%"><input ng-model="search.disciplina" id="search" class="form-control" placeholder="Disciplina"></td>
+																		<td width="40%"><input ng-model="search.pessoa_professor" id="search" class="form-control" placeholder="Professor"></td>
+																		<td width="40%"><input ng-model="search.pessoa_coordenador" id="search" class="form-control" placeholder="Coordenador"></td>
+																		<td width="5%"></td>
+																	</tr>
+																	<tr ng-show="disciplinas_professores.length == 0">
+																		<td colspan="5">Não existem dados para serem exibidos.</td>
+																	</tr>
+																	<tr dir-paginate="item_dp in disciplinas_professores | filter:search:strict | itemsPerPage: pageSize | orderBy:sort.active:sort.descending" current-page="currentPage" pagination-id="entiPagination">
+																		<td>{{item_dp.disciplina}}</td>
+																		<td>{{item_dp.pessoa_professor}}</td>
+																		<td>{{item_dp.pessoa_coordenador}}</td>
+																		<td><button ng-click='editCadastroDisciplinaProfessor(item_dp.id)' popover="Editar cadastro de Curso" popover-trigger="mouseenter" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm">
+																			<div class="ripple-wrapper"></div>
+																		</button></td>
+																	</tr>
+																</tbody>
+															</table>       
+														</div>  
+													</div>          
+													<div>      
+														<div>  
+															<div class="row" style="margin: 20px 0px 5px 0px;">
+																<div class="col col-xs-5 col-ls-6 col-md-6 col-lg-6" style="padding-top: 8px;">
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label for="inputEmail3" style="padding-top:6px; width:auto; padding-right: 0px;" class="col-xs-3 control-label">Itens por página:</label>
+																			<div class="col col-xs-4 col-sm-2 col-lg-2 col-md-2">
+																				<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+																			</div>
+																		</div>
+																	</form>
+																</div>
+																<div class="col-xs-7 col-ls-4 col-md-4 col-lg-4 pull-right">
+																	<dir-pagination-controls class="pull-right " boundary-links="true" pagination-id="entiPagination" on-page-change="pageChangeHandler(newPageNumber)" template-url="template/dirPagination.tpl.html">
+																</dir-pagination-controls>            
+															</div>              
+														</div>
+													</div>
+												</div>
+													
+
+												</div>
+											</tab>
+										</tabset>
+									</div>
+								</section>
+							</fieldset>
+						</div>
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->	
+
+	<!-- ========== MODAL Etapas ========== -->
+	<div class="modal fade" id="myModalEtapa">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Nova Etapa</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroModEtapa-form" class="smart-form" novalidate="novalidate" validate-form>
+					<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+					<fieldset>
+						<div class="row">
+
+							<section class="col col-4">
+								<label class="label"><strong>Ciclo </strong></label>										
+								<div class="form-group form-control-wrapper inputValidate">
+
+									<select class 					="form-control" 
+											name 					="id_ciclo" 
+											id 						="id_ciclo" 
+											ng-model				="mod_etapa.id_ciclo"
+											data-validate-input 
+											data-required
+											data-message-required	="Por favor, selecione um ciclo">
+
+										<option value="" selected>Selecione</option>
+										<option value="{{itemCiclo.id}}" ng-selected="itemCiclo.id == mod_etapa.id_ciclo" data-ng-repeat="itemCiclo in select_ciclo">{{itemCiclo.descricao}}</option>	
+									</select>
+									<i></i>
+								</div>	
+							</section>
+
+							<section class="col col-4">
+								<label class="label"><strong>Situação da Etapa</strong></label>
+								<div class="form-group form-control-wrapper inputValidate">											
+
+									<select class 					="form-control" 
+											name    				="id_situacao_etapa" 
+											id    					="id_situacao_etapa" 
+											ng-model				="mod_etapa.id_situacao_etapa"
+											data-validate-input 
+											data-required
+											data-message-required	="Por favor, selecione a situação da etapa">
+
+										<option value="" selected>Selecione</option>
+										<option  value="{{itemSituacaoEtapa.id}}" ng-selected="itemSituacaoEtapa.id == mod_etapa.id_situacao_etapa" data-ng-repeat="itemSituacaoEtapa in select_situacao">{{itemSituacaoEtapa.descricao}}</option>	
+									</select>
+									<i></i>
+								</div>	
+							</section>
+
+						</div>
+
+						<div class="row">
+
+							<section class="col col-4">
+								<label class="label"><strong>Ano</strong></label>
+								<div class="input-group form-control-wrapper inputValidate">
+
+									<input  class 				="form-control" 
+											type 				="text"
+											pick-a-date 		="mod_etapa.ano"
+											placeholder			="Selecione uma data" 
+											pick-a-date-options ='{	format: "yyyy",
+		                                						   	formatSubmit: "yyyy",
+		                                						   	selectYears: 100,
+		                                							modelDateFormat: "yyyy-MM-ddTHH:mm:ss",
+																	dateType: "string"}'>
+
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                    <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                            name 				 ="ano" 
+                                            id 					 ="ano" 
+                                            type 				 ="text" 
+                                            ng-model 			 ="mod_etapa.ano"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe o ano">
+                                            <span class="material-input"></span>
+								</div>
+							</section>
+
+							<section class="col col-4">
+								<label class="label"><strong>Inicial</strong></label>
+								<div class="input-group form-control-wrapper inputValidate">
+
+									<input  class 				="form-control" 
+											type 				="text" 
+											pick-a-date 		="mod_etapa.data_inicio"  
+											placeholder			="Mês e ano" 
+											pick-a-date-options ='{ format: "mm/yyyy",
+		                                						    formatSubmit: "yyyy-mm",
+		                                						    selectYears: 100,
+		                                							modelDateFormat: "yyyy-MM-ddTHH:mm:ss",
+																	dateType: "string"}'>
+
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                    <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                            name 				 ="data_inicio" 
+                                            id 					 ="data_inicio" 
+                                            type 				 ="text" 
+                                            ng-model 			 ="mod_etapa.data_inicio1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe a data inicial">
+                                            <span class="material-input"></span>
+								</div>
+							</section>
+
+							<section class="col col-4">
+								<label class="label"><strong>Final</strong></label>
+								<div class="input-group form-control-wrapper inputValidate">
+
+									<input  class 				="form-control" 
+											type 				="text" 
+											pick-a-date 		="mod_etapa.data_fim" 
+											placeholder			="Mês e ano" 
+											pick-a-date-options ='{ format: "mm/yyyy",
+		                                						    formatSubmit: "yyyy-mm",
+		                                						    selectYears: 100,
+		                                							modelDateFormat: "yyyy-MM-ddTHH:mm:ss",
+																	dateType: "string"}'>
+
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                    <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                            name 				 ="data_fim" 
+                                            id 					 ="data_fim" 
+                                            type 				 ="text" 
+                                            ng-model 			 ="mod_etapa.data_fim1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe a data final">
+                                            <span class="material-input"></span>
+								</div>
+							</section>
+
+						</div>
+
+						<div class="row">
+
+							<section class="col col-4">
+								<label class="label"><strong>Descrição</strong></label>
+								<div class="form-control-wrapper inputValidate">
+
+									<textarea 	rows 				 	="5" 
+												class 					="form-control ng-pristine ng-valid" 
+												name 				 	="descricao" 
+												id 					 	="descricao" 
+												placeholder 		 	="Descrição" 
+												ng-model 			 	="mod_etapa.descricao"
+												data-validate-input
+												data-required 
+												data-message-required	="Por favor, informe uma descrição"
+												data-maxlength 			="200"
+                                    			data-message-maxlength	="Máximo de 200 Caracteres">
+									</textarea>
+
+									<span class="material-input"></span>
+								</div>
+							</section>
+
+							<section class="col col-4">
+								<label class="label"><strong>Observação</strong></label>
+
+								<textarea 	rows 		="5" 
+											class 		="form-control ng-pristine ng-valid" 
+											name 		="observacao" 
+											id 			="observacao" 
+											placeholder	="Observação" 
+											ng-model	="mod_etapa.observacao">
+								</textarea>
+
+							</section>
+
+							<section class="col col-4">
+								<label class="label"><strong>Status</strong></label>
+								<div class="form-inline">
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="mod_etapa.ativo">
+											<span>Ativo</span>  
+										</label>
+									</div>
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="status" value="0" ng-model="mod_etapa.ativo">
+											<span>Inativo</span>  
+										</label>	
+									</div>
+								</div>
+							</section>
+
+						</div>							
+					</fieldset>
+					<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+					</form>  
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarModEtapa()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== /MODAL Etapas ========== -->
+	<!-- ========== MODAL Periodo de Aula ========== -->
+	<div class="modal fade" id="myModalPeriodo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Período</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroModPeriodo-form" class="smart-form" novalidate="novalidate" validate-form>
+					<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+						<fieldset>
+							<div class="row">																	
+								<section class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<label class="label"><strong>Descrição</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+
+										<input  class 					="form-control" 
+												name 					="descricao" 
+												id 						="descricao" 
+												placeholder 			="Descrição"
+												ng-model				="mod_periodo.descricao"
+												data-validate-input
+	                                            data-required 
+	                                            data-message-required 	="Informe a descrição"
+												data-maxlength 			="100"
+                                        		data-message-maxlength	="Máximo de 100 Caracteres">
+
+										<span class="material-input"></span>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição do período de aula</b>
+									</div>
+								</section>
+								<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			                        <label class="label"><strong>Hora Inicial</strong></label>
+			                        <div class="input-group">
+			                          <input class="form-control" mask='99:99' id="clockpicker1" name="hora_inicio" type="text" placeholder="Selecione o horário de inicio" data-autoclose="true" ng-model="mod_periodo.hora_inicio">
+			                          <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+			                        </div>
+								</section>
+								<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+									<label class="label"><strong>Hora Final</strong></label>
+			                        <div class="input-group">
+			                          <input class="form-control" mask='99:99' id="clockpicker2" name="hora_fim" type="text" placeholder="Selecione o horário de fim" data-autoclose="true" ng-model="mod_periodo.hora_fim">
+			                          <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+			                        </div>
+								</section>
+								<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+									<label class="label"><strong>Status</strong></label>
+									<div class="form-inline">
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="mod_periodo.ativo">
+												<span>Ativo</span>  
+											</label>
+										</div>
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="status" value="0" ng-model="mod_periodo.ativo">
+												<span>Inativo</span>  
+											</label>	
+										</div>
+									</div>
+								</section>																								
+							</div>								
+						</fieldset>
+					<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+					</form>  
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarModPeriodo()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== /MODAL Periodo de Aula ========== -->
+	<!-- =========== MODAL Tipos de turma ========== -->
+	<div class="modal fade" id="myModalTipo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Novo Tipo de turma</h4>
+				</div>
+				<div class="modal-body">
+					<form id="cadastroModTipo-form" class="smart-form" novalidate="novalidate" validate-form>
+					<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+						<fieldset>
+							<div class="row">
+								<section class="col col-8">
+									<label class="label"><strong>Descrição</strong></label>
+									<div class="form-control-wrapper inputValidate">
+										<i class="icon-append fa fa-question-circle"></i>
+										<input class="form-control" name="descricao" id="descricao" maxlength="100" placeholder="Descricao"
+										ng-model="mod_tipo.descricao"
+										data-validate-input
+                                        data-required 
+                                        data-message-required="Informe o tipo de turma.">
+										<span class="material-input"></span>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Descrição</b>
+									</div>
+								</section>
+			                    <section class="col col-4">
+									<label class="label"><strong>Status</strong></label>
+									<div class="form-inline">
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="mod_tipo.ativo">
+												<span>Ativo</span>
+											</label>
+										</div>
+										<div class="form-group">
+											<label class="radio radio-inline">
+												<input type="radio" class="radiobox" name="status" value="0" ng-model="mod_tipo.ativo">
+												<span>Inativo</span>  
+											</label>	
+										</div>
+									</div>
+								</section> 
+							</div>								
+						</fieldset>
+					<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+					</form>  
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btnmd btnmd-primary" ng-click="adicionarModTipo()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ========== /MODAL Tipo de turma ========== -->
+
+</section>
+<!-- end widget grid -->
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

@@ -1,0 +1,401 @@
+<script src="controllers/controller.movimentacao.js"></script>
+<style type="text/css">
+	.hover{
+		background-color: #EF6C00;
+		color: #ffffff;
+	}
+</style>
+<!-- START ROW -->
+<div class="row" ng-controller="movimentacao" id="widget-grid" widget-grid>
+	<!-- NEW COL START -->
+	<article class="col-sm-12 col-md-12 col-lg-12">
+		<!-- Widget ID (each widget will need unique ID)-->
+		<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Lançamento de contas</h2>
+			</header>
+			<!-- widget div-->
+			<div>
+				<!-- widget content -->
+				<div class="widget-body no-padding">
+					<form id="cadastroMovimentacao-form" class="smart-form">
+						<fieldset>
+							<section class="col col-sm-12 col-md-12 col-lg-12" style="background: #F0F0EE; padding-top:10px; padding-bottom:10px;">
+								<div class="col-sm-7" >
+									<h4 class="alert-heading">{{tabssel.nome}}</h4>
+								</div>
+								<section class="col col-3" ng-hide="saldo == null">
+									<label class="label"><strong>Conta bancária </strong></label>
+									<div class="form-group form-control-wrapper inputValidate">
+										<select class="form-control" id="conta_bancaria" name="conta_bancaria"
+											ng-change="trocaSaldo()"
+											ng-model="search.id_conta_bancaria"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a situação">
+											<option value="" selected>Total</option>
+											<option value="{{conta.id}}" data-ng-repeat="conta in conta_bancaria" ng-selected="search.id_conta_bancaria == conta.id">{{conta.descricao}}</option>	
+										</select>
+										<i></i>
+									</div>
+								</section>
+								<div class="col-sm-2" ng-hide="acesso == false">
+									<label class="label" style="margin-top: 7px;" align="right"><strong>&nbsp;</strong></label>
+									<!--{{resumo.creditos-resumo.debitos | currency}}-->
+									{{saldo | currency}}
+								</div>
+							</section>
+						</fieldset>
+						<fieldset>
+							<div class="row">
+								<section class="col col-xs-12 col-sm-9 col-md-9 col-lg-9">
+									<!-- btnmd btnmd-primary btnmd-raised -->
+										<a 
+										href="#/financeiro/formCadastroMovimentacao/{{tabssel.indice}}"
+										id="lancarContas" 
+										popover="{{tabssel.texto}}" 
+										popover-trigger="mouseenter"
+										class="btnmd {{tabssel.classe}} btnmd-sm">
+											<span>
+												<i class="glyphicon glyphicon-plus"></i> {{tabssel.texto}}
+											</span>
+										</a>
+										<a id="delRows" class="btn btn-success btn-danger btn-sm" ng-show="btnDelete" href="javascript:void(0);"
+										popover="Excluir" 
+										popover-trigger="mouseenter"
+										>
+											<i class="glyphicon glyphicon-plus"></i> Excluir
+										</a>
+								</section>
+								<section class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+									<div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-right">
+										<select ng-click="changeData()" ng-model="select_ano" ng-options="data.ano for data in anos" class="form-control">
+										</select>
+									</div>
+									<div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-right">
+										<select ng-change="changeData()" ng-model="select_mes" ng-options="data.mes for data in meses" class="form-control">
+										</select>
+									</div>
+								</section>
+							</div>
+							<div class="row">
+								<section class="col col-sm-9 col-md-9 col-lg-9">
+									<hr class="simple">
+									<div class="widget-body">
+										<tabset>
+											<tab ng-repeat="tab in tabs" select="changeTab($index)" ng-click="changeCalendar($index)" active="tab.active">
+												<tab-heading >
+													<i ng-if="tab.nome == 'Recebimentos'" class="fa fa-fw fa-credit-card"></i>
+													<i ng-if="tab.nome == 'Despesas Fixas'" class="fa fa-fw fa-money"></i>
+													<i ng-if="tab.nome == 'Despesas Variáveis'" class="fa fa-fw fa-bar-chart-o"></i>
+													<i ng-if="tab.nome == 'Pessoas'" class="fa fa-fw fa-user-plus"></i>
+													<i ng-if="tab.nome == 'Impostos'" class="fa fa-fw fa-pie-chart"></i>
+													<i ng-if="tab.nome == 'Doações'" class="fa fa-fw fa-heart-o"></i>
+													<i ng-if="tab.nome == 'Transferências'" class="fa fa-fw fa-exchange"></i>
+													{{tab.nome}}
+												</tab-heading>
+											</tab>
+										</tabset>
+										<div id="myTabContent1" class="tab-content padding-10">
+											<div class="tab-pane fade in active" id="s1">
+												<div class="table-responsive">
+
+													<section ng-if="tabssel.nome=='Recebimentos'">
+														<h2 style="margin-top:10px;" class="text-success font-lg">Esta é a sua tabela de <strong>receitas</strong></h2>
+														<p>Receita é toda <strong>entrada de dinheiro</strong> da empresa. Ex: contratos, mensalidades, rendimentos, comissões ou vendas.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Despesas Fixas'">
+														<h2 style="margin-top:10px;" class="text-danger font-lg">Esta é a sua tabela de <strong>despesas fixas</strong></h2>
+														<p>Despesas fixas são gastos relativos ao funcionamento da empresa, que não variam conforme a quantidade de vendas. Ex.: conta de água, energia, telefone etc.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Despesas Variáveis'">
+														<h2 style="margin-top:10px;" class="text-danger font-lg">Esta é a sua tabela de <strong>despesas variáveis</strong></h2>
+														<p>Despesas variáveis são gastos relacionados com a produção, venda ou manutenção dos produtos e equipamentos. Ex.: publicidade, comissões, combustível etc.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Pessoas'">
+														<h2 style="margin-top:10px;" class="text-danger font-lg">Esta é a sua tabela de <strong>despesas com pessoal</strong></h2>
+														<p>Despesas relacionadas às pessoas compreendem a folha de pagamento da empresa. Ex.: salários, adiantamento, pro-labore, FGTS etc.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Impostos'">
+														<h2 style="margin-top:10px;" class="text-danger font-lg">Esta é a sua tabela de <strong>impostos</strong></h2>
+														<p>Impostos e tributos são despesas pagas para o governo. Ex.: IPVA, IPTU, Simples Nacional, INSS, ISS.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Doações'">
+														<h2 style="margin-top:10px;" class="text-primary font-lg">Esta é a sua tabela de <strong>doações</strong></h2>
+														<p>Receitas relacionadas a doações.</p>
+													</section>
+													<section ng-if="tabssel.nome=='Transferências'">
+														<h2 style="margin-top:10px;" class="text-info font-lg">Esta é a sua tabela de <strong>transferências</strong></h2>
+														<p>Se você tiver duas ou mais contas bancárias cadastradas, você pode registrar aqui as transferências de dinheiro entre elas.</p>
+													</section>
+													
+													<section>
+														<div ng-show="tabssel.indice==7">
+														<table class="table table-bordered table-hover" style="margin-top:10px;">
+															<thead>
+																<tr>
+																	<th ng-click="changeSorting('descricao')" 				width="40%" style="align:center">Descrição</th>
+																	<th ng-click="changeSorting('conta_bancaria')" 			width="10%" style="align:center">Conta Origem</th>
+																	<th ng-click="changeSorting('conta_bancaria_destino')" 	width="10%" style="align:center">Conta Destino</th>
+																	<th ng-click="changeSorting('valor')" 					width="10%" style="align:center">Valor</th>
+																	<th ng-click="changeSorting('data_pagamento')" 			width="15%" style="align:center">Data Pagamento</th>
+																	<th width="25%" style="align:center">Ações</th>
+																</tr>
+															</thead>
+											               	<tbody>
+												                <tr>											                   
+												                	<td><input ng-model="search1.descricao" 			 id="search1" class="form-control" placeholder="Descrição"></td>
+												                	<td><input ng-model="search1.conta_bancaria" 		 id="search1" class="form-control" placeholder="Conta Bancária"></td>
+												                	<td><input ng-model="search1.conta_bancaria_destino" id="search1" class="form-control" placeholder="Conta Bancária Destino"></td>
+												                	<td><input ng-model="search1.valor" 				 id="search1" class="form-control" placeholder="Valor"></td>
+												                	<td><input ng-model="search1.data_pagamento" 		 id="search1" class="form-control" placeholder="Data Pagamento"></td>
+												                	<td></td>
+												                </tr>																
+																<tr ng-repeat="item in transferencias track by $index | filter:search1:strict | orderBy:sort.active:sort.descending">
+
+																	<td style="display:table-cell;vertical-align:middle">{{item.descricao}}</td>
+																	<td style="display:table-cell;vertical-align:middle">{{item.conta_bancaria}}</td>
+																	<td style="display:table-cell;vertical-align:middle">{{item.conta_bancaria_destino}}</td>
+																	<td style="display:table-cell;vertical-align:middle">{{item.moeda}}</td>
+																	<td style="display:table-cell;vertical-align:middle">{{item.data_pagamento.split('-').reverse().join('/')}}</td>
+																	<td valign="bottom">
+																		
+																		<button ng-click="removeTransferencia($index,item)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm" popover="Remover" popover-trigger="mouseenter"></button>																		
+																		<a href="#{{'/financeiro/formCadastroMovimentacao/6/'+item.id}}"  class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm" popover="Editar" popover-trigger="mouseenter"></a>
+
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+														</div>
+													</section>
+													
+													<section>
+														<div ng-show="tabssel.indice!=7">
+														<table class="table table-bordered table-hover" style="margin-top:10px;">
+															<thead>
+																<tr>											<th></th>						
+																	<th ng-click="changeSorting('data_vencimento_formatada')" width="10%">Data</th>
+																	<th ng-click="changeSorting('descricao')">Descrição</th>
+																	<th ng-click="changeSorting('pessoa')">Recebido de:</th>
+																	<th ng-click="changeSorting('categoria')">Categoria</th>
+																	<th ng-click="changeSorting('centro_custo')">Cen. de Custo</th>
+																	<th ng-click="changeSorting('situacao')">Situação</th>
+																	<th ng-click="changeSorting('valor_final')">Valor</th>
+																	<th width="90">Ação</th>
+																</tr>
+															</thead>
+											               	<tbody>
+												                <tr>
+												                	<td></td>
+												                	<td><input ng-model="search.data_vencimento_formatada" 	id="search" class="form-control" placeholder="Data Vencimento"></td>
+												                	<td><input ng-model="search.descricao" 			id="search" class="form-control" placeholder="Descrição"></td>
+												                	<td><input ng-model="search.pessoa" 			id="search" class="form-control" placeholder="Pessoa"></td>
+												                	<td><input ng-model="search.categoria" 			id="search" class="form-control" placeholder="Categoria"></td>
+												                	<td><input ng-model="search.centro_custo" 			id="search" class="form-control" placeholder="Cen. de Custo"></td>
+												                	<td><input ng-model="search.situacao" 			id="search" class="form-control" placeholder="Situação"></td>
+												                	<td><input ng-model="search.valor_final" 		id="search" class="form-control" placeholder="Valor Final"></td>
+												                	<td></td>
+												                </tr>												<!--orderBy:sort.active:sort.descending-->
+																<tr ng-repeat="dia in resumo.resumoAll | filter:search:strict | orderBy: data_vencimento">
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice">
+																		<div class="checkbox" ng-show="tabssel.indice == 2">
+																			<label>
+																				<input type="checkbox" ng-click="updateBordero(dia.id)"><span class="ripple"></span><span class="check"></span>
+																			</label>
+																		</div>
+																	</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice" width="15%">{{dia.data_vencimento_formatada}}</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice">{{dia.descricao}}</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice"><div style="display:table-cell;vertical-align:middle" ng-show="dia.id_categoria!=50">{{dia.pessoa}}</div><div style="display:table-cell;vertical-align:middle" ng-show="dia.id_categoria==50">&nbsp;</div></td>																	
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice">{{dia.categoria}}</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice">{{dia.centro_custo}}</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice">{{dia.situacao}}</td>
+																	<td style="display:table-cell;vertical-align:middle" ng-show="dia.id_tipo_lancamento == tabssel.indice" width="15%">{{dia.valor_final| currency}}</td>
+																	<td ng-show="dia.id_tipo_lancamento == tabssel.indice"  valign="bottom">
+																		<div ng-show="dia.id_categoria!=50">
+																			<button ng-click="removeLinha(dia)" 
+																					class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"
+																					popover="Remover"
+																					popover-trigger="mouseenter">
+																			</button>
+																			<a 	href="#/financeiro/formCadastroMovimentacao/{{dia.id_tipo_lancamento}}/{{dia.id}}" 
+																				class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"
+																				popover="Editar"
+																				popover-trigger="mouseenter">
+																			</a>
+																		</div>
+																	</td>
+																</tr>
+																<!--tr style="background-color:#F6F6F6"><td colspan="7">&nbsp;</td><td style="display:table-cell;vertical-align:middle;font-size:12px;"><b>Sub-Total:</b> {{sub | currency}}</td><td>&nbsp;</td></tr-->
+															</tbody>
+														</table>
+														<button ng-show="tabssel.indice == 2" style="margin-top:5px" ng-click="gerarBordero()" class="btnmd btnmd-primary btnmd-raised btnmd-sm">Gerar borderô <span style="margin-left:20px" class="glyphicon glyphicon-circle-arrow-down"></span></button>
+														</div>
+													</section>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+								<section class="col col-sm-3 col-md-3 col-lg-3">
+									<!--<hr class="simple">
+									<div class="col col-sm-12 col-md-12 col-lg-12"></div>-->
+									<div class="widget-body">
+										<hr class="simple">
+										<h3 class="alert alert-info"> {{select_mesant.mes}} {{select_anoant}} </h3>
+									<!--<p>Você fechou o mês anterior com um valor de: {{resumo.creditos_anterior - resumo.debitos_anterior | currency}}</p>-->
+										<p>Você fechou o mês anterior com um valor de: {{resumo.percentuais[0].fechamento | currency}}</p>
+										<br />
+										<label><strong>Recebimentos</strong></label>
+										<div class="progress progress-micro">
+											<div class="progress-bar bg-color-orange" role="progressbar" style="width: {{percentCredito | number:0}}%;"></div>
+										</div>
+										<label><strong>Saidas totais</strong></label>
+										<div class="progress progress-micro">
+											<div class="progress-bar bg-color-redLight" role="progressbar" style="width: {{percentDebito | number:0}}%;"></div>
+										</div>
+										<label><strong>Despesas fixas</strong></label>
+										<div class="progress progress-micro">
+											<div class="progress-bar bg-color-blueLight" role="progressbar" style="width: {{percentDespesaFixa | number:0}}%;"></div>
+										</div>
+										<label><strong>Despesas variáveis</strong></label>
+										<div class="progress progress-micro">
+											<div class="progress-bar bg-color-teal" role="progressbar" style="width: {{percentDespesaVariavel | number:0}}%;"></div>
+										</div>
+										<!--label><strong>Imposto</strong></label>
+										<div class="progress progress-micro">
+											<div class="progress-bar bg-color-teal" role="progressbar" style="width: 0%;"></div>
+										</div-->
+									</div>
+								</section>
+							</div>
+						</fieldset>
+						<!-- FOOTER -->
+						<footer>
+							<div class="col-sm-9 col-md-9 col-lg-9">
+								<!--div ng-if="tabssel.indice==1 || tabssel.indice==6">
+									<div>
+										<p><strong>Recebido:</strong>{{totalEntrada.recebido | currency}}</p>
+										<p ><strong>Falta:</strong> {{totalEntrada.receber| currency}}</p>	
+									</div>
+
+									<h4 class="text-success">
+										<strong>Total:</strong> {{totalEntrada.recebido + totalEntrada.receber | currency}}
+									</h4>
+								</div>
+								<div ng-if="tabssel.indice == 2 || tabssel.indice == 3 || tabssel.indice == 4 || tabssel.indice == 5">
+									<div>
+										<p><strong>Pago:</strong>{{totalSaida.pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{totalSaida.a_pagar| currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Total:</strong> {{totalSaida.pagar + totalSaida.a_pagar | currency}}
+									</h4>
+								</div-->
+
+							
+								<div ng-if="tabssel.indice==1">
+									<div>									
+										<p><strong>Recebido:</strong>{{rec_recebido | currency}}</p>
+										<p ><strong>Falta:</strong> {{rec_falta | currency}}</p>	
+									</div>
+									<h4 class="text-success">
+										<strong>Sub-total:</strong> {{rec_recebido + rec_falta | currency}}
+									</h4>
+								</div>
+								<div ng-if="tabssel.indice == 2">
+									<div>
+										<p><strong>Pago:</strong>{{df_pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{df_apagar | currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Sub-total:</strong> {{df_pago + df_apagar | currency}}
+									</h4>
+								</div>
+								<div ng-if="tabssel.indice == 3">
+									<div>
+										<p><strong>Pago:</strong>{{dv_pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{dv_apagar | currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Sub-total:</strong> {{dv_pago + dv_apagar | currency}}
+									</h4>
+								</div>
+
+								<div ng-if="tabssel.indice == 4">
+									<div>
+										<p><strong>Pago:</strong>{{pes_pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{pes_apagar | currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Sub-total:</strong> {{pes_pago + pes_apagar | currency}}
+									</h4>
+								</div>
+
+								<div ng-if="tabssel.indice == 5">
+									<div>
+										<p><strong>Pago:</strong>{{imp_pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{imp_apagar | currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Sub-total:</strong> {{imp_pago + imp_apagar | currency}}
+									</h4>
+								</div>
+
+								<div ng-if="tabssel.indice == 6">
+									<div>
+										<p><strong>Pago:</strong>{{doa_pago | currency}}</p>
+										<p ><strong>A pagar:</strong> {{doa_apagar | currency}}</p>	
+									</div>
+
+									<h4 class="text-danger">
+										<strong>Sub-total:</strong> {{doa_pago + doa_apagar | currency}}
+									</h4>
+								</div>
+
+								<!--
+								<div ng-if="tabssel.nome=='Recebimentos' || tabssel.nome=='Doações'">
+									<p ><strong>Recebido:</strong> {{resumo.creditosRealizados | currency}}</p>
+									<p ><strong>Falta:</strong> {{resumo.creditos - resumo.creditosRealizados | currency}}</p>	
+								</div>
+								<div ng-if="tabssel.nome!='Recebimentos' && tabssel.nome!='Doações' && tabssel.indice!=6">
+									<p ><strong>Pago:</strong> {{resumo.debitosRealizados | currency}}</p>
+									<p ><strong>Falta:</strong> {{resumo.debitos - resumo.debitosRealizados | currency}}</p>	
+								</div>
+								<h4 ng-if="tabssel.nome=='Recebimentos'" class="text-success"><strong>Total:</strong> {{resumo.creditos | currency}}</h4>
+								<h4 ng-if="tabssel.nome=='Despesas Fixas'" class="text-danger"><strong>Total:</strong> {{resumo.debitos | currency}}</h4>
+								<h4 ng-if="tabssel.nome=='Despesas Variáveis'" class="text-danger"><strong>Total:</strong> {{resumo.debitos | currency}}</h4>
+								<h4 ng-if="tabssel.nome=='Pessoas'" class="text-danger"><strong>Total:</strong> {{resumo.debitos | currency}}</h4>
+								<h4 ng-if="tabssel.nome=='Impostos'" class="text-danger"><strong>Total:</strong> {{resumo.debitos | currency}}</h4>
+							</div>
+						</footer>
+						<!-- FIM DO FOOTER -->
+					</form>
+				</div>
+				<!-- end widget content -->
+			</div>
+			<!-- end widget div -->
+		</div>
+		<!-- end widget -->
+	</article>
+	<!-- END COL -->
+</div>
+<!-- END ROW -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+pageSetUp();
+
+// pagefunction
+var pagefunction = function() {	
+};
+
+</script>

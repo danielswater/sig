@@ -1,0 +1,257 @@
+<script src="controllers/controller.formCadastroEtapa.js"></script>
+<style type="text/css">
+/*		.picker__table{
+		display: none;
+	}
+	.picker__day-display{
+		display: none;
+	}
+	.picker__close{
+		display: none;
+	}
+	.picker__footer{
+		text-align: center;
+	}*/
+</style>
+<!-- widget grid -->
+<section ng-controller='formCadastroEtapa' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Etapas</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroEtapa-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+
+									<section class="col col-6">
+										<label class="label"><strong>Ciclo </strong></label>										
+										<div class="form-group form-control-wrapper inputValidate">
+
+											<select class 					="form-control" 
+											name 					="ciclo" 
+											id 						="ciclo" 
+											ng-model				="etapa.id_ciclo"
+											data-validate-input 
+											data-required
+											data-message-required	="Por favor, selecione um ciclo">
+
+											<option value="" selected>Selecione</option>
+											<option value="{{ciclos.id}}" ng-selected="ciclos.id == etapa.id_ciclo" data-ng-repeat="ciclos in ciclo">{{ciclos.descricao}}</option>	
+										</select>
+										<i></i>
+									</div>	
+								</section>
+
+								<section class="col col-6">
+									<label class="label"><strong>Situação da Etapa</strong></label>
+									<div class="form-group form-control-wrapper inputValidate">											
+
+										<select class 					="form-control" 
+										name    				="situacaoEtapa" 
+										id    					="situacaoEtapa" 
+										ng-model				="etapa.id_situacao_etapa"
+										data-validate-input 
+										data-required
+										data-message-required	="Por favor, selecione a situação da etapa">
+
+										<option value="" selected>Selecione</option>
+										<option  value="{{etapas.id}}" ng-selected="etapas.id == etapa.id_situacao_etapa" data-ng-repeat="etapas in situacao_etapa">{{etapas.descricao}}</option>	
+									</select>
+									<i></i>
+								</div>	
+							</section>
+
+						</div>
+
+						<div class="row">
+
+
+						<section class="col col-4">
+							<label class="label"><strong>Descrição</strong></label>
+							<div class="form-control-wrapper inputValidate">
+								<i class="icon-append fa fa-question-circle"></i>
+
+								<input  class 			="form-control" 
+								name 					="descricao" 
+								id 						="descricao" 													
+								placeholder				="Descricao"
+								ng-model				="etapa.descricao"
+								data-validate-input
+								data-required 
+								data-message-required	="Informe uma descrição."
+								data-maxlength 			="200"
+								data-message-maxlength	="Máximo de 200 Caracteres">
+
+								<span class="material-input"></span>
+								<b class="tooltip tooltip-top-right">
+									<i class="fa fa-warning txt-color-teal"></i> 
+									Descrição</b> 											
+								</div>										
+							</section>
+
+							<section class="col col-2">
+								<label class="label"><strong>Ano</strong></label>
+								<div class="form-control-wrapper inputValidate">
+									<i class="icon-append fa fa-question-circle"></i>
+									<input class="form-control" name="ano" id="ano" placeholder="Ano"
+									ng-model="etapa.ano"
+									mask="9999"
+									data-validate-input
+									data-required 
+									data-message-required="Informe o ano">
+									<span class="material-input"></span>
+									<b class="tooltip tooltip-top-right"><i class="fa fa-warning txt-color-teal"></i>Ano</b>
+								</div>
+							</section>							
+
+							<section class="col col-3">
+								<label class="label"><strong>Mês e Ano Inicial</strong></label>
+								<!-- <div class="input-group form-control-wrapper inputValidate">
+
+									<input  class 				="form-control" 
+									type 				="text" 
+									placeholder			="Mês e ano" 
+									pick-a-date 		="etapa.data_inicio" 													
+									pick-a-date-options ="{format: 'mm/yyyy'}">
+
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+									<input  style 		 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+									name 				 ="data_inicio" 
+									id 					 ="data_inicio" 
+									type 				 ="text" 
+									ng-model 			 ="etapa.data_inicio1"
+									data-validate-input
+									data-required 
+									data-message-required="Por favor, informe o mês e ano inicial">
+									<span class="material-input"></span>
+								</div> -->
+								<label class="input-group form-control-wrapper inputValidate">
+									<input class="form-control data-picker" id="dataNasc" ng-model="etapa.data_inicio" type="text"
+									data-validate-input
+									mask="99/9999" 
+									data-required
+									data-message-required="Por favor, informe a data de nascimento"
+									/>
+									<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+										pick-a-date="etapa.datainicio" placeholder="Por favor, informe o mês e ano inicial" pick-a-date-options='{
+										format: "mm/yyyy",
+										
+									}' 
+									></button></span>
+									<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio" id="data_inicio" type="text" 
+									ng-model="etapa.data_inicio1"
+									data-validate-input
+									data-required 
+									data-message-required="Por favor, informe o mês e ano inicial">
+								</label>
+							</section>
+
+							<section class="col col-3">
+								<label class="label"><strong>Mês e Ano Final</strong></label>
+								<label class="input-group form-control-wrapper inputValidate">
+									<input class="form-control data-picker" id="dataNasc" ng-model="etapa.data_fim" type="text"
+									data-validate-input
+									mask="99/9999" 
+									data-required
+									data-message-required="Por favor, informe o mês e ano final"
+									/>
+									<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+										pick-a-date="etapa.dataFim" placeholder="Selecione uma data" pick-a-date-options='{
+										format: "mm/yyyy",
+										
+									}' 
+									></button></span>
+									<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="pessoa_dataNascimento" id="pessoa_dataNascimento" type="text" 
+									ng-model="etapa.data_fim1"
+									data-validate-input
+									data-required 
+									data-message-required="Por favor, informe o mês e ano final">
+								</label>
+							</section>
+
+						</div>
+
+						<div class="row">
+						
+
+							<section class="col col-6">
+								<label class="label"><strong>Observação</strong></label>
+
+								<textarea 	rows 		="5" 
+								class 		="form-control ng-pristine ng-valid" 
+								name 		="observacao" 
+								id 			="observacao" 
+								placeholder	="Observação" 
+								ng-model	="etapa.observacao">
+							</textarea>
+
+						</section>
+
+						<section class="col col-4">
+							<label class="label"><strong>Status</strong></label>
+							<div class="form-inline">
+								<div class="form-group">
+									<label class="radio radio-inline">
+										<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="etapa.ativo">
+										<span>Ativo</span>  
+									</label>
+								</div>
+								<div class="form-group">
+									<label class="radio radio-inline">
+										<input type="radio" class="radiobox" name="status" value="0" ng-model="etapa.ativo">
+										<span>Inativo</span>  
+									</label>	
+								</div>
+							</div>
+						</section>
+
+					</div>							
+				</fieldset>
+
+				<footer>
+					<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+						Novo
+						<div class="ripple-wrapper"></div></a>
+						<button class="btnmd btnmd-info pull-right" ng-click="cadastrarEtapa(etapa)" id="SalvarEtapa">
+							Salvar
+						</button>							
+					</footer>
+
+				</form>
+
+			</div>
+			<!-- end widget content -->
+		</div>
+		<!-- end widget div -->
+
+	</div>
+	<!-- end widget -->
+</article>
+<!-- END COL -->
+</div>
+<!-- END ROW -->
+</section>
+<!-- end widget grid -->
+<!-- SCRIPTS ON PAGE EVENT -->
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+	</script>

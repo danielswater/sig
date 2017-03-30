@@ -1,0 +1,159 @@
+<script src="controllers/controller.formCadastroCampanha.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroCampanha' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Campanha</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroCampanha-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-4">
+										<label class="label"><strong>Nome da Campanha</strong></label>
+										<div class="form-control form-control-wrapper inputValidate"> 
+										<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="nome" id="nome" type="text" placeholder="Nome da campanha" ng-model="campanha.nome"
+											data-validate-input
+				                            data-required				                            
+				                            data-message-required="Por favor, informe o nome da campanha">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome da campanha</b> 
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Descrição da Campanha</strong></label>
+										<div class="form-control form-control-wrapper inputValidate"> 
+											<input class="form-control" type="text" name="descricao" id="descricao" placeholder="Descrição da Campanha" ng-model="campanha.descricao"
+											data-validate-input
+				                            data-required				                            
+				                            data-message-required="Por favor, informe a descrição da campanha">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da campanha</b> 
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Valor de Pontos por Indicação</strong></label>
+										<div class="form-control form-control-wrapper inputValidate"> 
+											<input class="form-control" type="text" name="valor_pontos" id="valor_pontos" placeholder="Valor de pontos por indicação de associado" ng-model="campanha.valor_pontos" data-mask="9?99"
+											data-validate-input
+				                            data-required				                            
+				                            data-message-required="Por favor, informe a quantidade de pontos por indicação">
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Valor de pontos por indicação de associado</b> 
+										</div>
+									</section>										
+								</div>								
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Data de Início</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="campanha.data_inicio" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio" id="data_inicio" type="text" 
+                                            ng-model="campanha.data_inicio1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe uma data válida">
+										</label>															
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Data de Fim</strong></label>
+										<label class="input-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" pick-a-date="campanha.data_fim" placeholder="Selecione uma data" pick-a-date-options='{	
+				                                format: "dd/mm/yyyy",
+				                                formatSubmit: "yyyy-mm-dd"                      
+				                            }' />														
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_fim" id="data_fim" type="text" 
+                                            ng-model="campanha.data_fim1"
+                                            data-validate-input
+                                            data-required 
+                                            data-message-required="Por favor, informe uma data válida">
+										</label>
+									</section>																									
+									<section class="col col-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="campanha.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="campanha.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>									
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarCampanha(campanha)" id="SalvarCampanha">
+									Salvar
+								</button>
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+</script>

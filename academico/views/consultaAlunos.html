@@ -1,0 +1,56 @@
+<script src="controllers/controller.consultaAluno.js"></script>
+
+<div class="container" ng-controller="consultaAluno">
+	<div class="row">
+		<article class="col-lg-12 col-right">			
+			<div data-ng-include="'includes/forms/filtroSimplesAluno.html'"></div>	
+		</article>
+		<article class="col-lg-12 col-right" ng-show="filtroAluno.dados.showTurmaAlunos">
+			<div class="row no-margin-left">
+				<section class="col col-lg-12">				
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th width="10%"></th>
+									<th width="10%">Nº</th>
+									<th >Nome</th>
+									<th width="10%">Matrícula</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="aluno in filtroAluno.dados.turmaAlunos | filter:filtroAluno.dados.busca:strict">
+									<td>
+										<a ng-if="aluno.foto != ''" href="../img/pessoa/{{aluno.foto}}" title="{{aluno.nome}}" class="fancybox" rel="gallery1" >
+											<span class="photo_icon"></span>
+											<img class="img-responsive img-thumbnail" width="100" ng-src="../img/pessoa/{{aluno.foto}}" alt="">
+										</a>
+
+										<a ng-if="aluno.foto == ''" href="../img/pessoa/sem_foto.jpg" title="{{aluno.nome}}" class="fancybox" rel="gallery1" >
+											<span class="photo_icon"></span>
+											<img class="img-responsive img-thumbnail" width="100" ng-src="../img/pessoa/{{aluno.foto}}" alt="">
+										</a>
+									</td>
+									<td style="vertical-align: middle;">{{$index + 1}}</td>
+									<td style="vertical-align: middle;">{{aluno.nome}}</td>
+									<td style="vertical-align: middle;">{{aluno.codigo}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+				<!-- <section class="col col-lg-12" style="text-align: center;">					
+					<ul class="pagination">
+						<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+						<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+					</ul>					
+				</section> -->				
+			</div>
+		</article><!-- end col right-->
+	</div><!-- end row-->
+</div><!-- end container-->

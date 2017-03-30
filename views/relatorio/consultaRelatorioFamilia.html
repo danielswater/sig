@@ -1,0 +1,94 @@
+<script src="controllers/controller.consultaRelatorioFamilia.js"></script>
+<!-- widget grid -->
+<section ng-controller='consultaRelatorioFamilia' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Relatório de Família</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+											
+									<form id="relatorioFamilia-form" class="smart-form" novalidate="novalidate" validate-form>
+
+										<fieldset>
+											<div class="row">
+												<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+													<label class="label"><strong>Etapa</strong></label>
+													<div class="form-group form-control-wrapper inputValidate">
+														<select class="form-control" 
+																ng-model="relatorio.id_etapa" 
+																ng-options="itemr.id as itemr.descricao for itemr in etapas" 
+																ng-selected="itemr.id==relatorio.id_etapa" 
+																data-validate-input 
+																data-required 
+																data-message-required="Selecione o evento"
+																ng-change="getTurma()">
+														<option value="" selected>Selecione</option>
+														</select>
+													</div>
+												</section>
+												<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+													<label class="label"><strong>Turma</strong></label>
+													<div class="form-group form-control-wrapper inputValidate">
+														<select class="form-control" 
+																ng-model="relatorio.id_turma" 
+																ng-options="itemt.id_turma as itemt.turma for itemt in turmas" 
+																ng-selected="itemt.id_turma==relatorio.id_turma" 
+																data-validate-input 
+																data-required 
+																data-message-required="Selecione a Turma">
+														<option value="" selected>Todas as turmas</option>
+														</select>
+													</div>
+												</section>
+											</div>
+										</fieldset>
+
+										<footer>
+											<div class="btn-group dropup pull-right">							
+												<button class="btnmd btnmd-success pull-right" ng-click="emitirRelatorio(relatorio.id_turma)" id="EmitirRelatorio"> Emitir Relatório </button>
+											</div>
+										</footer>
+									</form>
+
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>	
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

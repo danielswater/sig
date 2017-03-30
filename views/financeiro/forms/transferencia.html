@@ -1,0 +1,127 @@
+<form id="cadastroMovimentacao-form" class="smart-form" novalidate="novalidate" validate-form>
+	<fieldset>
+		<div class="row">
+			<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+				<label class="label"><strong>Dia</strong></label>
+				<label class="input-group form-control-wrapper inputValidate">
+					<input class="form-control" 
+							type="text" 
+							pick-a-date="transferencia.dia" 
+							placeholder="Selecione uma data" 
+							pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd"}' />
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input  style="width:0px; height:0px; visibility: hidden; position: absolute" 
+							name="transferencia_dia" id="transferencia_dia" 
+							type="text" 
+							ng-model="transferencia.dia"
+							data-validate-input
+							data-required 
+							data-message-required="Por favor, informe o dia da transferência">
+				</label>
+			</section>
+			<section class="col col-xm-12 col-sm-8 col-md-8 col-lg-8">
+				<label class="label"><strong>Descrição</strong></label>
+				<div class="form-control form-control-wrapper inputValidate">
+					<input ng-model="transferencia.descricao" class="form-control empty" id="descricao" name="descricao" type="text">
+					<span class="material-input"></span>
+				</div>												
+			</section>
+		</div>
+		<div class="row">
+			<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+				<label class="label"><strong>Moeda</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="selmoeda" name="selmoeda" ng-model="transferencia.id_moeda" ng-options="itemcur.id as itemcur.moeda for itemcur in moedas" ng-selected="transferencia.id_moeda" data-validate-input data-required data-message-required="Selecione a Moeda">
+					<option value="" selected>Selecione</option>
+					</select>
+				</div>
+			</section>
+			<section class="col col-xm-12 col-sm-3 col-md-3 col-lg-3">
+				<label class="label"><strong>Valor</strong></label>
+				<div class="form-control form-control-wrapper inputValidate">
+					<input ui-money-mask="2" ng-model="transferencia.valor" class="form-control empty" id="valor" name="valor" type="text" 
+					data-validate-input 
+					data-required
+					data-message-required="Informe o valor">
+					<span class="material-input"></span>
+					<i class="icon-append fa fa-money"></i>
+				</div>												
+			</section>
+
+			<section class="col col-3">
+				<label class="label"><strong>Conta Bancária Origem</strong></label>
+				<div class="form-control-wrapper inputValidate">
+
+                    <select class="form-control" 
+                    		id='transferencia_conta_bancaria_origem' 
+                    		name='transferencia_conta_bancaria_origem' 						                                            		
+                            ng-change="chkconta()"						                                                    
+                            ng-model="transferencia.id_conta_bancaria"
+                            ng-options="itemcb.id as itemcb.descricao for itemcb in contas"
+                            ng-selected="itemcb.id==transferencia.id_conta_bancaria"
+                            required>
+                    </select>						                                            
+                    <em class="error smart-form state-error" ng-show="cadastroMovimentacao-form.transferencia_conta_bancaria_origem.$error.required">Preencha com a conta origem</em>
+				</div>
+			</section>
+
+			<section class="col col-3">
+				<label class="label"><strong>Conta Bancária Destino</strong></label>
+				<div class="form-control-wrapper inputValidate">
+
+                    <select class="form-control" 
+                    		id='transferencia_conta_bancaria_destino' 
+                    		name='transferencia_conta_bancaria_destino' 						                                            		
+                            ng-change="chkconta()"						                                                    
+                            ng-model="transferencia.id_conta_bancaria_destino"
+                            ng-options="itemcbd.id as itemcbd.descricao for itemcbd in contas"
+                            ng-selected="itemcbd.id==transferencia.id_conta_bancaria_destino"
+                            required>
+                    </select>						                                            
+                    <em class="error smart-form state-error" ng-show="cadastroMovimentacao-form.transferencia_conta_bancaria_destino.$error.required">Preencha com a conta destino</em>
+				</div>
+			</section>
+		</div>
+	</fieldset>
+	<!-- FOOTER -->
+	<footer class="col-sm-12 col-md-12 col-lg-12">
+			<div class="btn-group dropup pull-right">							
+
+			<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"
+				popover="Novo"
+				popover-trigger="mouseenter"
+			>
+				Novo
+			</a>			
+			<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarMovimentacao(movimentacao.id)" id="SalvarMovimentacao"
+				popover="Salvar"
+				popover-trigger="mouseenter"
+			>
+				Salvar
+			</button>
+			<button class="btnmd btnmd-default" ng-click=""
+				popover="Cancelar"
+				popover-trigger="mouseenter"
+				ng-show="tabssel.indice != 6"
+			>
+				Cancelar
+			</button>
+			<button class="btnmd btnmd-warning pull-right dropdown-toggle" data-toggle="dropdown" ng-if="movimentacao.id != null  && tabssel.indice != 6">
+				<span class="caret"></span>
+			</button>															
+			<button class="btnmd btnmd-warning pull-right" ng-if="movimentacao.id != null && tabssel.indice != 6"
+				popover="Emitir Recibo"
+				popover-trigger="mouseenter"
+			>
+				Emitir Recibo
+			</button>
+			<ul class="dropdown-menu" ng-show="tabssel.indice != 6">
+				<li ng-repeat="recibos in recibo" >
+					<a target="_blank" href="recibo.php?template={{recibos.id}}&caixa={{movimentacao.id}}">{{recibos.descricao}} </a>
+				</li>
+				
+			</ul>
+		</div>                          
+	</footer>
+	<!-- FIM DO FOOTER -->
+</form>

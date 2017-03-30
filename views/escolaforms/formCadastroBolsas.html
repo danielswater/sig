@@ -1,0 +1,280 @@
+<script src="controllers/controller.formCadastroBolsas.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroBolsas' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Bolsas</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroBolsas-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Aluno</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="aluno.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="changeAluno(aluno.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+										</ui-select-match>
+										<ui-select-choices repeat="aluno in alunos | propsFilter: {nome: $select.search}">
+										<div ng-bind-html="aluno.nome | highlight: $select.search"></div>
+									</ui-select-choices>
+								</ui-select>
+								<input name="id_aluno" id="id_aluno" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+								ng-model="bolsa.id_aluno"
+								data-validate-input 
+								data-required 
+								data-message-required="Selecione o aluno">
+							</div>
+						</section>
+						<section class="col col-3">
+							<label class="label"><strong>Curso</strong></label>
+							<div class="form-control-wrapper inputValidate">
+								<ui-select ng-model="curso.selected"
+								theme="bootstrap"
+								ng-disabled="disabled"
+								reset-search-input="false"
+								ng-change="changeCurso(curso.selected)">
+								<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+							</ui-select-match>
+							<ui-select-choices repeat="curso in cursos | propsFilter: {nome: $select.search}">
+							<div ng-bind-html="curso.nome | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+					<input name="id_curso" id="id_curso" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+					ng-model="bolsa.id_curso"
+					data-validate-input
+					data-required 
+					data-message-required="Selecione o curso">
+				</div>
+			</section>
+			<section class="col col-3">
+				<label class="label"><strong>Grupo de Motivo de Bolsa</strong></label>
+				<div class="form-control-wrapper inputValidate">
+					<ui-select ng-model="grupomotivobolsa.selected"
+					theme="bootstrap"
+					ng-disabled="disabled"
+					reset-search-input="false"
+					ng-change="changeGrupoMotivoBolsa(grupomotivobolsa.selected)">
+					<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+				</ui-select-match>
+				<ui-select-choices repeat="grupomotivobolsa in grupomotivobolsas | propsFilter: {descricao: $select.search}">
+				<div ng-bind-html="grupomotivobolsa.descricao | highlight: $select.search"></div>
+			</ui-select-choices>
+		</ui-select>
+		<input name="id_grupo_motivo_bolsa" id="id_grupo_motivo_bolsa" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+		ng-model="bolsa.id_grupo_motivo_bolsa"
+		data-validate-input
+		data-required 
+		data-message-required="Selecione o grupo de motivo de bolsa">
+	</div>
+</section>									
+<section class="col col-3">
+	<label class="label"><strong>Motivo de Bolsa</strong></label>
+	<div class="form-control-wrapper inputValidate">
+		<ui-select ng-model="motivobolsa.selected"
+		theme="bootstrap"
+		ng-disabled="disabled"
+		reset-search-input="false"
+		ng-change="changeMotivoBolsa(motivobolsa.selected)">
+		<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+	</ui-select-match>
+	<ui-select-choices repeat="motivobolsa in motivobolsas | propsFilter: {descricao: $select.search}">
+	<div ng-bind-html="motivobolsa.descricao | highlight: $select.search"></div>
+</ui-select-choices>
+</ui-select>
+<input name="id_motivo_bolsa" id="id_motivo_bolsa" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+ng-model="bolsa.id_motivo_bolsa"
+data-validate-input
+data-required 
+data-message-required="Selecione o motivo de bolsa">
+</div>
+</section>
+</div>
+<div class="row">
+	<section class="col col-4">
+		<label class="label"><strong>Padrinho</strong></label>
+		<div class="form-control-wrapper inputValidate">
+			<ui-select ng-model="padrinho.selected"
+			theme="bootstrap"
+			ng-disabled="disabled"
+			reset-search-input="false"
+			ng-change="changePadrinho(padrinho.selected)">
+			<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.nome}}
+		</ui-select-match>
+		<ui-select-choices repeat="padrinho in padrinhos | propsFilter: {nome: $select.search}">
+		<div ng-bind-html="padrinho.nome | highlight: $select.search"></div>
+	</ui-select-choices>
+</ui-select>
+<input name="id_pessoa_padrinho" id="id_pessoa_padrinho" style="width:0px; height:0px; visibility: hidden; position:absolute" type="text" 
+ng-model="bolsa.id_pessoa_padrinho"
+data-validate-input
+data-required 
+data-message-required="Selecione o aluno">
+</div>
+</section>								
+<section class="col col-lg-4">
+	<label class="label"><strong>Data Início de Validade</strong></label>
+	<label class="input-group form-control-wrapper inputValidate">
+		<input class="form-control data-picker" id="dataNasc" ng-model="bolsa.data_inicio_validade" type="text"
+		data-validate-input
+		mask="99/99/9999" 
+		data-required
+		data-message-required="Por favor, informe a data de nascimento"
+		/>
+		<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+			pick-a-date="bolsa.data_inicio" placeholder="Selecione uma data" pick-a-date-options='{
+			format: "dd/mm/yyyy",
+			formatSubmit: "yyyy-mm-dd",
+			selectYears: 190,
+		}' 
+		></button></span>
+		<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_inicio_validade" id="data_inicio_validade" type="text" 
+		ng-model="bolsa.data_inicio_validade1"
+		data-validate-input
+		data-required 
+		data-message-required="Por favor, informe a data de nascimento">
+	</label>
+
+</section>
+<section class="col col-lg-4">
+	<label class="label"><strong>Data Final de Validade</strong></label>
+<!-- 	<label class="input-group form-control-wrapper inputValidate">
+		<input class="form-control" type="text" pick-a-date="bolsa.data_final_validade" placeholder="Selecione uma data" pick-a-date-options='{	
+		format: "dd/mm/yyyy",
+		formatSubmit: "yyyy-mm-dd",
+		selectYears: 100,
+	}' />														
+	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+	<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_final_validade" id="data_final_validade" type="text" 
+	ng-model="bolsa.data_final_validade1"
+	data-validate-input
+	data-required 
+	data-message-required="Por favor, selecione a data final de validade">
+</label> -->
+<label class="input-group form-control-wrapper inputValidate">
+		<input class="form-control data-picker" id="dataNasc" ng-model="bolsa.data_final_validade" type="text"
+		data-validate-input
+		mask="99/99/9999" 
+		data-required
+		data-message-required="Por favor, informe a data de nascimento"
+		/>
+		<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+			pick-a-date="bolsa.data_final" placeholder="Selecione uma data" pick-a-date-options='{
+			format: "dd/mm/yyyy",
+			formatSubmit: "yyyy-mm-dd",
+			selectYears: 190,
+		}' 
+		></button></span>
+		<input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_final_validade" id="data_final_validade" type="text" 
+		ng-model="bolsa.data_final_validade1"
+		data-validate-input
+		data-required 
+		data-message-required="Por favor, informe a data de nascimento">
+	</label>
+</section>
+</div>
+<div class="row">
+	<section class="col col-4">
+		<label class="label"><strong>Percentual de Bolsa</strong></label>
+		<div class="form-control-wrapper inputValidate">
+			<i class="icon-append fa fa-question-circle"></i>
+			<input class="form-control" name="percentual_bolsa" id="percentual_bolsa" placeholder="Total de parcelas"
+			ng-model="bolsa.percentual_bolsa"
+			data-mask="9?99">
+			<span class="material-input"></span>
+			<b class="tooltip tooltip-top-right">
+				<i class="fa fa-warning txt-color-teal"></i> 
+				Percentual de Bolsa</b>
+			</div>
+		</section>
+		<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+			<label class="label"><strong>Valor Fixo</strong></label>
+			<div class="form-control form-control-wrapper inputValidate">
+				<input ui-money-mask="2" ng-model="bolsa.valor_fixo" class="form-control empty" id="valor_fixo" name="valor_fixo" type="text">
+				<span class="material-input"></span>
+				<i class="icon-append fa fa-money"></i>
+			</div>												
+		</section>									
+		<section class="col col-xm-12 col-sm-4 col-md-4 col-lg-4">
+			<label class="label"><strong>Valor de Desconto Fixo</strong></label>
+			<div class="form-control form-control-wrapper inputValidate">
+				<input ui-money-mask="2" ng-model="bolsa.valor_desconto_fixo" class="form-control empty" id="valor_desconto_fixo" name="valor_desconto_fixo" type="text">
+				<span class="material-input"></span>
+				<i class="icon-append fa fa-money"></i>
+			</div>												
+		</section>									
+	</div>
+	<div class="row">
+		<section class="col col-8">
+			<label class="label"><strong>Observações</strong></label>
+			<div class="form-control-wrapper">
+				<textarea rows="5" class="form-control" ng-model="bolsa.observacao"></textarea>
+				<span class="material-input"></span>
+			</div>
+		</section>																						
+	</div>							
+</div>													
+</fieldset>
+<footer>
+	<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+		Novo
+	</a>
+	<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarBolsa()" id="SalvarBolsa">
+		Salvar
+		<div class="ripple-wrapper"></div>
+	</button>		
+</footer>
+</form>
+
+</div>
+<!-- end widget content -->
+
+</div>
+<!-- end widget div -->
+
+</div>
+<!-- end widget -->
+
+</article>
+<!-- END COL -->
+
+</div>
+
+<!-- END ROW -->
+
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+	</script>

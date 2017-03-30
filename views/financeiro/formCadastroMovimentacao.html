@@ -1,0 +1,232 @@
+<script src="controllers/controller.formCadastroMovimentacao.js"></script>
+
+<style type="text/css">
+	.pull-right>.dropdown-menu{
+		left: auto;
+		right: 204px;
+		width: 218px;
+	}
+</style>
+
+<section ng-controller='formCadastroMovimentacao' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Lançamento de contas</h2>   
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<div class="smart-form">
+							<fieldset>
+								<section class="col col-sm-12 col-md-12 col-lg-12" style="background: #F0F0EE; padding-top:10px; padding-bottom:10px;">
+									<div class="col-sm-10" >
+										<h4 class="alert-heading">{{tabssel.nome}}</h4>
+									</div>
+									<div class="col-sm-2">
+										<strong>Saldo:</strong> {{resumo.creditos-resumo.debitos | currency}}
+									</div>
+								</section>
+							</fieldset>
+							<fieldset>
+								<div class="row">
+									<section class="col col-sm-12 col-md-12 col-lg-12">
+										<a href="#/financeiro/movimentacao/{{tabssel.indice}}" class="btnmd {{tabssel.classe}} btnmd-sm"
+											popover="{{tabssel.texto_consulta}}"
+											popover-trigger="mouseenter"
+										>
+											<span>
+												<i class="fa fa-search"></i>
+												{{tabssel.texto}}
+											</span>
+										</a>
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-sm-12 col-md-12 col-lg-12">
+										&nbsp;
+									</section>
+								</div>
+								<div class="row">
+									<section class="col col-sm-12 col-md-12 col-lg-12">
+										<div class="widget-body">
+
+											<tabset>
+												<tab ng-repeat="tab in tabs" select="changeTab($index)" active="tab.active">
+													<tab-heading >
+														<i class="{{tab.icon}}"></i>
+														{{tab.nome}}
+													</tab-heading>
+												</tab>
+											</tabset>
+
+											<!--Nota FRH: Limpar o cache do Chrome (opção arquivos e imagens) para ver alterações no include-->
+											<div ng-show="tabssel.form == 'entrada' || tabssel.form == 'saida' || tabssel.form == 'doacao'" class="tab-content padding-10">
+												<div data-ng-include="'views/financeiro/forms/entrada_saida.html'"></div>
+											</div>
+											<div  ng-show="tabssel.form == 'transferencia'" class="tab-content padding-10">
+												<div data-ng-include="'views/financeiro/forms/transferencia.html'"></div>
+											</div>
+										</div>
+									</section>
+								</div>
+							</fieldset>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="myModalPessoa">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">{{camp[tabssel.form].pessoa.label}}</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroPessoa-form" class="smart-form" novalidate="novalidate" validate-form>	
+	                	<div class="row">
+						    <section class="col col-xm-12 col-sm-12 col-md-12 col-lg-12">
+				                <div class="form-group">
+				                	<div class="form-control-wrapper inputValidate">
+				                 		<input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addPessoa.nome"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, informe o nome"><div class="floating-label">Nome</div>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Nome</b>							
+				                 		<span class="material-input"></span>
+				                	</div>       
+				               	</div>       
+			              	</section>
+		              		<section class="col col-xm-12 col-sm-12 col-md-12 col-lg-12">
+								<label class="label">Tipo de Pessoa</label>
+								<div class="form-inline">
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="tipopessoa" checked="true" value="1" ng-model="addPessoa.id_tipo_pessoa" id="pf">
+											<span>Pessoa Física</span>  
+										</label>
+									</div>
+									<div class="form-group">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="tipopessoa" value="2" ng-model="addPessoa.id_tipo_pessoa" id="pj">
+											<span>Pessoa Jurídica</span>  
+										</label>
+									</div>
+								</div>
+							</section> 								
+						</div>
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarPessoa()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="myModal">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Categoria</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroCategoria-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addCategoria.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe o nome da categoria"><div class="floating-label">Nome da Categoria</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome da Categoria</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarCategoria()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="myModalTipo">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Novo Tipo de Doação</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroTipoDoacao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="descricao" id="descricao" type="text"  ng-model="addTipoDoacao.descricao"
+										data-validate-input 
+										data-required
+										data-message-required="Por favor, informe a descrição"><div class="floating-label">Descrição</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i> 
+											Nome do Fabricante</b>							
+			                 <span class="material-input"></span>
+			                </div>       
+			               </div>       
+		              </section> 								
+					</form>  
+	            </div>
+	            <div class="modal-footer">	                
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>	 
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarTipoDoacao()">Salvar</button>		        
+	            </div>
+	        </div>
+	    </div>
+	</div>	
+	<!-- Modal -->
+</section>
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+
+pageSetUp();
+
+var pagefunction = function() {
+	$("#spinner").spinner({
+		min: 1,
+		max: 2500,
+		step: 1,
+		start: 1000,
+		numberFormat: "C"
+	});
+};
+
+// end pagefunction
+
+// run pagefunction on load
+pagefunction();
+
+
+
+</script>

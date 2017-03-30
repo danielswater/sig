@@ -1,0 +1,340 @@
+
+
+<section ng-controller='formMovimentacao' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Lançamento de contas</h2>   
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroMovimentacao-form" class="smart-form">                            
+							<fieldset>
+								<section class="col col-sm-12 col-md-12 col-lg-12" style="background: #F0F0EE; padding-top:10px; padding-bottom:10px;">
+									<div class="col-sm-10" >
+										<h4 class="alert-heading">Recebimentos</h4>
+										Fulano da Silva
+									</div>
+									<div class="col-sm-2">
+										<strong>Saldo:</strong> R$ 8.000,00
+									</div>
+								</section>
+							</fieldset>
+							<fieldset>
+								<section class="col-sm-12 col-md-12 col-lg-12">
+									<button class="btn btn-success btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i> Adicionar novo recebimento</button>
+								</section>
+								
+								<section class="col-sm-9 col-md-9 col-lg-9">
+									<div class="widget-body">
+										
+										<hr class="simple">
+										<ul id="myTab1" class="nav nav-tabs bordered">
+											<li class="active">
+												<a href="#s1" data-toggle="tab">Recebimentos</a>
+											</li>
+											<li>
+												<a href="#s2" data-toggle="tab"><i class="fa fa-fw fa-lg fa-gear"></i>Despesas fixas</a>
+											</li>
+											<li>
+												<a href="#s3" data-toggle="tab"><i class="fa fa-fw fa-lg fa-gear"></i>Despesas variaveis</a>
+											</li>
+											<li>
+												<a href="#s4" data-toggle="tab"><i class="fa fa-fw fa-lg fa-gear"></i>Pessoas</a>
+											</li>
+											<li>
+												<a href="#s5" data-toggle="tab"><i class="fa fa-fw fa-lg fa-gear"></i>Impostos</a>
+											</li>
+											<li>
+												<a href="#s6" data-toggle="tab"><i class="fa fa-fw fa-lg fa-gear"></i>Transferências</a>
+											</li>
+										</ul>
+
+										<div id="myTabContent1" class="tab-content padding-10">
+											<div class="tab-pane fade in active" id="s1">
+												
+												<div class="table-responsive">
+												<section>
+														<table class="table table-bordered">
+															<thead>
+																<tr>
+																	<th><input type="checkbox" name="check_all" id="check_all"></th>
+																	<th width="10%">Data</th>
+																	<th>Descrição</th>
+																	<th>Recebido de:</th>
+																	<th>Valor</th>
+																	<th>Categoria</th>
+																	<th>Pago</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td><input type="checkbox" name="check" id="check"></td>
+																	<td>
+																		<label class="input">
+																			<input type="text" id="data" name="data" class="form-control">
+																			<label>
+																			</td>
+																			<td><label class="input">
+																				<input type="text" class="form-control" name="descricao" id="descricao" placeholder="Digite uma descrição">
+																				<label></td>
+																					<td>
+																						<select class="form-control" id="recebido" name="recibo">
+																							<option>Selecione</option>
+																						</select>
+																					</label></td>
+																					<td width="10%"><label class="input">
+																						<input type="text" class="form-control" id="valor" name="valor">
+																						<label></td>
+																							<td>
+																								<label class="select">
+																									<select class="form-control" id="categoria" name="categoria">
+																										<option>Selecione</option>
+																									</select>
+																									<i></i>
+																								</label>
+																							</td>
+																							<td><input type="checkbox" id="pago" name="pago"></td>
+																						</tr>                                                           
+																					</tbody>
+																				</table>
+																				<div class="row" style="margin-top:10px;">
+																					
+																					<section class="col col-2">
+																						<label class="label"><strong>Competência</strong></label>
+																						<label class="input" >
+																							<input type="text" id="competencia" name="competencia" class="form-control"/>
+																						</label>
+																					</section>
+																					<section class="col col-6">
+																						<label class="label"><strong>Número do documento</strong></label>
+																						<label class="input">
+																							<input type="text" class="form-control" id="numero_documento" name="numero_documento">
+																						</label>
+																					</section>
+																					<section class="col col-4">
+																						<label class="label"><strong>Modo de Pagamento</strong></label>
+																						<label class="select">
+																							<select class="form-control" id="modo_pagamento" name="modo_pagamento">
+																								<option>Selecione</option>
+																							</select>
+																							<i></i>
+																						</label>
+																					</section>
+																					<section class="col col-8">
+																						<label class="label"><strong>Conta:</strong></label>
+																						<label class="select">
+																							<select class="form-control" id="conta" name="conta">
+																								<option>Selecione uma conta</option>
+																							</select>
+																							<i></i>
+																						</label>
+																					</section>
+																					<section class="col col-4">
+																						<label class="label"><strong>Se repete?</strong></label>
+																						<label class="select">
+																							<select class="form-control" id="repete" name="repete">
+																								<option>Não se repete</option>
+																							</select>
+																							<i></i>
+																						</label>
+																					</section>
+																					<section class="col col-8">
+																						<label class="label"><strong>Marcadores</strong></label>
+																						<label class="input">
+																							<input type="text" class="form-control" name="marcadores" id="marcadores">
+																						</label>
+																					</section>																						
+																					<section class="col col-8">
+																						<label class="label"><strong>Mais detalhes</strong></label>
+																						<label class="textarea">
+																							<textarea rows="4" class="form-control" name="mais_detalhes" id="mais_detalhes"></textarea>
+																						</label>
+																					</section>
+																				</div>
+																			</section>
+
+													
+												</div>
+												</div>
+
+												<div class="tab-pane fade" id="s2">
+												
+												</div>
+												<div class="tab-pane fade" id="s3">
+												
+												</div>
+												<div class="tab-pane fade" id="s4">
+												
+												</div>
+											
+
+										</div>                                  
+									</section>
+									<section class="col col-sm-3 col-md-3 col-lg-3">
+																<!--<hr class="simple">
+																<div class="col col-sm-12 col-md-12 col-lg-12">
+																	
+																</div>-->
+																<div class="widget-body">
+																	<hr class="simple">						
+																	<h3 class="alert alert-info"> Dezembro 2014 </h3>
+																	<p>Você fechou o mês anterior com um valor de: R$ 2.000,00</p>
+																	<br />
+																	<label><strong>Recebimentos</strong></label>
+																	<div class="progress progress-micro">
+																		<div class="progress-bar bg-color-orange" role="progressbar" style="width: 44%;"></div>
+																	</div>
+
+																	<label><strong>Saidas totais</strong></label>
+																	<div class="progress progress-micro">
+																		<div class="progress-bar bg-color-redLight" role="progressbar" style="width: 10%;"></div>
+																	</div>
+
+																	<label><strong>Despesas fixas</strong></label>
+																	<div class="progress progress-micro">
+																		<div class="progress-bar bg-color-blueLight" role="progressbar" style="width: 0%;"></div>
+																	</div>
+
+																	<label><strong>Despesas fixas</strong></label>
+																	<div class="progress progress-micro">
+																		<div class="progress-bar bg-color-teal" role="progressbar" style="width: 100%;"></div>
+																	</div>
+
+																	<label><strong>Imposto</strong></label>
+																	<div class="progress progress-micro">
+																		<div class="progress-bar bg-color-teal" role="progressbar" style="width: 0%;"></div>
+																	</div>
+																</div>
+															</section>
+														</fieldset>
+														<!-- FOOTER -->
+														<footer>
+															<div class="btn-group dropup pull-right">														
+																<button class="btn btn-success" ng-click="" >
+																	Salvar
+																</button>
+																<button class="btn btn-default" ng-click="" >
+																	Cancelar
+																</button>															
+																<button class="btn btn-default">
+																	Emitir Recibo
+																</button>
+																<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+																	<span class="caret"></span>
+																</button>
+																<ul class="dropdown-menu">
+																	<li>
+																		<a href="javascript:void(0);">Action</a>
+																	</li>
+																	<li>
+																		<a href="javascript:void(0);">Another action</a>
+																	</li>
+																	<li>
+																		<a href="javascript:void(0);">Something else here</a>
+																	</li>
+																	<li class="divider"></li>
+																	<li>
+																		<a href="javascript:void(0);">Separated link</a>
+																	</li>
+																</ul>
+															</div>                          
+														</footer>
+														<!-- FIM DO FOOTER -->
+													</form>
+
+												</div>
+												<!-- end widget content -->
+
+											</div>
+											<!-- end widget div -->
+
+										</div>
+										<!-- end widget -->
+
+									</article>
+									<!-- END COL -->
+
+								</div>
+
+								<!-- END ROW -->
+							</section>
+							<!-- end widget grid -->
+
+							<!-- SCRIPTS ON PAGE EVENT -->
+							<script type="text/javascript">
+/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+*
+* pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+*
+* // activate tooltips
+* $("[rel=tooltip]").tooltip();
+*
+* // activate popovers
+* $("[rel=popover]").popover();
+*
+* // activate popovers with hover states
+* $("[rel=popover-hover]").popover({ trigger: "hover" });
+*
+* // activate inline charts
+* runAllCharts();
+*
+* // setup widgets
+* setup_widgets_desktop();
+*
+* // run form elements
+* runAllForms();
+*
+********************************
+*
+* pageSetUp() is needed whenever you load a page.
+* It initializes and checks for all basic elements of the page
+* and makes rendering easier.
+*
+*/
+
+pageSetUp();
+
+/*
+* ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+* eg alert("my home function");
+* 
+* var pagefunction = function() {
+*   ...
+* }
+* loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+* 
+* TO LOAD A SCRIPT:
+* var pagefunction = function (){ 
+*  loadScript(".../plugin.js", run_after_loaded);   
+* }
+* 
+* OR
+* 
+* loadScript(".../plugin.js", run_after_loaded);
+*/
+
+// PAGE RELATED SCRIPTS
+
+// pagefunction
+
+var pagefunction = function() {
+
+};
+
+// end pagefunction
+
+// run pagefunction on load
+pagefunction();
+
+</script>

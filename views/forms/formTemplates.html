@@ -1,0 +1,203 @@
+
+<script src="controllers/controller.formTemplates.js"></script>
+<!-- widget grid -->
+<section ng-controller='formTemplates' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Templates</h2> 
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						<form id="cadastroTemplates-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+
+
+								<div class="row">
+									<section class="col col-md-9 col-lg-9 col-sm-9">
+										<label class="label">Tipo de documento</label>
+										<div class="form-inline">
+											<div class="form-group" data-ng-repeat="modelo in modelo_documento">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="id_modelo_documento" ng-model="template.id_modelo_documento" value="{{modelo.id}}" ng-click="getTemplate(modelo.id)">
+													<span>{{modelo.descricao}}</span>  
+												</label>
+											</div>
+										</div>
+									</section>
+								</div>
+								<article class="col-md-7 col-lg-7 col-sm-7">
+									<!-- TABS -->
+									<div class="row">
+										<section class="col col-md-12 col-lg-12 col-sm-12">
+											<tabset>
+												<tab ng-repeat="template in templates" heading="{{tab.title}}" active="template.active" select="setTemplate($index)">
+													<tab-heading style="color:#000">
+													<i class="fa fa-fw fa-lg fa-gear"></i>{{template.descricao}}
+													</tab-heading>
+												</tab>
+											</tabset>
+										</section>
+									</div>
+									<!--FIM DAS TABS -->
+									<div class="row">
+										<section class="col col-md-12 col-lg-12 col-sm-12">
+											<label class="label">Título</label>
+											<label class="input inputValidate">
+												<input  ng-disabled="templates.length == 0" type="text" class="form-control" name="descricao" ng-model="template.descricao" id="descricao" placeholder="Titulo do template"
+												data-validate-input
+												data-required
+												data-message-required="Por favor, informe o titulo">
+												<span class="material-input"></span>
+											</label>
+										</section>
+									</div>
+									<div class="row">
+										<article class="col col-md-12 col-lg-12 col-sm-12">
+											<div class="widget-body">
+												<div id="summernote-editor" style="border: 1px solid #ddd;">
+													<div id="summernote"></div>
+												</div>
+												<button type="button" class="btnmd btnmd-danger btnmd-raised" ng-disabled="templates.length == 0" ng-click="modalDelTemplate()">Excluir<div class="ripple-wrapper"></div></button>
+												<button class="btnmd btnmd-primary btnmd-raised" ng-disabled="templates.length == 0" ng-click="cadastraTemplate()">Salvar
+													<div class="ripple-wrapper"></div>
+												</button>	
+												<!--<div class="widget-footer smart-form">
+													<div class="btn-group">
+														<button id="btn_salvar" class="btn btn-sm btn-success" type="button" n>
+															<i class="fa fa-check"></i> Salvar
+														</button>
+													</div>
+												</div>-->
+											</div>
+										</article>
+									</div>
+								</article>
+
+								<article class="col col-md-5 col-lg-5 col-sm-5">
+									<div class="row">
+										<section class="col col-md-12 col-lg-12 col-sm-12">
+											<h1>Variáveis</h1>
+											<p>Digite as variáveis abaixo no corpo do documento</p>
+											<br />
+											<div class="table-responsive">
+												<table class="table table-bordered table-striped">
+													<thead>
+														<tr>
+															<th width="170px">Variável</th>
+															<th>Descrição</th>
+														</tr>
+													</thead>
+												</table>
+												<div style="height: 318px; overflow: auto; border-bottom: solid 1px #CCC">
+													<table class="table table-bordered table-striped">
+														<tbody style="height: 200px; overflow: auto;">
+															<tr ng-repeat="variaveis in tabela">
+																<td width="170px">{{variaveis.tag}}</td>
+																<td class="font-sm">{{variaveis.descricao}}</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</section>
+									</div>
+								</article>
+							</fieldset>
+						
+							<footer>
+								<div class="pull-right">
+									<button type="button" class="btnmd btnmd-primary btnmd-raised" ng-click="modalNovoTemplate()">Novo Documento</button>
+								</div>	
+							</footer>
+						</form>
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+	</div>
+	<!-- END ROW -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">Novo Template</h4>
+				</div>
+				<div>
+					<form id="cadastroAddTemplates-form" class="smart-form" novalidate="novalidate" validate-form>
+						<fieldset>
+							<section>
+								<label class="label">Tipo de documento</label>
+								<div class="form-inline">
+									<div class="form-group" data-ng-repeat="modelo in modelo_documento">
+										<label class="radio radio-inline">
+											<input type="radio" class="radiobox" name="id_modelo_documento" ng-model="addTemplate.id_modelo_documento" value="{{modelo.id}}" >
+											<span>{{modelo.descricao}}</span>
+										</label>
+									</div>
+								</div>
+							</section>
+							<section>
+								<label class="label">Título</label>
+								<label class="input inputValidate">
+									<input type="text" class="form-control" name="descricao" ng-model="addTemplate.descricao" id="descricao" placeholder="Titulo do template" data-validate-input data-required data-message-required="Por favor, informe o titulo">
+									<span class="material-input"></span>
+								</label>
+							</section>
+						</fieldset>
+						<footer style="text-align: right;">
+							<button id="cancelTemplate" class="btnmd btnmd-default btnmd-raised" data-dismiss="modal">Cancelar</button>
+							<button id="addTemplate" class="btnmd btnmd-primary btnmd-raised" ng-click="novoTemplate()">Salvar<div class="ripple-wrapper"></div></button>
+						</footer>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+	
+
+	<!-- SCRIPTS ON PAGE EVENT -->
+	<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	 pageSetUp();
+
+
+	 var pagefunction = function() {
+		// summernote
+		$('#summernote').summernote({
+			height : 180,
+			focus : false,
+			tabsize : 2,
+		});
+
+		// $("#btn_salvar").click(function(){
+		// 	var content = $("#summernote").code();
+		// 	alert(content);
+		// });
+	}
+
+loadScript("js/summernote.js", pagefunction);
+
+
+</script>

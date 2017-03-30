@@ -1,0 +1,756 @@
+<script src="controllers/controller.cadastroEvento.js"></script>                
+<section id="widget-grid" ng-controller="cadastroEvento">
+	<!-- row -->
+	<div class="row">
+		
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-12 col-md-12 col-lg-3">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			
+			<!-- end widget -->
+
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget="false" >
+
+				<!-- widget options:
+			usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+			data-widget-colorbutton="false"
+			data-widget-editbutton="false"
+			data-widget-togglebutton="false"
+			data-widget-deletebutton="false"
+			data-widget-fullscreenbutton="false"
+			data-widget-custombutton="false"
+			data-widget-collapsed="true"
+			data-widget-sortable="false"
+
+			-->
+
+				<header>
+					<h2> Eventos </h2>
+				</header>
+
+				<!-- widget div-->
+				<div role="content">
+					
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+						
+						<!-- Error states for elements -->
+						<form id="add-event-form" class="smart-form" novalidate="novalidate" validate-form>	
+							<header>Icone do evento</header>
+							
+							<fieldset>					
+								<div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
+									<label ng-click="eventIcon('fa-info')" class="btn btn-default active">
+										<input type="radio" name="iconselect" id="icon-1" value="fa-info" checked>
+										<i class="fa fa-info text-muted"></i> </label>
+										<label ng-click="eventIcon('fa-warning')" class="btn btn-default">
+											<input type="radio" name="iconselect" id="icon-2" value="fa-warning">
+											<i class="fa fa-warning text-muted"></i> </label>
+											<label ng-click="eventIcon('fa-check')" class="btn btn-default">
+												<input type="radio" name="iconselect" id="icon-3" value="fa-check">
+												<i class="fa fa-check text-muted"></i> </label>
+												<label ng-click="eventIcon('fa-user')" class="btn btn-default">
+													<input type="radio" name="iconselect" id="icon-4" value="fa-user">
+													<i class="fa fa-user text-muted"></i> </label>
+													<label ng-click="eventIcon('fa-lock')" class="btn btn-default">
+														<input type="radio" name="iconselect" id="icon-5" value="fa-lock">
+														<i class="fa fa-lock text-muted"></i> </label>
+														<label ng-click="eventIcon('fa-clock-o')" class="btn btn-default">
+															<input type="radio" name="iconselect" id="icon-6" value="fa-clock-o">
+															<i class="fa fa-clock-o text-muted"></i> </label>
+														</div>
+													</fieldset>
+
+													<fieldset>
+														<section class="section">														
+															<div class="form-group form-control-wrapper inputValidate">
+																<select class="form-control" id="id_tipo_evento" name="id_tipo_evento" ng-model="agenda.id_tipo_evento"
+																		data-validate-input
+					                                           		   	data-required 
+					                                            	   	data-message-required="Selecione o tipo">
+																	<option value="" selected>Tipo do Evento</option>
+																			<option value="{{item.id}}" data-ng-repeat="item in tipoevento">{{item.descricao}}</option>	
+																</select>
+																<i></i>
+															</div>
+														</section>
+														<section class="section">
+															<div class="form-group form-control-wrapper inputValidate">
+																<select class="form-control"  id="id_departamento" name="id_departamento" ng-model="agenda.id_departamento"
+																		data-validate-input
+					                                           		   	data-required 
+					                                            	   	data-message-required="Selecione o tipo">
+																	<option value="" selected>Departamento Responsável</option>
+																	<option value="{{item.id}}" data-ng-repeat="item in departamento">{{item.descricao}}</option>
+																</select>
+																<i></i>
+															</div>				
+														</section>
+														<section class="section">
+															<div class="form-group">							
+																<div class="form-control-wrapper inputValidate">
+																	<input class="form-control empty" id="title" name="title" maxlength="40" type="text"
+																	ng-model="agenda.titulo" 
+																	data-validate-input
+						                                            data-required 
+						                                            data-message-required="Informe o título"><div class="floating-label">Título do evento</div>
+																	<span class="material-input"></span>								
+																</div>		    
+															</div>			  											
+														</section>
+														<section class="section">
+															<div class="form-group">
+																<div class="form-control-wrapper">																	
+																	<!-- <input ui-mask="1.000,00" ng-model="agenda.valor" class="form-control empty" id="valor" name="valor" type="text"> -->
+																	<input id="valor" class="form-control empty" ui-money-mask="2" ng-model="agenda.valor">
+																	<div class="floating-label">Valor do evento</div>
+																	<span class="material-input"></span>
+																</div>			    
+															</div>	
+														</section>	
+														<section class="section">
+															<div class="form-group">
+																<div class="form-control-wrapper inputValidate">
+																	<textarea ng-model="agenda.descricao" class="form-control empty" id="description" name="description" rows="2" maxlength="40"
+																	data-validate-input
+						                                            data-required 
+						                                            data-message-required="Informe uma descrição"></textarea>
+																	<div class="floating-label">Descrição do evento</div>
+																	<span class="material-input"></span>
+																</div>			    
+															</div>	
+														</section>
+														<section class="section">
+															<label class="label">Cor do Evento</label>
+															<div class="btn-group btn-group-justified btn-select-tick" data-toggle="buttons" style="height:30px;">
+																<label ng-click="eventColor('bg-color-darken')" ng-click="eventColor('')" class="btn bg-color-darken active">
+																	<input type="radio" name="priority"  value="bg-color-darken txt-color-white" checked>
+																	<i class="fa fa-check txt-color-white"></i> </label>
+																	<label ng-click="eventColor('bg-color-blue')" class="btn bg-color-blue">
+																		<input type="radio" name="priority" id="option2" value="bg-color-blue txt-color-white">
+																		<i class="fa fa-check txt-color-white"></i> </label>
+																		<label ng-click="eventColor('bg-color-orange')" class="btn bg-color-orange">
+																			<input type="radio" name="priority" id="option3" value="bg-color-orange txt-color-white">
+																			<i class="fa fa-check txt-color-white"></i> </label>
+																			<label ng-click="eventColor('bg-color-greenLight')" class="btn bg-color-greenLight">
+																				<input type="radio" name="priority" id="option4" value="bg-color-greenLight txt-color-white">
+																				<i class="fa fa-check txt-color-white"></i> </label>
+																				<label ng-click="eventColor('bg-color-blueLight')" class="btn bg-color-blueLight">
+																					<input type="radio" name="priority" id="option5" value="bg-color-blueLight txt-color-white">
+																					<i class="fa fa-check txt-color-white"></i> </label>
+																					<label ng-click="eventColor('bg-color-red')" class="btn bg-color-red">
+																						<input type="radio" name="priority" id="option6" value="bg-color-red txt-color-white">
+																						<i class="fa fa-check txt-color-white"></i> </label>
+																					</div>
+																				</section>
+																			</fieldset>					
+																			<footer>
+																				<a id="new-event" class="btnmd btnmd-success pull-right">
+																					Novo
+																				</a>																			
+																				<button id="add-event" type="submit" class="btnmd btnmd-info pull-right">
+																					Adicionar
+																				</button>																					
+																			</footer>
+																		</form>
+																		<!--/ Error states for elements -->						
+
+																		</div>
+																		<!-- end widget content -->
+
+																	</div>
+																	<!-- end widget div -->
+
+																</div>
+															</article>
+															<!-- WIDGET END -->
+
+															<!-- NEW WIDGET START -->
+															<article class="col-sm-12 col-md-12 col-lg-9">
+																<div class="jarviswidget jarviswidget-color-blueDark">
+
+			<!-- widget options:
+			usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+			data-widget-colorbutton="false"
+			data-widget-editbutton="false"
+			data-widget-togglebutton="false"
+			data-widget-deletebutton="false"
+			data-widget-fullscreenbutton="false"
+			data-widget-custombutton="false"
+			data-widget-collapsed="true"
+			data-widget-sortable="false"
+
+		-->
+		<header>
+			<span class="widget-icon"> <i class="fa fa-calendar"></i> </span>
+			<h2> Agenda </h2>
+			<div class="widget-toolbar">
+				<!-- add: non-hidden - to disable auto hide -->
+				<div class="btn-group">
+					<button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
+						Mostrar <i class="fa fa-caret-down"></i>
+					</button>
+					<ul class="dropdown-menu js-status-update pull-right">
+						<li>
+							<a href="javascript:void(0);" id="mt">Mês</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="ag">Semana</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" id="td">Hoje</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<!-- widget div-->
+		<div>
+
+			<div class="widget-body no-padding">
+				<!-- content goes here -->
+				<div class="widget-body-toolbar">
+
+					<div id="calendar-buttons">
+
+						<div class="btn-group">
+							<a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+							<a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+						</div>
+					</div>
+				</div>
+				<div id="calendar"></div>
+
+				<!-- end content -->
+			</div>
+			<fieldset>
+				<section class="section">
+					<header>Eventos</header>
+					<ul id='external-events' class="list-unstyled"></ul>
+					<div class="checkbox" style="display:none">
+						<label>
+							<input type="checkbox" id="drop-remove" class="checkbox style-0" checked="checked">
+							<span>remove after drop</span> 
+						</label>
+					</div>
+				</section>
+			</fieldset>
+		</div>
+		<!-- end widget div -->
+
+	</div>
+</article>
+<!-- WIDGET END -->
+
+</div>
+
+<!-- end row -->
+
+</section>
+
+<!-- end row -->
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+
+	 pageSetUp();
+
+	/*
+	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+	 * eg alert("my home function");
+	 * 
+	 * var pagefunction = function() {
+	 *   ...
+	 * }
+	 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+	 * 
+	 * TO LOAD A SCRIPT:
+	 * var pagefunction = function (){ 
+	 *  loadScript(".../plugin.js", run_after_loaded);	
+	 * }
+	 * 
+	 * OR
+	 * 
+	 * loadScript(".../plugin.js", run_after_loaded);
+	 */
+
+	// PAGE RELATED SCRIPTS
+
+	// pagefunction
+	
+	var pagefunction = function() {
+
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+
+		var hdr = {
+			left: 'title',
+			center: 'month,agendaWeek,agendaDay',
+			right: 'prev,today,next'
+		};
+
+		var initDrag = function (e,id_tipo_evento,id_departamento,valor,url) {
+
+	        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+	        // it doesn't need to have a start or end
+
+	        var eventObject = {
+	            title: $.trim(e.children().text()), // use the element's text as the event title
+	            description: $.trim(e.children('span').attr('data-description')),
+	            icon: $.trim(e.children('span').attr('data-icon')),
+	            id_tipo_evento: id_tipo_evento,
+	            id_departamento: id_departamento,
+	            valor: valor,
+	            url: url,
+	            //url: '/sig/dashboard.html#/agenda/evento/1',
+	            className: $.trim(e.children('span').attr('class')) // use the element's children as the event class
+	        };
+	        console.log(eventObject);
+	        // store the Event Object in the DOM element so we can get to it later
+	        e.data('eventObject', eventObject);
+
+	        // make the event draggable using jQuery UI
+	        e.draggable({
+	        	zIndex: 999,
+	            revert: true, // will cause the event to go back to its
+	            revertDuration: 0 //  original position after the drag
+	        });
+	    };
+
+	    var addEvent = function (title, priority, description, icon, id_tipo_evento,departamento,valor,url) {
+	    	title = title.length === 0 ? "Untitled Event" : title;
+	    	description = description.length === 0 ? "No Description" : description;
+
+	    	icon = icon.length === 0 ? " " : icon;
+	    	priority = priority.length === 0 ? "label label-default" : priority;
+
+	    	var html = $('<li><span class="' + priority + '" data-description="' + description + '" data-icon="' +
+	    		icon + '">' + title + '</span></li>').prependTo('ul#external-events').hide().fadeIn();
+
+	    	$("#event-container").effect("highlight", 800);
+	    	console.log("Ricardo");
+	    	initDrag(html,id_tipo_evento,departamento,valor,url);
+	    };
+
+	    /* initialize the external events
+	    -----------------------------------------------------------------*/
+
+	    $('#external-events > li').each(function () {
+	    	initDrag($(this));
+	    });
+
+	    $('#add-event').click(function () {
+	    	if ($('#add-event-form').valid()) {
+		    	var title = $('#title').val(),
+		    	priority = $('input:radio[name=priority]:checked').val(),
+		    	description = $('#description').val(),
+		    	icon = $('input:radio[name=iconselect]:checked').val(),
+		    	id_tipo_evento = $('#id_tipo_evento').val(),
+		    	id_departamento = $('#id_departamento').val(),
+		    	valor = $('#valor').val(),
+		    	url = $('#url').val();
+
+		    	addEvent(title, priority, description, icon,id_tipo_evento,id_departamento,valor,url);
+	    	};
+	    });
+
+	    $('#new-event').click(function () {
+	    	console.log("Ricardo_New");
+		    	$('input:radio[name=priority]:checked').val(""),
+		    	$('#description').val(""),
+		    	$('#title').val(""),
+		    	$('input:radio[name=iconselect]:checked').val(""),
+		    	$('#valor').val(""),
+		    	$('#url').val("");
+		    	$('select').val('');
+
+	    });	    
+
+	    
+
+	    function updateEvento(id){
+	    	console.log($('#calendar').fullCalendar('clientEvents', event.id))
+	    }
+
+		function dtInicioTermino(event){
+		    var inicio_data = new Date(event._start).toLocaleDateString();
+	    	var inicio_hora = new Date(event._start).toLocaleTimeString();
+	    	event.datadeinicio = event._start;
+	    	event.horadeinicio = inicio_hora;
+
+	    	var fim_data = new Date(event._end).toLocaleDateString();
+	    	var fim_hora = new Date(event._end).toLocaleTimeString();
+	    	event.datadetermino = event._end;
+	    	event.horadetermino = fim_hora;
+
+	    	return event;
+	    }
+
+	    JSON.stringifyOnce = function(obj, replacer, indent){
+	    	var printedObjects = [];
+	    	var printedObjectKeys = [];
+
+	    	function printOnceReplacer(key, value){
+		        if ( printedObjects.length > 2000){ // browsers will not print more than 20K, I don't see the point to allow 2K.. algorithm will not be fast anyway if we have too many objects
+		        	return 'object too long';
+		    }
+		    var printedObjIndex = false;
+		    printedObjects.forEach(function(obj, index){
+		    	if(obj===value){
+		    		printedObjIndex = index;
+		    	}
+		    });
+
+		        if ( key == ''){ //root element
+		        	printedObjects.push(obj);
+		        	printedObjectKeys.push("root");
+		        	return value;
+		        }
+
+		        else if(printedObjIndex+"" != "false" && typeof(value)=="object"){
+		        	if ( printedObjectKeys[printedObjIndex] == "root"){
+		        		return "(pointer to root)";
+		        	}else{
+		        		return "(see " + ((!!value && !!value.constructor) ? value.constructor.name.toLowerCase()  : typeof(value)) + " with key " + printedObjectKeys[printedObjIndex] + ")";
+		        	}
+		        }else{
+
+		        	var qualifiedKey = key || "(empty key)";
+		        	printedObjects.push(value);
+		        	printedObjectKeys.push(qualifiedKey);
+		        	if(replacer){
+		        		return replacer(key, value);
+		        	}else{
+		        		return value;
+		        	}
+		        }
+		    }
+		    return JSON.stringify(obj, printOnceReplacer, indent);
+		};
+
+	    /* initialize the calendar
+	    -----------------------------------------------------------------*/
+	    var contador = 0
+	    $('#calendar').fullCalendar({
+
+	    	header: hdr,
+	    	buttonText: {
+	    		prev: '<i class="fa fa-chevron-left"></i>',
+	    		next: '<i class="fa fa-chevron-right"></i>'
+	    	},
+
+	    	monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+	    	monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+	    	dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+	    	dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+
+	    	editable: true,
+	        droppable: true, // this allows things to be dropped onto the calendar !!!
+
+	        eventClick: function(event, element) {
+
+	        	console.log(event);
+
+	        	$('#calendar').fullCalendar('updateEvent', event);
+
+	        },
+
+	        drop: function (date, allDay) { // this function is called when something is dropped
+
+	            // retrieve the dropped element's stored Event Object
+	            var originalEventObject = $(this).data('eventObject');
+
+	            // we need to copy it, so that multiple events don't have a reference to the same object
+	            var copiedEventObject = $.extend({}, originalEventObject);
+
+	            // assign it the date that was reported
+	            copiedEventObject.start = date;
+	            copiedEventObject.allDay = allDay;
+
+	            // render the event on the calendar
+	            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+	            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
+	            // is the "remove after drop" checkbox checked?
+	            if ($('#drop-remove').is(':checked')) {
+	                // if so, remove the element from the "Draggable Events" list
+	                $(this).remove();
+	            }
+	            
+	            console.log('Evento Drop ',copiedEventObject.source.events[contador]);
+	            
+	            var evento = copiedEventObject.source.events[contador];
+	            
+	            contador++;
+	            $.ajax({
+	            	url: 'api/index.php/evento',
+	            	type: "POST",	           
+	            	data:JSON.stringifyOnce(evento),     
+	            	dataType: "json",
+	            	success: function(data){
+	            		console.log('evento', data);
+	            		if(data['error']=='-1'){
+	            			$('.alertaLogin').html(data['errorMsg']);                      
+	            			$('.alert').show();
+	            			return;
+	            		}else{      
+	            			evento.id = data.id_evento;   
+	            			evento.url = '/sig/dashboard.html#/agenda/evento/1/'+data.id_evento;
+	            			$('#calendar').fullCalendar('updateEvent', evento);	            			             
+	                      //window.location.href = 'dashboard.html';
+	                  }
+	              }
+	          });		
+
+	        },
+
+	        eventDrop: function (event, jsEvent, ui, view) { 		
+	        	event = dtInicioTermino(event);
+
+	        	console.log('event', event);
+
+	        	var evento = JSON.stringify(event);
+
+	        	$.ajax({
+	        		url: 'api/index.php/evento',
+	        		type: "POST",	           
+	        		data:evento,     
+	        		dataType: "json",
+	        		success: function(data){
+	        			console.log('Evento Drop dia', data);
+	        			if(data['error']=='-1'){
+	        				$('.alertaLogin').html(data['errorMsg']);                      
+	        				$('.alert').show();
+	        				return;
+	        			}else{      
+	        				event.id = data.id_evento;   	                    
+
+	        				$('#calendar').fullCalendar('updateEvent', evento);             
+	                      //window.location.href = 'dashboard.html';
+	                  }
+	              }
+	          });	
+	        },
+
+	        eventResize: function (event, jsEvent, ui, view) { 	
+	        	event = dtInicioTermino(event);
+	        	console.log('event', event);
+
+	        	var evento = JSON.stringify($('#calendar').fullCalendar('clientEvents', event.id)[0]);
+				
+				console.log('event Resize', event);
+
+	        	$.ajax({
+	        		url: 'api/index.php/evento',
+	        		type: "POST",	           
+	        		data:evento,     
+	        		dataType: "json",
+	        		success: function(data){
+	        			console.log('evento Resize', data);
+	        			if(data['error']=='-1'){
+	        				$('.alertaLogin').html(data['errorMsg']);                      
+	        				$('.alert').show();
+	        				return;
+	        			}else{      
+	        				event.id = data.id_evento;   	                    	
+	        				$('#calendar').fullCalendar('updateEvent', evento);             
+	                      //window.location.href = 'dashboard.html';
+	                  }
+	              }
+	          });			
+
+	        },
+
+	        select: function (start, end, allDay) {
+	        	var title = prompt('Event Title:');
+	        	if (title) {
+	        		calendar.fullCalendar('renderEvent', {
+	        			title: title,
+	        			start: start,
+	        			end: end,
+	        			allDay: allDay
+                    	}, true // make the event "stick"
+                    );
+	        	}
+	        	calendar.fullCalendar('unselect');
+	        },
+	        /*
+			eventClick: function(event, element) {
+
+				console.log(event);
+
+		        event.title = "CLICKED!";
+
+		        $('#calendar').fullCalendar('updateEvent', event);
+
+		    },
+		    */
+		    eventRender: function (event, element, icon) {
+		    	if (!event.description == "") {
+		    		element.find('.fc-event-title').append("<br/><span class='ultra-light'>" + event.description +
+		    			"</span>");
+		    	}
+		    	if (!event.icon == "") {
+		    		element.find('.fc-event-title').append("<i class='air air-top-right fa " + event.icon +
+		    			" '></i>");
+		    	}
+		    	console.log('render', event);
+
+		    },
+
+		    windowResize: function (event, ui) {
+		    	$('#calendar').fullCalendar('render');
+		    },
+
+	        /*events: [
+		        {
+		            title: 'Evento o dia inteiro',
+		            start: new Date(y, m, d, -1),
+		            description: 'long description',
+		            className: ["event", "bg-color-greenLight"],
+		            icon: 'fa-check'
+		        }, {
+		            title: 'Evento Longo',
+		            start: new Date(y, m, d - 4),
+		            end: new Date(y, m, d - 2),
+		            description: 'Evento com duração de 3 dias',
+		            className: ["event", "bg-color-red"],
+		            icon: 'fa-lock'
+		        }, 
+		        ],*/
+		        events: 'api/index.php/evento'
+
+		    });	
+
+/* hide default buttons */
+$('.fc-header-right, .fc-header-center').hide();
+
+
+$('#calendar-buttons #btn-prev').click(function () {
+	$('.fc-button-prev').click();
+	return false;
+});
+
+$('#calendar-buttons #btn-next').click(function () {
+	$('.fc-button-next').click();
+	return false;
+});
+
+$('#calendar-buttons #btn-today').click(function () {
+	$('.fc-button-today').click();
+	return false;
+});
+
+$('#mt').click(function () {
+	$('#calendar').fullCalendar('changeView', 'month');
+});
+
+$('#ag').click(function () {
+	$('#calendar').fullCalendar('changeView', 'agendaWeek');
+});
+
+$('#td').click(function () {
+	$('#calendar').fullCalendar('changeView', 'agendaDay');
+
+});
+
+$('#calendar').fullCalendar('render');
+
+};
+
+// end pagefunction
+	
+// loadscript and run pagefunction
+loadScript("js/jquery.fullcalendar.min.js", pagefunction);
+
+// $(function() {
+// 		        // Validation
+// 		        $("#add-event-form").validate({
+// 			          // Rules for form validation
+// 			          rules : {
+// 			          	id_tipo_evento : {
+// 			          		required : true
+// 			          	},
+// 			          	id_departamento : {
+// 			          		required : true
+// 			          	},       	  
+// 			          	title : {
+// 			          		required : true
+// 			          	},
+// 			          	description : {
+// 			          		required : true
+// 			          	}          
+// 			          },
+
+// 			          // Messages for form validation
+// 			          messages : {  
+// 			          	id_tipo_evento : {
+// 			          		required : "Por favor, selecione o tipo do evento",
+// 			          	},
+// 			          	id_departamento : {
+// 			          		required : "Por favor, selecione o departamento",
+// 			          	},			            			              	
+// 			          	title : {
+// 			          		required : "Por favor, informe o título do evento",
+// 			          	},
+// 			          	description : {
+// 			          		required : "Por favor, informe a descrição do evento",
+// 			          	}           
+// 			          },
+
+// 			          // Do not change code below
+// 			          errorPlacement : function(error, element) {
+// 			          	error.insertAfter(element.parent());
+// 			          },
+// 			          submitHandler: function(agenda){			          	
+// 			          	var title = $('#title').val(),
+// 			          	priority = $('input:radio[name=priority]:checked').val(),
+// 			          	description = $('#description').val(),
+// 			          	icon = $('input:radio[name=iconselect]:checked').val(),
+// 			          	id_tipo_evento = $('#id_tipo_evento').val(),
+// 			          	id_departamento = $('#id_departamento').val(),
+// 			          	valor = $('#valor').val(),
+// 			          	url = $('#url').val();		            
+
+// 			          	addEvent(title, priority, description, icon,id_tipo_evento,id_departamento,valor,url);
+// 			          }          
+// 			      });		
+
+
+
+// });
+</script>

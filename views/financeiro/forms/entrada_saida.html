@@ -1,0 +1,388 @@
+<form id="cadastroMovimentacao-form" class="smart-form" novalidate="novalidate" validate-form>
+	<fieldset>
+		<div class="row">
+			<section class="{{camp[tabssel.form].categoria.class}}" ng-show="camp[tabssel.form].categoria.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].categoria.label}}</strong></label>
+				<div class="form-control-wrapper inputValidate">
+					<ui-select ng-model="categoria.selected"
+						theme="bootstrap"
+						ng-disabled="disabled"
+						reset-search-input="false"
+						ng-change="verificarAcao(categoria.selected)">
+						<ui-select-match placeholder="Selecione ">{{$select.selected.descricao}}
+						</ui-select-match>
+						<ui-select-choices group-by="'tipo'" repeat="categoria in categorias | propsFilter: {descricao: $select.search}">
+						<div ng-bind-html="categoria.descricao | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+					<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="categoria" id="categoria" type="text" 
+		              	ng-model="movimentacao.categoria"
+		                data-validate-input
+		                data-required 
+		                data-message-required="Selecione a categoria">
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].descricao.class}}" ng-show="camp[tabssel.form].descricao.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].descricao.label}}</strong></label>
+				<div class="form-control form-control-wrapper inputValidate">
+					<input ng-model="movimentacao.descricao" class="form-control empty" id="descricao" name="descricao" type="text">
+					<span class="material-input"></span>
+				</div>												
+			</section>
+		</div>
+		<div class="row">
+			<section class="{{camp[tabssel.form].data_vencimento.class}}" ng-show="camp[tabssel.form].data_vencimento.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].data_vencimento.label}}</strong></label>
+				<!--
+				<label class="input-group form-control-wrapper inputValidate" >		
+					<input class="form-control" type="text" pick-a-date="movimentacao.data_vencimento" placeholder="Selecione uma data" pick-a-date-options='{	
+		                format: "dd/mm/yyyy",
+		                formatSubmit: "yyyy-mm-dd"                      
+		            }' />		
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>	
+
+		            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_vencimento" id="data_vencimento" type="text" 
+		            ng-model="movimentacao.data_vencimento1"
+		            data-validate-input
+		            data-required 
+		            data-message-required="Informe a data">                                            
+				</label>
+				-->
+				<label class="input-group form-control-wrapper inputValidate">
+					<input 	class="form-control data-picker" 
+							id="mv_data_vencimento" 
+							name="mv_data_vencimento" 
+							type="text"
+							ng-model="movimentacao.data_vencimento" 
+							mask="99/99/9999" 
+							data-validate-input							
+							data-required
+							data-message-required="Por favor, informe a datas"/>
+					<span class="input-group-addon">
+						<button style="border: none; cursor: pointer;" 
+								class="fa fa-calendar"
+								pick-a-date="xxx" 
+								placeholder="Selecione uma data" 
+								pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd",selectYears: 100,}'>
+						</button>
+					</span><!--
+					<input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+							id="mv_data_vencimento" 
+							name="mv_data_vencimento" 
+							type="text" 
+							ng-model="movimentacao.data_vencimento1"
+							data-validate-input
+							data-required 
+							data-message-required="Por favor, informe a data">-->
+				</label>
+			</section>
+
+			<section class="{{camp[tabssel.form].moeda.class}}" ng-show="camp[tabssel.form].moeda.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].moeda.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="selmoeda" name="selmoeda" ng-model="movimentacao.id_moeda" ng-options="itemcur.id as itemcur.moeda for itemcur in moedas" ng-selected="movimentacao.id_moeda" data-validate-input data-required data-message-required="Selecione a Moeda">
+					<option value="" selected>Selecione</option>
+					</select>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].valor.class}}" ng-show="camp[tabssel.form].valor.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].valor.label}}</strong></label>
+				<div class="form-control form-control-wrapper inputValidate">
+					<input ui-money-mask="2" ng-model="movimentacao.valor" class="form-control empty" id="valor" name="valor" type="text" 
+					data-validate-input 
+					data-required
+					data-message-required="Informe o valor">
+					<span class="material-input"></span>
+					<i class="icon-append fa fa-money"></i>
+				</div>												
+			</section>
+			<section class="{{camp[tabssel.form].pessoa.class}}" ng-show="camp[tabssel.form].pessoa.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].pessoa.label}}</strong></label>
+					<div class="form-control form-control-wrapper inputValidate">
+						<input class="form-control" name="nome" id="nome" placeholder="Selecione um responsavel" typeahead="pessoa as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="passaPessoa($item, $model, $label)"
+						ng-model="pessoa.nome">
+					    <i class="icon-append fa fa-user"></i>
+						<span class="material-input"></span>
+
+						<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+		              	ng-model="movimentacao.recebido"
+		              	data-validate-input
+		                data-required 
+		                data-message-required="Selecione o responsável pela conta">
+					</div>
+			</section>
+			<!--
+			<section class="{{camp[tabssel.form].pessoa.class}}" ng-show="camp[tabssel.form].pessoa.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].pessoa.label}}</strong> </label>
+				<label class="label">
+					<div class="form-control-wrapper inputValidate">
+						<ui-select ng-model="recebido_pessoa.selected"
+						theme="bootstrap"
+						ng-disabled="disabled"
+						reset-search-input="false"
+						ng-change="changeRecebido(recebido_pessoa.selected)">
+							<ui-select-match placeholder="Selecione">{{$select.selected.nome || $select.selected}}
+							</ui-select-match>
+							<ui-select-choices repeat="recebido_pessoa in pessoas"
+							refresh="getPessoaMovimento($select.search)"
+							refresh-delay="0">
+							<div ng-bind-html="recebido_pessoa.nome | highlight: $select.search"></div>
+							</ui-select-choices>
+						</ui-select>
+					
+		              <input style="width:0px; height:0px; visibility: hidden; position:absolute" name="recebidopago" id="recebidopago" type="text" 
+		              	ng-model="movimentacao.recebido">
+		            </div>    
+		            data-validate-input
+		                data-required 
+		                data-message-required="Selecione o responsável pela conta"
+		        </label>
+		    </section>-->
+		</div>
+		<div class="row">
+			<section class="{{camp[tabssel.form].competencia.class}}" ng-show="camp[tabssel.form].competencia.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].competencia.label}}</strong></label>
+				<!--
+				<label class="input-group form-control-wrapper inputValidate">
+					<input class="form-control" type="text" pick-a-date="movimentacao.data_lancamento" placeholder="Selecione uma data" pick-a-date-options='{	
+			            format: "mm/yyyy",
+			            formatSubmit: "yyyy-mm"
+			        }' />														
+					<span class="input-group-addon"><i ng-click="open($event,'opened2')" class="fa fa-calendar"></i></span>	
+
+			        <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="competencia" id="competencia" type="text" 
+			        ng-model="movimentacao.data_lancamento1"
+			        data-validate-input
+			        data-required 
+			        data-message-required="Informe a data de competência">
+				</label>
+				-->
+				<label class="input-group form-control-wrapper inputValidate">
+					<input 	class="form-control data-picker" 
+							id="mv_data_lancamento" 
+							name="mv_data_lancamento" 
+							type="text"
+							ng-model="movimentacao.data_lancamento" 
+							mask="99/9999" 
+							data-validate-input							
+							data-required
+							data-message-required="Por favor, informe a datas"/>
+					<span class="input-group-addon">
+						<button style="border: none; cursor: pointer;" 
+								class="fa fa-calendar"
+								pick-a-date="zzz" 
+								placeholder="Selecione uma data" 
+								pick-a-date-options='{format: "mm/yyyy",formatSubmit: "yyyy-mm",selectYears: 100,}'>
+						</button>
+					</span><!--
+					<input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+							id="mv_data_lancamento" 
+							name="mv_data_lancamento" 
+							type="text" 
+							ng-model="movimentacao.data_lancamento1"
+							data-validate-input
+							data-required 
+							data-message-required="Por favor, informe a data">-->
+				</label>
+			</section>
+			<section class="{{camp[tabssel.form].numero_documento.class}}" ng-show="camp[tabssel.form].numero_documento.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].numero_documento.label}}</strong></label>
+				<div class="form-control form-control-wrapper inputValidate">
+					<input class="form-control"  name="numero_documento" id="numero_documento" 
+						   ng-model="movimentacao.numero_documento" placeholder="Informe o Número do Documento">
+					<span class="material-input"></span>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].modo.class}}" ng-show="camp[tabssel.form].modo.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].modo.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="modo_pagamento" name="modo_pagamento" ng-model="movimentacao.id_forma_pagamento"
+							data-validate-input
+		           		   	data-required 
+		            	   	data-message-required="Selecione o modo">
+						<option value="" selected>Selecione</option>
+						<option value="{{n_formapagamento.id}}" data-ng-repeat="n_formapagamento in formapagamento">{{n_formapagamento.descricao}}</option>	
+					</select>
+					<i></i>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].situacao.class}}" ng-show="camp[tabssel.form].situacao.show == true">
+				<!--
+				<label class="label"><strong>{{camp[tabssel.form].situacao.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="situacao" name="situacao" ng-model="movimentacao.id_situacao"
+							data-validate-input
+		           		   	data-required 
+		            	   	data-message-required="Selecione a situação">
+						<option value="" selected>Selecione</option>
+						<option value="{{n_situacao.id}}" data-ng-repeat="n_situacao in situacao">{{n_situacao.descricao}}</option>	
+					</select>
+					<i></i>
+				</div>
+				-->
+				<label class="label"><strong>{{camp[tabssel.form].situacao.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+
+                    <select class="form-control" 
+                    		id='selsituacao' 
+                    		name='selsituacao'                            
+                            ng-model="movimentacao.id_situacao"
+                            ng-options="iteme.id as iteme.descricao for iteme in situacao"                             
+                            required>
+                    </select>						                                            
+                    <em class="error smart-form state-error" ng-show="cadastroMovimentacao-form.situacao.$error.required">Selecione a situação</em>
+				</div>						
+
+			</section>
+		</div>
+		<div class="row">
+
+			<section class="{{camp[tabssel.form].data_pagamento.class}}" ng-show="camp[tabssel.form].data_pagamento.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].data_pagamento.label}}</strong></label>
+				<!--
+				<label class="input-group form-control-wrapper inputValidate" >		
+					<input class="form-control" type="text" pick-a-date="movimentacao.data_pagamento" placeholder="Selecione uma data" pick-a-date-options='{	
+		                format: "dd/mm/yyyy",
+		                formatSubmit: "yyyy-mm-dd"                      
+		            }' />		
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+		            <input ng-disabled="!(movimentacao.id_situacao == 2 || movimentacao.id_situacao == 6)" style="width:0px; height:0px; visibility: hidden; position: absolute" name="data_pagamento" id="data_pagamento" type="text" 
+		            ng-model="movimentacao.data_pagamento1"
+		            data-validate-input
+		            data-required 
+		            data-message-required="Informe a data do pagamento">                         
+				</label>
+				-->
+				<label class="input-group form-control-wrapper inputValidate">
+					<input 	class="form-control data-picker" 
+							id="mv_data_pagamento" 
+							name="mv_data_pagamento" 
+							type="text"
+							ng-model="movimentacao.data_pagamento" 
+							mask="99/99/9999" 
+							data-validate-input							
+							data-required
+							data-message-required="Por favor, informe a datas"/>
+					<span class="input-group-addon">
+						<button style="border: none; cursor: pointer;" 
+								class="fa fa-calendar"
+								pick-a-date="yyy" 
+								placeholder="Selecione uma data" 
+								pick-a-date-options='{format: "dd/mm/yyyy",formatSubmit: "yyyy-mm-dd",selectYears: 100,}'>
+						</button>
+					</span><!--
+					<input 	style="width:0px; height:0px; visibility: hidden; position: absolute" 
+							id="mv_data_pagamento" 
+							name="mv_data_pagamento" 
+							type="text" 
+							ng-model="movimentacao.data_pagamento1"
+							data-validate-input
+							data-required 
+							data-message-required="Por favor, informe a data">-->
+				</label>
+			</section>
+
+			<section class="{{camp[tabssel.form].conta.class}}" ng-show="camp[tabssel.form].conta.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].conta.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="selconta" name="selconta" ng-model="movimentacao.id_conta_bancaria" ng-options="itemcb.id as itemcb.descricao for itemcb in contas" ng-selected="movimentacao.id_conta_bancaria" data-validate-input data-required data-message-required="Selecione a conta">
+					<option value="" selected>Selecione</option>
+					</select>
+					<i></i>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].centro_custo.class}}" ng-show="camp[tabssel.form].centro_custo.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].centro_custo.label}}</strong></label>
+				<div class="form-group form-control-wrapper inputValidate">
+					<select class="form-control" id="selcc" name="selcc" ng-model="movimentacao.id_centro_custo" ng-options="itemcc.id as itemcc.descricao for itemcc in centro_custo" ng-selected="movimentacao.id_centro_custo" data-validate-input data-required data-message-required="Selecione o centro de custo">
+					<option value="" selected>Selecione</option>
+					</select>
+				</div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="{{camp[tabssel.form].juros.class}}" ng-show="camp[tabssel.form].juros.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].juros.label}}</strong></label>
+				<div class="form-control-wrapper">
+					<input class="form-control"  name="juros" id="juros" ui-money-mask="2" 
+						   ng-model="movimentacao.juros" placeholder="Informe os juros">
+					<span class="material-input"></span>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].multa.class}}" ng-show="camp[tabssel.form].multa.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].multa.label}}</strong></label>
+				<div class="form-control-wrapper">
+					<input class="form-control" name="multa" id="multa" ui-money-mask="2"
+						   ng-model="movimentacao.multa" placeholder="Informe a multa">
+					<span class="material-input"></span>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].desconto.class}}" ng-show="camp[tabssel.form].desconto.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].desconto.label}}</strong></label>
+				<div class="form-control-wrapper">
+					<input class="form-control"  name="desconto" id="desconto" ui-money-mask="2"
+						   ng-model="movimentacao.desconto" placeholder="Informe o desconto">
+					<span class="material-input"></span>
+				</div>
+			</section>
+			<section class="{{camp[tabssel.form].valor_final.class}}" ng-show="camp[tabssel.form].valor_final.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].valor_final.label}}</strong></label>
+				<div class="form-control-wrapper">
+					<input class="form-control"  name="valor_final" id="valor_final" disabled="disabled" 
+						   ng-value="setValorFinal()">
+					<span class="material-input"></span>
+				</div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="{{camp[tabssel.form].mais_detalhes.class}}" ng-show="camp[tabssel.form].mais_detalhes.show == true">
+				<label class="label"><strong>{{camp[tabssel.form].mais_detalhes.label}}</strong></label>
+				<div class="form-control-wrapper">
+					<textarea rows="5" class="form-control" ng-model="movimentacao.mais_detalhes"></textarea>
+					<span class="material-input"></span>
+				</div>
+			</section>
+		</div>
+	</fieldset>
+	<!-- FOOTER -->
+	<footer class="col-sm-12 col-md-12 col-lg-12">
+			<div class="col-sm-12 col-md-12 col-lg-12 btn-group dropup pull-right">							
+
+			<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro"
+				popover="Novo"
+				popover-trigger="mouseenter"
+			>
+				Novo
+			</a>			
+			<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarMovimentacao(movimentacao)" id="SalvarMovimentacao"
+				popover="Salvar"
+				popover-trigger="mouseenter"
+			>
+				Salvar
+			</button>
+			<!--<button class="btnmd btnmd-default" ng-click=""
+				popover="Cancelar"
+				popover-trigger="mouseenter"
+				ng-show="tabssel.indice != 6"
+			>
+				Cancelar
+			</button>-->
+			<button class="btnmd btnmd-warning pull-right dropdown-toggle" data-toggle="dropdown" ng-if="movimentacao.id != null  && tabssel.indice != 6">
+				<span class="caret"></span>
+			</button>															
+			<button class="btnmd btnmd-warning pull-right" ng-if="movimentacao.id != null && tabssel.indice != 6"
+				popover="Emitir Recibo"
+				popover-trigger="mouseenter"
+			>
+				Emitir Recibo
+			</button>
+			<ul class="dropdown-menu" ng-show="tabssel.indice != 6">
+				<li ng-repeat="recibos in recibo" >
+					<a target="_blank" href="recibo.php?template={{recibos.id}}&caixa={{movimentacao.id}}">{{recibos.descricao}} </a>
+				</li>
+				
+			</ul>
+		</div>                          
+	</footer>
+	<!-- FIM DO FOOTER -->
+</form>

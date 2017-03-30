@@ -1,0 +1,32 @@
+<script src="controllers/controller.salaVirtualDetalhes.js"></script>
+<div class="container" ng-controller="salaVirtualDetalhes">
+	<div class="row">
+		
+		<!-- =========================Start Col right section ============================= -->
+		<article class="col-lg-12 col-right">
+			<div class="row no-margin-left">
+				<section class="col col-lg-12" ng-repeat="item in salavirtualdetalhes">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{item.titulo_sala_virtual}}</h3>
+						</div>
+						<div class="panel-body">
+							<h4>{{item.titulo}}</h4>
+							<small class="pull-right">Publicado por: <strong>{{item.nome_pessoa_publicacao}}</strong></small>
+							<p><strong>Descrição:</strong> {{item.descricao_interna}}</p>
+							<div class="well well-sm" ng-bind-html="item.texto_artigo" ng-show="item.texto_artigo != null">
+								
+							</div>
+							<div class="well well-sm" ng-show="item.arquivo_download != null">
+								{{item.arquivo_download}}
+							</div>
+							<div class="well well-sm" ng-bind-html="item.codigo_objeto_video" ng-show="item.codigo_objeto_video != null">
+								
+							</div>
+						</div>
+					</div>
+				</section>								
+			</div>
+		</article><!-- end col right-->
+	</div><!-- end row-->
+</div><!-- end container-->

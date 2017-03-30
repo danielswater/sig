@@ -1,0 +1,170 @@
+<style type="text/css">
+	.popover.top{
+		margin-top: 320px !important;
+
+	}
+	.clockpicker-align-left.popover>.arrow{
+		-ms-transform: rotate(180deg); 
+    	-webkit-transform: rotate(180deg); 
+    	transform: rotate(180deg);
+	}
+	.popover.top>.arrow{
+		bottom: 272px !important;
+	}
+</style>
+<script src="controllers/controller.formCadastroHorario.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroHorario' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Horário</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroHorario-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">																	
+									<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Descrição</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+
+											<input 	class 					="form-control" 
+													name 					="descricao" 
+													id 						="descricao" 
+													placeholder 			="Descrição"
+													ng-model 				="horario.descricao"                                           		
+                                            		data-maxlength 			="200"                                            		
+                                            		data-message-required 	="Informe a descrição"
+                                            		data-message-maxlength	="Máximo de 200 Caracteres"
+                                        			data-validate-input
+                                            		data-required >
+                                            
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição</b>
+										</div>										
+									</section>
+											
+
+									<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				                        <label class="label"><strong>Hora de Inicio</strong></label>
+				                        <div class="input-group inputValidate">
+
+				                          <input class 				="form-control" 
+						                          id 					="clockpicker1" 
+						                          name 					="hora_inicio" 
+						                          type    				="text" 
+						                          placeholder			="Selecione o horário de inicio" 
+						                          data-autoclose		="true" 
+						                          ng-model 				="horario.hora_inicial"
+						                          data-message-required	="Informe a Hora de início"
+						                          data-validate-input
+                                            	  data-required>
+
+				                          <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+				                        </div>
+									</section>
+									<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Hora de Fim</strong></label>
+				                        <div class="input-group inputValidate">
+
+				                          <input  class 				="form-control" 
+						                          id 					="clockpicker2" 
+						                          name 					="hora_fim" 
+						                          type 					="text" 
+						                          placeholder 			="Selecione o horário de fim" 
+						                          data-autoclose		="true" 
+						                          ng-model 				="horario.hora_final"
+						                          data-message-required ="Informe a Hora de Fim"
+						                          data-validate-input
+                                            	  data-required>
+
+				                          <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+				                        </div>
+									</section>
+
+
+									<section class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="horario.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="horario.ativo">
+													<span>Inativo</span>  
+												</label>
+											</div>
+										</div>
+									</section>																										
+								</div>
+														
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo<div class="ripple-wrapper"></div>
+								</a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarHorario()" id="SalvarHorario">
+									Salvar
+								</button>							
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+	<!-- END ROW -->	
+
+</section>
+<!-- end widget grid -->
+
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+
+  // load summernote, and all markdown related plugins
+    loadScript("js/clockpicker.min.js", runClockPicker);
+  
+    function runClockPicker(){
+      $('#clockpicker1').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+      $('#clockpicker2').clockpicker({
+        placement: 'top',
+          donetext: 'Done'
+      });
+    }    
+</script>

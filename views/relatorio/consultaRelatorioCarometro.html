@@ -1,0 +1,87 @@
+<script src="controllers/controller.consultaRelatorioCarometro.js"></script>
+
+<section ng-controller='consultaRelatorioCarometro' id="widget-grid" widget-grid>
+
+	<div class="row">   
+
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Carômetro</h2> 
+				</header>
+
+				<div>
+
+					<div class="widget-body no-padding">
+						<form id="consultaCarometro-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Etapa</strong></label>
+										<select ng-model="carometro.id_etapa" class="form-control" ng-options="etapa.descricao for etapa in etapas" ng-change="getCurso(carometro)"
+										data-validate-input
+										data-required
+										>
+											<option value="">Selecione</option>
+										</select>
+										<!-- <div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="etapa" name="etapa" ng-change="getCurso(etapa.id)" ng-model="carometro.id_etapa"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a etapa">
+											<option value="" selected>Selecione</option>
+											<option ng-selected="carometro.id_etapa == etapa.id" value="{{etapa}}" data-ng-repeat="etapa in etapas">{{etapa.descricao}}</option>	
+										</select>
+										<i></i>
+									</div> -->						
+								</section>
+
+								<section class="col col-4">
+									<label class="label"><strong>Curso</strong></label>
+									<select ng-model="carometro.id_curso" class="form-control" ng-options="curso.nome for curso in cursos" ng-change="getTurma(carometro)">
+										<option value="">Selecione</option>
+									</select>					
+								</section>
+
+								<section class="col col-4">
+									<label class="label"><strong>Turma</strong></label>
+									<select ng-model="carometro.id_turma" class="form-control" ng-change="getTurmaId(carometro)" ng-options="turma.nome for turma in turmas">
+										<option value="">Selecione</option>
+									</select>						
+								</section>
+
+							</div>
+
+							<div class="row">
+								<section class="col col-lg-4">
+									<label class="label"><strong>Nome do aluno</strong></label>
+									<input class="form-control"  name="nome_aluno" id="nome_aluno" placeholder="Nome completo do aluno"  typeahead="pessoa as pessoa.nome for pessoa in getPessoaExists($viewValue)" typeahead-on-select="getPessoa($item, $model, $label)"
+									ng-model="pessoa.nome">
+								</section>
+							</div>
+						</fieldset>
+						<footer>
+							<button class="btnmd btnmd-info pull-right" ng-click="gararCarometro()" id="consultaEstoque" name="consultaEstoque">
+								Gerar Relatório
+							</button>
+						</footer>
+					</form>
+				</div>		  
+			</div>		
+		</div>	  
+	</article>
+
+</div>
+
+</section>
+
+
+<script type="text/javascript">
+
+	pageSetUp(); 
+	var pagefunction = function() {  };
+	pagefunction();
+
+</script>

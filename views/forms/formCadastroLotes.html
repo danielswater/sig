@@ -1,0 +1,153 @@
+<script src="controllers/controller.formCadastroLote.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroLote' id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Lotes</h2> 
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="cadastroLote-form" class="smart-form" novalidate="novalidate" validate-form>							
+							<fieldset>
+								<div class="row">
+									<section class="col col-4">
+										<label class="label"><strong>Quadra</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<select class="form-control" name="quadra" id="quadra" ng-model="lote.id_quadra"
+											data-validate-input 
+											data-required
+											data-message-required="Por favor, selecione a quadra">
+												<option value="" selected>Selecione</option>
+												<option value="{{n_quadra.id}}" ng-selected="n_quadra.id == lote.id_quadra" data-ng-repeat="n_quadra in quadra">{{n_quadra.descricao}}</option>	
+											</select>
+											<i></i>
+										</div>
+									</section>																			
+									<section class="col col-4">
+										<label class="label"><strong>Lote</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<input class="form-control"  name="descricao" id="descricao" type="text" placeholder="Descrição do Lote" ng-model="lote.descricao"
+											data-validate-input
+											data-required
+											data-message-required="Por favor, informe a descrição do Lote">
+											<span class="material-input"></span>
+											<i class=" icon-append fa fa-warning"></i>
+										</div>
+									</section>
+									<section class="col col-4">
+										<label class="label"><strong>Tamanho</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<ui-select ng-model="tamanhoLote.selected"
+											theme="bootstrap"
+											ng-disabled="disabled"
+											reset-search-input="false"
+											ng-change="verificarAcaoTamanhoLote(tamanhoLote.selected)">
+											<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}
+										</ui-select-match>
+										<ui-select-choices repeat="tamanhoLote in tamanhoLotes | propsFilter: {descricao: $select.search}">
+										<div ng-bind-html="tamanhoLote.descricao | highlight: $select.search"></div>
+									</ui-select-choices>
+								</ui-select>
+								<input style="width:0px; height:0px; visibility: hidden; position:absolute" name="id_tamanho_lotes" id="id_tamanho_lotes" type="text" 
+								ng-model="lote.id_tamanho_lotes"
+								data-validate-input
+								data-required 
+								data-message-required="Selecione o tamanho do lote">
+							</div>
+										
+								</div>								
+									<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Preço do Lote</strong></label>
+										<div class="form-group form-control-wrapper inputValidate">
+											<input class="form-control" type="text" name="preco" id="preco" placeholder="Valor do Lote Ex. 100,00" ng-model="lote.preco">
+											<span class="material-input"></span>
+											<i class=" icon-append fa fa-money"></i>
+										</div>
+									</section>																	
+									<section class="col col-4">
+										<label class="label"><strong>Status</strong></label>
+										<div class="form-inline">
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="lote.ativo">
+													<span>Ativo</span>  
+												</label>
+											</div>
+											<div class="form-group">
+												<label class="radio radio-inline">
+													<input type="radio" class="radiobox" name="status" value="0" ng-model="lote.ativo">
+													<span>Inativo</span>  
+												</label>	
+											</div>
+										</div>
+									</section>									
+								</div>							
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info pull-right" ng-click="cadastrarLote(lote)" id="SalvarLote">
+									Salvar
+								</button>								
+							</footer>
+						</form>
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- END COL -->
+		
+	</div>
+
+	<!-- END ROW -->
+
+
+	
+	
+
+</section>
+<!-- end widget grid -->
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!	 
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+	pageSetUp();
+	
+	$(function() {
+
+		$('#preco').maskMoney({symbol:'R$ ', 
+		showSymbol:true, thousands:'.', decimal:',', symbolStay: true});	
+
+        });		
+
+</script>

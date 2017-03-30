@@ -1,0 +1,616 @@
+<script src="controllers/controller.formCadastroConversoes.js"></script>
+<!-- widget grid -->
+<section ng-controller='formCadastroConversoes' id="widget-grid" widget-grid>
+	<!-- START ROW -->
+	<div class="row">
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-darken" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2>Cadastro de Conversão</h2>
+				</header>
+				<!-- widget div-->
+				<div>
+					<!-- widget content -->					
+					<div class="widget-body no-padding">
+						<div class="smart-form" >
+						<fieldset>
+							<section class="col-sm-12 col-md-12 col-lg-12">
+								<div class="widget-body">
+
+											
+												<form id="cadastroConversao-form" class="smart-form" novalidate="novalidate" validate-form>
+													<fieldset>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Nome</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_nome" 
+																			id 						="conversao_nome" 
+																			placeholder				="Nome"
+																			ng-model				="conversao.nome"																			
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o nome"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe Nome
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data de Nascimento</strong></label>
+																<label class="input-group form-control-wrapper inputValidate">
+																	<input class="form-control data-picker" ng-model="conversao.data_nasc" type="text"
+																	data-validate-input
+						                                            data-required
+						                                            mask="99/99/9999" 
+						                                            data-message-required="Por favor, informe a data de nascimento"
+																	/>
+																	<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="conversao.data_nascimento" placeholder="Selecione uma data" pick-a-date-options='{
+										                                format: "dd/mm/yyyy",
+										                                formatSubmit: "yyyy-mm-dd",
+										                                selectYears: 190,
+										                            }' 
+																	></button></span>
+						                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="conversao_dataNascimento" id="conversao_dataNascimento" type="text" 
+						                                            ng-model="conversao.data_nascimento1"
+						                                            data-validate-input
+						                                            data-required 
+						                                            data-message-required="Por favor, informe a data de nascimento">
+																</label>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Nome Convertido</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_nomeconvertido" 
+																			id 						="conversao_nomeconvertido" 
+																			placeholder				="Nome Convertido"
+																			ng-model				="conversao.nome_convertido"																			
+																			maxlength 				="200">
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe Nome de Conversão
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Data de Conversão</strong></label>
+																<label class="input-group form-control-wrapper inputValidate">
+																	<input class="form-control data-picker" ng-model="conversao.data_conv" type="text"
+																	data-validate-input
+						                                            data-required
+						                                            mask="99/99/9999" 
+						                                            data-message-required="Por favor, informe a data de conversão"
+																	/>
+																	<span class="input-group-addon"><button style="border: none; cursor: pointer;" class="fa fa-calendar"
+																	pick-a-date="conversao.data_conversao" placeholder="Selecione uma data" pick-a-date-options='{
+										                                format: "dd/mm/yyyy",
+										                                formatSubmit: "yyyy-mm-dd",
+										                                selectYears: 190,
+										                            }' 
+																	></button></span>
+						                                            <input style="width:0px; height:0px; visibility: hidden; position: absolute" name="conversao_dataconversao" id="conversao_dataconversao" type="text" 
+						                                            ng-model="conversao.data_conversao1"
+						                                            data-validate-input
+						                                            data-required 
+						                                            data-message-required="Por favor, informe a data de conversão">
+																</label>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Nacionalidade</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_nacionalidade" 
+																			id 						="conversao_nacionalidade" 
+																			placeholder				="Nacionalidade"
+																			ng-model				="conversao.nacionalidade"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe a nacionalidade"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe a Nacionalidade
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Religião</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<ui-select 	ng-model			="religiao.selected"
+																				theme				="bootstrap"
+																				ng-disabled			="disabled"
+																				reset-search-input	="false"
+																				ng-change			="verificarAcaoReligiao(religiao.selected)">
+																		
+																		<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>																		
+																		<ui-select-choices  group-by="'tipo'" repeat="item in religioes | propsFilter: {descricao: $select.search}">
+																			<div ng-bind-html="item.descricao | highlight: $select.search"></div>
+																		</ui-select-choices>
+																	</ui-select>
+																	<input  style 	="width:0px; height:0px; visibility: hidden; position:absolute" 
+																			name 	="conversao_religiao" 
+																			id 		="conversao_religiao" 
+																			type 	="text" 
+							                                          		ng-model="conversao.id_religiao"
+							                                            	data-message-required="Selecione a religião"
+							                                            	data-validate-input
+							                                            	data-required>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Tipo de Documento</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<ui-select 	ng-model 			="tipodocumento.selected"
+																				theme 				="bootstrap"
+																				ng-disabled 		="disabled"
+																				reset-search-input	="false"
+																				ng-change			="verificarAcaoTipoDocumento(tipodocumento.selected)">
+																		<ui-select-match placeholder="Entre com uma palavra ou selecione ">{{$select.selected.descricao}}</ui-select-match>
+																		<ui-select-choices group-by="'tipo'" repeat="item in tiposdocumentos | filter: {id_tipo_pessoa:1} | propsFilter: {descricao: $select.search}">
+																			<div ng-bind-html="item.descricao | highlight: $select.search"></div>
+																		</ui-select-choices>
+																	</ui-select>
+																	<input 	style 				 ="width:0px; height:0px; visibility: hidden; position:absolute" 
+																			name 				 ="conversao_tipodocumento" 
+																			id 					 ="conversao_tipodocumento" 
+																			type 				 ="text" 
+																			ng-model 			 ="conversao.id_tipo_documento"
+							                                            	data-message-required="Selecione o tipo de documento"
+							                                            	data-validate-input
+							                                            	data-required >
+																</div> 
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Número do Documento</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input  class 				 ="form-control"  
+																			name 				 ="conversao_numerodocumento" 
+																			id 					 ="conversao_numerodocumento" 
+																		    ng-model 			 ="conversao.numero_documento" 
+																		    placeholder 		 ="Informe o Número do Documento"
+						                                            	    data-message-required="Informe o número do documento"
+																			maxlength 			 ="50"						                                            		
+																			data-validate-input
+																			data-required >
+																	<span class="material-input"></span>
+																</div>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Código Postal</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input  class 						="form-control" 
+																			ng-model 					="conversao.codigo_postal" 
+																			type 						="text" 
+																			name 						="conversao_cep" 
+																			id 							="conversao_cep" 
+																			ng-blur 					="getCep()" 
+																			ui-br-cep-mask placeholder 	="CEP"
+																			data-message-required 		="Por favor, informe o cep"
+																			data-validate-input
+																			data-required>
+																	<i class="icon-append fa fa-search"></i>
+																	<span class="material-input"></span>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Logradouro</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_logradouro" 
+																			id 						="conversao_logradouro" 
+																			placeholder				="Logradouro"
+																			ng-model				="conversao.logradouro"																			
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o Logradouro"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Logradouro
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Número</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_numero" 
+																			id 						="conversao_numero" 
+																			placeholder				="Número"
+																			ng-model				="conversao.numero"																			
+																			maxlength 				="10"
+						                                            		data-message-required 	="Por favor, informe o Número"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Número
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Complemento</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_complemento" 
+																			id 						="conversao_complemento" 
+																			placeholder				="Complemento"
+																			ng-model				="conversao.complemento"
+																			maxlength 				="100">
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Complemento
+																	</b>
+																</div>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Estado</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select ng-change 			 ="getCidade(motorista.estado)" 
+																			class 				 ="form-control" 
+																			id 					 ="conversao_estado"
+																			name 				 ="conversao_estado"
+																			ng-model 			 ="conversao.estado"
+																			data-message-required="Por favor, selecione o estado"
+																			data-validate-input
+																			data-required>
+																		<option value="" disabled="">Selecione</option>
+																		<option data-ng-repeat="item in estados" data-ng-selected="item.uf == conversao.estado" ng-value="item.uf">{{item.nome}}</option>
+																	</select>
+																	<i></i>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Cidade</strong></label>
+																<div class="form-group form-control-wrapper inputValidate">
+																	<select class="form-control" 
+																			id 					 ="conversao_cidade"
+																			name 				 ="conversao_cidade"
+																			name 				 ="cidade" 
+																			ng-model 			 ="conversao.cidade"
+																			data-message-required="Por favor, selecione a cidade"
+																			data-validate-input
+																			data-required>
+																		<option value="" disabled="">Selecione</option>
+																		<option data-ng-repeat="item in cidades" data-ng-selected="item.nome == conversao.cidade" ng-value="item.nome">{{item.nome}}</option>
+																	</select>
+																	<i></i>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-sm-4 col-md-4 col-lg-4">
+																<label class="label"><strong>Bairro</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			id 						="conversao_bairro" 
+																			name 					="conversao_bairro" 																			
+																			placeholder				="Bairro"
+																			ng-model				="conversao.bairro"																			
+																			maxlength 				="100"
+						                                            		data-message-required 	="Por favor, informe o Bairro"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o Bairro
+																	</b>
+																</div>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Nome Testemunha 01</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_nometestemunha_01" 
+																			id 						="conversao_nometestemunha_01" 
+																			placeholder				="Nome da Testemunha 01"
+																			ng-model				="conversao.nome_testemunha_01"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o nome da testemunha 01"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o nome da testemunha
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Documento Testemunha 01</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_documentotestemunha_01" 
+																			id 						="conversao_documentotestemunha_01" 
+																			placeholder				="Documento da Testemunha 01"
+																			ng-model				="conversao.documento_testemunha_01"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o documento da testemunha 01"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o número do documento
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Nome Testemunha 02</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_nometestemunha_02" 
+																			id 						="conversao_nometestemunha_02" 
+																			placeholder				="Nome da Testemunha 02"
+																			ng-model				="conversao.nome_testemunha_02"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o nome da testemunha 02"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o nome da testemunha
+																	</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Documento Testemunha 02</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-question-circle"></i>
+
+																	<input 	class 					="form-control" 
+																			name 					="conversao_documentotestemunha_02" 
+																			id 						="conversao_documentotestemunha_02" 
+																			placeholder				="Documento da Testemunha 02"
+																			ng-model				="conversao.documento_testemunha_02"
+																			maxlength 				="200"
+						                                            		data-message-required 	="Por favor, informe o documento da testemunha 02"
+																			data-validate-input
+																			data-required >
+
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i>
+																		Informe o número do documento
+																	</b>
+																</div>
+															</section>
+
+														<!-- ****************************************************************************************** -->
+														</div>
+														<div class="row">
+														<!-- ****************************************************************************************** -->
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<div class="form-group">
+																	<label class="label"><strong>Justificativa</strong></label>
+																	<div class="form-control-wrapper inputValidate">
+																		<textarea ng-model="conversao.justificativa" class="form-control empty" id="description" name="description" rows="4" maxlength="300"
+																		data-validate-input
+							                                            data-required 
+							                                            data-message-required="Informe uma descrição"></textarea>																		
+																		<span class="material-input"></span>
+																	</div>			    
+																</div>	
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Email</strong></label>
+																<div class="form-control-wrapper inputValidate">
+																	<i class="icon-append fa fa-envelope-square"></i>
+																	<input class="form-control" name="email" id="email" placeholder="Email"
+																	ng-model="conversao.email"
+																	data-validate-input
+																	data-email
+																	data-message-email="Por favor, informe um e-mail válido">
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i> 
+																		Email do Contato</b> 											
+																</div>										
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Telefone</strong></label>
+																<div class="form-control form-control-wrapper inputValidate">
+																	<input class="form-control" name="numero_telefone" id="numero_telefone" placeholder="DDD e número" ng-model="conversao.fone"
+																	data-telefone ui-br-phone-number maxlength='16'
+																	data-validate-input 
+																	data-required
+																	data-message-required="Por favor, informe um telefone"
+																	data-message-phone="Por favor, informe um telefone válido">
+						                                            <i class="icon-append fa fa-mobile"></i>
+																	<span class="material-input"></span>
+																	<b class="tooltip tooltip-top-right">
+																		<i class="fa fa-warning txt-color-teal"></i> 
+																		DDD e Telefone</b>
+																</div>
+															</section>
+
+															<section class="col col-xs-12 col-s-3 col-md-3 col-lg-3">
+																<label class="label"><strong>Status</strong></label>
+																<div class="form-inline">
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" checked="true" value="1" ng-model="conversao.ativo">
+																			<span>Ativo</span>  
+																		</label>
+																	</div>
+																	<div class="form-group">
+																		<label class="radio radio-inline">
+																			<input type="radio" class="radiobox" name="status" value="0" ng-model="conversao.ativo">
+																			<span>Inativo</span>  
+																		</label>	
+																	</div>
+																</div>
+															</section>
+														<!-- ****************************************************************************************** -->
+														</div>
+													</fieldset>
+													<footer>
+														<div class="btn-group dropup pull-right">							
+															<button class="btnmd btnmd-success pull-right" ng-click="novoCadastro()" id="NovoCadastro"> Novo </button>
+															<button class="btnmd btnmd-info pull-right" ng-click="cadastrar()" id="Salvar"> Salvar </button>
+															<button class="btnmd btnmd-warning pull-right dropdown-toggle" data-toggle="dropdown" ng-if="conversao.id != null">
+																<span class="caret"></span>
+															</button>
+															<button class="btnmd btnmd-warning pull-right" ng-if="conversao.id != null" popover="Emitir Recibo" popover-trigger="mouseenter"> Emitir Certificado </button>
+															<ul class="dropdown-menu">
+																<li ng-repeat="item in certificados">
+																	<a target="_blank" href="certificado.php?template={{item.id}}&conversao={{conversao.id}}">{{item.descricao}} </a>
+																</li>										
+															</ul>
+														</div>
+													</footer>
+												</form>									
+
+								</div>
+							</section>
+						</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<!-- Início Modal Religião -->
+	<div class="modal fade" id="myModalReligiao">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Nova Religião</h4>
+	            </div>
+	            <div class="modal-body">
+	                <form id="cadastroReligiao-form" class="smart-form" novalidate="novalidate" validate-form>	
+					   <section class="section"> 
+			               <div class="form-group">
+			                <div class="form-control-wrapper inputValidate">
+			                 <input class="form-control empty" name="nome" id="nome" type="text"  ng-model="addReligiao.descricao"
+										data-validate-input
+										data-required
+										data-message-required="Por favor, informe o nome da religião"><div class="floating-label">Nome da Religião</div>
+										<b class="tooltip tooltip-top-right">
+											<i class="fa fa-warning txt-color-teal"></i>
+											Nome da Religião</b>
+			                 <span class="material-input"></span>
+			                </div>
+			               </div>
+		              </section>
+					</form>
+	            </div>
+	            <div class="modal-footer">
+		      		<button type="button" class="btnmd btnmd-default" data-dismiss="modal">Cancelar</button>
+		      		<button type="button" class="btnmd btnmd-primary" ng-click="adicionarReligiao()">Salvar</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- Fim Modal Religião -->
+
+	
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

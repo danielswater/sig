@@ -1,0 +1,138 @@
+<script src="controllers/controller.consultaRelatorioEntradaSaida.js"></script>
+
+<section ng-controller='consultaRelatorioEntradaSaida' id="widget-grid" widget-grid>
+  
+  <div class="row">   
+	
+	<article class="col-sm-12 col-md-12 col-lg-12">
+	  
+	  <div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+		<header>
+		  <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+		  <h2>Relatório de entrada e saida</h2> 
+		</header>
+		
+		<div>
+		  
+		  <div class="widget-body no-padding">
+			<form id="consultaRelatorioEntradaSaida-form" class="smart-form" novalidate="novalidate" validate-form>
+			  <fieldset>
+				<div class="row">
+					<section class="col col-3">
+						<label class="label"><strong>Conta bancária </strong></label>
+						<div class="form-group form-control-wrapper inputValidate">
+							<select class="form-control" id="conta_bancaria" name="conta_bancaria"
+								ng-model="entradaSaida.id_conta_bancaria">
+								<option value="" selected>Total</option>
+								<option value="{{conta.id}}" data-ng-repeat="conta in contaBancaria">{{conta.descricao}}</option>	
+							</select>
+							<i></i>
+						</div>
+					</section>
+
+					<section class="col col-3">
+						<label class="label"><strong>Data de início</strong></label>
+						<div class="input-group form-control-wrapper inputValidate">
+							
+							<input  id 					="data_inicial"
+									name				="data_inicial"
+									class 				="form-control"
+									type 				="text" 
+									placeholder			="Dia/Mês/Ano"
+									pick-a-date 		="entradaSaida.data_inicial"
+									pick-a-date-options ='{format: "dd/mm/yyyy"}'>
+
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							
+                            <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                    name 				 ="data_inicial" 
+                                    id 					 ="data_inicial" 
+                                    type 				 ="text" 
+                                    ng-model 			 ="entradaSaida.data_inicial1"                                    
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Por favor, informe a data inicial">
+                                    <span class="material-input"></span>
+						</div>
+					</section>
+
+					<section class="col col-3">
+						<label class="label"><strong>Data de fim</strong></label>
+						<div class="input-group form-control-wrapper inputValidate">
+							
+							<input  id 					="data_final"
+									name				="data_final"
+									class 				="form-control" 
+									type 				="text" 
+									placeholder			="Dia/Mês/Ano" 
+									pick-a-date 		="entradaSaida.data_final"
+									pick-a-date-options ="{format: 'dd/mm/yyyy'}">
+							
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                            <input  style 				 ="width:0px; height:0px; visibility: hidden; position: absolute" 
+                                    name 				 ="data_final" 
+                                    id 					 ="data_final" 
+                                    type 				 ="text" 
+                                    ng-model 			 ="entradaSaida.data_final1"
+                                    data-validate-input
+                                    data-required 
+                                    data-message-required="Por favor, informe a data final">
+                                    <span class="material-input"></span>
+                        	
+						</div>
+					</section>
+
+					<section class="col col-3">
+						<label class="label"><strong>Formato do relatório</strong></label>
+						<div class="form-inline">
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="formato" value="0" ng-model="entradaSaida.formato">
+									<span>Excel</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<label class="radio radio-inline">
+									<input type="radio" class="radiobox" name="formato" value="1" ng-model="entradaSaida.formato">
+									<span>Visualizar na tela</span>  
+								</label>	
+							</div>
+						</div>
+					</section>
+
+				</div>
+			  </fieldset>
+			  <footer>
+				<button class="btnmd btnmd-info pull-right" ng-click="gerarRelatorio()" id="bt_relatorioevento" name="bt_relatorioevento">
+				  Gerar Relatório
+				</button>
+			  </footer>
+			</form>
+		  </div>		  
+		</div>		
+	  </div>	  
+	</article>
+
+  </div>
+
+</section>
+
+
+<!-- SCRIPTS ON PAGE EVENT -->
+<script type="text/javascript">
+	pageSetUp();
+
+	var pagefunction = function() {
+		$("#spinner").spinner({
+			min: 1,
+			max: 2500,
+			step: 1,
+			start: 1000,
+			numberFormat: "C"
+		});
+	};
+	// end pagefunction
+	// run pagefunction on load
+	pagefunction();
+</script>

@@ -1,0 +1,53 @@
+<form action="" ng-init="filtroAluno.carregar();">
+	<fieldset>
+		<section class="col col-lg-6">
+			<div class="row no-margin-left">
+				<section class="col col-lg-12">
+					<label>Turma</label>
+					<select ng-model="turma" class="form-control" ng-options="turma.label group by turma.nome for turma in filtroAluno.dados.turmas" ng-change="filtroAluno.filtraTurma(turma)">
+						<option value="">Selecione</option>
+					</select>
+				</section>								
+			</div>
+			<!--<div class="row no-margin-left" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<section class="col col-lg-8">
+					<label>Nome</label>
+					<input class="form-control"  name="nome" id="nome" placeholder="Nome completo do aluno"  typeahead="pessoa as pessoa.nome for pessoa in filtroAluno.registerExists(filtroAluno.dados.turmaAlunos, $viewValue, 'nome')" typeahead-on-select="filtroAluno.onSelect($item, $model, $label)"
+					ng-model="filtroAluno.dados.busca.nome"
+					data-validate-input
+					data-required>
+				</section>
+				<section class="col col-lg-4">
+					<label>Matrícula</label>
+					<input class="form-control"  name="nome" id="nome" placeholder="Número da matrícula"  typeahead="pessoa as pessoa.codigo for pessoa in filtroAluno.registerExists(filtroAluno.dados.turmaAlunos, $viewValue, 'codigo')" typeahead-on-select="filtroAluno.onSelect($item, $model, $label)"
+					ng-model="filtroAluno.dados.busca.codigo"
+					data-validate-input
+					data-required>
+				</section>				
+			</div>-->
+			<div class="row no-margin-left" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<section class="col col-lg-8">
+					<label>Nome</label>
+					<input class="form-control" name="nome" id="nome" placeholder="Nome completo do aluno"
+					ng-model="filtroAluno.dados.busca.nome">
+				</section>
+				<section class="col col-lg-4">
+					<label>Matrícula</label>
+					<input class="form-control"  name="codigo" id="codigo" placeholder="código do aluno"  
+					ng-model="filtroAluno.dados.busca.codigo">
+				</section>				
+			</div>
+		</section> <!-- ng-if="turmaAlunos.error == 0" -->
+		<section class="col col-lg-6" style="height: 185px; overflow: auto;">
+			<div class="table-responsive" ng-show="filtroAluno.dados.showTurmaAlunos">
+				<table class="table table-striped table-bordered">
+					<tr data-ng-repeat="turmaAluno in filtroAluno.dados.turmaAlunos | filter:filtroAluno.dados.busca:strict">
+						<td width="50" align="center">{{turmaAluno.numero}}</td>
+						<td><a style="cursor: pointer;" ng-click="getFiltroAluno(turmaAluno)">{{turmaAluno.nome}}</a></td>
+						<td width="100" align="center">{{turmaAluno.codigo}}</td>
+					</tr>
+				</table>
+			</div>
+		</section>
+	</fieldset>				
+</form>

@@ -1,0 +1,177 @@
+<script src="controllers/controller.formEventosRecorrente.js"></script>                
+<!-- widget grid -->
+<section ng-controller="formEventosRecorrente" id="widget-grid" widget-grid>
+
+	<!-- START ROW -->
+	<div class="row">
+
+		<!-- NEW COL START -->
+		<article class="col-sm-12 col-md-12 col-lg-12">
+			
+			<!-- Widget ID (each widget will need unique ID)-->
+			<div class="jarviswidget jarviswidget-color-blueDark" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false">
+				<header>
+					<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+					<h2> Incluir Recorrentes em {{evento.title}} - {{evento.data_evento_formatada}}</h2>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget content -->
+					<div class="widget-body no-padding">
+
+						<form id="eventoRecorrente-form" class="smart-form" novalidate="novalidate" validate-form>
+							<fieldset>
+								<div class="row">
+									<section class="col col-3">
+										<label class="label"><strong>Periodicidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<select class="form-control" id="entidade" name="entidade" ng-model="eventoRecorrente.id_recorrencia"
+											data-validate-input
+											data-required 
+											data-message-required="Selecione a Periodicidade">
+												<option value="" selected>Selecione</option>
+												<option ng-selected="eventoRecorrente.id_recorrencia == recorrencia.id" value="{{recorrencia.id}}" data-ng-repeat="recorrencia in recorrencias">{{recorrencia.descricao}}</option>
+											</select>
+											<i></i>
+										</div>
+									</section>
+									<section class="col col-3">
+										<label class="label"><strong>Quantidade</strong></label>
+										<div class="form-control-wrapper inputValidate">
+											<i class="icon-append fa fa-question-circle"></i>
+											<input class="form-control" name="quantidade" id="quantidade" placeholder="Informe a quantidade"
+											ng-model="eventoRecorrente.quantidade"
+											ui-number-mask="0"
+											data-validate-input
+											data-required 
+											data-message-required="Informe a quantidade">
+											<span class="material-input"></span>
+											<b class="tooltip tooltip-top-right">
+												<i class="fa fa-warning txt-color-teal"></i> 
+												Descrição da quantidade</b> 											
+										</div>										
+									</section>		
+								</div>
+							</fieldset>
+							<footer>
+								<a class="btnmd btnmd-success  pull-right" ng-click="novoCadastro()" id="NovoCadastro">
+									Novo
+								</a>
+								<button class="btnmd btnmd-info  pull-right" ng-click="cadastrarEventoRecorrente()" id="Salvar">
+									Salvar
+									<div class="ripple-wrapper"></div>
+								</button>		
+							</footer>
+						</form>
+						<!--/ Error states for elements -->	
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="label-primary" style="color:white"><h6>Inicio</h6></th>
+										<th class="label-primary" style="color:white"><h6>Termino</h6></th>
+										<th width="100" class="label-primary" style="color:white"><h6>Periodicidade</h6></th>
+										<th width="30" colspan="2" class="label-primary" style="color:white"><h6>Ações</h6></th>
+									</tr>
+								</thead>
+								<tbody>														
+									<tr ng-repeat="recorrente in recorrentes">
+										<td>{{recorrente.start_recorrente}}</td>
+										<td>{{recorrente.end_recorrente}}</td>
+										<td>{{recorrente.descricao_recorrencia}}</td>
+										<td width="15">
+											<button ng-click="delEventoRecorrente($index, recorrente)" class="btnmd btnmd-danger btnmd-raised fa fa-trash-o btnmd-sm"
+											popover="Remover"
+											popover-trigger="mouseenter"
+											></button>
+
+										</td>
+										<td width="15">
+											<button ng-click="editCadastro(recorrente.id_recorrente)" class="btnmd btnmd-primary btnmd-raised fa fa-edit btnmd-sm"
+											popover="Editar"
+											popover-trigger="mouseenter"
+											></button>
+										</td>
+									</tr>
+								</tbody>								
+							</table>
+						</div>
+											
+					</div>
+					<!-- end widget content -->
+				</div>
+				<!-- end widget div -->
+			</div>
+			<!-- end widget -->
+		</article>
+		<!-- END COL -->
+
+	</div>
+	<!-- END ROW -->
+
+</section>
+
+<!-- end row -->
+
+<script type="text/javascript">
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
+
+	 pageSetUp();
+
+	/*
+	 * ALL PAGE RELATED SCRIPTS CAN GO BELOW HERE
+	 * eg alert("my home function");
+	 * 
+	 * var pagefunction = function() {
+	 *   ...
+	 * }
+	 * loadScript("js/plugin/_PLUGIN_NAME_.js", pagefunction);
+	 * 
+	 * TO LOAD A SCRIPT:
+	 * var pagefunction = function (){ 
+	 *  loadScript(".../plugin.js", run_after_loaded);	
+	 * }
+	 * 
+	 * OR
+	 * 
+	 * loadScript(".../plugin.js", run_after_loaded);
+	 */
+
+	// PAGE RELATED SCRIPTS
+
+	// pagefunction
+	
+	var pagefunction = function() {}	
+
+</script>
